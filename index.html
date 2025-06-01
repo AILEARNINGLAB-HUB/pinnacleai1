@@ -24,7 +24,7 @@
         
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--dark);
+            background: linear-gradient(120deg, #181a20 0%, #23272f 100%);
             color: var(--light);
             overflow-x: hidden;
             scroll-behavior: smooth;
@@ -35,11 +35,12 @@
         }
         
         .gradient-text {
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            display: inline-block;
+            color: #fff;
+            text-shadow: 0 0 12px #fff, 0 0 32px #6366f1, 0 0 48px #ec4899;
+            text-transform: uppercase;
+            font-weight: 800;
+            font-size: inherit;
+            letter-spacing: 2px;
         }
         
         .gradient-bg {
@@ -67,18 +68,19 @@
         }
         
         .card {
-            background-color: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(10px);
-            border-radius: 1rem;
+            background: linear-gradient(135deg, #23272f 60%, #6366f1 100%);
+            border-radius: 18px;
+            padding: 2.5rem 2rem;
+            box-shadow: 0 8px 32px 0 rgba(99,102,241,0.25), 0 0 32px 8px #ec4899;
+            border: 2px solid rgba(255,255,255,0.12);
+            transition: transform 0.3s, box-shadow 0.3s;
             overflow: hidden;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            transform: scale(1.04);
+            box-shadow: 0 12px 48px 0 rgba(99,102,241,0.35), 0 0 48px 12px #ec4899;
+            border: 2px solid #fff;
         }
         
         .service-card {
@@ -190,6 +192,9 @@
             padding: 0.5rem 1rem;
             color: var(--gray);
             transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-size: 1rem;
+            font-weight: 600;
         }
         
         .nav-link:hover, .nav-link.active {
@@ -213,13 +218,16 @@
         }
         
         .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
+            background: linear-gradient(135deg, #1e3a8a, #9333ea); /* Updated gradient color */
+            color: white;
+            padding: 100px 0;
+            text-align: center;
             position: relative;
             overflow: hidden;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
-        
+
         .hero::before {
             content: '';
             position: absolute;
@@ -227,9 +235,61 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 30% 30%, rgba(99, 102, 241, 0.2), transparent 70%),
-                        radial-gradient(circle at 70% 70%, rgba(236, 72, 153, 0.2), transparent 70%);
-            z-index: -1;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent);
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(147, 51, 234, 0.6);
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-top: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero .btn {
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 5px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero .btn-primary {
+            background-color: #6366f1;
+            color: white;
+        }
+
+        .hero .btn-primary:hover {
+            background-color: #4f46e5;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .hero .btn-outline {
+            background-color: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .hero .btn-outline:hover {
+            background-color: white;
+            color: #6366f1;
         }
         
         .hero-particles {
@@ -242,19 +302,26 @@
         }
         
         .section-title {
-            position: relative;
-            margin-bottom: 3rem;
+            text-transform: uppercase;
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: none;
+            color: #fff;
+            text-shadow: 0 0 16px #fff, 0 0 32px #6366f1, 0 0 48px #ec4899, 0 0 64px #6366f1;
+            letter-spacing: 2px;
+            padding: 0.25em 0.75em;
+            border-radius: 0.5em;
             display: inline-block;
         }
         
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 50px;
-            height: 3px;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
+        /* Applied gradient glow to specific sections */
+        #integrations .section-title,
+        #contact .section-title {
+            background: linear-gradient(135deg, #ff00ff, #00ffff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 10px rgba(255, 0, 255, 0.8), 0 0 20px rgba(0, 255, 255, 0.6);
         }
         
         .feature-card {
@@ -437,876 +504,114 @@
             margin-top: 3rem;
         }
         
-        /* Animations */
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-            100% { transform: translateY(0px); }
-        }
-        
-        .float {
-            animation: float 6s ease-in-out infinite;
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        
-        .pulse {
-            animation: pulse 3s ease-in-out infinite;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .fade-in {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        
-        /* Glowing effect */
-        .glow {
-            position: relative;
-        }
-        
-        .glow::after {
-            content: '';
-            position: absolute;
-            top: -20px;
-            left: -20px;
-            right: -20px;
-            bottom: -20px;
-            background: radial-gradient(circle, rgba(99, 102, 241, 0.3) 0%, transparent 70%);
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .glow:hover::after {
-            opacity: 1;
-        }
-        
-        /* Typing animation */
-        .typing {
-            border-right: 3px solid var(--primary);
-            white-space: nowrap;
-            overflow: hidden;
-            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
-        }
-        
-        @keyframes typing {
-            from { width: 0 }
-            to { width: 100% }
-        }
-        
-        @keyframes blink-caret {
-            from, to { border-color: transparent }
-            50% { border-color: var(--primary) }
-        }
-        
-        /* Particle effect */
-        .particle {
-            position: absolute;
-            border-radius: 50%;
-            background: white;
-            opacity: 0.5;
-        }
-        
-        /* Blob animation */
-        .blob {
-            position: absolute;
-            width: 500px;
-            height: 500px;
-            background: linear-gradient(to right, rgba(99, 102, 241, 0.3), rgba(236, 72, 153, 0.3));
-            border-radius: 50%;
-            filter: blur(80px);
-            z-index: -1;
-            animation: blob-animation 15s infinite alternate;
-        }
-        
-        @keyframes blob-animation {
-            0% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(100px, -50px) scale(1.1); }
-            66% { transform: translate(-50px, 100px) scale(0.9); }
-            100% { transform: translate(0, 0) scale(1); }
-        }
-        
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: var(--dark);
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(to bottom, var(--primary), var(--secondary));
-            border-radius: 5px;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(to bottom, var(--primary-dark), var(--secondary-dark));
-        }
-        
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .hero {
-                padding-top: 6rem;
-                text-align: center;
-            }
-            
-            .section-title::after {
-                left: 50%;
-                transform: translateX(-50%);
-            }
-            
-            .navbar-menu {
-                position: fixed;
-                top: 0;
-                right: -100%;
-                width: 80%;
-                max-width: 300px;
-                height: 100vh;
-                background-color: var(--dark-light);
-                z-index: 100;
-                padding: 2rem;
-                transition: all 0.3s ease;
-                display: flex;
-                flex-direction: column;
-            }
-            
-            .navbar-menu.active {
-                right: 0;
-            }
-            
-            .nav-link::after {
-                display: none;
-            }
-            
-            .nav-link {
-                padding: 1rem 0;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            }
-        }
-        
-        /* AI-specific elements */
-        .ai-badge {
-            display: inline-flex;
-            align-items: center;
-            padding: 0.25rem 0.75rem;
-            background: rgba(99, 102, 241, 0.1);
-            border-radius: 9999px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--primary);
-            margin-right: 0.5rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .ai-badge i {
-            margin-right: 0.25rem;
-        }
-        
-        .tech-stack {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-top: 1rem;
-        }
-        
-        .tech-item {
-            padding: 0.25rem 0.75rem;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 9999px;
-            font-size: 0.75rem;
-            color: var(--gray);
-        }
-        
-        .code-block {
-            background-color: rgba(15, 23, 42, 0.9);
-            border-radius: 0.5rem;
-            padding: 1rem;
-            font-family: 'Courier New', monospace;
-            position: relative;
-            margin: 1.5rem 0;
-            overflow-x: auto;
-        }
-        
-        .code-block::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-        }
-        
-        .code-line {
-            display: block;
-            color: var(--gray);
-        }
-        
-        .code-comment {
-            color: #6b7280;
-        }
-        
-        .code-keyword {
-            color: #ec4899;
-        }
-        
-        .code-function {
-            color: #6366f1;
-        }
-        
-        .code-string {
-            color: #10b981;
-        }
-        
-        .code-number {
-            color: #f59e0b;
-        }
-        
-        .ai-model-card {
-            border-radius: 1rem;
-            padding: 1.5rem;
-            background-color: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            height: 100%;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .ai-model-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-        }
-        
-        .ai-model-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .ai-model-icon {
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 12px;
-            margin-bottom: 1rem;
-            background: rgba(99, 102, 241, 0.1);
-            color: var(--primary);
-            font-size: 1.25rem;
-            transition: all 0.3s ease;
-        }
-        
-        .ai-model-card:hover .ai-model-icon {
-            transform: scale(1.1);
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            color: white;
-        }
-        
-        .ai-stats {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .ai-stat {
-            text-align: center;
-        }
-        
-        .ai-stat-value {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--light);
-        }
-        
-        .ai-stat-label {
-            font-size: 0.75rem;
-            color: var(--gray);
-        }
-        
-        .progress-bar {
-            height: 6px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 3px;
-            overflow: hidden;
-            margin: 0.5rem 0 1rem;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            border-radius: 3px;
-            transition: width 1s ease;
-        }
-        
-        /* Neural network animation */
-        .neural-network {
-            position: relative;
-            width: 100%;
-            height: 300px;
-            margin: 2rem 0;
-        }
-        
-        .node {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: var(--primary);
-            border-radius: 50%;
-        }
-        
-        .connection {
-            position: absolute;
-            height: 2px;
-            background-color: rgba(99, 102, 241, 0.3);
-            transform-origin: left center;
-        }
-        
-        /* Typing indicator */
-        .typing-indicator {
-            display: inline-flex;
-            align-items: center;
-        }
-        
-        .typing-dot {
-            width: 8px;
-            height: 8px;
-            margin: 0 2px;
-            background-color: var(--primary);
-            border-radius: 50%;
-            animation: typing-dot 1.4s infinite ease-in-out;
-        }
-        
-        .typing-dot:nth-child(1) {
-            animation-delay: 0s;
-        }
-        
-        .typing-dot:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-        
-        .typing-dot:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-        
-        @keyframes typing-dot {
-            0%, 60%, 100% { transform: translateY(0); }
-            30% { transform: translateY(-5px); }
-        }
-        
-        /* Data visualization */
-        .data-chart {
-            width: 100%;
-            height: 200px;
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-between;
-            padding: 1rem 0;
-        }
-        
-        .data-bar {
-            width: 8%;
-            background: linear-gradient(to top, var(--primary), var(--secondary));
-            border-radius: 4px 4px 0 0;
-            transition: height 1s ease;
-        }
-        
-        /* Cursor effect */
-        .cursor {
-            position: fixed;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background-color: rgba(99, 102, 241, 0.5);
-            pointer-events: none;
-            transform: translate(-50%, -50%);
-            z-index: 9999;
-            transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease, background-color 0.3s ease;
-        }
-        
-        .cursor-follower {
-            position: fixed;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            pointer-events: none;
-            transform: translate(-50%, -50%);
-            z-index: 9998;
-            transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease;
-        }
-        
-        /* Preloader */
-        .preloader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--dark);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease, visibility 0.5s ease;
-        }
-        
-        .preloader.fade-out {
-            opacity: 0;
-            visibility: hidden;
-        }
-        
-        .loader {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            border: 3px solid transparent;
-            border-top-color: var(--primary);
-            border-bottom-color: var(--secondary);
-            animation: spin 1.5s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        /* Tooltip */
-        .tooltip {
-            position: relative;
-        }
-        
-        .tooltip-text {
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: var(--dark-light);
-            color: var(--light);
-            padding: 0.5rem 1rem;
-            border-radius: 0.25rem;
-            font-size: 0.75rem;
-            white-space: nowrap;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            z-index: 10;
-        }
-        
-        .tooltip-text::after {
-            content: '';
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            border-width: 5px;
-            border-style: solid;
-            border-color: var(--dark-light) transparent transparent transparent;
-        }
-        
-        .tooltip:hover .tooltip-text {
-            opacity: 1;
-            visibility: visible;
-            bottom: calc(100% + 10px);
-        }
-        
-        /* Notification */
-        .notification {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            padding: 1rem;
-            background-color: var(--dark-light);
-            border-left: 4px solid var(--primary);
-            border-radius: 0.25rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            transform: translateX(120%);
-            transition: transform 0.3s ease;
-            z-index: 100;
-        }
-        
-        .notification.show {
-            transform: translateX(0);
-        }
-        
-        .notification-close {
-            position: absolute;
-            top: 0.5rem;
-            right: 0.5rem;
-            background: none;
-            border: none;
-            color: var(--gray);
-            cursor: pointer;
-        }
-        
-        /* Scroll indicator */
-        .scroll-indicator {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 3px;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            z-index: 9999;
-            width: 0%;
-        }
-        
-        /* Back to top button */
-        .back-to-top {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 40px;
-            height: 40px;
-            background-color: var(--primary);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            z-index: 99;
-        }
-        
-        .back-to-top.show {
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        .back-to-top:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-3px);
-        }
-        
-        /* Hamburger menu */
-        .hamburger {
-            width: 30px;
-            height: 20px;
-            position: relative;
-            cursor: pointer;
-            display: none;
-        }
-        
-        .hamburger span {
-            display: block;
-            position: absolute;
-            height: 2px;
-            width: 100%;
-            background: var(--light);
-            border-radius: 9px;
-            opacity: 1;
-            left: 0;
-            transform: rotate(0deg);
-            transition: .25s ease-in-out;
-        }
-        
-        .hamburger span:nth-child(1) {
-            top: 0px;
-        }
-        
-        .hamburger span:nth-child(2), .hamburger span:nth-child(3) {
-            top: 9px;
-        }
-        
-        .hamburger span:nth-child(4) {
-            top: 18px;
-        }
-        
-        .hamburger.open span:nth-child(1) {
-            top: 9px;
-            width: 0%;
-            left: 50%;
-        }
-        
-        .hamburger.open span:nth-child(2) {
-            transform: rotate(45deg);
-        }
-        
-        .hamburger.open span:nth-child(3) {
-            transform: rotate(-45deg);
-        }
-        
-        .hamburger.open span:nth-child(4) {
-            top: 9px;
-            width: 0%;
-            left: 50%;
-        }
-        
-        @media (max-width: 768px) {
-            .hamburger {
-                display: block;
-                z-index: 101;
-            }
-        }
-        
-        /* Chatbot */
-        .chatbot-toggle {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            z-index: 98;
-            transition: all 0.3s ease;
-        }
-        
-        .chatbot-toggle:hover {
-            transform: scale(1.1);
-        }
-        
-        .chatbot-container {
-            position: fixed;
-            bottom: 90px;
-            right: 20px;
-            width: 350px;
-            height: 450px;
-            background-color: var(--dark-light);
-            border-radius: 1rem;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-            z-index: 98;
-            display: flex;
-            flex-direction: column;
-            transform: scale(0);
-            transform-origin: bottom right;
-            transition: transform 0.3s ease;
-        }
-        
-        .chatbot-container.active {
-            transform: scale(1);
-        }
-        
-        .chatbot-header {
-            padding: 1rem;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        
-        .chatbot-messages {
-            flex: 1;
-            padding: 1rem;
-            overflow-y: auto;
-        }
-        
-        .chatbot-input {
-            padding: 1rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-        }
-        
-        .chatbot-input input {
-            flex: 1;
-            padding: 0.75rem;
-            border: none;
-            border-radius: 0.25rem;
-            background-color: rgba(255, 255, 255, 0.1);
-            color: var(--light);
-        }
-        
-        .chatbot-input button {
-            padding: 0.75rem 1rem;
-            margin-left: 0.5rem;
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 0.25rem;
-            cursor: pointer;
-        }
-        
-        .message {
-            margin-bottom: 1rem;
-            max-width: 80%;
-        }
-        
-        .message-content {
-            padding: 0.75rem 1rem;
-            border-radius: 1rem;
-        }
-        
-        .message.user {
-            margin-left: auto;
-        }
-        
-        .message.user .message-content {
-            background-color: var(--primary);
-            color: white;
-            border-top-right-radius: 0;
-        }
-        
-        .message.bot {
-            margin-right: auto;
-        }
-        
-        .message.bot .message-content {
-            background-color: rgba(255, 255, 255, 0.1);
-            color: var(--light);
-            border-top-left-radius: 0;
-        }
-        
-        /* Pricing table */
-        .pricing-card {
-            border-radius: 1rem;
-            overflow: hidden;
-            background-color: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-        }
-        
-        .pricing-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--primary);
-        }
-        
-        .pricing-header {
-            padding: 2rem;
-            text-align: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .pricing-price {
-            font-size: 3rem;
-            font-weight: 700;
-            color: var(--light);
-            margin: 1rem 0;
-        }
-        
-        .pricing-price span {
-            font-size: 1rem;
-            color: var(--gray);
-        }
-        
-        .pricing-features {
-            padding: 2rem;
-        }
-        
-        .pricing-feature {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-        
-        .pricing-feature i {
-            color: var(--primary);
-            margin-right: 0.5rem;
-        }
-        
-        .pricing-cta {
-            padding: 0 2rem 2rem;
-            text-align: center;
-        }
-        
-        /* Timeline */
-        .timeline {
-            position: relative;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .timeline::after {
-            content: '';
-            position: absolute;
-            width: 2px;
-            background-color: rgba(255, 255, 255, 0.1);
-            top: 0;
-            bottom: 0;
-            left: 50%;
-            margin-left: -1px;
-        }
-        
-        .timeline-item {
-            padding: 10px 40px;
-            position: relative;
-            width: 50%;
-            box-sizing: border-box;
-        }
-        
-        .timeline-item::after {
-            content: '';
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background-color: var(--primary);
-            border-radius: 50%;
-            top: 15px;
-            z-index: 1;
-        }
-        
-        .timeline-item.left {
-            left: 0;
-        }
-        
-        .timeline-item.right {
-            left: 50%;
-        }
-        
-        .timeline-item.left::after {
-            right: -10px;
-        }
-        
-        .timeline-item.right::after {
-            left: -10px;
-        }
-        
-        .timeline-content {
-            padding: 20px;
-            background-color: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(10px);
-            border-radius: 0.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        @media screen and (max-width: 768px) {
-            .timeline::after {
-                left: 31px;
-            }
-            
-            .timeline-item {
-                width: 100%;
-                padding-left: 70px;
-                padding-right: 25px;
-            }
-            
-            .timeline-item.right {
-                left: 0;
-            }
-            
-            .timeline-item.left::after, .timeline-item.right::after {
-                left: 21px;
-            }
-        }
+        /* Make the 'Pinnacle AI SOLUTIONS' in the navbar all uppercase, one color (white), tighter fit, and with a strong glow */
+.navbar a.text-2xl {
+    text-transform: uppercase;
+    font-size: 2rem;
+    letter-spacing: 2px;
+    color: #fff;
+    background: none;
+    padding: 0.25em 0.75em;
+    border-radius: 0.5em;
+    box-shadow: 0 0 16px 4px #fff, 0 0 32px 8px #6366f1;
+    font-family: 'Poppins', sans-serif;
+    display: inline-block;
+}
+
+.navbar a.text-2xl span {
+    color: #fff;
+    background: none;
+    font-size: inherit;
+    font-family: inherit;
+    letter-spacing: inherit;
+    text-shadow: 0 0 8px #fff, 0 0 16px #6366f1;
+    padding: 0;
+}
+
+.navbar .solutions-gradient {
+    color: #fff;
+    background: none;
+    font-size: inherit;
+    font-family: inherit;
+    letter-spacing: inherit;
+    text-shadow: 0 0 8px #fff, 0 0 16px #6366f1;
+    padding: 0;
+}
+
+/* Visually appealing background for the services section */
+#services {
+    background: linear-gradient(120deg, #23272f 0%, #6366f1 100%);
+    position: relative;
+    z-index: 1;
+}
+
+/* Add a strong glow to section titles */
+.section-title {
+    text-transform: uppercase;
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: none;
+    color: #fff;
+    text-shadow: 0 0 16px #fff, 0 0 32px #6366f1, 0 0 48px #ec4899, 0 0 64px #6366f1;
+    letter-spacing: 2px;
+    padding: 0.25em 0.75em;
+    border-radius: 0.5em;
+    display: inline-block;
+}
+
+/* Make all service cards use the same color and style for a consistent look */
+.service-card.card {
+    background: linear-gradient(135deg, #23272f 60%, #6366f1 100%);
+    box-shadow: 0 8px 32px 0 rgba(99,102,241,0.25), 0 0 32px 8px #ec4899;
+    border: 2px solid rgba(255,255,255,0.12);
+    color: #fff;
+}
+
+.service-card.card .service-icon {
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--primary);
+    box-shadow: none;
+}
+
+/* Center and move up the white section title above the boxes */
+#services .text-center.mb-16 {
+    margin-bottom: 2rem;
+    margin-top: -2rem;
+}
+
+#services .section-title {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0.5rem;
+}
+
+/* Make the Contact Us card match the color and style of the first two service cards */
+#contact .card {
+    background: linear-gradient(135deg, #6366f1 60%, #6366f1 100%);
+    box-shadow: 0 0 32px 8px #6366f1;
+    border: 2px solid #fff;
+    color: #fff;
+}
+
+#contact .card .service-icon {
+    background: #fff;
+    color: #6366f1;
+    box-shadow: 0 0 16px #6366f1;
+}
+
+/* Move the Contact Us section title higher */
+#contact .text-center.mb-16 {
+    margin-bottom: 2rem;
+    margin-top: -2rem;
+}
+
+#contact .section-title {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0.5rem;
+}
     </style>
 </head>
 <body>
@@ -1327,51 +632,11 @@
         <i class="fas fa-arrow-up"></i>
     </div>
     
-    <!-- Chatbot -->
-    <div class="chatbot-toggle">
-        <i class="fas fa-robot"></i>
-    </div>
-    <div class="chatbot-container">
-        <div class="chatbot-header">
-            <div>
-                <h3>AI Assistant</h3>
-                <small>Powered by Pinnacle AI</small>
-            </div>
-            <button class="chatbot-close">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <div class="chatbot-messages">
-            <div class="message bot">
-                <div class="message-content">
-                    Hello! I'm your AI assistant. How can I help you today?
-                </div>
-            </div>
-        </div>
-        <div class="chatbot-input">
-            <input type="text" placeholder="Type your message...">
-            <button>
-                <i class="fas fa-paper-plane"></i>
-            </button>
-        </div>
-    </div>
-    
-    <!-- Notification -->
-    <div class="notification">
-        <button class="notification-close">
-            <i class="fas fa-times"></i>
-        </button>
-        <h4>Welcome to Pinnacle AI!</h4>
-        <p>Explore our cutting-edge AI solutions.</p>
-    </div>
-    
     <!-- Navbar -->
     <nav class="navbar fixed top-0 left-0 w-full z-50 py-4">
         <div class="container mx-auto px-4 flex justify-between items-center">
             <a href="#" class="text-2xl font-bold text-center">
-                <span class="gradient-text">Pinnacle AI</span>
-                <br>
-                <span class="text-sm font-medium text-gray-300">SOLUTIONS</span>
+                <span>PINNACLE AI SOLUTIONS</span>
             </a>
             
             <div class="hamburger">
@@ -1390,64 +655,29 @@
                 <li><a href="#contact" class="nav-link">Contact</a></li>
             </ul>
             
-            <a href="https://pinnaclai-solutions.com/programs" target="_blank" class="btn btn-primary hidden md:block" id="programs-for-sale-btn">AI PROGRAMS <br>FOR SALE</a>
+            <a href="https://pinnaclai-solutions.com/programs.html" target="_blank" rel="noopener" class="btn btn-primary hidden md:block" id="programs-for-sale-btn">AI PROGRAMS <br>FOR SALE</a>
         </div>
     </nav>
     
     <!-- Hero Section -->
     <section id="home" class="hero">
-        <div class="hero-particles"></div>
-        <div class="blob" style="top: 20%; left: 10%;"></div>
-        <div class="blob" style="bottom: 10%; right: 5%;"></div>
-        
-        <div class="container mx-auto px-4 py-20 md:py-32">
-            <div class="flex flex-col md:flex-row items-center">
-                <div class="md:w-1/2 mb-10 md:mb-0">
-                    <div class="ai-badge mb-4">
-                        <i class="fas fa-robot"></i> Next-Gen AI
-                    </div>
-                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-                        Transforming Business with 
-                        <span class="gradient-text">Intelligent AI</span> Solutions
-                    </h1>
-                    <p class="text-gray-400 text-lg mb-8">
-                        Pinnacle AI delivers cutting-edge artificial intelligence solutions that drive innovation, 
-                        efficiency, and growth for businesses of all sizes.
-                    </p>
-                    <div class="flex flex-wrap gap-4">
-                        <a href="#services" class="btn btn-primary">
-                            Explore Services <i class="fas fa-arrow-right ml-2"></i>
-                        </a>
-                        <a href="#contact" class="btn btn-outline">
-                            Contact Us
-                        </a>
-                    </div>
-                    
-                    <div class="tech-stack">
-                        <div class="tech-item">Machine Learning</div>
-                        <div class="tech-item">Neural Networks</div>
-                        <div class="tech-item">Computer Vision</div>
-                        <div class="tech-item">NLP</div>
-                        <div class="tech-item">Data Analytics</div>
-                    </div>
-                </div>
-                
-                <div class="md:w-1/2 flex justify-center">
-                    <img src="https://media.discordapp.net/attachments/1355124285152170166/1378153363283120270/file_00000000870c622fad044ab6f228fdc8.png?ex=683c3996&is=683ae816&hm=9d76f05155388a64215cf527352138a1450a25e9dfc5ff6c87c45379fa969098&=&format=webp&quality=lossless&width=769&height=769" alt="AI Visualization" class="w-full max-w-md float">
-                </div>
+        <div class="container mx-auto px-4">
+            <h1>Welcome to Pinnacle AI Solutions</h1>
+            <p>Pinnacle AI delivers cutting-edge artificial intelligence solutions that drive innovation, efficiency, and growth for businesses of all sizes.</p>
+            <div class="flex justify-center gap-4">
+                <a href="#services" class="btn btn-primary">Explore Services</a>
+                <a href="#contact" class="btn btn-outline">Contact Us</a>
             </div>
         </div>
     </section>
     
     <!-- Services Section -->
     <section id="services" class="py-20 md:py-32 relative">
-        <div class="blob" style="top: 30%; right: 10%;"></div>
+        <div class="blob top-right"></div>
         
         <div class="container mx-auto px-4">
             <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4">
-                    <span class="gradient-text">Our Services</span>
-                </h2>
+                <h2 class="section-title">Our Services</h2>
                 <p class="text-gray-400 max-w-2xl mx-auto">
                     We offer a comprehensive suite of AI-powered services designed to help your business thrive in the digital age.
                 </p>
@@ -1633,13 +863,11 @@
     
     <!-- AI Solutions Section -->
     <section id="ai-solutions" class="py-20 md:py-32 relative bg-dark-light">
-        <div class="blob" style="top: 10%; left: 5%;"></div>
+        <div class="blob top-left"></div>
         
         <div class="container mx-auto px-4">
             <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4">
-                    <span class="gradient-text">AI Solutions</span>
-                </h2>
+                <h2 class="section-title">AI Solutions</h2>
                 <p class="text-gray-400 max-w-2xl mx-auto">
                     Harness the power of artificial intelligence to transform your business and gain a competitive edge.
                 </p>
@@ -1752,13 +980,11 @@
     
     <!-- Integrations Section -->
     <section id="integrations" class="py-20 md:py-32 relative">
-        <div class="blob" style="bottom: 20%; right: 10%;"></div>
+        <div class="blob bottom-right"></div>
         
         <div class="container mx-auto px-4">
             <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4">
-                    <span class="gradient-text">Integrations & Automation</span>
-                </h2>
+                <h2 class="section-title">Integrations & Automation</h2>
                 <p class="text-gray-400 max-w-2xl mx-auto">
                     Streamline your workflows and connect your systems with our seamless integration and automation solutions.
                 </p>
@@ -1876,16 +1102,16 @@
             <div class="mt-20">
                 <h3 class="text-2xl font-semibold mb-6 text-center">Integration Performance</h3>
                 <div class="data-chart">
-                    <div class="data-bar" style="height: 70%;"></div>
-                    <div class="data-bar" style="height: 85%;"></div>
-                    <div class="data-bar" style="height: 60%;"></div>
-                    <div class="data-bar" style="height: 90%;"></div>
-                    <div class="data-bar" style="height: 75%;"></div>
-                    <div class="data-bar" style="height: 80%;"></div>
-                    <div class="data-bar" style="height: 95%;"></div>
-                    <div class="data-bar" style="height: 65%;"></div>
-                    <div class="data-bar" style="height: 85%;"></div>
-                    <div class="data-bar" style="height: 75%;"></div>
+                    <div class="data-bar height-70"></div>
+                    <div class="data-bar height-85"></div>
+                    <div class="data-bar height-60"></div>
+                    <div class="data-bar height-90"></div>
+                    <div class="data-bar height-75"></div>
+                    <div class="data-bar height-80"></div>
+                    <div class="data-bar height-95"></div>
+                    <div class="data-bar height-65"></div>
+                    <div class="data-bar height-85"></div>
+                    <div class="data-bar height-75"></div>
                 </div>
                 <div class="flex justify-between text-xs text-gray-400 mt-2">
                     <span>Jan</span>
@@ -1909,9 +1135,7 @@
         
         <div class="container mx-auto px-4">
             <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4">
-                    <span class="gradient-text">About Us</span>
-                </h2>
+                <h2 class="section-title">About Us</h2>
                 <p class="text-gray-400 max-w-2xl mx-auto">
                     Pinnacle AI Solutions is a team of passionate technologists dedicated to delivering innovative
                     solutions that drive business growth and success.
@@ -2034,7 +1258,7 @@
                 <div class="testimonial-card">
                     <div class="flex items-center mb-4">
                         <div class="testimonial-avatar">
-                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Client">
+                            <img src="https://randomuser-me/api/portraits/men/32.jpg" alt="Client">
                         </div>
                         <div>
                             <h4 class="font-semibold">Michael Johnson</h4>
@@ -2093,9 +1317,7 @@
         
         <div class="container mx-auto px-4">
             <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4">
-                    <span class="gradient-text">Contact Us</span>
-                </h2>
+                <h2 class="section-title">Contact Us</h2>
                 <p class="text-gray-400 max-w-2xl mx-auto">
                     Get in touch with us to discuss your project, request a quote, or learn more about our services.
                 </p>
@@ -2105,22 +1327,22 @@
                 <!-- Contact Form -->
                 <div class="card p-8">
                     <h3 class="text-2xl font-semibold mb-6">Send us a message</h3>
-                    <form class="contact-form">
+                    <form action="https://formspree.io/f/{your-form-id}" method="POST" class="contact-form">
                         <div class="mb-4">
                             <label for="name" class="block text-sm font-medium text-gray-400 mb-1">Name</label>
-                            <input type="text" id="name" placeholder="Your Name" class="w-full">
+                            <input type="text" id="name" name="name" placeholder="Your Name" class="w-full" required>
                         </div>
                         <div class="mb-4">
                             <label for="email" class="block text-sm font-medium text-gray-400 mb-1">Email</label>
-                            <input type="email" id="email" placeholder="you@example.com" class="w-full">
+                            <input type="email" id="email" name="email" placeholder="you@example.com" class="w-full" required>
                         </div>
                         <div class="mb-4">
                             <label for="subject" class="block text-sm font-medium text-gray-400 mb-1">Subject</label>
-                            <input type="text" id="subject" placeholder="How can we help?" class="w-full">
+                            <input type="text" id="subject" name="subject" placeholder="How can we help?" class="w-full">
                         </div>
                         <div class="mb-6">
                             <label for="message" class="block text-sm font-medium text-gray-400 mb-1">Message</label>
-                            <textarea id="message" rows="5" placeholder="Your message..." class="w-full"></textarea>
+                            <textarea id="message" name="message" rows="5" placeholder="Your message..." class="w-full" required></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary w-full">
                             Send Message <i class="fas fa-paper-plane ml-2"></i>
@@ -2164,7 +1386,7 @@
                     <div class="mt-12">
                         <h3 class="text-xl font-semibold mb-4">Follow Us</h3>
                         <div class="flex">
-                            <a href="https://facebook.com/atozaitraining" target="_blank" class="social-icon">
+                            <a href="https://facebook.com/atozaitraining" target="_blank" rel="noopener" class="social-icon" title="Visit our Facebook page">
                                 <i class="fab fa-facebook-f"></i>
                             </a>
                         </div>
@@ -2207,7 +1429,7 @@
                         Transforming businesses with intelligent AI solutions that drive innovation, efficiency, and growth.
                     </p>
                     <div class="flex space-x-4">
-                        <a href="https://facebook.com/atozaitraining" target="_blank" class="social-icon">
+                        <a href="https://facebook.com/atozaitraining" target="_blank" rel="noopener" class="social-icon" title="Visit our Facebook page">
                             <i class="fab fa-facebook-f"></i>
                         </a>
                     </div>
@@ -2350,86 +1572,6 @@
                 top: 0,
                 behavior: 'smooth'
             });
-        });
-        
-        // Chatbot toggle
-        const chatbotToggle = document.querySelector('.chatbot-toggle');
-        const chatbotContainer = document.querySelector('.chatbot-container');
-        const chatbotClose = document.querySelector('.chatbot-close');
-        
-        chatbotToggle.addEventListener('click', function() {
-            chatbotContainer.classList.toggle('active');
-        });
-        
-        chatbotClose.addEventListener('click', function() {
-            chatbotContainer.classList.remove('active');
-        });
-        
-        // Chatbot functionality
-        const chatbotInput = document.querySelector('.chatbot-input input');
-        const chatbotSendButton = document.querySelector('.chatbot-input button');
-        const chatbotMessages = document.querySelector('.chatbot-messages');
-        
-        function addMessage(message, isUser = false) {
-            const messageElement = document.createElement('div');
-            messageElement.classList.add('message');
-            messageElement.classList.add(isUser ? 'user' : 'bot');
-            
-            const messageContent = document.createElement('div');
-            messageContent.classList.add('message-content');
-            messageContent.textContent = message;
-            
-            messageElement.appendChild(messageContent);
-            chatbotMessages.appendChild(messageElement);
-            
-            // Scroll to bottom
-            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
-        }
-        
-        function handleUserMessage() {
-            const message = chatbotInput.value.trim();
-            if (message) {
-                addMessage(message, true);
-                chatbotInput.value = '';
-                
-                // Simulate typing indicator
-                const typingIndicator = document.createElement('div');
-                typingIndicator.classList.add('message', 'bot');
-                typingIndicator.innerHTML = `
-                    <div class="message-content typing-indicator">
-                        <div class="typing-dot"></div>
-                        <div class="typing-dot"></div>
-                        <div class="typing-dot"></div>
-                    </div>
-                `;
-                chatbotMessages.appendChild(typingIndicator);
-                chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
-                
-                // Simulate bot response after delay
-                setTimeout(() => {
-                    chatbotMessages.removeChild(typingIndicator);
-                    
-                    // Simple responses based on keywords
-                    if (message.toLowerCase().includes('hello') || message.toLowerCase().includes('hi')) {
-                        addMessage('Hello! How can I help you today?');
-                    } else if (message.toLowerCase().includes('service')) {
-                        addMessage('We offer a range of AI services including app development, deployment, maintenance, and more. Would you like to know more about a specific service?');
-                    } else if (message.toLowerCase().includes('contact')) {
-                        addMessage('You can reach us at futureai4all@gmail.com or call us at 352-231-9154. Would you like to schedule a consultation?');
-                    } else if (message.toLowerCase().includes('price') || message.toLowerCase().includes('cost')) {
-                        addMessage('Our pricing varies based on project requirements. Would you like to request a custom quote?');
-                    } else {
-                        addMessage('Thank you for your message. One of our team members will get back to you shortly. Is there anything else I can help you with?');
-                    }
-                }, 1500);
-            }
-        }
-        
-        chatbotSendButton.addEventListener('click', handleUserMessage);
-        chatbotInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                handleUserMessage();
-            }
         });
         
         // Notification
@@ -2656,7 +1798,7 @@
             const originalText = submitButton.innerHTML;
             
             submitButton.disabled = true;
-            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Sending...';
+                                             submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Sending...';
             
             setTimeout(() => {
                 // Reset form
@@ -2699,6 +1841,7 @@
         window.addEventListener('load', initProgressBars);
         
         // Data chart animation
+       
         function animateDataChart() {
             const bars = document.querySelectorAll('.data-bar');
             

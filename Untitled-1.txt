@@ -1,0 +1,8 @@
+<a
+  href="#"
+  onclick="event.preventDefault(); window.open('https://www.example.com', '_blank')"
+>
+  <div class="programs-for-sale-box">
+    Programs for Sale
+  </div>
+</a>
