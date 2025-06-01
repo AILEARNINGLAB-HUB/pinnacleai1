@@ -178,6 +178,7 @@
         
         .navbar {
             background-color: rgba(15, 23, 42, 0.8);
+            -webkit-backdrop-filter: blur(10px);
             backdrop-filter: blur(10px);
             transition: all 0.3s ease;
         }
@@ -224,8 +225,8 @@
             text-align: center;
             position: relative;
             overflow: hidden;
-            backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
         }
 
         .hero::before {
@@ -328,6 +329,7 @@
             border-radius: 1rem;
             padding: 2rem;
             background-color: rgba(30, 41, 59, 0.7);
+            -webkit-backdrop-filter: blur(10px);
             backdrop-filter: blur(10px);
             transition: all 0.3s ease;
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -364,6 +366,7 @@
             border-radius: 1rem;
             padding: 2rem;
             background-color: rgba(30, 41, 59, 0.7);
+            -webkit-backdrop-filter: blur(10px);
             backdrop-filter: blur(10px);
             transition: all 0.3s ease;
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -612,6 +615,11 @@
     margin-right: auto;
     margin-bottom: 0.5rem;
 }
+    .blob-about {
+        top: 20%;
+        left: 15%;
+        position: absolute;
+    }
     </style>
 </head>
 <body>
@@ -1127,20 +1135,19 @@
                 </div>
             </div>
         </div>
-    </section>
-    
-    <!-- About Section -->
-    <section id="about" class="py-20 md:py-32 relative bg-dark-light">
-        <div class="blob" style="top: 20%; left: 15%;"></div>
-        
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-16">
-                <h2 class="section-title">About Us</h2>
-                <p class="text-gray-400 max-w-2xl mx-auto">
-                    Pinnacle AI Solutions is a team of passionate technologists dedicated to delivering innovative
-                    solutions that drive business growth and success.
-                </p>
-            </div>
+        <div class="blob blob-about"></div>
+
+        <section id="about" class="py-20 md:py-32 relative bg-dark-light">
+            <div class="blob blob-about"></div>
+            
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h2 class="section-title">About Us</h2>
+                    <p class="text-gray-400 max-w-2xl mx-auto">
+                        Pinnacle AI Solutions is a team of passionate technologists dedicated to delivering innovative
+                        solutions that drive business growth and success.
+                    </p>
+                </div>
             
             <div class="flex flex-col md:flex-row items-center mb-16">
                 <div class="md:w-1/2 mb-8 md:mb-0">
