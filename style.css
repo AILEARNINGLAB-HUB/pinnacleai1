@@ -1,179 +1,77 @@
-    /* Custom CSS for Pinnacle AI Solutions */
+/* style.css */
 
-/* Global Styles */
+/* Import Inter font - already in HTML, but good practice to note */
+/* @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap'); */
+
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #1a202c; /* Dark background */
-    color: #e2e8f0; /* Light text for contrast */
+    /* Ensure smooth scrolling for section links */
     scroll-behavior: smooth;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    /* Prevent body scroll when mobile menu is open - controlled by JS toggling class */
+    /* overflow: hidden; */
 }
 
-.container {
-    max-width: 1200px; /* Consistent max width for content */
-    margin-left: auto;
-    margin-right: auto;
-}
-
-/* Section Styling */
-.section {
-    padding-top: 5rem;
-    padding-bottom: 5rem;
-    position: relative;
-    overflow: hidden; /* To handle potential overflows from animations */
-}
-
-.section-header {
-    margin-bottom: 4rem;
-    text-align: center;
-}
-
-    .section-header h2 {
-        font-size: 3.5rem; /* Larger heading */
-        font-weight: 800;
-        margin-bottom: 1rem;
-        color: #ffffff; /* White color for main headings */
-        position: relative;
-        display: inline-block; /* For the pseudo-element underline */
-    }
-
-        .section-header h2::after {
-            content: '';
-            display: block;
-            width: 60px;
-            height: 4px;
-            background: linear-gradient(to right, #4a90e2, #6a7eff); /* Blue gradient underline */
-            margin: 1rem auto 0;
-            border-radius: 2px;
-        }
-
-    .section-header p {
-        font-size: 1.25rem;
-        color: #a0aec0; /* Gray text for sub-headings */
-        max-width: 700px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-/* Navbar */
+/* --- Navbar Styles --- */
 .navbar {
-    background: rgba(26, 32, 44, 0.8); /* Semi-transparent dark background */
-    backdrop-filter: blur(10px); /* Glassmorphism effect */
-    -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(71, 85, 105, 0.3); /* Subtle border */
-    transition: background-color 0.3s ease, border-bottom 0.3s ease;
-    height: 80px; /* Fixed height for consistency */
-    display: flex;
-    align-items: center;
+    /* Tailwind classes handle fixed positioning, width, z-index, padding, background, border */
+    /* py-4, bg-gray-900, border-b, border-gray-700, fixed, top-0, left-0, w-full, z-50 */
 }
 
     .navbar .container {
-        height: 100%; /* Ensure content fills navbar height */
+        /* Tailwind classes handle flex, justify-between, items-center, height */
+        /* mx-auto, px-4, flex, justify-between, items-center, h-full */
     }
 
-.navbar-menu {
-    transition: all 0.3s ease-in-out;
-}
-
+/* Logo Styling */
 .logo {
-    font-size: 1.8rem;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    color: #ffffff;
-    display: flex; /* For aligning logo parts */
-    align-items: center;
+    /* Remove default text decoration */
+    text-decoration: none;
+    /* Apply gradient and strong font style */
+    font-size: 2rem; /* Adjust size as needed */
+    font-weight: 800; /* Use a strong weight from Inter */
+    letter-spacing: -0.025em; /* Optional: slight negative letter spacing */
+    /* Apply gradient text effect */
+    background: linear-gradient(to right, #4ade80, #3b82f6); /* Green to Blue gradient */
+    -webkit-background-clip: text; /* Clip background to text */
+    background-clip: text; /* Standard property */
+    color: transparent; /* Make text transparent to show background */
+    -webkit-text-fill-color: transparent; /* For older browsers */
 }
 
-/* Glowing Logo Effect */
-.logo-pinnacle {
-    background: linear-gradient(to right, #6a7eff, #4a90e2); /* Gradient from blue to purple/indigo */
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 0 5px rgba(74, 144, 226, 0.8)) drop-shadow(0 0 15px rgba(106, 126, 255, 0.6));
-    /* Adds a glowing effect */
-    transition: filter 0.3s ease;
-}
-
+/* Optional: Style the individual spans within the logo if needed,
+   but applying to the parent .logo makes them inherit styles */
+.logo-pinnacle,
 .logo-solutions {
-    color: #cbd5e0; /* A lighter gray for contrast */
-    filter: drop-shadow(0 0 3px rgba(203, 213, 224, 0.2));
-    transition: filter 0.3s ease;
+    /* No specific styles needed here if .logo styles are applied to both */
+    /* Ensure no unwanted margins are added here */
 }
 
-.logo:hover .logo-pinnacle {
-    filter: drop-shadow(0 0 8px rgba(74, 144, 226, 1)) drop-shadow(0 0 20px rgba(106, 126, 255, 0.8));
-}
 
-.logo:hover .logo-solutions {
-    filter: drop-shadow(0 0 5px rgba(203, 213, 224, 0.4));
-}
-
-.logo-full {
-    gap: 1.5rem; /* Even spacing between words */
-    letter-spacing: 0.12em;
-    text-shadow:
-        0 0 8px #6a7eff,
-        0 0 16px #4a90e2,
-        0 0 24px #6a7eff;
-    filter: drop-shadow(0 0 10px #4a90e2) drop-shadow(0 0 20px #6a7eff);
-}
-
-.nav-link {
-    color: #cbd5e0;
-    font-weight: 500;
-    position: relative;
-    padding: 0.5rem 0;
-    transition: color 0.3s ease;
-}
-
-    .nav-link::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 0;
-        height: 2px;
-        background: linear-gradient(to right, #4a90e2, #6a7eff);
-        transition: width 0.3s ease;
-    }
-
-    .nav-link:hover {
-        color: #ffffff;
-    }
-
-        .nav-link:hover::after,
-        .nav-link.active::after {
-            width: 100%;
-        }
-
-    .nav-link.active {
-        color: #ffffff;
-    }
-
-/* Hamburger Menu */
+/* Hamburger Icon Styling (for mobile) */
 .hamburger {
-    width: 30px;
+    width: 25px;
     height: 20px;
-    display: flex;
+    /* REMOVED: display: flex; <-- Tailwind classes flex and md:hidden handle this */
     flex-direction: column;
     justify-content: space-between;
     cursor: pointer;
-    z-index: 60; /* Higher than mobile menu overlay */
+    z-index: 60; /* Above the mobile menu overlay */
+    /* Added padding/margin for touch target */
+    padding: 10px;
+    margin: -10px; /* Negative margin to offset padding */
 }
 
     .hamburger span {
         display: block;
         width: 100%;
-        height: 3px;
-        background-color: #ffffff;
-        border-radius: 2px;
+        height: 2px;
+        background-color: #fff; /* White lines */
         transition: all 0.3s ease-in-out;
     }
 
+    /* Hamburger Active State (when mobile menu is open) */
     .hamburger.active span:nth-child(1) {
-        transform: translateY(8.5px) rotate(45deg);
+        transform: translateY(9px) rotate(45deg);
     }
 
     .hamburger.active span:nth-child(2) {
@@ -181,163 +79,231 @@ body {
     }
 
     .hamburger.active span:nth-child(3) {
-        transform: translateY(-8.5px) rotate(-45deg);
+        transform: translateY(-9px) rotate(-45deg);
     }
+
+
+/* Navbar Menu (Desktop) */
+.navbar-menu {
+    /* Tailwind classes handle hidden/flex, items-center, space-x */
+    /* hidden, md:flex, items-center, space-x-6/8 */
+}
+
+.nav-link {
+    color: #d1d5db; /* Gray 300 */
+    font-weight: 500; /* Medium weight */
+    transition: color 0.3s ease;
+    position: relative; /* Needed for underline effect */
+}
+
+    .nav-link:hover,
+    .nav-link.active {
+        color: #fff; /* White on hover/active */
+    }
+
+    /* Optional: Underline effect on hover/active */
+    .nav-link::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -5px; /* Adjust distance from text */
+        width: 0;
+        height: 2px;
+        background-color: #3b82f6; /* Blue 500 */
+        transition: width 0.3s ease;
+    }
+
+    .nav-link:hover::after,
+    .nav-link.active::after {
+        width: 100%;
+    }
+
 
 /* Mobile Menu Overlay */
 .mobile-menu-overlay {
-    transition: transform 0.4s ease-in-out;
-    transform: translateX(100%); /* Start off-screen */
+    /* Tailwind classes handle fixed, top/left 0, w/h-full, background, flex-col, items/justify-center, space-y */
+    /* fixed, inset-0, w-full, h-full, bg-gray-900, bg-opacity-95, hidden, flex-col, items-center, justify-center, space-y-6, z-40 */
 }
 
-    .mobile-menu-overlay.active {
-        transform: translateX(0); /* Slide in */
-    }
-
+/* Styling for links inside the mobile menu */
 .nav-link-mobile {
-    color: #ffffff;
-    font-size: 1.75rem;
-    font-weight: 600;
-    padding: 0.75rem 0;
-    transition: color 0.3s ease, transform 0.3s ease;
+    color: #e5e7eb; /* Gray 200 */
+    font-size: 1.5rem; /* Larger font size */
+    font-weight: 600; /* Semi-bold */
+    text-decoration: none;
+    transition: color 0.3s ease;
 }
 
     .nav-link-mobile:hover {
-        color: #4a90e2;
-        transform: translateX(10px);
+        color: #3b82f6; /* Blue 500 on hover */
     }
 
-
-/* Buttons */
-.btn-primary, .btn-secondary {
-    display: inline-block;
-    padding: 0.75rem 1.75rem;
-    border-radius: 0.5rem;
-    font-weight: 600;
-    text-align: center;
-    transition: all 0.3s ease;
-    border: none;
-    cursor: pointer;
+/* Buttons within menus */
+/* Shared button base styles */
+.btn-base {
+    padding: 0.6rem 1.5rem; /* Adjusted padding slightly */
+    border-radius: 9999px; /* Full rounded */
+    font-weight: 600; /* Semi-bold */
     text-decoration: none;
-    white-space: nowrap; /* Prevent breaking into multiple lines */
+    transition: all 0.3s ease;
+    display: inline-block; /* Ensure padding/margin works */
+    text-align: center; /* Center text */
+    white-space: nowrap; /* Prevent wrapping */
 }
 
+/* Primary Button (e.g., "Learn AI for Free") */
 .btn-primary {
-    background: linear-gradient(to right, #4a90e2, #6a7eff); /* Vibrant blue gradient */
-    color: #ffffff;
-    box-shadow: 0 4px 15px rgba(74, 144, 226, 0.4);
+    background: linear-gradient(to right, #3b82f6, #1e3a8a); /* Blue gradient */
+    color: #fff;
+    border: 1px solid transparent;
 }
 
     .btn-primary:hover {
-        background: linear-gradient(to right, #6a7eff, #4a90e2); /* Reverse gradient on hover */
-        box-shadow: 0 6px 20px rgba(106, 126, 255, 0.6);
-        transform: translateY(-2px);
+        background: linear-gradient(to left, #3b82f6, #1e3a8a); /* Reverse gradient on hover */
+        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); /* Subtle shadow */
     }
 
+/* Secondary Button (e.g., "AI PROGRAMS") */
 .btn-secondary {
-    background: #2d3748; /* Dark gray */
-    color: #cbd5e0;
-    border: 1px solid #4a5568; /* Subtle border */
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    background: linear-gradient(to right, #4ade80, #16a34a); /* Green gradient */
+    color: #fff;
+    border: 1px solid transparent;
 }
 
     .btn-secondary:hover {
-        background: #4a5568;
-        color: #ffffff;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        transform: translateY(-2px);
+        background: linear-gradient(to left, #4ade80, #16a34a); /* Reverse gradient on hover */
+        box-shadow: 0 4px 15px rgba(74, 222, 128, 0.4); /* Subtle shadow */
     }
 
-/* Hero Section */
+
+/* Mobile Button Styles */
+.btn-primary-mobile, .btn-secondary-mobile {
+    /* Using @extend needs a preprocessor like Sass/Less.
+       Copying styles or using Tailwind utilities directly is an alternative. */
+    /* @extend .btn-base; */ /* Inherit base styles */
+    padding: 0.75rem 1.5rem; /* Slightly more padding */
+    border-radius: 9999px; /* Full rounded */
+    font-weight: 600; /* Semi-bold */
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block; /* Ensure padding/margin works */
+    text-align: center; /* Center text */
+    white-space: nowrap; /* Prevent wrapping */
+    width: 80%; /* Adjust width for mobile */
+    max-width: 300px; /* Max width for larger phones */
+    font-size: 1.125rem; /* Larger text */
+}
+
+.btn-primary-mobile {
+    background: linear-gradient(to right, #3b82f6, #1e3a8a); /* Blue gradient */
+    color: #fff;
+    border: 1px solid transparent;
+}
+
+    .btn-primary-mobile:hover {
+        background: linear-gradient(to left, #3b82f6, #1e3a8a); /* Reverse gradient on hover */
+        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); /* Subtle shadow */
+    }
+
+
+.btn-secondary-mobile {
+    background: linear-gradient(to right, #4ade80, #16a34a); /* Green gradient */
+    color: #fff;
+    border: 1px solid transparent;
+}
+
+    .btn-secondary-mobile:hover {
+        background: linear-gradient(to left, #4ade80, #16a34a); /* Reverse gradient on hover */
+        box-shadow: 0 4px 15px rgba(74, 222, 128, 0.4); /* Subtle shadow */
+    }
+
+
+/* Close mobile menu button */
+.close-mobile-menu {
+    position: absolute;
+    top: 1.5rem; /* 6 * 0.25rem = 1.5rem */
+    right: 1.5rem; /* 6 * 0.25rem = 1.5rem */
+    cursor: pointer;
+    font-size: 2rem; /* Adjust size */
+    color: #d1d5db; /* Gray 300 */
+    transition: color 0.3s ease;
+    /* Added padding/margin for touch target */
+    padding: 10px;
+    margin: -10px;
+}
+
+    .close-mobile-menu:hover {
+        color: #fff; /* White on hover */
+    }
+
+
+/* --- Hero Section Styles --- */
 .hero {
-    height: 100vh;
-    min-height: 600px; /* Ensure a minimum height for smaller screens */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    text-align: center;
-    color: #ffffff;
+    height: 100vh; /* Full viewport height */
+    /* Tailwind classes handle relative, overflow, flex, items/justify-center, text-center, text-white */
+    /* relative, overflow-hidden, flex, items-center, justify-center, text-center, text-white */
 }
 
 .video-bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -1;
+    /* Tailwind classes handle absolute, inset, min-w/h-full, object-cover */
+    /* absolute, inset-0, min-w-full, min-h-full, object-cover */
 }
 
 .hero-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.6)); /* Darker overlay for text contrast */
-    z-index: 0;
+    /* Tailwind classes handle absolute, inset, background, opacity */
+    /* absolute, inset-0, bg-black, opacity-70 */
 }
 
 .hero-content {
-    position: relative;
-    z-index: 10;
-    max-width: 900px;
-    padding: 0 1.5rem;
+    /* Tailwind classes handle relative, z-index, padding, max-width, margin-auto */
+    /* relative, z-10, p-6, max-w-4xl, mx-auto */
 }
 
-    .hero-content h1 {
-        font-size: 4.5rem; /* Large, bold heading */
-        font-weight: 800;
-        line-height: 1.1;
-        margin-bottom: 1.5rem;
-        text-shadow: 0 5px 15px rgba(0,0,0,0.5); /* Text shadow for depth */
-    }
-
-    .hero-content p {
-        font-size: 1.5rem;
-        font-weight: 300;
-        margin-bottom: 2.5rem;
-        text-shadow: 0 2px 10px rgba(0,0,0,0.4);
-    }
-
-.hero-buttons .btn-primary-hero, .hero-buttons .btn-outline-hero {
-    padding: 1rem 2.5rem;
-    font-size: 1.1rem;
-    border-radius: 0.75rem;
-    font-weight: 600;
-    transition: all 0.3s ease;
+/* Hero Button Styles - separate from menu buttons */
+.btn-primary-hero,
+.btn-outline-hero {
+    /* Using @extend needs a preprocessor like Sass/Less.
+       Copying styles or using Tailwind utilities directly is an alternative. */
+    /* @extend .btn-base; */ /* Inherit base styles */
+    padding: 1rem 2.5rem; /* Larger padding */
+    border-radius: 9999px; /* Full rounded */
+    font-weight: 600; /* Semi-bold */
     text-decoration: none;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+    display: inline-block; /* Ensure padding/margin works */
+    text-align: center; /* Center text */
+    white-space: nowrap; /* Prevent wrapping */
+    font-size: 1.125rem; /* Large text */
 }
 
 .btn-primary-hero {
-    background: linear-gradient(45deg, #4a90e2, #6a7eff);
-    color: #ffffff;
-    border: none;
+    /* @extend .btn-primary; */ /* Inherit primary button styles */
+    background: linear-gradient(to right, #3b82f6, #1e3a8a); /* Blue gradient */
+    color: #fff;
+    border: 1px solid transparent;
 }
 
     .btn-primary-hero:hover {
-        background: linear-gradient(45deg, #6a7eff, #4a90e2);
-        transform: translateY(-3px);
-        box-shadow: 0 8px 25px rgba(74, 144, 226, 0.6);
+        background: linear-gradient(to left, #3b82f6, #1e3a8a); /* Reverse gradient on hover */
+        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); /* Subtle shadow */
     }
 
+
 .btn-outline-hero {
-    background: transparent;
-    color: #ffffff;
-    border: 2px solid #4a90e2; /* Border matching primary color */
+    background-color: transparent;
+    color: #fff;
+    border: 2px solid #fff;
+    transition: all 0.3s ease;
 }
 
     .btn-outline-hero:hover {
-        background: rgba(74, 144, 226, 0.2); /* Subtle background on hover */
-        border-color: #6a7eff;
-        transform: translateY(-3px);
-        box-shadow: 0 8px 25px rgba(74, 144, 226, 0.4);
+        background-color: rgba(255, 255, 255, 0.1); /* Subtle white background */
+        border-color: #3b82f6; /* Blue border on hover */
+        color: #3b82f6; /* Blue text on hover */
     }
 
-/* Animations for Hero Content */
+
+/* Keyframes for animations (used in hero) */
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -352,578 +318,258 @@ body {
 
 .animate-fade-in-up {
     animation: fadeInUp 0.8s ease-out forwards;
-    opacity: 0; /* Hidden by default */
+    opacity: 0; /* Start invisible */
 }
 
-.delay-200 {
-    animation-delay: 0.2s;
-}
-
-.delay-400 {
-    animation-delay: 0.4s;
-}
-
-
-/* Service Cards */
-.service-card {
-    background: #2d3748; /* Darker card background */
-    border-radius: 1rem;
-    padding: 2.5rem;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(71, 85, 105, 0.4);
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start; /* Align content to the top */
-}
-
-    .service-card:hover {
-        background: #3a455a; /* Slightly lighter on hover */
-        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
-        border-color: rgba(74, 144, 226, 0.6); /* Highlight border */
+    .animate-fade-in-up.delay-200 {
+        animation-delay: 0.2s;
     }
+
+    .animate-fade-in-up.delay-400 {
+        animation-delay: 0.4s;
+    }
+
+
+/* --- Section Common Styles --- */
+.section {
+    /* py-20, bg-*, text-white handled by Tailwind */
+}
+
+.section-header {
+    /* text-center, mb-16 handled by Tailwind */
+}
+
+
+/* --- Services Section Styles --- */
+.service-card {
+    background-color: #1f2937; /* Gray 800 */
+    padding: 2rem; /* p-8 equivalent */
+    border-radius: 0.5rem; /* rounded-lg equivalent */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+    border: 1px solid #374151; /* Gray 700 */
+    /* Tailwind classes handle transform, hover:scale-105, transition-transform, duration-300, ease-in-out */
+}
 
 .service-icon {
-    font-size: 3.5rem; /* Larger icon size */
-    color: #4a90e2; /* Primary blue color */
-    margin-bottom: 1.5rem;
-    width: 90px;
-    height: 90px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background: rgba(74, 144, 226, 0.15); /* Light background for icon circle */
-    border: 1px solid rgba(74, 144, 226, 0.3);
-    transition: all 0.3s ease;
+    font-size: 3rem; /* text-4xl equivalent */
+    color: #3b82f6; /* Blue 500 */
+    margin-bottom: 1.5rem; /* mb-6 equivalent */
 }
 
-.service-card:hover .service-icon {
-    color: #ffffff;
-    background: linear-gradient(45deg, #4a90e2, #6a7eff); /* Gradient background on hover */
-    box-shadow: 0 0 15px rgba(74, 144, 226, 0.7);
-    transform: translateY(-5px);
-}
 
-.service-card h3 {
-    font-size: 2rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-    color: #ffffff;
-}
-
-.service-card p {
-    font-size: 1rem;
-    color: #a0aec0;
-    line-height: 1.6;
-    flex-grow: 1; /* Allow paragraph to take up space */
-}
-
-.service-card ul {
-    list-style-type: none; /* Remove default list style */
-    padding-left: 0;
-    margin-top: 1.5rem; /* Space between paragraph and list */
-    text-align: left; /* Align list items left */
-    width: 100%; /* Ensure list takes full width */
-}
-
-    .service-card ul li {
-        position: relative;
-        padding-left: 1.5rem;
-        margin-bottom: 0.5rem;
-        color: #cbd5e0;
-        font-size: 0.95rem;
-    }
-
-        .service-card ul li::before {
-            content: '\f058'; /* Font Awesome check-circle icon */
-            font-family: "Font Awesome 6 Free";
-            font-weight: 900;
-            position: absolute;
-            left: 0;
-            top: 0;
-            color: #48bb78; /* Green checkmark */
-        }
-
-
-/* AI Solutions Section */
+/* --- AI Solutions Section Styles --- */
 .solution-card {
-    background: #2d3748; /* Darker card background */
-    border-radius: 1rem;
-    padding: 2.5rem;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(71, 85, 105, 0.4);
-    display: flex;
-    align-items: flex-start;
-    transition: all 0.3s ease;
+    /* Tailwind classes handle flex, items-start, p-8, rounded-lg, shadow-lg, bg-gray-700, bg-opacity-50, backdrop-filter, backdrop-blur-sm, transition-all, duration-300, hover:shadow-xl, hover:bg-opacity-70, group */
+    border: 1px solid rgba(55, 65, 81, 0.5); /* Gray 700 with transparency */
 }
 
-    .solution-card:hover {
-        background: #3a455a;
-        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
-        transform: translateY(-5px);
-        border-color: rgba(74, 144, 226, 0.6);
-    }
-
-    .solution-card .solution-icon {
-        font-size: 3.5rem;
-        line-height: 1;
-        margin-right: 1.5rem;
-        width: 70px; /* Fixed width for icon container */
-        flex-shrink: 0; /* Prevent icon from shrinking */
-        color: #4a90e2; /* Default color, can be overridden by specific icon colors */
-        transition: transform 0.3s ease;
-    }
-
-    .solution-card:hover .solution-icon {
-        transform: scale(1.1);
-    }
-
-    .solution-card h3 {
-        font-size: 1.75rem;
-        font-weight: 700;
-        margin-bottom: 0.75rem;
-        color: #ffffff;
-    }
-
-    .solution-card p {
-        font-size: 1.05rem;
-        color: #a0aec0;
-        line-height: 1.6;
-    }
-
-/* About Section */
-.about-content {
-    display: flex;
-    flex-direction: column;
-    gap: 3rem;
-    align-items: center;
+.solution-icon i {
+    /* Tailwind classes handle font-size, text-color, group-hover:text-color, transition-colors, duration-300 */
+    /* Added specific color classes in HTML */
 }
 
-@media (min-width: 768px) {
-    .about-content {
-        flex-direction: row;
-    }
-}
 
-.about-text {
-    flex: 1;
-    max-width: 600px;
-}
-
-    .about-text h3 {
-        font-size: 2.5rem;
-        font-weight: 700;
-        margin-bottom: 1.5rem;
-        line-height: 1.3;
-    }
-
+/* --- About Section Styles --- */
 .text-gradient {
-    background: linear-gradient(to right, #4a90e2, #6a7eff);
+    background: linear-gradient(to right, #3b82f6, #a78bfa); /* Blue to Purple gradient */
     -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
     -webkit-text-fill-color: transparent;
 }
 
-.about-text p {
-    font-size: 1.1rem;
-    line-height: 1.7;
-    margin-bottom: 1.25rem;
-    color: #cbd5e0;
-}
-
-.about-image {
-    flex: 1;
-    min-width: 300px;
-    max-width: 500px;
-    border-radius: 1.5rem;
-    overflow: hidden;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
-    position: relative;
-}
-
-    .about-image img {
-        width: 100%;
-        height: auto;
-        display: block;
-        object-fit: cover;
-        transition: transform 0.5s ease;
-    }
-
-    .about-image:hover img {
-        transform: scale(1.05);
-    }
-
-.image-overlay {
-    background: linear-gradient(rgba(74, 144, 226, 0.4), rgba(106, 126, 255, 0.4));
-    transition: opacity 0.3s ease;
-}
-
-
-.stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 2rem;
-    margin-top: 2.5rem;
-}
-
-.stat-item {
-    background: #2d3748;
-    border-radius: 1rem;
-    padding: 2rem;
-    text-align: center;
-    box-shadow: inset 0 2px 10px rgba(0,0,0,0.2);
-    border: 1px solid rgba(71, 85, 105, 0.4);
-    transition: all 0.3s ease;
-}
-
-    .stat-item:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 20px rgba(0,0,0,0.4), inset 0 2px 10px rgba(0,0,0,0.3);
-    }
-
-.stat-number {
-    font-size: 4rem;
-    font-weight: 800;
-    display: block;
-    margin-bottom: 0.5rem;
-    line-height: 1;
-}
-
-.stat-label {
-    font-size: 1.2rem;
-    color: #a0aec0;
-    font-weight: 500;
-}
-
 .text-gradient-primary {
-    background: linear-gradient(to right, #4a90e2, #6a7eff);
+    background: linear-gradient(to right, #3b82f6, #60a5fa); /* Lighter blue gradient */
     -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
     -webkit-text-fill-color: transparent;
 }
 
 .text-gradient-secondary {
-    background: linear-gradient(to right, #48bb78, #6ee7b7); /* Greenish gradient */
+    background: linear-gradient(to right, #4ade80, #86efac); /* Lighter green gradient */
     -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
     -webkit-text-fill-color: transparent;
 }
 
 
-/* Contact Section */
+.stat-item {
+    /* Tailwind classes handle text-center, p-6, bg-gray-800, rounded-lg, shadow-inner */
+    border: 1px solid #374151; /* Gray 700 */
+}
+
+.about-image img {
+    /* Tailwind classes handle w/h-full, object-cover */
+}
+
+.image-overlay {
+    /* Tailwind classes handle absolute, inset, bg-blue-500, opacity-20, hover:opacity-0, transition-opacity, duration-300 */
+}
+
+
+/* --- Contact Section Styles --- */
 .contact-form {
-    background: #1e2531; /* Slightly lighter than main body but darker than card */
-    padding: 3rem;
-    border-radius: 1.5rem;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.4);
-    border: 1px solid #4a5568;
+    /* Tailwind classes handle p-8, bg-gray-900, rounded-xl, shadow-xl, border, border-gray-700 */
 }
-
-.form-group {
-    margin-bottom: 1.5rem;
-}
-
-    .form-group label {
-        display: block;
-        color: #cbd5e0;
-        font-weight: 600;
-        margin-bottom: 0.75rem;
-        font-size: 0.95rem;
-    }
 
 .form-input {
+    /* Basic styling for form inputs */
+    display: block;
     width: 100%;
-    padding: 1rem 1.25rem;
-    border-radius: 0.75rem;
-    border: 1px solid #4a5568;
-    background-color: #2d3748; /* Input background */
-    color: #e2e8f0;
+    padding: 0.75rem 1rem; /* py-3 px-4 */
     font-size: 1rem;
-    transition: all 0.3s ease;
+    line-height: 1.5;
+    color: #e5e7eb; /* Gray 200 */
+    background-color: #1f2937; /* Gray 800 */
+    background-image: none;
+    border: 1px solid #374151; /* Gray 700 */
+    border-radius: 0.375rem; /* rounded-md */
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
+    .form-input::placeholder {
+        color: #9ca3af; /* Gray 400 */
+        opacity: 1;
+    }
+
     .form-input:focus {
-        outline: none;
-        border-color: #4a90e2; /* Highlight border on focus */
-        box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.3);
-        background-color: #3a455a;
+        color: #e5e7eb; /* Gray 200 */
+        background-color: #1f2937; /* Gray 800 */
+        border-color: #60a5fa; /* Blue 400 */
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25); /* Blue 500 with opacity */
     }
 
 textarea.form-input {
-    min-height: 120px;
-    resize: vertical;
+    min-height: 8rem; /* Added min-height */
 }
 
+
 .contact-info {
-    padding-top: 2rem; /* Add some space above info items on larger screens */
+    /* Tailwind classes handle space-y-10 */
 }
 
 .info-item {
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 2.5rem;
+    /* Tailwind classes handle flex, items-start */
 }
 
 .info-icon {
-    font-size: 2.2rem;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #ffffff;
-    margin-right: 1.5rem;
-    background: linear-gradient(45deg, #4a90e2, #6a7eff); /* Default gradient */
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* Tailwind classes handle flex-shrink-0, mr-6, p-4, rounded-full, bg-*, text-white, flex, items/justify-center, text-2xl, shadow-md */
 }
 
-.info-item:nth-child(2) .info-icon {
-    background: linear-gradient(45deg, #48bb78, #6ee7b7);
-}
-/* Green gradient */
-.info-item:nth-child(3) .info-icon {
-    background: linear-gradient(45deg, #9f7aea, #d6bcfa);
-}
-/* Purple gradient */
 
-.info-item .info-icon:hover {
-    transform: translateY(-5px) scale(1.05);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-}
-
-.info-item h4 {
-    font-size: 1.8rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-    color: #ffffff;
-}
-
-.info-item p {
-    font-size: 1.1rem;
-    color: #a0aec0;
-    line-height: 1.6;
-}
-
-/* Footer */
+/* --- Footer Styles --- */
 .footer {
-    background-color: #0f172a; /* Even darker background for footer */
-    padding-top: 4rem;
-    padding-bottom: 2rem;
-    color: #a0aec0;
+    /* Tailwind classes handle py-16, bg-gray-950, text-gray-300 */
 }
 
-.footer-col h3, .footer-col h4 {
-    color: #ffffff;
-    font-weight: 700;
-    margin-bottom: 1.5rem;
+.footer-col {
+    /* Column spacing handled by grid gap */
 }
 
-.footer-col h3 {
-    font-size: 2rem;
+/* Styling for the logo text in the footer */
+.footer-logo-text {
+    /* Inherit logo gradient styling */
+    background: linear-gradient(to right, #4ade80, #3b82f6); /* Green to Blue gradient */
+    -webkit-background-clip: text; /* Clip background to text */
+    background-clip: text; /* Standard property */
+    color: transparent; /* Make text transparent to show background */
+    -webkit-text-fill-color: transparent; /* For older browsers */
+    font-weight: 800; /* Match header logo weight */
 }
 
-.footer-col h4 {
-    font-size: 1.4rem;
-}
-
-.footer-col p {
-    font-size: 0.95rem;
-    line-height: 1.7;
-    margin-bottom: 1.5rem;
-}
-
-.footer-col ul {
-    list-style: none;
-    padding: 0;
-}
-
-    .footer-col ul li {
-        margin-bottom: 0.75rem;
-    }
 
 .footer-link {
-    color: #a0aec0;
+    color: #9ca3af; /* Gray 400 */
     text-decoration: none;
-    font-size: 0.95rem;
-    transition: color 0.3s ease, transform 0.3s ease;
-    display: inline-block; /* For transform effect */
+    transition: color 0.3s ease;
+    display: inline-block; /* Allows padding/margin if needed later */
 }
 
     .footer-link:hover {
-        color: #4a90e2;
-        transform: translateX(5px);
+        color: #d1d5db; /* Gray 300 on hover */
     }
 
 .social-links {
-    display: flex;
-    gap: 1rem;
-    margin-top: 1.5rem;
+    /* Tailwind classes handle flex, space-x-4 */
 }
 
 .social-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: #2d3748;
-    color: #cbd5e0;
-    font-size: 1.2rem;
-    transition: all 0.3s ease;
-    border: 1px solid #4a5568;
+    color: #9ca3af; /* Gray 400 */
+    font-size: 1.5rem; /* Adjust size */
+    transition: color 0.3s ease, transform 0.3s ease;
 }
 
     .social-icon:hover {
-        background: linear-gradient(45deg, #4a90e2, #6a7eff);
-        color: #ffffff;
-        transform: translateY(-3px) rotate(5deg);
-        box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
-        border-color: transparent;
+        color: #fff; /* White on hover */
+        transform: translateY(-3px); /* Slight lift effect */
     }
 
 .copyright {
-    margin-top: 3rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid #4a5568;
-    font-size: 0.85rem;
-    color: #64748b;
+    /* Tailwind classes handle text-center, pt-8, text-gray-500, text-sm */
 }
 
 /* Media Queries for Responsiveness */
-@media (max-width: 1023px) {
-    .navbar-menu {
-        position: fixed;
-        top: 0;
-        right: 0;
-        width: 100%;
-        height: 100vh;
-        background: rgba(26, 32, 44, 0.95);
-        backdrop-filter: blur(15px);
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        transform: translateX(100%);
-        transition: transform 0.4s ease-in-out;
-        z-index: 40;
-    }
-
-        .navbar-menu.active {
-            transform: translateX(0);
-        }
-
-        .navbar-menu li {
-            margin: 1.5rem 0;
-        }
-
-        .navbar-menu .nav-link {
-            font-size: 1.75rem;
-            padding: 0.75rem 0;
-        }
-
-            .navbar-menu .nav-link::after {
-                height: 3px;
-                margin: 0.5rem auto 0;
-            }
-
-        .navbar-menu .btn-primary, .navbar-menu .btn-secondary {
-            margin-top: 1rem;
-            width: 80%; /* Adjust width for mobile buttons */
-            max-width: 300px;
-        }
-}
-
-@media (max-width: 767px) {
-    .section-header h2 {
-        font-size: 2.5rem;
-    }
-
-    .section-header p {
-        font-size: 1rem;
-    }
-
-    .hero-content h1 {
-        font-size: 2.8rem;
-    }
-
-    .hero-content p {
-        font-size: 1.2rem;
-    }
-
-    .hero-buttons {
-        flex-direction: column;
-        gap: 1rem;
-    }
-
-        .hero-buttons .btn-primary-hero, .hero-buttons .btn-outline-hero {
-            width: 90%;
-            max-width: 300px;
-        }
-
-    .service-card, .solution-card, .stat-item, .contact-form, .info-item {
-        padding: 1.75rem;
-    }
-
-        .service-card h3, .solution-card h3 {
-            font-size: 1.5rem;
-        }
-
-    .about-text h3 {
-        font-size: 2rem;
-    }
-
-    .stat-number {
-        font-size: 3rem;
-    }
-
-    .stat-label {
-        font-size: 1rem;
-    }
-
-    .contact-info {
-        padding-top: 0;
-    }
-
-    .info-item {
-        flex-direction: column;
-        text-align: center;
-        align-items: center;
-    }
-
-    .info-icon {
-        margin-right: 0;
-        margin-bottom: 1rem;
-    }
-
-    .info-item h4 {
-        font-size: 1.5rem;
-    }
-
-    .info-item p {
-        font-size: 1.0rem;
-    }
-
-    .footer-col {
-        margin-bottom: 2rem;
-    }
-}
-
-/* For smaller screens, ensure the video doesn't look too zoomed */
-@media (max-width: 480px) {
-    .hero {
-        min-height: 500px;
-    }
-
-    .hero-content h1 {
-        font-size: 2.2rem;
-    }
-
-    .hero-content p {
-        font-size: 1rem;
+@media (max-width: 767px) { /* Below md breakpoint */
+    .navbar .container {
+        /* Ensure full width and padding */
+        padding-left: 1rem; /* px-4 */
+        padding-right: 1rem; /* px-4 */
     }
 
     .logo {
-        font-size: 1.5rem;
+        font-size: 1.3rem; /* Smaller logo on mobile */
     }
+    /* Adjust hamburger position if needed, but absolute/fixed works well */
 }
+
+/* Basic JS for hamburger toggle (assuming script.js exists) */
+/* Add this or ensure similar logic is in your script.js */
+/*
+document.addEventListener('DOMContentLoaded', () => {
+    const hamburger = document.querySelector('.hamburger');
+    const mobileMenu = document.querySelector('.mobile-menu-overlay');
+    const closeButton = document.querySelector('.close-mobile-menu');
+    const mobileLinks = document.querySelectorAll('.nav-link-mobile, .btn-primary-mobile, .btn-secondary-mobile');
+
+    const toggleMenu = () => {
+        hamburger.classList.toggle('active'); // For icon animation
+        mobileMenu.classList.toggle('hidden'); // Hide the overlay
+        mobileMenu.classList.toggle('flex'); // Show the overlay (as flex column)
+        // Toggle overflow-hidden on body to prevent scrolling when menu is open
+        document.body.classList.toggle('overflow-hidden');
+    };
+
+    hamburger.addEventListener('click', toggleMenu);
+    closeButton.addEventListener('click', toggleMenu);
+
+
+    // Close menu when a mobile link is clicked
+    mobileLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            // Only close if the menu is currently open (i.e., not hidden)
+            if (!mobileMenu.classList.contains('hidden')) {
+                toggleMenu();
+            }
+        });
+    });
+});
+*/
+
+/* Add utility classes if not already present in your project's Tailwind config */
+/* For the gradient text to work, you might need custom utilities or apply directly in CSS */
+/* Example utility (add to tailwind.config.js) if you prefer utility-first approach:
+   extend: {
+       backgroundImage: {
+           'gradient-logo': 'linear-gradient(to right, #4ade80, #3b82f6)',
+       },
+       backgroundColor: {
+            'gray-950': '#030712', // If not already defined
+       }
+   }
+   Then in HTML:
+   <a href="#" class="logo bg-gradient-logo text-transparent bg-clip-text ...">
+   But direct CSS as above is simpler for this specific case.
+*/
