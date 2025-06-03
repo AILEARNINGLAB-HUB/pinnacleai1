@@ -3,106 +3,212 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Programs for Sale | Pinnacle AI Solutions</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-        }
-
-        .hero {
-            background: linear-gradient(90deg, #6366f1, #ec4899);
-            color: white;
-            padding: 50px 0;
-            text-align: center;
-        }
-
-        .project {
-            margin-bottom: 20px;
-            border: 1px solid #dee2e6;
-            border-radius: 5px;
-            padding: 15px;
-            background-color: #fff;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .project:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .project h3 {
-            color: #007bff;
-        }
-
-        footer {
-            text-align: center;
-            padding: 20px;
-            background-color: #343a40;
-            color: #fff;
-            margin-top: 30px;
-        }
-
-        .btn-primary {
-            background-color: #6366f1;
-            border: none;
-        }
-
-        .btn-primary:hover {
-            background-color: #4f46e5;
-        }
-    </style>
+    <title>AI Programs - Pinnacle AI Solutions</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-    <!-- Hero Section -->
-    <header class="hero">
-        <div class="container">
-            <h1>Explore Our Programs</h1>
-            <p>Discover cutting-edge AI tools, mobile apps, and data scrapers designed to empower your business.</p>
-            <a href="#ai-projects" class="btn btn-primary btn-lg">View Programs</a>
+    <!-- Navbar (same as index.html) -->
+    <nav class="navbar fixed top-0 left-0 w-full z-50 py-4">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <a href="index.html" class="logo">
+                <span>PINNACLE AI</span>
+                <span class="text-blue-400">SOLUTIONS</span>
+            </a>
+            
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <ul class="navbar-menu hidden md:flex space-x-8">
+                <li><a href="index.html#home" class="nav-link">Home</a></li>
+                <li><a href="index.html#services" class="nav-link">Services</a></li>
+                <li><a href="index.html#solutions" class="nav-link">Solutions</a></li>
+                <li><a href="index.html#about" class="nav-link">About</a></li>
+                <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+                <li><a href="programs.html" class="nav-link active">AI Programs</a></li>
+            </ul>
         </div>
-    </header>
+    </nav>
 
-    <!-- Main Content -->
-    <div class="container mt-5">
-        <section id="ai-projects">
-            <h2 class="mb-4">AI Projects</h2>
-            <div class="project">
-                <h3>AI-Driven Data Analysis Tool</h3>
-                <p>Analyze large datasets to identify trends and insights with automated report generation and predictive analytics.</p>
+    <!-- AI Programs Section -->
+    <section class="section pt-32">
+        <div class="container mx-auto px-4">
+            <div class="section-header">
+                <h1>Our AI Programs</h1>
+                <p>Ready-to-use AI solutions for your business needs</p>
             </div>
-            <div class="project">
-                <h3>Machine Learning Model for Image Recognition</h3>
-                <p>Accurately recognize and categorize images with our high-precision machine learning model.</p>
-            </div>
-        </section>
 
-        <section id="mobile-app-projects" class="mt-5">
-            <h2 class="mb-4">Mobile App Projects</h2>
-            <div class="project">
-                <h3>Fitness Tracking App</h3>
-                <p>Track fitness activities, get personalized workouts, and receive nutritional advice with our app.</p>
-            </div>
-            <div class="project">
-                <h3>E-commerce Shopping App</h3>
-                <p>Browse products, make purchases, and track orders seamlessly with our e-commerce app.</p>
-            </div>
-        </section>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Web Scraper Program -->
+                <div class="program-card">
+                    <div class="program-image">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Web Scraper">
+                    </div>
+                    <div class="program-content">
+                        <h3>Advanced Web Scraper</h3>
+                        <div class="program-features">
+                            <p><i class="fas fa-check-circle text-green-500"></i> Extract data from any website</p>
+                            <p><i class="fas fa-check-circle text-green-500"></i> Clean and organize collected data</p>
+                            <p><i class="fas fa-check-circle text-green-500"></i> Export to CSV/Excel</p>
+                            <p><i class="fas fa-check-circle text-green-500"></i> Schedule automatic runs</p>
+                        </div>
+                        <div class="program-price">
+                            <span class="price">$499</span>
+                            <span class="license">One-time purchase</span>
+                        </div>
+                        <button class="btn-primary request-btn" data-program="Advanced Web Scraper">
+                            Request Appointment
+                        </button>
+                    </div>
+                </div>
 
-        <section id="data-scraper" class="text-center mt-5">
-            <h2>Data Scrapers</h2>
-            <p>Need data from any website? We build custom data scrapers to extract the information you need.</p>
-            <a href="#" class="btn btn-success">Request a Custom Scraper</a>
-        </section>
+                <!-- Chatbot Program -->
+                <div class="program-card">
+                    <div class="program-image">
+                        <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="AI Chatbot">
+                    </div>
+                    <div class="program-content">
+                        <h3>Automated AI Chatbot</h3>
+                        <div class="program-features">
+                            <p><i class="fas fa-check-circle text-green-500"></i> 24/7 customer support</p>
+                            <p><i class="fas fa-check-circle text-green-500"></i> Natural language processing</p>
+                            <p><i class="fas fa-check-circle text-green-500"></i> Integrates with your website</p>
+                            <p><i class="fas fa-check-circle text-green-500"></i> Customizable responses</p>
+                        </div>
+                        <div class="program-price">
+                            <span class="price">$799</span>
+                            <span class="license">+ $99/month maintenance</span>
+                        </div>
+                        <button class="btn-primary request-btn" data-program="Automated AI Chatbot">
+                            Request Appointment
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Data Analyzer -->
+                <div class="program-card">
+                    <div class="program-image">
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Data Analysis">
+                    </div>
+                    <div class="program-content">
+                        <h3>Data Analysis Suite</h3>
+                        <div class="program-features">
+                            <p><i class="fas fa-check-circle text-green-500"></i> Predictive analytics</p>
+                            <p><i class="fas fa-check-circle text-green-500"></i> Custom dashboards</p>
+                            <p><i class="fas fa-check-circle text-green-500"></i> Real-time insights</p>
+                            <p><i class="fas fa-check-circle text-green-500"></i> Automated reporting</p>
+                        </div>
+                        <div class="program-price">
+                            <span class="price">$1,299</span>
+                            <span class="license">Custom pricing available</span>
+                        </div>
+                        <button class="btn-primary request-btn" data-program="Data Analysis Suite">
+                            Request Appointment
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal for Appointment Request -->
+    <div class="modal hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="modal-content bg-white rounded-lg p-8 max-w-md w-full">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Request Appointment</h3>
+                <button class="modal-close text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="appointment-form">
+                <input type="hidden" id="program-name" name="program-name">
+                <div class="mb-4">
+                    <label for="name" class="block mb-2">Your Name</label>
+                    <input type="text" id="name" name="name" class="w-full p-2 border rounded" required>
+                </div>
+                <div class="mb-4">
+                    <label for="email" class="block mb-2">Email Address</label>
+                    <input type="email" id="email" name="email" class="w-full p-2 border rounded" required>
+                </div>
+                <div class="mb-4">
+                    <label for="phone" class="block mb-2">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" class="w-full p-2 border rounded" required>
+                </div>
+                <div class="mb-4">
+                    <label for="message" class="block mb-2">Additional Information</label>
+                    <textarea id="message" name="message" rows="4" class="w-full p-2 border rounded"></textarea>
+                </div>
+                <button type="submit" class="btn-primary w-full">
+                    Send Request <i class="fas fa-paper-plane ml-2"></i>
+                </button>
+            </form>
+        </div>
     </div>
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2025 Pinnacle AI Solutions. All rights reserved.</p>
+    <!-- Footer (same as index.html) -->
+    <footer class="footer">
+        <!-- Footer content from index.html -->
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Programs page specific JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            // Modal functionality
+            const modal = document.querySelector('.modal');
+            const requestBtns = document.querySelectorAll('.request-btn');
+            const modalClose = document.querySelector('.modal-close');
+            const programNameInput = document.getElementById('program-name');
+            
+            // Open modal with program name
+            requestBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const programName = this.getAttribute('data-program');
+                    programNameInput.value = programName;
+                    modal.classList.remove('hidden');
+                });
+            });
+            
+            // Close modal
+            modalClose.addEventListener('click', function() {
+                modal.classList.add('hidden');
+            });
+            
+            // Close when clicking outside modal
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.classList.add('hidden');
+                }
+            });
+            
+            // Form submission
+            const appointmentForm = document.getElementById('appointment-form');
+            appointmentForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const programName = programNameInput.value;
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const phone = document.getElementById('phone').value;
+                const message = document.getElementById('message').value;
+                
+                // Create mailto link
+                const subject = `Appointment Request for ${encodeURIComponent(programName)}`;
+                const body = `Name: ${encodeURIComponent(name)}\nEmail: ${encodeURIComponent(email)}\nPhone: ${encodeURIComponent(phone)}\n\nMessage: ${encodeURIComponent(message)}`;
+                
+                window.location.href = `mailto:futureai4all@gmail.com?subject=${subject}&body=${body}`;
+                
+                // Close modal after a short delay
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    appointmentForm.reset();
+                }, 500);
+            });
+        });
+    </script>
 </body>
 </html>
