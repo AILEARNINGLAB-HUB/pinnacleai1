@@ -1,82 +1,85 @@
-// Mobile Menu Toggle
-const hamburger = document.querySelector('.hamburger');
-const navbarMenu = document.querySelector('.navbar-menu');
+// script.js
 
-hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('open');
-    navbarMenu.classList.toggle('active');
-});
+document.addEventListener('DOMContentLoaded', function () {
+    const hamburger = document.querySelector('.hamburger');
+    const navMenu = document.querySelector('.navbar-menu');
+    const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
 
-// Navbar Scroll Effect
-window.addEventListener('scroll', () => {
-    const navbar = document.querySelector('.navbar');
-    if (window.scrollY > 50) {
-        navbar.classList.add('scrolled');
-    } else {
-        navbar.classList.remove('scrolled');
+    // Toggle mobile menu visibility
+    hamburger.addEventListener('click', function () {
+        hamburger.classList.toggle('active');
+        mobileMenuOverlay.classList.toggle('active');
+        document.body.classList.toggle('no-scroll'); // Optional: prevent body scroll
+    });
+
+    // Close mobile menu when a nav link is clicked
+    mobileMenuOverlay.querySelectorAll('.nav-link-mobile, .btn-primary, .btn-secondary').forEach(item => {
+        item.addEventListener('click', function () {
+            hamburger.classList.remove('active');
+            mobileMenuOverlay.classList.remove('active');
+            document.body.classList.remove('no-scroll');
+
+            // Optional: Smooth scroll to section if it's an anchor link
+            const targetId = this.getAttribute('data-target') || this.getAttribute('href');
+            if (targetId && targetId.startsWith('#')) {
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    setTimeout(() => { // Give time for menu to close
+                        targetElement.scrollIntoView({ behavior: 'smooth' });
+                    }, 400); // Match this to your mobile-menu-overlay transition duration
+                }
+            }
+        });
+    });
+
+    // Handle active state for nav links on scroll
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    function highlightNavLink() {
+        let current = '';
+
+        sections.forEach(section => {
+            // Adjusted offset to account for fixed navbar height
+            const sectionTop = section.offsetTop - (document.querySelector('.navbar').offsetHeight + 20);
+            const sectionHeight = section.clientHeight;
+
+            if (pageYOffset >= sectionTop && pageYOffset < sectionTop + sectionHeight) {
+                current = section.getAttribute('id');
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
     }
-});
 
-// Smooth Scrolling for Anchor Links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        
-        const targetId = this.getAttribute('href');
-        if (targetId === '#') return;
-        
-        const targetElement = document.querySelector(targetId);
-        if (targetElement) {
-            window.scrollTo({
-                top: targetElement.offsetTop - 80,
-                behavior: 'smooth'
-            });
-            
-            // Close mobile menu if open
-            hamburger.classList.remove('open');
-            navbarMenu.classList.remove('active');
-        }
+    // Initial highlight on load
+    highlightNavLink();
+
+    // Highlight on scroll
+    window.addEventListener('scroll', highlightNavLink);
+
+    // Smooth scroll for nav links (desktop)
+    document.querySelectorAll('.navbar-menu .nav-link').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+
+            if (targetElement) {
+                const navbarHeight = document.querySelector('.navbar').offsetHeight;
+                const offsetPosition = targetElement.offsetTop - navbarHeight;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        });
     });
 });
-
-// Form Submission
-const contactForm = document.querySelector('.contact-form form');
-if (contactForm) {
-    contactForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const submitButton = this.querySelector('button[type="submit"]');
-        const originalText = submitButton.innerHTML;
-        
-        submitButton.disabled = true;
-        submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-        
-        // Simulate form submission
-        setTimeout(() => {
-            submitButton.innerHTML = '<i class="fas fa-check"></i> Message Sent!';
-            
-            setTimeout(() => {
-                submitButton.disabled = false;
-                submitButton.innerHTML = originalText;
-                this.reset();
-            }, 3000);
-        }, 2000);
-    });
-}
-
-// Animation on Scroll
-function animateOnScroll() {
-    const elements = document.querySelectorAll('.service-card, .solution-card, .about-image');
-    
-    elements.forEach(element => {
-        const elementPosition = element.getBoundingClientRect().top;
-        const screenPosition = window.innerHeight / 1.2;
-        
-        if (elementPosition < screenPosition) {
-            element.classList.add('animate');
-        }
-    });
-}
-
-window.addEventListener('scroll', animateOnScroll);
-window.addEventListener('load', animateOnScroll);
