@@ -573,3 +573,19 @@ document.addEventListener('DOMContentLoaded', () => {
    <a href="#" class="logo bg-gradient-logo text-transparent bg-clip-text ...">
    But direct CSS as above is simpler for this specific case.
 */
+/* Existing CSS in style.css */
+
+/* ... */
+
+/* New styles for mobile menu animation */
+.mobile-menu-overlay.active {
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+.mobile-menu-overlay {
+    transform: translateX(100%); /* Or scale(0) for a zoom effect */
+    opacity: 0;
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+    pointer-events: none; /* Prevent clicks when hidden */
+}
