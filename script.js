@@ -83,3 +83,43 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+document.addEventListener('DOMContentLoaded', function() {
+    // Select the necessary DOM elements
+    const hamburger = document.querySelector('.hamburger');
+    const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
+    const closeMobileMenu = document.querySelector('.close-mobile-menu');
+    const mobileNavLinks = document.querySelectorAll('.nav-link-mobile');
+    const body = document.body; // To control body scrolling
+
+    // Function to open the mobile menu
+    function openMobileMenu() {
+        mobileMenuOverlay.classList.add('active');
+        body.classList.add('overflow-hidden'); // Prevent scrolling on the body
+    }
+
+    // Function to close the mobile menu
+    function closeMobileMenuFn() {
+        mobileMenuOverlay.classList.remove('active');
+        body.classList.remove('overflow-hidden'); // Allow scrolling on the body
+    }
+
+    // Event listener for the hamburger icon to open the menu
+    if (hamburger) {
+        hamburger.addEventListener('click', openMobileMenu);
+    }
+
+    // Event listener for the close button inside the mobile menu
+    if (closeMobileMenu) {
+        closeMobileMenu.addEventListener('click', closeMobileMenuFn);
+    }
+
+    // Event listeners for each mobile navigation link to close the menu on click
+    if (mobileNavLinks.length > 0) {
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', closeMobileMenuFn);
+        });
+    }
+
+    // Optional: Close menu if user clicks outside the menu (e.g., if you add a backdrop)
+    // For a full-screen overlay like yours, this is less critical as the close button handles it.
+});
