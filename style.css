@@ -7,8 +7,12 @@ body {
     font-family: 'Inter', sans-serif;
     /* Ensure smooth scrolling for section links */
     scroll-behavior: smooth;
-    /* Prevent body scroll when mobile menu is open - controlled by JS toggling class */
-    /* overflow: hidden; */
+}
+
+/* IMPORTANT: This rule prevents body scrolling when the mobile menu is open. */
+/* It is toggled by JavaScript when the .mobile-menu-overlay gains/loses the 'active' class. */
+body.overflow-hidden {
+    overflow: hidden;
 }
 
 /* --- Navbar Styles --- */
@@ -70,6 +74,7 @@ body {
     }
 
     /* Hamburger Active State (when mobile menu is open) */
+    /* These styles make the hamburger icon transform into an 'X' */
     .hamburger.active span:nth-child(1) {
         transform: translateY(9px) rotate(45deg);
     }
@@ -123,7 +128,22 @@ body {
 .mobile-menu-overlay {
     /* Tailwind classes handle fixed, top/left 0, w/h-full, background, flex-col, items/justify-center, space-y */
     /* fixed, inset-0, w-full, h-full, bg-gray-900, bg-opacity-95, hidden, flex-col, items-center, justify-center, space-y-6, z-40 */
+
+    /* These styles control the initial (hidden) state of the mobile menu */
+    transform: translateX(100%); /* Start off-screen to the right */
+    opacity: 0;                   /* Start invisible */
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out; /* Smooth animation for appearance/disappearance */
+    pointer-events: none;         /* Prevent clicks when hidden */
 }
+
+/* Mobile Menu Overlay Active State */
+/* These styles make the mobile menu visible and interactive when the 'active' class is added by JavaScript */
+.mobile-menu-overlay.active {
+    transform: translateX(0); /* Slide fully into view */
+    opacity: 1;               /* Become fully visible */
+    pointer-events: auto;     /* Allow clicks when active */
+}
+
 
 /* Styling for links inside the mobile menu */
 .nav-link-mobile {
@@ -525,67 +545,4 @@ textarea.form-input {
     /* Adjust hamburger position if needed, but absolute/fixed works well */
 }
 
-/* Basic JS for hamburger toggle (assuming script.js exists) */
-/* Add this or ensure similar logic is in your script.js */
-/*
-document.addEventListener('DOMContentLoaded', () => {
-    const hamburger = document.querySelector('.hamburger');
-    const mobileMenu = document.querySelector('.mobile-menu-overlay');
-    const closeButton = document.querySelector('.close-mobile-menu');
-    const mobileLinks = document.querySelectorAll('.nav-link-mobile, .btn-primary-mobile, .btn-secondary-mobile');
-
-    const toggleMenu = () => {
-        hamburger.classList.toggle('active'); // For icon animation
-        mobileMenu.classList.toggle('hidden'); // Hide the overlay
-        mobileMenu.classList.toggle('flex'); // Show the overlay (as flex column)
-        // Toggle overflow-hidden on body to prevent scrolling when menu is open
-        document.body.classList.toggle('overflow-hidden');
-    };
-
-    hamburger.addEventListener('click', toggleMenu);
-    closeButton.addEventListener('click', toggleMenu);
-
-
-    // Close menu when a mobile link is clicked
-    mobileLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            // Only close if the menu is currently open (i.e., not hidden)
-            if (!mobileMenu.classList.contains('hidden')) {
-                toggleMenu();
-            }
-        });
-    });
-});
-*/
-
-/* Add utility classes if not already present in your project's Tailwind config */
-/* For the gradient text to work, you might need custom utilities or apply directly in CSS */
-/* Example utility (add to tailwind.config.js) if you prefer utility-first approach:
-   extend: {
-       backgroundImage: {
-           'gradient-logo': 'linear-gradient(to right, #4ade80, #3b82f6)',
-       },
-       backgroundColor: {
-            'gray-950': '#030712', // If not already defined
-       }
-   }
-   Then in HTML:
-   <a href="#" class="logo bg-gradient-logo text-transparent bg-clip-text ...">
-   But direct CSS as above is simpler for this specific case.
-*/
-/* Existing CSS in style.css */
-
-/* ... */
-
-/* New styles for mobile menu animation */
-.mobile-menu-overlay.active {
-    transform: translateX(0);
-    opacity: 1;
-    pointer-events: auto;
-}
-.mobile-menu-overlay {
-    transform: translateX(100%); /* Or scale(0) for a zoom effect */
-    opacity: 0;
-    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
-    pointer-events: none; /* Prevent clicks when hidden */
-}
+/* Remove any commented out JavaScript blocks from here */
