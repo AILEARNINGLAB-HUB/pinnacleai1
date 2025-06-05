@@ -6,10 +6,607 @@
     <title>AI Programs - Pinnacle AI Solutions</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* --- NEW/UPDATED CSS VARIABLES --- */
+        :root {
+            --primary-color: #3b82f6; /* Blue */
+            --secondary-color: #1e40af; /* Darker Blue */
+            --accent-color: #06b6d4; /* Cyan */
+            --dark-bg: #0d121c; /* Even darker base background */
+            --card-bg-start: #1c2637; /* Lighter base for card gradient */
+            --card-bg-end: #2a384f;   /* Darker end for card gradient */
+            --text-light: #e2e8f0; /* Slightly off-white for main text */
+            --text-muted: #94a3b8; /* For descriptions, subtle text */
+            --border-color: rgba(59, 130, 246, 0.2); /* Unified border color */
+        }
+
+        /* --- GLOBAL & BASE STYLES --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at top left, #1a233b 0%, #0f172a 100%); /* More dynamic background */
+            color: var(--text-light); /* Use variable */
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden; /* Prevent horizontal scroll from subtle animations */
+            position: relative;
+        }
+        body::before { /* Subtle background texture/noise */
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml,%3Csvg width="6" height="6" viewBox="0 0 6 6" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%239C92AC" fill-opacity="0.05" fill-rule="evenodd"%3E%3Cpath d="M0 0h3v3H0V0zm3 3h3v3H3V3z"/%3E%3C/g%3E%3C/svg%3E'); /* Subtle dots */
+            opacity: 0.1;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* --- NAVBAR --- */
+        .navbar {
+            background: rgba(13, 18, 28, 0.9); /* Use dark-bg variable, slightly more transparent */
+            backdrop-filter: blur(15px); /* Stronger blur */
+            border-bottom: 1px solid var(--border-color); /* Use variable */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2); /* Subtle shadow */
+        }
+
+        .logo {
+            font-size: 1.6rem; /* Slightly larger */
+            font-weight: 900; /* Bolder */
+            letter-spacing: -0.025em; /* Tighter letter spacing */
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .nav-link {
+            color: var(--text-light); /* Use variable */
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Smoother transition */
+            position: relative;
+            padding-bottom: 5px; /* Space for underline */
+        }
+
+        .nav-link::after { /* Animated underline */
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            transition: width 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary-color);
+            transform: translateY(-2px); /* Subtle lift */
+        }
+
+        /* --- HAMBURGER MENU (MOBILE) --- */
+        .hamburger {
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 20px;
+            width: 28px;
+            z-index: 60;
+        }
+        .hamburger span {
+            display: block;
+            height: 2px;
+            width: 100%;
+            background-color: var(--text-light);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+        .hamburger.open span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+        .hamburger.open span:nth-child(2) { opacity: 0; }
+        .hamburger.open span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+
+        .navbar-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark-bg);
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transform: translateX(100%);
+            transition: transform 0.4s ease-out;
+            z-index: 55;
+            padding: 0; /* Override default padding */
+            list-style: none; /* Remove list bullets */
+        }
+        .navbar-menu.open {
+            transform: translateX(0);
+        }
+        .navbar-menu.open li {
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            opacity: 0;
+            animation: fadeInSlide 0.5s forwards;
+        }
+        .navbar-menu.open li:nth-child(1) { animation-delay: 0.1s; }
+        .navbar-menu.open li:nth-child(2) { animation-delay: 0.2s; }
+        .navbar-menu.open li:nth-child(3) { animation-delay: 0.3s; }
+        .navbar-menu.open li:nth-child(4) { animation-delay: 0.4s; }
+        .navbar-menu.open li:nth-child(5) { animation-delay: 0.5s; }
+        .navbar-menu.open li:nth-child(6) { animation-delay: 0.6s; }
+
+        @keyframes fadeInSlide {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- SECTIONS & HEADERS --- */
+        .section {
+            padding: 2rem 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h1 {
+            font-size: 3.5rem; /* Larger, more impactful */
+            font-weight: 900; /* Bolder */
+            background: linear-gradient(45deg, var(--primary-color) 20%, var(--accent-color) 80%); /* Stronger gradient */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 5px 15px rgba(59, 130, 246, 0.2); /* Subtle glow */
+            margin-bottom: 1.25rem;
+        }
+
+        .section-header p {
+            font-size: 1.35rem; /* Larger, more readable */
+            color: var(--text-muted); /* Use variable */
+            max-width: 700px; /* Wider for better flow */
+            margin: 0 auto;
+        }
+
+        /* --- FILTER TABS --- */
+        .filter-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .filter-tab {
+            padding: 0.8rem 1.8rem; /* Slightly larger */
+            background: rgba(var(--primary-color), 0.08); /* Lighter background */
+            border: 1px solid var(--border-color); /* Consistent border */
+            border-radius: 50px;
+            color: var(--text-light); /* Use variable */
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            font-weight: 600; /* Bolder */
+            letter-spacing: 0.02em; /* Slightly spaced */
+        }
+
+        .filter-tab.active, .filter-tab:hover {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)); /* Stronger gradient */
+            color: white;
+            transform: translateY(-4px) scale(1.02); /* More pronounced lift and slight scale */
+            box-shadow: 0 12px 30px rgba(var(--primary-color), 0.4); /* Stronger shadow */
+            border-color: transparent; /* Border disappears on active */
+        }
+
+        /* --- PROGRAM CARDS --- */
+        .programs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Slightly smaller min-width for more flexibility */
+            gap: 2.5rem; /* More space */
+            margin-bottom: 4rem;
+        }
+
+        .program-card {
+            background: linear-gradient(145deg, var(--card-bg-start), var(--card-bg-end)); /* Use new variables for richer gradient */
+            border-radius: 25px; /* More rounded */
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Smoother and slower transition */
+            border: 1px solid var(--border-color); /* Consistent border */
+            position: relative;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3); /* Initial subtle shadow */
+            display: flex; /* Ensure display is block initially for filter transition */
+            flex-direction: column;
+        }
+
+        .program-card:hover {
+            transform: translateY(-15px) scale(1.02); /* More pronounced lift and scale */
+            box-shadow: 0 35px 70px rgba(var(--primary-color), 0.35); /* Deeper, more vibrant shadow */
+            border-color: rgba(var(--primary-color), 0.6); /* More prominent border on hover */
+        }
+
+        .program-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: linear-gradient(45deg, var(--accent-color), var(--primary-color)); /* Consistent gradient */
+            padding: 0.35rem 1rem; /* Slightly larger */
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700; /* Bolder */
+            z-index: 2;
+            letter-spacing: 0.05em; /* Spaced out */
+            text-transform: uppercase;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .program-image {
+            height: 220px; /* Slightly taller */
+            background: linear-gradient(45deg, var(--primary-color) 0%, var(--accent-color) 100%); /* Stronger gradient */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .program-image::before { /* Inner subtle light effect */
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.15) 0%, transparent 70%); /* Stronger radial gradient */
+            z-index: 1;
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .program-card:hover .program-image::before {
+            transform: scale(1.1); /* Expand glow on hover */
+        }
+
+        .program-icon-bg {
+            position: absolute;
+            width: 140px; /* Larger background circle */
+            height: 140px;
+            background: rgba(255,255,255,0.15); /* Slightly less transparent */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(8px); /* Stronger blur */
+            border: 2px solid rgba(255,255,255,0.3); /* More prominent border */
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .program-card:hover .program-icon-bg {
+            transform: rotate(5deg) scale(1.05); /* Subtle rotation and scale */
+            border-color: rgba(255,255,255,0.5);
+        }
+
+        .program-image i {
+            font-size: 5.5rem; /* Larger icon */
+            color: white;
+            opacity: 1; /* Fully opaque */
+            z-index: 2;
+            position: relative;
+            text-shadow: 0 6px 15px rgba(0,0,0,0.4); /* Deeper shadow */
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .program-card:hover .program-image i {
+            transform: scale(1.15) rotate(-5deg); /* Larger scale and counter-rotation */
+            text-shadow: 0 8px 20px rgba(0,0,0,0.5);
+        }
+
+        .program-content {
+            padding: 2.25rem; /* More generous padding */
+            display: flex; /* Use flex for internal layout */
+            flex-direction: column;
+            flex-grow: 1; /* Allow content to grow */
+        }
+
+        .program-content h3 {
+            font-size: 1.75rem; /* Larger heading */
+            font-weight: 800; /* Bolder */
+            margin-bottom: 1.25rem;
+            color: var(--text-light);
+            letter-spacing: -0.01em;
+        }
+
+        .program-description {
+            color: var(--text-muted); /* Use variable */
+            margin-bottom: 1.75rem;
+            font-size: 1rem; /* Slightly larger for readability */
+            line-height: 1.7;
+        }
+
+        .program-features {
+            margin-bottom: 1.75rem;
+            border-left: 3px solid var(--accent-color); /* Add a visual divider */
+            padding-left: 1rem;
+        }
+
+        .program-features p {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.6rem; /* More spacing */
+            color: var(--text-light); /* Use variable */
+            font-size: 0.95rem; /* Slightly larger */
+        }
+
+        .program-features i {
+            margin-right: 0.75rem; /* More space for icon */
+            width: 18px; /* Consistent icon size */
+            color: var(--accent-color); /* Make checkmark color more prominent */
+        }
+
+        .program-specs {
+            background: rgba(var(--primary-color), 0.05); /* Lighter, more subtle background */
+            border-radius: 12px; /* Slightly more rounded */
+            padding: 1.25rem; /* More padding */
+            margin-bottom: 1.75rem;
+            border: 1px solid var(--border-color); /* Consistent border */
+        }
+
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.6rem; /* More spacing */
+            font-size: 0.9rem; /* Slightly larger */
+        }
+
+        .spec-label {
+            color: var(--text-muted); /* Use variable */
+        }
+
+        .spec-value {
+            color: var(--text-light); /* Use variable */
+            font-weight: 600; /* Bolder */
+        }
+
+        .program-price {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 1.75rem; /* More space */
+            padding: 1.25rem; /* More padding */
+            background: rgba(var(--accent-color), 0.1); /* Consistent accent color background */
+            border-radius: 18px; /* More rounded */
+            border: 1px solid rgba(var(--accent-color), 0.3); /* Consistent border */
+            box-shadow: inset 0 0 15px rgba(var(--accent-color), 0.1); /* Subtle inner glow */
+        }
+
+        .price {
+            font-size: 2.5rem; /* Larger price */
+            font-weight: 900; /* Bolder */
+            background: linear-gradient(45deg, var(--accent-color), #67e8f9); /* Vibrant gradient for price */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.25rem;
+            text-shadow: 0 4px 10px rgba(6, 182, 212, 0.3); /* Subtle shadow */
+        }
+
+        .license {
+            color: var(--text-muted); /* Use variable */
+            font-size: 0.9rem; /* Slightly larger */
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 1.1rem; /* More padding */
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 12px; /* Consistent rounded buttons */
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            margin-bottom: 0.5rem;
+            font-size: 1.05rem; /* Slightly larger font */
+            letter-spacing: 0.02em;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.01); /* More lift and slight scale */
+            box-shadow: 0 15px 35px rgba(var(--primary-color), 0.5); /* Stronger shadow */
+        }
+
+        .btn-secondary {
+            width: 100%;
+            padding: 1rem; /* More padding */
+            background: rgba(var(--primary-color), 0.08); /* Lighter background */
+            color: var(--primary-color);
+            border: 1px solid rgba(var(--primary-color), 0.5); /* More visible border */
+            border-radius: 12px; /* Consistent rounded buttons */
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            font-size: 1.05rem; /* Slightly larger font */
+            letter-spacing: 0.02em;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(var(--primary-color), 0.15); /* More noticeable hover background */
+            box-shadow: 0 5px 15px rgba(var(--primary-color), 0.2);
+            transform: translateY(-1px);
+        }
+
+        /* --- MODALS --- */
+        .modal {
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-content {
+            background: linear-gradient(145deg, var(--card-bg-start), var(--card-bg-end)); /* Consistent gradient */
+            color: var(--text-light); /* Use variable */
+            max-width: 500px;
+            border-radius: 20px; /* More rounded */
+            padding: 2.5rem; /* More padding */
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5); /* Stronger shadow */
+            border: 1px solid var(--border-color);
+        }
+
+        .modal-content input, .modal-content textarea, .modal-content select {
+            background: var(--dark-bg); /* Use darker background for inputs */
+            border: 1px solid rgba(var(--primary-color), 0.4); /* More defined border */
+            color: var(--text-light); /* Use variable */
+            padding: 0.85rem 1rem; /* Better padding */
+            border-radius: 8px; /* Slightly more rounded inputs */
+        }
+
+        .modal-content input:focus, .modal-content textarea:focus, .modal-content select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(var(--primary-color), 0.2); /* Stronger focus glow */
+        }
+
+        /* --- COMPARISON SECTION --- */
+        .comparison-section {
+            background: rgba(30, 41, 59, 0.6); /* Slightly more transparent */
+            border-radius: 25px; /* More rounded */
+            padding: 3.5rem; /* More padding */
+            margin: 4rem 0;
+            border: 1px solid var(--border-color); /* Consistent border */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .comparison-table {
+            overflow-x: auto;
+        }
+
+        .comparison-table table {
+            width: 100%;
+            border-collapse: separate; /* Allows for rounded corners */
+            border-spacing: 0;
+        }
+
+        .comparison-table th, .comparison-table td {
+            padding: 1.25rem; /* More padding */
+            text-align: left;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.15); /* Slightly darker border */
+            color: var(--text-light);
+        }
+
+        .comparison-table th {
+            background: rgba(59, 130, 246, 0.15); /* Slightly darker background */
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 0.9rem;
+        }
+        .comparison-table tr:last-child td {
+            border-bottom: none; /* Remove last row border */
+        }
+        .comparison-table tbody tr:nth-child(even) {
+            background-color: rgba(30, 41, 59, 0.2); /* Zebra striping for readability */
+        }
+        /* Rounded corners for table */
+        .comparison-table table thead tr:first-child th:first-child { border-top-left-radius: 20px; }
+        .comparison-table table thead tr:first-child th:last-child { border-top-right-radius: 20px; }
+        .comparison-table table tbody tr:last-child td:first-child { border-bottom-left-radius: 20px; }
+        .comparison-table table tbody tr:last-child td:last-child { border-bottom-right-radius: 20px; }
+
+        /* --- TESTIMONIAL SECTION --- */
+        .testimonial-section {
+            text-align: center;
+            margin: 4rem 0;
+        }
+
+        .testimonial-card {
+            background: rgba(30, 41, 59, 0.9); /* Less transparent */
+            border-radius: 20px; /* More rounded */
+            padding: 2.5rem; /* More padding */
+            margin: 1rem;
+            border: 1px solid var(--border-color); /* Consistent border */
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2); /* Initial shadow */
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .testimonial-card:hover {
+            transform: translateY(-8px) scale(1.01); /* Subtle lift and scale */
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+        .testimonial-card .text-yellow-400 {
+            color: #fbbf24; /* More vibrant yellow */
+            font-size: 1.1rem; /* Slightly larger stars */
+        }
+        .testimonial-card p.text-gray-300 {
+            color: var(--text-light); /* Ensure quote text is bright */
+            font-style: italic;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+        .testimonial-card p.font-semibold {
+            color: var(--primary-color); /* Name in accent color */
+            font-weight: 700;
+            letter-spacing: 0.02em;
+        }
+
+        /* --- UTILITY CLASSES --- */
+        @media (max-width: 768px) {
+            .section-header h1 {
+                font-size: 2.5rem; /* Adjusted for smaller screens */
+            }
+            .section-header p {
+                font-size: 1.1rem;
+            }
+            .programs-grid {
+                grid-template-columns: 1fr;
+            }
+            .filter-tabs {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 1rem;
+            }
+            /* Adjust hamburger menu visibility on mobile */
+            .navbar-menu {
+                display: flex !important; /* Always flex but hidden by transform */
+            }
+            .hamburger {
+                display: flex; /* Show hamburger */
+            }
+        }
+        /* Hide hamburger and show menu on desktop */
+        @media (min-width: 769px) {
+            .hamburger {
+                display: none !important;
+            }
+            .navbar-menu {
+                transform: translateX(0) !important;
+                position: static !important;
+                height: auto !important;
+                width: auto !important;
+                background: none !important;
+                flex-direction: row !important;
+                justify-content: flex-end !important;
+                align-items: center !important;
+            }
+            .navbar-menu li {
+                opacity: 1 !important;
+                animation: none !important;
+                margin-bottom: 0 !important;
+                font-size: 1rem !important;
+            }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
 </head>
 <body>
-    <!-- Navbar (same as index.html) -->
+    <!-- Navbar -->
     <nav class="navbar fixed top-0 left-0 w-full z-50 py-4">
         <div class="container mx-auto px-4 flex justify-between items-center">
             <a href="index.html" class="logo">
@@ -17,7 +614,7 @@
                 <span class="text-blue-400">SOLUTIONS</span>
             </a>
             
-            <div class="hamburger">
+            <div class="hamburger md:hidden">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -39,174 +636,1034 @@
         <div class="container mx-auto px-4">
             <div class="section-header">
                 <h1>Our AI Programs</h1>
-                <p>Ready-to-use AI solutions for your business needs</p>
+                <p>Cutting-edge AI solutions designed to transform your business operations and drive innovation</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Web Scraper Program -->
-                <div class="program-card">
+            <!-- Filter Tabs -->
+            <div class="filter-tabs">
+                <div class="filter-tab active" data-category="all">All Programs</div>
+                <div class="filter-tab" data-category="automation">Automation</div>
+                <div class="filter-tab" data-category="analytics">Analytics</div>
+                <div class="filter-tab" data-category="nlp">NLP & AI</div>
+                <div class="filter-tab" data-category="computer-vision">Computer Vision</div>
+                <div class="filter-tab" data-category="enterprise">Enterprise</div>
+            </div>
+
+            <!-- Programs Grid -->
+            <div class="programs-grid" id="programs-grid">
+                <!-- Advanced Web Scraper -->
+                <div class="program-card" data-category="automation">
+                    <div class="program-badge">Popular</div>
                     <div class="program-image">
-                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Web Scraper">
+                        <div class="program-icon-bg">
+                            <i class="fas fa-spider"></i>
+                        </div>
                     </div>
                     <div class="program-content">
                         <h3>Advanced Web Scraper</h3>
+                        <p class="program-description">Intelligent web scraping solution with AI-powered content extraction and anti-detection capabilities.</p>
                         <div class="program-features">
-                            <p><i class="fas fa-check-circle text-green-500"></i> Extract data from any website</p>
-                            <p><i class="fas fa-check-circle text-green-500"></i> Clean and organize collected data</p>
-                            <p><i class="fas fa-check-circle text-green-500"></i> Export to CSV/Excel</p>
-                            <p><i class="fas fa-check-circle text-green-500"></i> Schedule automatic runs</p>
+                            <p><i class="fas fa-check-circle text-green-400"></i> Extract data from any website</p>
+                            <p><i class="fas fa-check-circle text-green-400"></i> AI-powered content recognition</p>
+                            <p><i class="fas fa-check-circle text-green-400"></i> Anti-bot detection bypass</p>
+                            <p><i class="fas fa-check-circle text-green-400"></i> Real-time data monitoring</p>
+                            <p><i class="fas fa-check-circle text-green-400"></i> Export to multiple formats</p>
+                        </div>
+                        <div class="program-specs">
+                            <div class="spec-item">
+                                <span class="spec-label">Delivery Time:</span>
+                                <span class="spec-value">5-7 days</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Support:</span>
+                                <span class="spec-value">6 months</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Updates:</span>
+                                <span class="spec-value">Lifetime</span>
+                            </div>
                         </div>
                         <div class="program-price">
-                            <span class="price">$499</span>
+                            <span class="price">$699</span>
                             <span class="license">One-time purchase</span>
                         </div>
                         <button class="btn-primary request-btn" data-program="Advanced Web Scraper">
-                            Request Appointment
+                            <i class="fas fa-calendar-alt mr-2"></i>Request Consultation
+                        </button>
+                        <button class="btn-secondary demo-btn" data-program="Advanced Web Scraper">
+                            <i class="fas fa-play mr-2"></i>View Demo
                         </button>
                     </div>
                 </div>
 
-                <!-- Chatbot Program -->
-                <div class="program-card">
+                <!-- AI Chatbot -->
+                <div class="program-card" data-category="nlp">
+                    <div class="program-badge">Best Seller</div>
                     <div class="program-image">
-                        <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="AI Chatbot">
+                        <div class="program-icon-bg">
+                            <i class="fas fa-robot"></i>
+                        </div>
                     </div>
                     <div class="program-content">
-                        <h3>Automated AI Chatbot</h3>
+                        <h3>Intelligent AI Chatbot</h3>
+                        <p class="program-description">Advanced conversational AI with natural language understanding and custom training capabilities.</p>
                         <div class="program-features">
-                            <p><i class="fas fa-check-circle text-green-500"></i> 24/7 customer support</p>
-                            <p><i class="fas fa-check-circle text-green-500"></i> Natural language processing</p>
-                            <p><i class="fas fa-check-circle text-green-500"></i> Integrates with your website</p>
-                            <p><i class="fas fa-check-circle text-green-500"></i> Customizable responses</p>
+                            <p><i class="fas fa-check-circle text-green-400"></i> GPT-4 powered responses</p>
+                            <p><i class="fas fa-check-circle text-green-400"></i> Custom training on your data</p>
+                            <p><i class="fas fa-check-circle text-green-400"></i> Multi-language support</p>
+                            <p><i class="fas fa-check-circle text-green-400"></i> Voice interaction capable</p>
+                            <p><i class="fas fa-check-circle text-green-400"></i> Analytics dashboard</p>
                         </div>
-                        <div class="program-price">
-                            <span class="price">$799</span>
-                            <span class="license">+ $99/month maintenance</span>
-                        </div>
-                        <button class="btn-primary request-btn" data-program="Automated AI Chatbot">
-                            Request Appointment
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Data Analyzer -->
-                <div class="program-card">
-                    <div class="program-image">
-                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Data Analysis">
-                    </div>
-                    <div class="program-content">
-                        <h3>Data Analysis Suite</h3>
-                        <div class="program-features">
-                            <p><i class="fas fa-check-circle text-green-500"></i> Predictive analytics</p>
-                            <p><i class="fas fa-check-circle text-green-500"></i> Custom dashboards</p>
-                            <p><i class="fas fa-check-circle text-green-500"></i> Real-time insights</p>
-                            <p><i class="fas fa-check-circle text-green-500"></i> Automated reporting</p>
+                        <div class="program-specs">
+                            <div class="spec-item">
+                                <span class="spec-label">Delivery Time:</span>
+                                <span class="spec-value">7-10 days</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Training:</span>
+                                <span class="spec-value">Included</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Customization:</span>
+                                <span class="spec-value">Full</span>
+                            </div>
                         </div>
                         <div class="program-price">
                             <span class="price">$1,299</span>
+                            <span class="license">+ $149/month hosting</span>
+                        </div>
+                        <button class="btn-primary request-btn" data-program="Intelligent AI Chatbot">
+                            <i class="fas fa-calendar-alt mr-2"></i>Request Consultation
+                        </button>
+                        <button class="btn-secondary demo-btn" data-program="Intelligent AI Chatbot">
+                            <i class="fas fa-play mr-2"></i>Live Demo
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Data Analysis Suite -->
+                <div class="program-card" data-category="analytics">
+                    <div class="program-image">
+                        <div class="program-icon-bg">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                    </div>
+                    <div class="program-content">
+                        <h3>AI Data Analysis Suite</h3>
+                        <p class="program-description">Comprehensive analytics platform with machine learning insights and predictive modeling.</p>
+                        <div class="program-features">
+                            <p><i class="fas fa-check-circle text-green-400"></i> Predictive analytics & forecasting</p>
+                            <p><i class="fas fa-check-circle text-green-400"></i> Interactive dashboards</p>
+                            <p><i class="fas fa-check-circle text-green-400"></i> Real-time data processing</p>
+                            <p><i class="fas fa-check-circle text-green-400"></i> Automated insights generation</p>
+                            <p><i class="fas fa-check-circle text-green-400"></i> Custom ML models</p>
+                        </div>
+                        <div class="program-specs">
+                            <div class="spec-item">
+                                <span class="spec-label">Delivery Time:</span>
+                                <span class="spec-value">10-14 days</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Data Sources:</span>
+                                <span class="spec-value">Unlimited</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Users:</span>
+                                <span class="spec-value">Up to 25</span>
+                            </div>
+                        </div>
+                        <div class="program-price">
+                            <span class="price">$2,499</span>
                             <span class="license">Custom pricing available</span>
                         </div>
-                        <button class="btn-primary request-btn" data-program="Data Analysis Suite">
-                            Request Appointment
+                        <button class="btn-primary request-btn" data-program="AI Data Analysis Suite">
+                            <i class="fas fa-calendar-alt mr-2"></i>Request Consultation
                         </button>
+                        <button class="btn-secondary demo-btn" data-program="AI Data Analysis Suite">
+                            <i class="fas fa-play mr-2"></i>View Demo
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Computer Vision System -->
+                <div class="program-card" data-category="computer-vision">
+                    <div class="program-badge">New</div>
+                    <div class="program-image">
+                        <div class="program-icon-bg">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                    </div>
+                    <div class="program-content">
+                        <h3>Computer Vision System</h3>
+                        <p class="program-description">Advanced image and video analysis with object detection, facial recognition, and pattern identification.</p>
+                        <div class="program-features">
+                            <p><i class="fas fa-check-circle text-green-400"></i> Object detection & tracking</p>
+                            <p><i class="fas fa-check-circle text-green-400"></i> Facial recognition & analysis</p>
+                            <p><i class="fas fa-check-circle text-green-400"></i> OCR & document processing</p>
+                            <p><i class="fas fa-check-circle text-green-400"></i> Real-time video analysis</p>
+                            <p><i class="fas fa-check-circle text-green-400"></i> Custom model training</p>
+                        </div>
+                        <div class="program-specs">
+                            <div class="spec-item">
+                                <span class="spec-label">Delivery Time:</span>
+                                <span class="spec-value">14-21 days</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Accuracy:</span>
+                                <span class="spec-value">95%+</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Processing:</span>
+                                <span class="spec-value">Real-time</span>
+                            </div>
+                        </div>
+                        <div class="program-price">
+                            <span class="price">$3,999</span>
+                            <span class="license">Includes 1 year support</span>
+                        </div>
+                        <button class="btn-primary request-btn" data-program="Computer Vision System">
+                            <i class="fas fa-calendar-alt mr-2"></i>Request Consultation
+                        </button>
+                        <button class="btn-secondary demo-btn" data-program="Computer Vision System">
+                            <i class="fas fa-play mr-2"></i>View Demo
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Document AI Processor -->
+                <div class="program-card" data-category="automation">
+                    <div class="program-image">
+                        <div class="program-icon-bg">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                    </div>
+                    <div class="program-content">
+                        <h3>Document AI Processor</h3>
+                        <p class="program-description">Intelligent document processing with OCR, data extraction, and automated classification.</p>
+                        <div class="program-features">
+                            <p><i class="fas fa-check-circle text-green-400"></i> Intelligent OCR & text extraction</p>
+                            <p><i class="fas fa-check-circle text-green-400"></i> Document classification</p>
+                            <p><i class="fas fa-check-circle text-green-400"></i> Data validation & verification</p>
+                            <p><i class="fas fa-check-circle text-green-400"></i> Workflow automation</p>
+                            <p><i class="fas fa-check-circle text-green-400"></i> Multi-format support</p>
+                        </div>
+                        <div class="program-specs">
+                            <div class="spec-item">
+                                <span class="spec-label">Delivery Time:</span>
+                                <span class="spec-value">7-10 days</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Formats:</span>
+                                <span class="spec-value">PDF, Images, Scans</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Processing:</span>
+                                <span class="spec-value">Batch & Real-time</span>
+                            </div>
+                        </div>
+                        <div class="program-price">
+                            <span class="price">$1,799</span>
+                            <span class="license">One-time + support</span>
+                        </div>
+                        <button class="btn-primary request-btn" data-program="Document AI Processor">
+                            <i class="fas fa-calendar-alt mr-2"></i>Request Consultation
+                        </button>
+                        <button class="btn-secondary demo-btn" data-program="Document AI Processor">
+                            <i class="fas fa-play mr-2"></i>View Demo
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Enterprise AI Platform -->
+                <div class="program-card" data-category="enterprise">
+                    <div class="program-badge">Enterprise</div>
+                    <div class="program-image">
+                        <div class="program-icon-bg">
+                            <i class="fas fa-building"></i>
+                        </div>
+                    </div>
+                    <div class="program-content">
+                        <h3>Enterprise AI Platform</h3>
+                        <p class="program-description">Complete AI ecosystem for large organizations with custom AI models, workflows, and integrations.</p>
+                        <div class="program-features">
+                            <p><i class="fas fa-check-circle text-green-400"></i> Custom AI model development</p>
+                            <p><i class="fas fa-check-circle text-green-400"></i> Enterprise integrations</p>
+                            <p><i class="fas fa-check-circle text-green-400"></i> Scalable infrastructure</p>
+                            <p><i class="fas fa-check-circle text-green-400"></i> Advanced security & compliance</p>
+                            <p><i class="fas fa-check-circle text-green-400"></i> 24/7 dedicated support</p>
+                        </div>
+                        <div class="program-specs">
+                            <div class="spec-item">
+                                <span class="spec-label">Delivery Time:</span>
+                                <span class="spec-value">30-60 days</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Support:</span>
+                                <span class="spec-value">24/7 Dedicated</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Scalability:</span>
+                                <span class="spec-value">Unlimited</span>
+                            </div>
+                        </div>
+                        <div class="program-price">
+                            <span class="price">Custom</span>
+                            <span class="license">Contact for pricing</span>
+                        </div>
+                        <button class="btn-primary request-btn" data-program="Enterprise AI Platform">
+                            <i class="fas fa-calendar-alt mr-2"></i>Request Consultation
+                        </button>
+                        <button class="btn-secondary demo-btn" data-program="Enterprise AI Platform">
+                            <i class="fas fa-play mr-2"></i>Schedule Demo
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Program Comparison Section -->
+            <div class="comparison-section">
+                <h2 class="text-3xl font-bold text-center mb-8">Program Comparison</h2>
+                <div class="comparison-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Feature</th>
+                                <th>Web Scraper</th>
+                                <th>AI Chatbot</th>
+                                <th>Data Analytics</th>
+                                <th>Computer Vision</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Setup Time</td>
+                                <td>5-7 days</td>
+                                <td>7-10 days</td>
+                                <td>10-14 days</td>
+                                <td>14-21 days</td>
+                            </tr>
+                            <tr>
+                                <td>Customization Level</td>
+                                <td>Medium</td>
+                                <td>High</td>
+                                <td>High</td>
+                                <td>Very High</td>
+                            </tr>
+                            <tr>
+                                <td>Ongoing Costs</td>
+                                <td>None</td>
+                                <td>$149/month</td>
+                                <td>Optional</td>
+                                <td>Support only</td>
+                            </tr>
+                            <tr>
+                                <td>Technical Support</td>
+                                <td>6 months</td>
+                                <td>Ongoing</td>
+                                <td>1 year</td>
+                                <td>1 year</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Testimonials Section -->
+            <div class="testimonial-section">
+                <h2 class="text-3xl font-bold mb-8">What Our Clients Say</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="testimonial-card">
+                        <div class="flex items-center mb-4">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 mb-4">"The web scraper saved us hundreds of hours of manual work. Exceptional quality and support!"</p>
+                        <p class="font-semibold">- Sarah Johnson, Data Analyst</p>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="flex items-center mb-4">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 mb-4">"Our AI chatbot handles 80% of customer inquiries. ROI was immediate and substantial."</p>
+                        <p class="font-semibold">- Mike Chen, CEO</p>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="flex items-center mb-4">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 mb-4">"The analytics suite transformed how we understand our business data. Highly recommended!"</p>
+                        <p class="font-semibold">- Lisa Rodriguez, Marketing Director</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Modal for Appointment Request -->
+    <!-- Enhanced Modal for Appointment Request -->
     <div class="modal hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div class="modal-content bg-white rounded-lg p-8 max-w-md w-full">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-bold">Request Appointment</h3>
-                <button class="modal-close text-gray-500 hover:text-gray-700">
+        <div class="modal-content rounded-lg p-8 max-w-md w-full mx-4">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold">Request Consultation</h3>
+                <button class="modal-close text-gray-400 hover:text-white text-2xl">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <form id="appointment-form">
                 <input type="hidden" id="program-name" name="program-name">
                 <div class="mb-4">
-                    <label for="name" class="block mb-2">Your Name</label>
-                    <input type="text" id="name" name="name" class="w-full p-2 border rounded" required>
+                    <label for="name" class="block mb-2 font-semibold">Your Name *</label>
+                    <input type="text" id="name" name="name" class="w-full p-3 border rounded-lg" required>
                 </div>
                 <div class="mb-4">
-                    <label for="email" class="block mb-2">Email Address</label>
-                    <input type="email" id="email" name="email" class="w-full p-2 border rounded" required>
+                    <label for="email" class="block mb-2 font-semibold">Email Address *</label>
+                    <input type="email" id="email" name="email" class="w-full p-3 border rounded-lg" required>
                 </div>
                 <div class="mb-4">
-                    <label for="phone" class="block mb-2">Phone Number</label>
-                    <input type="tel" id="phone" name="phone" class="w-full p-2 border rounded" required>
+                    <label for="phone" class="block mb-2 font-semibold">Phone Number *</label>
+                    <input type="tel" id="phone" name="phone" class="w-full p-3 border rounded-lg" required>
                 </div>
                 <div class="mb-4">
-                    <label for="message" class="block mb-2">Additional Information</label>
-                    <textarea id="message" name="message" rows="4" class="w-full p-2 border rounded"></textarea>
+                    <label for="company" class="block mb-2 font-semibold">Company Name</label>
+                    <input type="text" id="company" name="company" class="w-full p-3 border rounded-lg">
+                </div>
+                <div class="mb-4">
+                    <label for="timeline" class="block mb-2 font-semibold">Project Timeline</label>
+                    <select id="timeline" name="timeline" class="w-full p-3 border rounded-lg">
+                        <option value="">Select timeline</option>
+                        <option value="immediate">Immediate (1-2 weeks)</option>
+                        <option value="month">Within a month</option>
+                        <option value="quarter">Within 3 months</option>
+                        <option value="planning">Still planning</option>
+                    </select>
+                </div>
+                <div class="mb-6">
+                    <label for="message" class="block mb-2 font-semibold">Project Details</label>
+                    <textarea id="message" name="message" rows="4" class="w-full p-3 border rounded-lg" placeholder="Tell us about your specific requirements..."></textarea>
                 </div>
                 <button type="submit" class="btn-primary w-full">
-                    Send Request <i class="fas fa-paper-plane ml-2"></i>
+                    <i class="fas fa-paper-plane mr-2"></i>Send Consultation Request
                 </button>
             </form>
         </div>
     </div>
 
-    <!-- Footer (same as index.html) -->
-    <footer class="footer">
-        <!-- Footer content from index.html -->
-    </footer>
+    <!-- Demo Modal -->
+    <div class="demo-modal hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="modal-content rounded-lg p-8 max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold" id="demo-title">Program Demo</h3>
+                <button class="demo-modal-close text-gray-400 hover:text-white text-2xl">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="demo-content">
+                <!-- Demo content will be dynamically loaded here -->
+            </div>
+        </div>
+    </div>
 
-    <script src="script.js"></script>
     <script>
-        // Programs page specific JavaScript
-        document.addEventListener('DOMContentLoaded', function() {
-            // Modal functionality
-            const modal = document.querySelector('.modal');
-            const requestBtns = document.querySelectorAll('.request-btn');
-            const modalClose = document.querySelector('.modal-close');
-            const programNameInput = document.getElementById('program-name');
+        // Global variables
+        let modal, demoModal, programNameInput;
+
+        // Interactive demo functions (global scope, using window. for direct calls from HTML)
+        window.simulateScraping = function() {
+            const output = document.getElementById('scraper-output');
+            const url = document.getElementById('scraper-url').value || 'https://example.com';
+            const dataType = document.getElementById('scraper-data').value;
             
-            // Open modal with program name
+            output.innerHTML = '<div class="text-blue-400">Initializing scraper...</div>';
+            
+            setTimeout(() => {
+                output.innerHTML += '<div class="text-yellow-400">Analyzing website structure...</div>';
+            }, 1000);
+            
+            setTimeout(() => {
+                output.innerHTML += '<div class="text-green-400">Extracting data...</div>';
+                output.innerHTML += `<div class="text-gray-300 mt-2">Found ${Math.floor(Math.random() * 50) + 10} ${dataType.toLowerCase()} entries</div>`;
+                output.innerHTML += `<div class="text-gray-300">Sample: {title: "Sample Product", price: "$29.99", rating: "4.5/5"}</div>`;
+                output.innerHTML += '<div class="text-green-400 mt-2">✅ Scraping completed successfully!</div>';
+            }, 2500);
+        };
+
+        window.sendChatMessage = function() {
+            const input = document.getElementById('chat-input');
+            const messages = document.getElementById('chat-messages');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // Add user message
+            messages.innerHTML += `
+                <div class="mb-3">
+                    <div class="text-green-400 font-semibold">You:</div>
+                    <div class="text-gray-300">${message}</div>
+                </div>
+            `;
+            
+            input.value = '';
+            
+            // Simulate AI response
+            setTimeout(() => {
+                const responses = {
+                    'business hours': 'Our business hours are Monday-Friday 9 AM to 6 PM EST. However, our AI systems work 24/7!',
+                    'cost': 'Our pricing varies by solution complexity. Basic chatbots start at $1,299, while enterprise solutions are custom-priced. Would you like a detailed quote?',
+                    'integrate': 'Yes! Our chatbots integrate seamlessly with most websites, CRM systems, and messaging platforms. We provide full technical support during integration.',
+                    'default': 'Thank you for your question! Our AI solutions are designed to be user-friendly and highly effective. Would you like to know more about any specific features?'
+                };
+                
+                let response = responses.default;
+                const lowerMessage = message.toLowerCase();
+                
+                if (lowerMessage.includes('hour')) response = responses['business hours'];
+                else if (lowerMessage.includes('cost') || lowerMessage.includes('price')) response = responses.cost;
+                else if (lowerMessage.includes('integrate') || lowerMessage.includes('website')) response = responses.integrate;
+                
+                messages.innerHTML += `
+                    <div class="mb-3">
+                        <div class="text-blue-400 font-semibold">AI Assistant:</div>
+                        <div class="text-gray-300">${response}</div>
+                    </div>
+                `;
+                
+                messages.scrollTop = messages.scrollHeight;
+            }, 1000);
+        };
+
+        window.sendPredefinedMessage = function(message) {
+            document.getElementById('chat-input').value = message;
+            window.sendChatMessage(); // Call the global function
+        };
+
+        window.simulateImageAnalysis = function() {
+            const results = document.getElementById('vision-results');
+            
+            results.innerHTML = '<div class="text-blue-400">Analyzing image...</div>';
+            
+            setTimeout(() => {
+                results.innerHTML = `
+                    <div class="text-green-400 font-semibold">✅ Analysis Complete</div>
+                    <div class="mt-2 text-gray-300">
+                        <strong>Objects Detected:</strong><br>
+                        • Person (confidence: 98.2%)<br>
+                        • Car (confidence: 95.7%)<br>
+                        • Building (confidence: 89.3%)<br><br>
+                        <strong>Text Extracted:</strong><br>
+                        • "PINNACLE AI SOLUTIONS"<br>
+                        • "DEMO IMAGE"<br><br>
+                        <strong>Colors:</strong> Blue (32%), Gray (28%), White (40%)
+                    </div>
+                `;
+            }, 2000);
+        };
+
+        window.demoFeature = function(type) {
+            const results = document.getElementById('vision-results');
+            
+            const features = {
+                object: 'Object Detection: Found 5 objects with 96% average confidence',
+                face: 'Face Recognition: Detected 2 faces, estimated ages 25-35',
+                text: 'Text Extraction: Found 15 text regions with 98% accuracy'
+            };
+            
+            results.innerHTML = `<div class="text-green-400">✅ ${features[type]}</div>`;
+        };
+
+        window.simulateDocumentProcessing = function() {
+            const results = document.getElementById('document-results');
+            
+            results.innerHTML = '<div class="text-blue-400">Processing document...</div>';
+            
+            setTimeout(() => {
+                results.innerHTML = `
+                    <div class="text-green-400 font-semibold">✅ Processing Complete</div>
+                    <div class="mt-2 text-gray-300 text-xs">
+                        <strong>Document Type:</strong> Invoice<br>
+                        <strong>Confidence:</strong> 97.8%<br><br>
+                        <strong>Extracted Fields:</strong><br>
+                        • Invoice #: INV-2024-001<br>
+                        • Date: March 15, 2024<br>
+                        • Amount: $2,450.00<br>
+                        • Vendor: ABC Corp<br>
+                        • Tax: $245.00<br><br>
+                        <strong>Validation:</strong> All fields verified ✅
+                    </div>
+                `;
+            }, 1500);
+        };
+
+        // Close modal function
+        function closeModal(modalElement) {
+            modalElement.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Enhanced JavaScript functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize modal elements
+            modal = document.querySelector('.modal');
+            demoModal = document.querySelector('.demo-modal');
+            programNameInput = document.getElementById('program-name');
+            
+            // --- Mobile Navigation (Hamburger) ---
+            const hamburger = document.querySelector('.hamburger');
+            const navbarMenu = document.querySelector('.navbar-menu');
+
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('open');
+                navbarMenu.classList.toggle('open');
+                document.body.style.overflow = navbarMenu.classList.contains('open') ? 'hidden' : 'auto';
+            });
+
+            // Close mobile menu when a link is clicked
+            navbarMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('open');
+                    navbarMenu.classList.remove('open');
+                    document.body.style.overflow = 'auto';
+                });
+            });
+
+            // --- Smooth Scroll for Nav Links ---
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80, // Adjust for fixed navbar height
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // --- Filter functionality ---
+            const filterTabs = document.querySelectorAll('.filter-tab');
+            const programCards = document.querySelectorAll('.program-card');
+            
+            filterTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    console.log('Filter tab clicked:', this.getAttribute('data-category'));
+                    
+                    // Update active tab
+                    filterTabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const category = this.getAttribute('data-category');
+                    
+                    // Filter cards
+                    programCards.forEach(card => {
+                        if (category === 'all' || card.getAttribute('data-category') === category) {
+                            card.style.display = 'flex'; /* Use flex as default for cards */
+                            setTimeout(() => {
+                                card.style.opacity = '1';
+                                card.style.transform = 'translateY(0)';
+                            }, 100);
+                        } else {
+                            card.style.opacity = '0';
+                            card.style.transform = 'translateY(20px)';
+                            setTimeout(() => {
+                                card.style.display = 'none';
+                            }, 300);
+                        }
+                    });
+                });
+            });
+
+            // --- Request consultation buttons ---
+            const requestBtns = document.querySelectorAll('.request-btn');
             requestBtns.forEach(btn => {
-                btn.addEventListener('click', function() {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    console.log('Request button clicked:', this.getAttribute('data-program'));
+                    
                     const programName = this.getAttribute('data-program');
                     programNameInput.value = programName;
                     modal.classList.remove('hidden');
+                    document.body.style.overflow = 'hidden';
                 });
             });
             
-            // Close modal
-            modalClose.addEventListener('click', function() {
-                modal.classList.add('hidden');
+            // --- Demo buttons ---
+            const demoBtns = document.querySelectorAll('.demo-btn');
+            demoBtns.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    console.log('Demo button clicked:', this.getAttribute('data-program'));
+                    
+                    const programName = this.getAttribute('data-program');
+                    document.getElementById('demo-title').textContent = programName + ' Demo';
+                    loadDemoContent(programName);
+                    demoModal.classList.remove('hidden');
+                    document.body.style.overflow = 'hidden';
+                });
             });
             
-            // Close when clicking outside modal
+            // --- Modal close buttons ---
+            const modalClose = document.querySelector('.modal-close');
+            const demoModalClose = document.querySelector('.demo-modal-close');
+            
+            if (modalClose) {
+                modalClose.addEventListener('click', () => {
+                    console.log('Modal close clicked');
+                    closeModal(modal);
+                });
+            }
+            
+            if (demoModalClose) {
+                demoModalClose.addEventListener('click', () => {
+                    console.log('Demo modal close clicked');
+                    closeModal(demoModal);
+                });
+            }
+            
+            // --- Close when clicking outside modal ---
             modal.addEventListener('click', function(e) {
                 if (e.target === modal) {
-                    modal.classList.add('hidden');
+                    console.log('Modal backdrop clicked');
+                    closeModal(modal);
                 }
             });
             
-            // Form submission
+            demoModal.addEventListener('click', function(e) {
+                if (e.target === demoModal) {
+                    console.log('Demo modal backdrop clicked');
+                    closeModal(demoModal);
+                }
+            });
+            
+            // --- Interactive demo content loader (CORRECT AND ONLY DEFINITION) ---
+            function loadDemoContent(programName) {
+                const demoContent = document.getElementById('demo-content');
+                
+                switch(programName) {
+                    case 'Advanced Web Scraper':
+                        demoContent.innerHTML = `
+                            <div class="bg-gray-800 rounded-lg p-6 mb-6">
+                                <h4 class="text-lg font-semibold mb-4">Web Scraping Simulator</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block mb-2">Target Website URL:</label>
+                                        <input type="url" id="scraper-url" class="w-full p-2 bg-gray-700 border border-gray-600 rounded" placeholder="https://example.com">
+                                        <label class="block mb-2 mt-4">Data to Extract:</label>
+                                        <select id="scraper-data" class="w-full p-2 bg-gray-700 border border-gray-600 rounded">
+                                            <option>Product Information</option>
+                                            <option>Contact Details</option>
+                                            <option>News Articles</option>
+                                            <option>Social Media Posts</option>
+                                        </select>
+                                        <button onclick="window.simulateScraping()" class="btn-primary mt-4 w-full">Start Scraping Simulation</button>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-semibold mb-2">Simulated Output:</h5>
+                                        <div id="scraper-output" class="bg-gray-900 p-4 rounded h-48 overflow-y-auto text-sm">
+                                            <div class="text-gray-400">Click "Start Scraping" to see simulated results...</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center mt-6">
+                                <button class="btn-primary mr-4">Request Custom Demo</button>
+                                <button class="btn-secondary">Download Sample Data</button>
+                            </div>
+                        `;
+                        break;
+                        
+                    case 'Intelligent AI Chatbot':
+                        demoContent.innerHTML = `
+                            <div class="bg-gray-800 rounded-lg p-6 mb-6">
+                                <h4 class="text-lg font-semibold mb-4">AI Chatbot Demo</h4>
+                                <div class="bg-gray-900 rounded-lg p-4 h-64 overflow-y-auto mb-4" id="chat-messages">
+                                    <div class="mb-3">
+                                        <div class="text-blue-400 font-semibold">AI Assistant:</div>
+                                        <div class="text-gray-300">Hello! I'm an AI chatbot demo. Ask me anything about our services, pricing, or how I can help your business.</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <input type="text" id="chat-input" class="flex-1 p-2 bg-gray-700 border border-gray-600 rounded" placeholder="Type your message..." onkeypress="if(event.key==='Enter') window.sendChatMessage()">
+                                    <button onclick="window.sendChatMessage()" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded">
+                                        <i class="fas fa-paper-plane"></i>
+                                    </button>
+                                </div>
+                                <div class="flex flex-wrap gap-2 mt-3">
+                                    <button onclick="window.sendPredefinedMessage('What are your business hours?')" class="bg-gray-700 hover:bg-gray-600 px-3 py-1 rounded text-sm">Business Hours</button>
+                                    <button onclick="window.sendPredefinedMessage('How much does your service cost?')" class="bg-gray-700 hover:bg-gray-600 px-3 py-1 rounded text-sm">Pricing</button>
+                                    <button onclick="window.sendPredefinedMessage('Can you integrate with my website?')" class="bg-gray-700 hover:bg-gray-600 px-3 py-1 rounded text-sm">Integration</button>
+                                </div>
+                            </div>
+                            <div class="text-center mt-6">
+                                <button class="btn-primary mr-4">Get Your Own Chatbot</button>
+                                <button class="btn-secondary">View Features</button>
+                            </div>
+                        `;
+                        break;
+                        
+                    case 'AI Data Analysis Suite':
+                        demoContent.innerHTML = `
+                            <div class="bg-gray-800 rounded-lg p-6 mb-6">
+                                <h4 class="text-lg font-semibold mb-4">Data Analytics Dashboard Demo</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                    <div class="bg-gray-900 p-4 rounded">
+                                        <h5 class="font-semibold mb-2">Sales Performance</h5>
+                                        <div class="text-3xl font-bold text-green-400">$247,832</div>
+                                        <div class="text-sm text-gray-400">↑ 23.5% from last month</div>
+                                        <div class="mt-2">
+                                            <div class="bg-gray-700 rounded-full h-2">
+                                                <div class="bg-green-400 h-2 rounded-full" style="width: 75%"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="bg-gray-900 p-4 rounded">
+                                        <h5 class="font-semibold mb-2">Customer Satisfaction</h5>
+                                        <div class="text-3xl font-bold text-blue-400">94.2%</div>
+                                        <div class="text-sm text-gray-400">↑ 2.1% improvement</div>
+                                        <div class="mt-2">
+                                            <div class="bg-gray-700 rounded-full h-2">
+                                                <div class="bg-blue-400 h-2 rounded-full" style="width: 94%"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-900 p-4 rounded">
+                                    <h5 class="font-semibold mb-2">Predictive Analytics</h5>
+                                    <div class="text-gray-300 text-sm mb-2">Revenue Forecast (Next 3 Months):</div>
+                                    <div class="flex items-center justify-between">
+                                        <span>Month 1: $285,000</span>
+                                        <span class="text-green-400">+15%</span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span>Month 2: $312,000</span>
+                                        <span class="text-green-400">+9.5%</span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span>Month 3: $298,000</span>
+                                        <span class="text-yellow-400">-4.5%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center mt-6">
+                                <button class="btn-primary mr-4">See Full Dashboard</button>
+                                <button class="btn-secondary">Try With Your Data</button>
+                            </div>
+                        `;
+                        break;
+                        
+                    case 'Computer Vision System':
+                        demoContent.innerHTML = `
+                            <div class="bg-gray-800 rounded-lg p-6 mb-6">
+                                <h4 class="text-lg font-semibold mb-4">Computer Vision Demo</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <h5 class="font-semibold mb-2">Upload Image for Analysis</h5>
+                                        <div class="border-2 border-dashed border-gray-600 rounded-lg p-8 text-center">
+                                            <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-2"></i>
+                                            <p class="text-gray-400">Drop image here or click to upload</p>
+                                            <button onclick="window.simulateImageAnalysis()" class="btn-primary mt-4">Simulate Analysis</button>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-semibold mb-2">Analysis Results:</h5>
+                                        <div id="vision-results" class="bg-gray-900 p-4 rounded h-48 overflow-y-auto text-sm">
+                                            <div class="text-gray-400">Upload an image to see AI analysis results...</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-4 flex flex-wrap gap-2">
+                                    <button onclick="window.demoFeature('object')" class="bg-gray-700 hover:bg-gray-600 px-3 py-1 rounded text-sm">Object Detection</button>
+                                    <button onclick="window.demoFeature('face')" class="bg-gray-700 hover:bg-gray-600 px-3 py-1 rounded text-sm">Face Recognition</button>
+                                    <button onclick="window.demoFeature('text')" class="bg-gray-700 hover:bg-gray-600 px-3 py-1 rounded text-sm">Text Extraction</button>
+                                </div>
+                            </div>
+                            <div class="text-center mt-6">
+                                <button class="btn-primary mr-4">Test With Your Images</button>
+                                <button class="btn-secondary">API Documentation</button>
+                            </div>
+                        `;
+                        break;
+                        
+                    case 'Document AI Processor':
+                        demoContent.innerHTML = `
+                            <div class="bg-gray-800 rounded-lg p-6 mb-6">
+                                <h4 class="text-lg font-semibold mb-4">Document Processing Demo</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <h5 class="font-semibold mb-2">Document Upload</h5>
+                                        <div class="border-2 border-dashed border-gray-600 rounded-lg p-6 text-center mb-4">
+                                            <i class="fas fa-file-pdf text-3xl text-red-400 mb-2"></i>
+                                            <p class="text-gray-400">Upload PDF, Image, or Scan</p>
+                                        </div>
+                                        <button onclick="window.simulateDocumentProcessing()" class="btn-primary w-full">Process Sample Document</button>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-semibold mb-2">Extracted Data:</h5>
+                                        <div id="document-results" class="bg-gray-900 p-4 rounded h-40 overflow-y-auto text-sm">
+                                            <div class="text-gray-400">Upload a document to see extracted data...</div>
+                                        </div>
+                                        <div class="mt-4">
+                                            <h6 class="font-semibold mb-2">Processing Options:</h6>
+                                            <label class="flex items-center mb-1">
+                                                <input type="checkbox" class="mr-2"> Extract Key-Value Pairs
+                                            </label>
+                                            <label class="flex items-center mb-1">
+                                                <input type="checkbox" class="mr-2"> Validate Data
+                                            </label>
+                                            <label class="flex items-center">
+                                                <input type="checkbox" class="mr-2"> Auto-classify Document
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center mt-6">
+                                <button class="btn-primary mr-4">Process Your Documents</button>
+                                <button class="btn-secondary">Download Sample Output</button>
+                            </div>
+                        `;
+                        break;
+                        
+                    case 'Enterprise AI Platform':
+                        demoContent.innerHTML = `
+                            <div class="bg-gray-800 rounded-lg p-6 mb-6">
+                                <h4 class="text-lg font-semibold mb-4">Enterprise AI Platform Overview</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                                    <div class="bg-gray-900 p-4 rounded text-center">
+                                        <i class="fas fa-brain text-3xl text-blue-400 mb-2"></i>
+                                        <h5 class="font-semibold">AI Models</h5>
+                                        <p class="text-sm text-gray-400">15+ Custom Models</p>
+                                    </div>
+                                    <div class="bg-gray-900 p-4 rounded text-center">
+                                        <i class="fas fa-network-wired text-3xl text-green-400 mb-2"></i>
+                                        <h5 class="font-semibold">Integrations</h5>
+                                        <p class="text-sm text-gray-400">50+ API Connections</p>
+                                    </div>
+                                    <div class="bg-gray-900 p-4 rounded text-center">
+                                        <i class="fas fa-users text-3xl text-purple-400 mb-2"></i>
+                                        <h5 class="font-semibold">Users</h5>
+                                        <p class="text-sm text-gray-400">Unlimited Seats</p>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-900 p-4 rounded">
+                                    <h5 class="font-semibold mb-2">Platform Architecture</h5>
+                                    <div class="text-sm text-gray-300">
+                                        <p>• Microservices architecture for scalability</p>
+                                        <p>• Real-time data processing pipeline</p>
+                                        <p>• Enterprise-grade security & compliance</p>
+                                        <p>• Custom AI model training & deployment</p>
+                                        <p>• Advanced analytics & reporting</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center mt-6">
+                                <button class="btn-primary mr-4">Schedule Enterprise Demo</button>
+                                <button class="btn-secondary">Download Whitepaper</button>
+                            </div>
+                        `;
+                        break;
+                        
+                    default:
+                        demoContent.innerHTML = `
+                            <div class="text-center">
+                                <i class="fas fa-play-circle text-6xl text-blue-400 mb-4"></i>
+                                <h4 class="text-xl font-semibold mb-2">Interactive Demo</h4>
+                                <p class="text-gray-300 mb-6">Experience this AI program in action</p>
+                                <button class="btn-primary">Schedule Live Demo</button>
+                            </div>
+                        `;
+                }
+            }
+            
+            // --- Enhanced form submission ---
             const appointmentForm = document.getElementById('appointment-form');
-            appointmentForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const programName = programNameInput.value;
-                const name = document.getElementById('name').value;
-                const email = document.getElementById('email').value;
-                const phone = document.getElementById('phone').value;
-                const message = document.getElementById('message').value;
-                
-                // Create mailto link
-                const subject = `Appointment Request for ${encodeURIComponent(programName)}`;
-                const body = `Name: ${encodeURIComponent(name)}\nEmail: ${encodeURIComponent(email)}\nPhone: ${encodeURIComponent(phone)}\n\nMessage: ${encodeURIComponent(message)}`;
-                
-                window.location.href = `mailto:futureai4all@gmail.com?subject=${subject}&body=${body}`;
-                
-                // Close modal after a short delay
-                setTimeout(() => {
-                    modal.classList.add('hidden');
-                    appointmentForm.reset();
-                }, 500);
+            if (appointmentForm) {
+                appointmentForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    console.log('Form submitted');
+                    
+                    const formData = new FormData(this);
+                    const programName = formData.get('program-name');
+                    const name = formData.get('name');
+                    const email = formData.get('email');
+                    const phone = formData.get('phone');
+                    const company = formData.get('company');
+                    const timeline = formData.get('timeline');
+                    const message = formData.get('message');
+                    
+                    // Enhanced email content
+                    const subject = `Consultation Request: ${encodeURIComponent(programName)}`;
+                    const body = `
+New consultation request for: ${encodeURIComponent(programName)}
+
+CLIENT INFORMATION:
+Name: ${encodeURIComponent(name)}
+Email: ${encodeURIComponent(email)}
+Phone: ${encodeURIComponent(phone)}
+Company: ${encodeURIComponent(company || 'Not provided')}
+Timeline: ${encodeURIComponent(timeline || 'Not specified')}
+
+PROJECT DETAILS:
+${encodeURIComponent(message || 'No additional details provided')}
+
+Please follow up within 24 hours.
+                    `.trim();
+                    
+                    window.location.href = `mailto:futureai4all@gmail.com?subject=${subject}&body=${body}`;
+                    
+                    // Show success message
+                    const submitBtn = this.querySelector('button[type="submit"]');
+                    const originalText = submitBtn.innerHTML;
+                    submitBtn.innerHTML = '<i class="fas fa-check mr-2"></i>Request Sent!';
+                    submitBtn.style.background = 'linear-gradient(45deg, #10b981, #059669)';
+                    
+                    setTimeout(() => {
+                        closeModal(modal);
+                        appointmentForm.reset();
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.style.background = '';
+                    }, 2000);
+                });
+            }
+
+            // --- Smooth animations for cards ---
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            programCards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                card.style.transition = 'all 0.6s ease'; /* Ensure transition is set before observing */
+                observer.observe(card);
             });
         });
     </script>
