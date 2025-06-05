@@ -63,6 +63,7 @@ body.overflow-hidden {
     /* Added padding/margin for touch target */
     padding: 10px;
     margin: -10px; /* Negative margin to offset padding */
+    box-sizing: content-box; /* Include padding in element's total width/height for margin adjustment */
 }
 
     .hamburger span {
@@ -71,6 +72,7 @@ body.overflow-hidden {
         height: 2px;
         background-color: #fff; /* White lines */
         transition: all 0.3s ease-in-out;
+        transform-origin: center; /* Ensure rotation is centered */
     }
 
     /* Hamburger Active State (when mobile menu is open) */
@@ -130,18 +132,25 @@ body.overflow-hidden {
     /* fixed, inset-0, w-full, h-full, bg-gray-900, bg-opacity-95, hidden, flex-col, items-center, justify-center, space-y-6, z-40 */
 
     /* These styles control the initial (hidden) state of the mobile menu */
+    /* Tailwind's 'hidden' class adds display: none, which is why we need display: flex in the active state */
     transform: translateX(100%); /* Start off-screen to the right */
     opacity: 0;                   /* Start invisible */
     transition: transform 0.3s ease-out, opacity 0.3s ease-out; /* Smooth animation for appearance/disappearance */
     pointer-events: none;         /* Prevent clicks when hidden */
+    /* Adding explicit display: none here is optional if Tailwind 'hidden' is used, */
+    /* but harmless and can prevent issues if the 'hidden' class were ever removed from HTML */
+    /* display: none; */
 }
 
 /* Mobile Menu Overlay Active State */
 /* These styles make the mobile menu visible and interactive when the 'active' class is added by JavaScript */
 .mobile-menu-overlay.active {
+    display: flex; /* <--- ADDED THIS CRUCIAL LINE */
     transform: translateX(0); /* Slide fully into view */
     opacity: 1;               /* Become fully visible */
     pointer-events: auto;     /* Allow clicks when active */
+    /* z-index is already set to 40 in HTML, but might need adjustment if it's behind other elements */
+     z-index: 50; /* Ensure it's above the fixed navbar if navbar z-index is 50 */
 }
 
 
@@ -169,6 +178,7 @@ body.overflow-hidden {
     display: inline-block; /* Ensure padding/margin works */
     text-align: center; /* Center text */
     white-space: nowrap; /* Prevent wrapping */
+    cursor: pointer; /* Add pointer cursor */
 }
 
 /* Primary Button (e.g., "Learn AI for Free") */
@@ -211,7 +221,8 @@ body.overflow-hidden {
     white-space: nowrap; /* Prevent wrapping */
     width: 80%; /* Adjust width for mobile */
     max-width: 300px; /* Max width for larger phones */
-    font-size: 1.125rem; /* Larger text */
+    font-size: 1.125rem; /* Large text */
+    cursor: pointer; /* Add pointer cursor */
 }
 
 .btn-primary-mobile {
@@ -250,6 +261,7 @@ body.overflow-hidden {
     /* Added padding/margin for touch target */
     padding: 10px;
     margin: -10px;
+    box-sizing: content-box; /* Include padding in element's total width/height for margin adjustment */
 }
 
     .close-mobile-menu:hover {
@@ -294,6 +306,7 @@ body.overflow-hidden {
     text-align: center; /* Center text */
     white-space: nowrap; /* Prevent wrapping */
     font-size: 1.125rem; /* Large text */
+    cursor: pointer; /* Add pointer cursor */
 }
 
 .btn-primary-hero {
