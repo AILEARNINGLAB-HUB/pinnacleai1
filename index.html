@@ -40,18 +40,18 @@
                 <li><a href="#about" class="nav-link">About</a></li>
                 <li><a href="#contact" class="nav-link">Contact</a></li>
                 <li class="ml-4"><a style="padding:15px" href="programs.html" target="_blank" rel="noopener" class="btn-secondary">AI PROGRAMS</a></li>
-                <li><a href="#" style="padding:15px" target="_blank" rel="noopener" class="btn-primary">Learn AI for Free</a></li>
+                <li><a href="learn-ai.html" style="padding:15px" target="_blank" rel="noopener" class="btn-primary">Learn AI for Free</a></li>
             </ul>
 
             <!-- Mobile menu overlay (initially hidden, controlled by JS and CSS) -->
-            <div class="mobile-menu-overlay hidden fixed inset-0 bg-gray-900 bg-opacity-95 z-40 flex-col items-center justify-center space-y-6">
+            <div class="mobile-menu-overlay hidden fixed inset-0 bg-gray-900 bg-opacity-95 z-40 flex flex-col items-center justify-center space-y-6">
                 <a href="#home" class="nav-link-mobile" data-target="home">Home</a>
                 <a href="#services" class="nav-link-mobile" data-target="services">Services</a>
                 <a href="#solutions" class="nav-link-mobile" data-target="solutions">Solutions</a>
                 <a href="#about" class="nav-link-mobile" data-target="about">About</a>
                 <a href="#contact" class="nav-link-mobile" data-target="contact">Contact</a>
-                <a href="programs.html" target="_blank" rel="noopener" class="btn-secondary-mobile">AI PROGRAMS</a>
-                <a href="#" target="_blank" rel="noopener" class="btn-primary-mobile">Learn AI for Free</a>
+                <a href="programs.html" target="_blank" rel="noopener" class="btn-secondary-mobile w-full text-center py-2 px-4 rounded bg-gray-700 text-white font-semibold hover:bg-gray-800 transition">AI PROGRAMS</a>
+                <a href="learn-ai.html" target="_blank" rel="noopener" class="btn-primary-mobile w-full text-center py-2 px-4 rounded bg-blue-600 text-white font-semibold hover:bg-blue-700 transition">Learn AI for Free</a>
                 <!-- Close button for mobile menu -->
                 <button class="close-mobile-menu text-white text-3xl absolute top-6 right-6">×</button>
             </div>
@@ -61,7 +61,7 @@
     <!-- Rest of your HTML content (Hero, Services, Solutions, About, Contact, Footer) remains the same -->
     <!-- Hero Section with Video Background -->
     <section id="home" class="hero relative overflow-hidden flex items-center justify-center text-center text-white">
-        <video autoplay muted loop playsinline webkit-playsinline class="video-bg absolute min-w-full min-h-full object-cover">
+        <video autoplay muted loop playsinline class="video-bg absolute min-w-full min-h-full object-cover">
             <source src="background.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
@@ -286,10 +286,10 @@
                     <h3 class="text-3xl font-bold mb-6 footer-logo-text">Pinnacle AI Solutions</h3>
                     <p class="text-gray-400 leading-relaxed mb-6">Transforming businesses with intelligent AI solutions that drive innovation and growth, helping you stay ahead in the digital age.</p>
                     <div class="social-links flex space-x-4">
-                        <a href="#" class="social-icon group" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://facebook.com/pinnacleaisolutions" class="social-icon group" title="Facebook" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i></a>
                         
                     
-                        <a href="#" class="social-icon group"><i class="fab fa-github"></i></a>
+                        <a href="#" class="social-icon group" title="GitHub"><i class="fab fa-github"></i></a>
                     </div>
                 </div>
 
@@ -323,6 +323,28 @@
                         <li><a href="#" class="footer-link">Cookie Policy</a></li>
                         <li><a href="#" class="footer-link">Career Opportunities</a></li>
                     </ul>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                    <h4 class="text-2xl font-semibold mb-6 text-white">Learn AI for Free</h4>
+                    <a href="learn-ai.html" class="footer-link block py-2 px-4 rounded bg-blue-600 text-white font-semibold text-center hover:bg-blue-700 transition mb-4" target="_blank" rel="noopener">Go to Learn AI Page</a>
+                    <div class="grid grid-cols-1 gap-3">
+                        <a href="https://chat.openai.com/" class="footer-link underline text-blue-300 hover:text-blue-400" target="_blank" rel="noopener">ChatGPT (OpenAI)</a>
+                        <a href="https://claude.ai/" class="footer-link underline text-blue-300 hover:text-blue-400" target="_blank" rel="noopener">Claude (Anthropic)</a>
+                        <a href="https://gemini.google.com/" class="footer-link underline text-blue-300 hover:text-blue-400" target="_blank" rel="noopener">Gemini (Google)</a>
+                        <a href="https://copilot.microsoft.com/" class="footer-link underline text-blue-300 hover:text-blue-400" target="_blank" rel="noopener">Copilot (Microsoft)</a>
+                        <a href="https://perplexity.ai/" class="footer-link underline text-blue-300 hover:text-blue-400" target="_blank" rel="noopener">Perplexity AI</a>
+                    </div>
+                    <div class="mt-4">
+                        <h5 class="font-bold text-white mb-2">Articles & Guides</h5>
+                        <ul class="space-y-2 text-sm">
+                            <li><a href="https://www.huggingface.co/blog/llm-quickstart" class="footer-link underline text-blue-200 hover:text-blue-400" target="_blank" rel="noopener">How to Use LLMs (HuggingFace)</a></li>
+                            <li><a href="https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/models" class="footer-link underline text-blue-200 hover:text-blue-400" target="_blank" rel="noopener">Azure OpenAI Model Guide</a></li>
+                            <li><a href="https://www.datacamp.com/tutorial/large-language-models" class="footer-link underline text-blue-200 hover:text-blue-400" target="_blank" rel="noopener">Intro to LLMs (DataCamp)</a></li>
+                            <li><a href="https://www.analyticsvidhya.com/blog/2023/06/large-language-models-llms/" class="footer-link underline text-blue-200 hover:text-blue-400" target="_blank" rel="noopener">LLMs Explained (Analytics Vidhya)</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 
