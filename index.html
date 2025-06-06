@@ -14,6 +14,35 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="style.css">
+    <style>
+/* ...existing styles... */
+
+@media (max-width: 767px) {
+    .mobile-menu-overlay {
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(17,24,39,0.97);
+        position: fixed;
+        z-index: 100;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding-top: 5rem;
+        transition: transform 0.3s cubic-bezier(.4,0,.2,1), opacity 0.3s cubic-bezier(.4,0,.2,1);
+        transform: translateY(-100%);
+        opacity: 0;
+        pointer-events: none;
+    }
+    .mobile-menu-overlay.active {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: auto;
+    }
+}
+</style>
 </head>
 <body>
     <!-- Navbar -->
@@ -39,12 +68,12 @@
                 <li><a href="#solutions" class="nav-link">Solutions</a></li>
                 <li><a href="#about" class="nav-link">About</a></li>
                 <li><a href="#contact" class="nav-link">Contact</a></li>
-                <li class="ml-4"><a style="padding:15px" href="programs.html" target="_blank" rel="noopener" class="btn-secondary">AI PROGRAMS</a></li>
-                <li><a href="learn-ai.html" style="padding:15px" target="_blank" rel="noopener" class="btn-primary">Learn AI for Free</a></li>
+                <li class="ml-4"><a href="programs.html" target="_blank" rel="noopener" class="btn-secondary btn-secondary-padding">AI PROGRAMS</a></li>
+                <li><a href="learn-ai.html" target="_blank" rel="noopener" class="btn-primary btn-primary-padding">Learn AI for Free</a></li>
             </ul>
 
             <!-- Mobile menu overlay (initially hidden, controlled by JS and CSS) -->
-            <div class="mobile-menu-overlay hidden fixed inset-0 bg-gray-900 bg-opacity-95 z-40 flex flex-col items-center justify-center space-y-6">
+            <div class="mobile-menu-overlay fixed inset-0 bg-gray-900 bg-opacity-95 z-40 flex flex-col items-center justify-center space-y-6">
                 <a href="#home" class="nav-link-mobile" data-target="home">Home</a>
                 <a href="#services" class="nav-link-mobile" data-target="services">Services</a>
                 <a href="#solutions" class="nav-link-mobile" data-target="solutions">Solutions</a>
@@ -61,7 +90,7 @@
     <!-- Rest of your HTML content (Hero, Services, Solutions, About, Contact, Footer) remains the same -->
     <!-- Hero Section with Video Background -->
     <section id="home" class="hero relative overflow-hidden flex items-center justify-center text-center text-white">
-        <video autoplay muted loop playsinline class="video-bg absolute min-w-full min-h-full object-cover">
+        <video autoplay muted loop playsinline webkit-playsinline class="video-bg absolute min-w-full min-h-full object-cover">
             <source src="background.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
@@ -362,21 +391,23 @@ document.addEventListener('DOMContentLoaded', function () {
     const closeBtn = document.querySelector('.close-mobile-menu');
     const mobileLinks = document.querySelectorAll('.nav-link-mobile');
 
-    hamburger.addEventListener('click', function () {
-        mobileMenu.classList.remove('hidden');
-        mobileMenu.classList.add('flex');
-    });
+    function openMenu() {
+        mobileMenu.classList.add('active');
+    }
+    function closeMenu() {
+        mobileMenu.classList.remove('active');
+    }
 
-    closeBtn.addEventListener('click', function () {
-        mobileMenu.classList.add('hidden');
-        mobileMenu.classList.remove('flex');
-    });
+    hamburger.addEventListener('click', openMenu);
+    closeBtn.addEventListener('click', closeMenu);
 
     mobileLinks.forEach(link => {
-        link.addEventListener('click', function () {
-            mobileMenu.classList.add('hidden');
-            mobileMenu.classList.remove('flex');
-        });
+        link.addEventListener('click', closeMenu);
+    });
+
+    // Optional: close menu on outside click
+    mobileMenu.addEventListener('click', function(e) {
+        if (e.target === mobileMenu) closeMenu();
     });
 });
 </script>
