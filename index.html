@@ -26,10 +26,10 @@
             </a>
 
             <!-- Hamburger Icon - will be flex on mobile, hidden on md and up -->
-            <div class="hamburger md:hidden">
-                <span></span>
-                <span></span>
-                <span></span>
+            <div class="hamburger md:hidden flex flex-col justify-center items-center w-10 h-10 cursor-pointer z-50" tabindex="0" aria-label="Open menu" role="button">
+                <span class="block w-8 h-1 bg-white mb-1 rounded transition-all"></span>
+                <span class="block w-8 h-1 bg-white mb-1 rounded transition-all"></span>
+                <span class="block w-8 h-1 bg-white rounded transition-all"></span>
             </div>
 
             <!-- Main Menu (Desktop) -->
@@ -61,7 +61,7 @@
     <!-- Rest of your HTML content (Hero, Services, Solutions, About, Contact, Footer) remains the same -->
     <!-- Hero Section with Video Background -->
     <section id="home" class="hero relative overflow-hidden flex items-center justify-center text-center text-white">
-        <video autoplay muted loop playsinline class="video-bg absolute min-w-full min-h-full object-cover">
+        <video autoplay muted loop playsinline webkit-playsinline class="video-bg absolute min-w-full min-h-full object-cover">
             <source src="background.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
@@ -286,9 +286,9 @@
                     <h3 class="text-3xl font-bold mb-6 footer-logo-text">Pinnacle AI Solutions</h3>
                     <p class="text-gray-400 leading-relaxed mb-6">Transforming businesses with intelligent AI solutions that drive innovation and growth, helping you stay ahead in the digital age.</p>
                     <div class="social-links flex space-x-4">
-                        <a href="#" class="social-icon group"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="social-icon group"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-icon group"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-icon group" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        
+                    
                         <a href="#" class="social-icon group"><i class="fab fa-github"></i></a>
                     </div>
                 </div>
