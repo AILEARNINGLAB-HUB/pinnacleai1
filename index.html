@@ -1,149 +1,820 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const hamburger = document.querySelector('.hamburger');
-    const mobileMenu = document.querySelector('.mobile-menu-overlay');
-    const closeBtn = document.querySelector('.close-mobile-menu');
-    const navLinks = document.querySelectorAll('.nav-link'); // Desktop links
-    const mobileLinks = document.querySelectorAll('.nav-link-mobile'); // Mobile links
-    const sections = document.querySelectorAll('section'); // All sections for active link highlighting
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pinnacle AI Solutions | Intelligent Solutions for the Digital Age</title>
+    <meta name="description" content="Pinnacle AI Solutions offers cutting-edge AI services: app development, data scraping, predictive analytics, NLP, and computer vision. Learn AI for free with us!">
+    <meta name="keywords" content="AI solutions, artificial intelligence, machine learning, deep learning, app development, data scraping, predictive analytics, NLP, computer vision, learn AI, free AI courses">
 
-    // --- Mobile Menu Toggle ---
-    function openMenu() {
-        mobileMenu.classList.add('active');
-        hamburger.classList.add('active'); // Add active class to hamburger for animation
-        document.body.style.overflow = 'hidden'; // Prevent scrolling when mobile menu is open
-    }
-    function closeMenu() {
-        mobileMenu.classList.remove('active');
-        hamburger.classList.remove('active'); // Remove active class from hamburger
-        document.body.style.overflow = ''; // Restore scrolling
-    }
+    <!-- Tailwind CSS for utility classes -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Link to your external Custom CSS file -->
+    <link rel="stylesheet" href="style.css">
 
-    hamburger.addEventListener('click', openMenu);
-    closeBtn.addEventListener('click', closeMenu);
-
-    // Close mobile menu when a mobile link is clicked
-    mobileLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            // Check if it's an internal anchor link
-            if (this.getAttribute('href').startsWith('#')) {
-                // Prevent default hash jump to allow smooth scroll
-                e.preventDefault(); 
-                // Smooth scroll to the section
-                const targetId = this.getAttribute('href');
-                document.querySelector(targetId).scrollIntoView({
-                    behavior: 'smooth'
-                });
-                // Close menu after scrolling
-                closeMenu();
-            } else {
-                // For external links or links to other HTML files, just close the menu
-                closeMenu();
-            }
-        });
-    });
-
-    // Close menu on outside click of the overlay itself
-    mobileMenu.addEventListener('click', function(e) {
-        if (e.target === mobileMenu) {
-            closeMenu();
+    <!-- INLINE STYLES (for immediate testing/demonstration, ideally move to style.css) -->
+    <style>
+        /* Custom Colors & Gradients */
+        :root {
+            --color-primary-blue: #3b82f6; /* Tailwind blue-600 */
+            --color-secondary-green: #22c55e; /* Tailwind green-600 */
+            --color-purple: #a855f7; /* Tailwind purple-500 */
+            --color-orange: #f97316; /* Tailwind orange-500 */
+            --color-text-light: #e5e7eb; /* Tailwind gray-200 */
+            --color-dark-bg: #111827; /* Tailwind gray-900 */
+            --color-darker-bg: #030712; /* Tailwind gray-950 */
         }
-    });
 
-    // --- Active Navbar Link Highlighting ---
-    function updateActiveNavLink() {
-        let currentActiveSection = '';
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop - 100; // Offset for fixed navbar
-            const sectionBottom = sectionTop + section.offsetHeight;
-            if (window.scrollY >= sectionTop && window.scrollY < sectionBottom) {
-                currentActiveSection = section.id;
-            }
-        });
-
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href').includes(currentActiveSection)) {
-                link.classList.add('active');
-            }
-        });
-    }
-
-    window.addEventListener('scroll', updateActiveNavLink);
-    updateActiveNavLink(); // Call on load to set initial active link
-
-    // --- Scroll-Triggered Animations (Intersection Observer) ---
-    const animatedElements = document.querySelectorAll('.animate-on-scroll');
-
-    const observerOptions = {
-        root: null, // relative to the viewport
-        rootMargin: '0px',
-        threshold: 0.1 // Trigger when 10% of the item is visible
-    };
-
-    const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
-                observer.unobserve(entry.target); // Stop observing once animated
-            }
-        });
-    }, observerOptions);
-
-    animatedElements.forEach(element => {
-        observer.observe(element);
-    });
-
-    // --- Smooth Scroll for internal links ---
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        // Exclude the hero buttons as they have their own click handlers already
-        if (!anchor.classList.contains('btn-primary-hero') && !anchor.classList.contains('btn-outline-hero')) {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
+        /* Animations */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-    });
 
-    // --- Number Counter for Stats (Optional) ---
-    const counters = document.querySelectorAll('.stat-number');
-    const speed = 200; // The lower the speed, the faster the count
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
 
-    const counterObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const counter = entry.target;
-                const updateCount = () => {
-                    const target = +counter.getAttribute('data-target');
-                    const count = +counter.innerText.replace('+', '').replace('%', ''); // Clean text for parsing
-                    const increment = target / speed;
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
 
-                    if (count < target) {
-                        counter.innerText = Math.ceil(count + increment) + (counter.classList.contains('percent') ? '%' : '+');
-                        setTimeout(updateCount, 1);
-                    } else {
-                        counter.innerText = target + (counter.classList.contains('percent') ? '%' : '+');
-                    }
-                };
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
 
-                // Set initial data-target attributes
-                if (counter.innerText.includes('+')) {
-                    counter.setAttribute('data-target', counter.innerText.replace('+', ''));
-                    counter.innerText = '0+';
-                } else if (counter.innerText.includes('%')) {
-                    counter.setAttribute('data-target', counter.innerText.replace('%', ''));
-                    counter.innerText = '0%';
-                    counter.classList.add('percent'); // Add class to distinguish percent
-                }
-                
-                updateCount();
-                observer.unobserve(entry.target); // Stop observing after counting
-            }
-        });
-    }, { threshold: 0.7 }); // Trigger when 70% of the counter is visible
+        /* Initial states for scroll-triggered animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        /* Specific initial states for directional slides */
+        .animate-on-scroll.slide-left {
+            transform: translateX(-50px);
+        }
+        .animate-on-scroll.slide-right {
+            transform: translateX(50px);
+        }
+        .animate-on-scroll.scale-in {
+            transform: scale(0.9);
+        }
+        
+        /* Class added by JS when element is visible */
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .animate-on-scroll.slide-left.is-visible {
+            transform: translateX(0);
+        }
+        .animate-on-scroll.slide-right.is-visible {
+            transform: translateX(0);
+        }
+        .animate-on-scroll.scale-in.is-visible {
+            transform: scale(1);
+        }
 
-    counters.forEach(counter => {
-        counterObserver.observe(counter);
-    });
-});
+        /* Staggered animation delays (can be applied directly to elements too) */
+        .service-card:nth-child(1), .solution-card:nth-child(1) { transition-delay: 0s; }
+        .service-card:nth-child(2), .solution-card:nth-child(2) { transition-delay: 0.1s; }
+        .service-card:nth-child(3), .solution-card:nth-child(3) { transition-delay: 0.2s; }
+        .solution-card:nth-child(4) { transition-delay: 0.3s; }
+
+        /* Specific styles for gradients in sections */
+        .text-gradient {
+            background: linear-gradient(90deg, var(--color-primary-blue), var(--color-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .text-gradient-primary {
+            background: linear-gradient(90deg, var(--color-primary-blue), var(--color-secondary-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .text-gradient-secondary {
+            background: linear-gradient(90deg, var(--color-secondary-green), var(--color-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Mobile Menu specific styles */
+        .mobile-menu-overlay {
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(17,24,39,0.97); /* Slightly transparent dark background */
+            position: fixed;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center; /* Center items vertically now */
+            padding-top: 5rem; /* Still give some top padding if needed for close button */
+            transition: transform 0.4s cubic-bezier(.4,0,.2,1), opacity 0.4s cubic-bezier(.4,0,.2,1);
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none; /* Disables interaction when hidden */
+        }
+        .mobile-menu-overlay.active {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto; /* Enables interaction when active */
+        }
+
+        .hamburger span {
+            transition: all 0.3s ease-in-out;
+        }
+        .hamburger.active span:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+        /* Other Custom Styles (from your original style.css or additional) */
+        .navbar {
+            background-color: var(--color-dark-bg);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .logo-pinnacle { color: #fff; font-weight: 800; font-size: 1.8rem; }
+        .logo-solutions { color: var(--color-primary-blue); font-weight: 800; font-size: 1.8rem; }
+        
+        .nav-link {
+            color: #d1d5db; /* gray-400 */
+            transition: color 0.3s ease;
+            position: relative;
+            font-weight: 500;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background-color: var(--color-primary-blue);
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #fff;
+        }
+
+        .btn-secondary-padding { padding: 0.75rem 1.5rem; }
+        .btn-primary-padding { padding: 0.75rem 1.5rem; }
+
+        .btn-primary {
+            background: linear-gradient(90deg, var(--color-primary-blue), var(--color-secondary-green));
+            color: #fff;
+            border-radius: 9999px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(59,130,246,0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(59,130,246,0.4);
+            background: linear-gradient(90deg, var(--color-secondary-green), var(--color-primary-blue)); /* Reverse for hover */
+        }
+        .btn-secondary {
+            background: linear-gradient(90deg, var(--color-purple), var(--color-orange));
+            color: #fff;
+            border-radius: 9999px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(168,85,247,0.3);
+        }
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(168,85,247,0.4);
+            background: linear-gradient(90deg, var(--color-orange), var(--color-purple));
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            min-height: 600px; /* Ensure a minimum height for smaller devices */
+            position: relative;
+            background-color: #000; /* Fallback for video */
+        }
+        .video-bg {
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+        }
+        .hero-overlay {
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.8) 100%);
+        }
+        /* Hero content animations are handled by inline style="animation-delay" and the specific JS in script.js */
+
+        .btn-primary-hero, .btn-outline-hero {
+            padding: 1rem 2.5rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: 1.125rem;
+            transition: all 0.3s ease;
+        }
+        .btn-primary-hero {
+            background: linear-gradient(90deg, #3b82f6, #22c55e); /* blue to green */
+            color: white;
+            box-shadow: 0 6px 20px rgba(59,130,246,0.4);
+        }
+        .btn-primary-hero:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(59,130,246,0.5);
+            background: linear-gradient(90deg, #22c55e, #3b82f6); /* green to blue */
+        }
+        .btn-outline-hero {
+            background-color: transparent;
+            border: 2px solid #fff;
+            color: #fff;
+            box-shadow: 0 4px 10px rgba(255,255,255,0.2);
+        }
+        .btn-outline-hero:hover {
+            background-color: rgba(255,255,255,0.1);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 6px 15px rgba(255,255,255,0.3);
+        }
+
+        /* Section styles */
+        .section-header h2 {
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--color-primary-blue), var(--color-secondary-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .section-header p {
+            font-weight: 300;
+        }
+
+        /* Service Cards */
+        .service-card {
+            background-color: rgba(31,41,55,0.7); /* gray-800 with transparency */
+            border-radius: 1rem;
+            padding: 2.5rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .service-icon {
+            font-size: 3.5rem;
+            color: var(--color-primary-blue);
+            margin: 0 auto 1.5rem auto;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+        .service-card:hover .service-icon {
+            color: var(--color-secondary-green);
+            transform: scale(1.1);
+        }
+        .service-card h3 {
+            font-weight: 700;
+            color: #fff;
+        }
+        .service-card p {
+            color: #ccc;
+        }
+        .service-card ul li {
+            color: #a0aec0; /* gray-400 */
+        }
+
+        /* Solution Cards */
+        .solution-card {
+            background-color: rgba(31,41,55,0.6); /* gray-800 with more transparency */
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+            display: flex; /* For icon alignment */
+            align-items: flex-start; /* Align icon and text at the top */
+        }
+        .solution-card:hover {
+            background-color: rgba(31,41,55,0.8);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+            transform: translateY(-5px);
+        }
+        .solution-icon {
+            font-size: 3rem;
+            padding: 0.75rem;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.08);
+            margin-right: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0; /* Prevent icon from shrinking */
+        }
+        .solution-card h3 {
+            font-weight: 700;
+            color: #fff;
+        }
+        .solution-card p {
+            color: #ccc;
+        }
+
+        /* About Section */
+        .about-image {
+            border-radius: 1.5rem;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            transition: transform 0.4s ease;
+        }
+        .about-image:hover {
+            transform: scale(1.02);
+        }
+        .image-overlay {
+            background: linear-gradient(45deg, rgba(59,130,246,0.6), rgba(34,197,94,0.6));
+            transition: opacity 0.4s ease;
+        }
+        .about-image:hover .image-overlay {
+            opacity: 0;
+        }
+        .stat-item {
+            background-color: rgba(17,24,39,0.8); /* gray-900 with transparency */
+            border-radius: 0.75rem;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: background-color 0.3s ease;
+        }
+        .stat-item:hover {
+            background-color: rgba(31,41,55,0.9);
+        }
+        .stat-number {
+            font-weight: 900;
+        }
+        .stat-label {
+            font-weight: 500;
+        }
+
+        /* Contact Section */
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            background-color: rgba(31,41,55,0.9); /* Darker gray for inputs */
+            border: 1px solid rgba(75,85,99,0.5); /* gray-600 border */
+            color: var(--color-text-light);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: var(--color-primary-blue);
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.3);
+        }
+        .contact-form {
+            border: 1px solid rgba(75,85,99,0.2);
+        }
+        .info-item {
+            align-items: center;
+        }
+        .info-icon {
+            width: 60px;
+            height: 60px;
+            min-width: 60px;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease;
+        }
+        .info-item:hover .info-icon {
+            transform: scale(1.1);
+        }
+        .info-item h4 {
+            font-weight: 700;
+            color: #fff;
+        }
+        .info-item p {
+            font-weight: 300;
+        }
+
+        /* Footer */
+        .footer-logo-text {
+             background: linear-gradient(90deg, #fff, var(--color-primary-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .footer-link {
+            color: #9ca3af; /* gray-400 */
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        .footer-link::before {
+            content: '•';
+            position: absolute;
+            left: -15px;
+            color: var(--color-secondary-green);
+            opacity: 0;
+            transition: opacity 0.3s ease, left 0.3s ease;
+        }
+        .footer-link:hover {
+            color: #fff;
+            padding-left: 15px; /* Adjust for bullet */
+        }
+        .footer-link:hover::before {
+            opacity: 1;
+            left: 0;
+        }
+        .social-icon {
+            color: #9ca3af; /* gray-400 */
+            font-size: 1.5rem;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+        .social-icon:hover {
+            color: var(--color-primary-blue);
+            transform: scale(1.2);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 767px) {
+            .logo-pinnacle, .logo-solutions { font-size: 1.5rem; }
+            .hero-content h1 { font-size: 2.5rem; }
+            .hero-content p { font-size: 1rem; }
+            .hero-buttons { flex-direction: column; gap: 1rem; }
+            .btn-primary-hero, .btn-outline-hero { width: 90%; max-width: 300px; }
+
+            .section-header h2 { font-size: 2.5rem; }
+            .section-header p { font-size: 1.1rem; }
+
+            .service-card, .solution-card { padding: 1.5rem; }
+            .service-icon { font-size: 3rem; }
+            .service-card h3, .solution-card h3 { font-size: 1.8rem; }
+            
+            .about-content { grid-template-columns: 1fr; }
+            .about-image { margin-top: 2rem; }
+            .stats { grid-template-columns: 1fr; gap: 1rem; }
+            .stat-number { font-size: 4rem; }
+
+            .contact-info { margin-top: 4rem; }
+            .info-item { flex-direction: column; text-align: center; margin-bottom: 2rem; }
+            .info-icon { margin: 0 auto 1rem auto; }
+            .info-item h4 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+            .info-item p { font-size: 1rem; }
+
+            .footer-col { margin-bottom: 3rem; }
+            .footer-col:last-child { margin-bottom: 0; }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content h1 { font-size: 2rem; }
+            .section-header h2 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-200 font-inter">
+    <!-- Navbar -->
+    <nav class="navbar fixed top-0 left-0 w-full z-50 py-4 bg-gray-900 border-b border-gray-700">
+        <div class="container mx-auto px-4 flex justify-between items-center h-full">
+            <!-- Logo -->
+            <a href="#home" class="logo flex items-center">
+                <span class="logo-pinnacle">PINNACLE AI </span>
+                <span class="logo-solutions">SOLUTIONS</span>
+            </a>
+
+            <!-- Hamburger Icon - will be flex on mobile, hidden on md and up -->
+            <div class="hamburger md:hidden flex flex-col justify-center items-center w-10 h-10 cursor-pointer z-50" tabindex="0" aria-label="Open menu" role="button">
+                <span class="block w-8 h-1 bg-white mb-1 rounded transition-all"></span>
+                <span class="block w-8 h-1 bg-white mb-1 rounded transition-all"></span>
+                <span class="block w-8 h-1 bg-white rounded transition-all"></span>
+            </div>
+
+            <!-- Main Menu (Desktop) -->
+            <ul class="navbar-menu hidden md:flex items-center space-x-6 lg:space-x-8">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#services" class="nav-link">Services</a></li>
+                <li><a href="#solutions" class="nav-link">Solutions</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+                <li class="ml-4"><a href="programs.html" target="_blank" rel="noopener noreferrer" class="btn-secondary btn-secondary-padding">AI PROGRAMS</a></li>
+                <li><a href="learnaiforfree.html" target="_blank" rel="noopener noreferrer" class="btn-primary btn-primary-padding">Learn AI for Free</a></li>
+            </ul>
+
+            <!-- Mobile menu overlay (initially hidden, controlled by JS and CSS) -->
+            <div class="mobile-menu-overlay">
+                <a href="#home" class="nav-link-mobile text-3xl font-semibold text-white hover:text-blue-400 transition-colors duration-300 mb-4" data-target="home">Home</a>
+                <a href="#services" class="nav-link-mobile text-3xl font-semibold text-white hover:text-blue-400 transition-colors duration-300 mb-4" data-target="services">Services</a>
+                <a href="#solutions" class="nav-link-mobile text-3xl font-semibold text-white hover:text-blue-400 transition-colors duration-300 mb-4" data-target="solutions">Solutions</a>
+                <a href="#about" class="nav-link-mobile text-3xl font-semibold text-white hover:text-blue-400 transition-colors duration-300 mb-4" data-target="about">About</a>
+                <a href="#contact" class="nav-link-mobile text-3xl font-semibold text-white hover:text-blue-400 transition-colors duration-300 mb-6" data-target="contact">Contact</a>
+                <a href="programs.html" target="_blank" rel="noopener noreferrer" class="btn-secondary-mobile w-11/12 max-w-xs text-center py-3 px-4 rounded-full bg-gray-700 text-white font-semibold hover:bg-gray-800 transition mb-4">AI PROGRAMS</a>
+                <a href="learnaiforfree.html" target="_blank" rel="noopener noreferrer" class="btn-primary-mobile w-11/12 max-w-xs text-center py-3 px-4 rounded-full bg-blue-600 text-white font-semibold hover:bg-blue-700 transition">Learn AI for Free</a>
+                <!-- Close button for mobile menu -->
+                <button class="close-mobile-menu text-white text-4xl absolute top-6 right-6 focus:outline-none focus:ring-2 focus:ring-blue-400 rounded-full w-12 h-12 flex items-center justify-center">×</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section with Video Background -->
+    <section id="home" class="hero relative overflow-hidden flex items-center justify-center text-center text-white">
+        <video autoplay muted loop playsinline webkit-playsinline class="video-bg absolute min-w-full min-h-full object-cover">
+            <source src="background.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="hero-overlay absolute inset-0"></div>
+        <div class="hero-content relative z-10 p-6 max-w-4xl mx-auto">
+            <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-6">Intelligent Solutions for the Digital Age</h1>
+            <p class="text-lg md:text-xl font-light mb-10">Harness the power of AI to transform your business operations and customer experiences.</p>
+            <div class="hero-buttons flex justify-center space-x-4">
+                <a href="#services" class="btn-primary-hero">Explore Services</a>
+                <a href="#contact" class="btn-outline-hero">Get Started</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="section py-20 bg-gray-900 text-white">
+        <div class="container mx-auto px-4">
+            <div class="section-header text-center mb-16 animate-on-scroll">
+                <h2 class="text-4xl font-bold mb-4">Our Services</h2>
+                <p class="text-xl text-gray-400">Comprehensive AI-powered solutions tailored to your business needs</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+                <!-- Service Cards -->
+                <div class="service-card animate-on-scroll scale-in">
+                    <div class="service-icon mb-6">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-4">App Development</h3>
+                    <p class="text-gray-300 mb-6">Custom mobile and web applications with seamless AI integration.</p>
+                    <ul class="list-disc list-inside text-gray-400 space-y-2 ml-4">
+                        <li>Cross-platform development</li>
+                        <li>Native app development</li>
+                        <li>UI/UX design</li>
+                    </ul>
+                </div>
+
+                <div class="service-card animate-on-scroll scale-in" style="animation-delay: 0.1s;">
+                    <div class="service-icon mb-6">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-4">Deployment</h3>
+                    <p class="text-gray-300 mb-6">Seamless deployment to cloud environments with CI/CD pipelines.</p>
+                    <ul class="list-disc list-inside text-gray-400 space-y-2 ml-4">
+                        <li>Cloud deployment</li>
+                        <li>Containerization</li>
+                        <li>Infrastructure as Code</li>
+                    </ul>
+                </div>
+
+                <div class="service-card animate-on-scroll scale-in" style="animation-delay: 0.2s;">
+                    <div class="service-icon mb-6">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-4">Maintenance</h3>
+                    <p class="text-gray-300 mb-6">Ongoing support to ensure optimal performance and security.</p>
+                    <ul class="list-disc list-inside text-gray-400 space-y-2 ml-4">
+                        <li>24/7 monitoring</li>
+                        <li>Performance optimization</li>
+                        <li>Security updates</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Solutions Section -->
+    <section id="solutions" class="section py-20 bg-gray-800 text-white">
+        <div class="container mx-auto px-4">
+            <div class="section-header text-center mb-16 animate-on-scroll">
+                <h2 class="text-4xl font-bold mb-4">AI Solutions</h2>
+                <p class="text-xl text-gray-400">Cutting-edge artificial intelligence to solve complex business challenges</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div class="solution-card animate-on-scroll slide-left">
+                    <div class="solution-icon">
+                        <i class="fas fa-database text-blue-400"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-semibold mb-3">Data Scraping</h3>
+                        <p class="text-gray-300">Extract valuable business intelligence from web sources with our advanced scraping technology.</p>
+                    </div>
+                </div>
+
+                <div class="solution-card animate-on-scroll slide-right">
+                    <div class="solution-icon">
+                        <i class="fas fa-chart-line text-green-400"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-semibold mb-3">Predictive Analytics</h3>
+                        <p class="text-gray-300">Forecast trends and make data-driven decisions with our machine learning models.</p>
+                    </div>
+                </div>
+
+                <div class="solution-card animate-on-scroll slide-left" style="animation-delay: 0.1s;">
+                    <div class="solution-icon">
+                        <i class="fas fa-brain text-purple-400"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-semibold mb-3">Natural Language Processing</h3>
+                        <p class="text-gray-300">Implement chatbots and sentiment analysis to enhance customer interactions.</p>
+                    </div>
+                </div>
+
+                <div class="solution-card animate-on-scroll slide-right" style="animation-delay: 0.1s;">
+                    <div class="solution-icon">
+                        <i class="fas fa-eye text-orange-400"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-semibold mb-3">Computer Vision</h3>
+                        <p class="text-gray-300">Automate visual recognition tasks with our advanced image processing solutions.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section py-20 bg-gray-900 text-white">
+        <div class="container mx-auto px-4">
+            <div class="section-header text-center mb-16 animate-on-scroll">
+                <h2 class="text-4xl font-bold mb-4">About Us</h2>
+                <p class="text-xl text-gray-400">Innovative AI solutions for forward-thinking businesses</p>
+            </div>
+
+            <div class="about-content grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div class="about-text text-lg leading-relaxed animate-on-scroll slide-left">
+                    <h3 class="text-3xl font-semibold mb-6 text-gradient">Who We Are</h3>
+                    <p class="mb-4 text-gray-300">Pinnacle AI Solutions is a team of passionate engineers, data scientists, and designers dedicated to delivering cutting-edge artificial intelligence solutions.</p>
+                    <p class="mb-8 text-gray-300">We combine technical expertise with business acumen to create tools that drive real results for our clients across industries, fostering growth and efficiency.</p>
+                    <div class="stats grid grid-cols-2 gap-8 mt-10">
+                        <div class="stat-item text-center p-6 animate-on-scroll scale-in" style="animation-delay: 0.2s;">
+                            <span class="stat-number text-5xl font-bold text-gradient-primary mb-2 block" data-target="50">50+</span>
+                            <span class="stat-label text-gray-400 text-lg">Projects Completed</span>
+                        </div>
+                        <div class="stat-item text-center p-6 animate-on-scroll scale-in" style="animation-delay: 0.3s;">
+                            <span class="stat-number text-5xl font-bold text-gradient-secondary mb-2 block" data-target="100">100%</span>
+                            <span class="stat-label text-gray-400 text-lg">Client Satisfaction</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image relative rounded-xl overflow-hidden shadow-2xl animate-on-scroll slide-right">
+                    <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" alt="AI Technology" class="w-full h-full object-cover">
+                    <div class="image-overlay absolute inset-0"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section py-20 bg-gray-800 text-white">
+        <div class="container mx-auto px-4">
+            <div class="section-header text-center mb-16 animate-on-scroll">
+                <h2 class="text-4xl font-bold mb-4">Get In Touch</h2>
+                <p class="text-xl text-gray-400">Ready to transform your business with AI? Contact us today.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+                <div class="contact-form p-8 bg-gray-900 rounded-xl shadow-xl border border-gray-700 animate-on-scroll slide-left">
+                    <form>
+                        <div class="form-group mb-6">
+                            <label for="name" class="block text-gray-300 text-sm font-bold mb-2">Name</label>
+                            <input type="text" id="name" class="form-input" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group mb-6">
+                            <label for="email" class="block text-gray-300 text-sm font-bold mb-2">Email</label>
+                            <input type="email" id="email" class="form-input" placeholder="you@example.com" required>
+                        </div>
+                        <div class="form-group mb-6">
+                            <label for="subject" class="block text-gray-300 text-sm font-bold mb-2">Subject</label>
+                            <input type="text" id="subject" class="form-input" placeholder="Inquiry Subject">
+                        </div>
+                        <div class="form-group mb-8">
+                            <label for="message" class="block text-gray-300 text-sm font-bold mb-2">Message</label>
+                            <textarea id="message" rows="6" class="form-input resize-y" placeholder="Your Message" required></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary w-full py-3">Send Message</button>
+                    </form>
+                </div>
+
+                <div class="contact-info space-y-10 mt-8 md:mt-0 animate-on-scroll slide-right">
+                    <div class="info-item flex items-start animate-on-scroll scale-in" style="animation-delay: 0.1s;">
+                        <div class="info-icon flex-shrink-0 mr-6 p-4 rounded-full bg-blue-600 text-white flex items-center justify-center text-2xl shadow-md">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-2xl font-semibold mb-2">Email Us</h4>
+                            <p class="text-gray-300 text-lg">futureai4all@gmail.com</p>
+                        </div>
+                    </div>
+
+                    <div class="info-item flex items-start animate-on-scroll scale-in" style="animation-delay: 0.2s;">
+                        <div class="info-icon flex-shrink-0 mr-6 p-4 rounded-full bg-green-600 text-white flex items-center justify-center text-2xl shadow-md">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-2xl font-semibold mb-2">Call Us</h4>
+                            <p class="text-gray-300 text-lg">352-443-8670</p>
+                        </div>
+                    </div>
+
+                    <div class="info-item flex items-start animate-on-scroll scale-in" style="animation-delay: 0.3s;">
+                        <div class="info-icon flex-shrink-0 mr-6 p-4 rounded-full bg-purple-600 text-white flex items-center justify-center text-2xl shadow-md">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-2xl font-semibold mb-2">Visit Our Office</h4>
+                            <p class="text-gray-300 text-lg">123 Tech Avenue, Suite 400<br>Gainesville, FL 32601</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer py-16 bg-gray-950 text-gray-300">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 pb-12 border-b border-gray-700">
+                <div class="footer-col animate-on-scroll scale-in">
+                    <h3 class="text-3xl font-bold mb-6 footer-logo-text">Pinnacle AI Solutions</h3>
+                    <p class="text-gray-400 leading-relaxed mb-6">Transforming businesses with intelligent AI solutions that drive innovation and growth, helping you stay ahead in the digital age.</p>
+                    <div class="social-links flex space-x-4">
+                        <a href="https://facebook.com/pinnacleaisolutions" class="social-icon group" title="Facebook" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon group" title="GitHub"><i class="fab fa-github"></i></a>
+                        <!-- Add other social links as needed -->
+                    </div>
+                </div>
+
+                <div class="footer-col animate-on-scroll scale-in" style="animation-delay: 0.1s;">
+                    <h4 class="text-2xl font-semibold mb-6 text-white">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#home" class="footer-link">Home</a></li>
+                        <li><a href="#services" class="footer-link">Services</a></li>
+                        <li><a href="#solutions" class="footer-link">Solutions</a></li>
+                        <li><a href="#about" class="footer-link">About</a></li>
+                        <li><a href="#contact" class="footer-link">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col animate-on-scroll scale-in" style="animation-delay: 0.2s;">
+                    <h4 class="text-2xl font-semibold mb-6 text-white">Our Expertise</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="footer-link">App Development</a></li>
+                        <li><a href="#" class="footer-link">AI Integration</a></li>
+                        <li><a href="#" class="footer-link">Data Analytics</a></li>
+                        <li><a href="#" class="footer-link">Cloud Solutions</a></li>
+                        <li><a href="#" class="footer-link">Machine Learning</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col animate-on-scroll scale-in" style="animation-delay: 0.3s;">
+                    <h4 class="text-2xl font-semibold mb-6 text-white">Learn AI for Free</h4>
+                    <a href="learnaiforfree.html" class="footer-link block py-2 px-4 rounded bg-blue-600 text-white font-semibold text-center hover:bg-blue-700 transition mb-4" target="_blank" rel="noopener noreferrer">Go to Learn AI Page</a>
+                    <div class="grid grid-cols-1 gap-3">
+                        <a href="https://chat.openai.com/" class="footer-link underline text-blue-300 hover:text-blue-400" target="_blank" rel="noopener noreferrer">ChatGPT (OpenAI)</a>
+                        <a href="https://claude.ai/" class="footer-link underline text-blue-300 hover:text-blue-400" target="_blank" rel="noopener noreferrer">Claude (Anthropic)</a>
+                        <a href="https://gemini.google.com/" class="footer-link underline text-blue-300 hover:text-blue-400" target="_blank" rel="noopener noreferrer">Gemini (Google)</a>
+                        <a href="https://copilot.microsoft.com/" class="footer-link underline text-blue-300 hover:text-blue-400" target="_blank" rel="noopener noreferrer">Copilot (Microsoft)</a>
+                        <a href="https://perplexity.ai/" class="footer-link underline text-blue-300 hover:text-blue-400" target="_blank" rel="noopener noreferrer">Perplexity AI</a>
+                    </div>
+                    <div class="mt-4">
+                        <h5 class="font-bold text-white mb-2">Articles & Guides</h5>
+                        <ul class="space-y-2 text-sm">
+                            <li><a href="https://www.huggingface.co/blog/llm-quickstart" class="footer-link underline text-blue-200 hover:text-blue-400" target="_blank" rel="noopener noreferrer">How to Use LLMs (HuggingFace)</a></li>
+                            <li><a href="https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/models" class="footer-link underline text-blue-200 hover:text-blue-400" target="_blank" rel="noopener noreferrer">Azure OpenAI Model Guide</a></li>
+                            <li><a href="https://www.datacamp.com/tutorial/large-language-models" class="footer-link underline text-blue-200 hover:text-blue-400" target="_blank" rel="noopener noreferrer">Intro to LLMs (DataCamp)</a></li>
+                            <li><a href="https://www.analyticsvidhya.com/blog/2023/06/large-language-models-llms/" class="footer-link underline text-blue-200 hover:text-blue-400" target="_blank" rel="noopener noreferrer">LLMs Explained (Analytics Vidhya)</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="copyright text-center pt-8 text-gray-500 text-sm">
+                <p>© 2023 Pinnacle AI Solutions. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Link to your external JavaScript file -->
+    <script src="script.js"></script>
+</body>
+</html>
