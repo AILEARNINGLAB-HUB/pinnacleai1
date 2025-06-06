@@ -44,8 +44,7 @@
             </ul>
 
             <!-- Mobile menu overlay (initially hidden, controlled by JS and CSS) -->
-            <!-- Tailwind classes here for basic positioning and background, then JS/CSS handles display/transform -->
-            <div class="mobile-menu-overlay fixed inset-0 bg-gray-900 bg-opacity-95 z-40 flex-col items-center justify-center space-y-6">
+            <div class="mobile-menu-overlay hidden fixed inset-0 bg-gray-900 bg-opacity-95 z-40 flex-col items-center justify-center space-y-6">
                 <a href="#home" class="nav-link-mobile" data-target="home">Home</a>
                 <a href="#services" class="nav-link-mobile" data-target="services">Services</a>
                 <a href="#solutions" class="nav-link-mobile" data-target="solutions">Solutions</a>
@@ -334,5 +333,30 @@
     </footer>
 
     <script src="script.js"></script>
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+    const hamburger = document.querySelector('.hamburger');
+    const mobileMenu = document.querySelector('.mobile-menu-overlay');
+    const closeBtn = document.querySelector('.close-mobile-menu');
+    const mobileLinks = document.querySelectorAll('.nav-link-mobile');
+
+    hamburger.addEventListener('click', function () {
+        mobileMenu.classList.remove('hidden');
+        mobileMenu.classList.add('flex');
+    });
+
+    closeBtn.addEventListener('click', function () {
+        mobileMenu.classList.add('hidden');
+        mobileMenu.classList.remove('flex');
+    });
+
+    mobileLinks.forEach(link => {
+        link.addEventListener('click', function () {
+            mobileMenu.classList.add('hidden');
+            mobileMenu.classList.remove('flex');
+        });
+    });
+});
+</script>
 </body>
 </html>
