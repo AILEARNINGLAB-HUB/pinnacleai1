@@ -1,674 +1,338 @@
-/* Custom CSS for Pinnacle AI Solutions */
-
-/* Global Styles */
-body {
-    font-family: 'Inter', sans-serif;
-    background-color: #0d1117; /* Dark background */
-    color: #e2e8f0; /* Light text */
-    line-height: 1.6;
-    scroll-behavior: smooth; /* Smooth scrolling for anchor links */
-    overflow-x: hidden; /* Prevent horizontal scroll from mobile menu animation */
-}
-
-body.overflow-hidden {
-    overflow: hidden; /* Prevent scrolling when mobile menu is open */
-}
-
-.container {
-    max-width: 1200px; /* Consistent max width for content */
-}
-
-/* Navbar */
-.navbar {
-    transition: background-color 0.3s ease-in-out;
-    backdrop-filter: blur(5px); /* Add a subtle blur effect */
-    background-color: rgba(17, 24, 39, 0.9); /* Semi-transparent dark background */
-}
-
-/* Logo */
-.logo {
-    font-size: 1.8rem;
-    font-weight: 800;
-    color: #fff;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-}
-
-.logo-pinnacle {
-    color: #6366f1; /* Indigo-500 */
-    text-shadow: 0 0 8px rgba(99, 102, 241, 0.6); /* Subtle glow */
-}
-
-.logo-solutions {
-    color: #e2e8f0; /* Light text */
-    font-weight: 500;
-    letter-spacing: -0.05em;
-    font-size: 1.2rem;
-    margin-left: 0.25rem; /* Equivalent to ml-1 */
-    opacity: 0.8;
-}
-
-/* Navbar Menu (Desktop) */
-.navbar-menu .nav-link {
-    color: #cbd5e1; /* Gray-400 */
-    font-weight: 500;
-    transition: all 0.3s ease;
-    position: relative;
-    padding: 8px 0;
-}
-
-.navbar-menu .nav-link:hover {
-    color: #a78bfa; /* Purple-400 */
-}
-
-/* Active Nav Link Indicator (Desktop) */
-.navbar-menu .nav-link::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 0;
-    height: 2px;
-    background-color: #a78bfa; /* Purple-400 */
-    transition: width 0.3s ease;
-}
-
-.navbar-menu .nav-link.active::after {
-    width: 100%;
-}
-
-.navbar-menu .nav-link:hover::after {
-    width: 100%;
-}
-
-/* Hamburger Icon */
-.hamburger {
-    width: 30px;
-    height: 20px;
-    position: relative;
-    cursor: pointer;
-    z-index: 60; /* Ensure it's above the overlay */
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.hamburger span {
-    display: block;
-    width: 100%;
-    height: 2px;
-    background-color: #fff;
-    transition: all 0.3s ease-in-out;
-    border-radius: 2px;
-}
-
-/* Hamburger animation to 'X' */
-.hamburger.is-active span:nth-child(1) {
-    transform: translateY(9px) rotate(45deg);
-}
-
-.hamburger.is-active span:nth-child(2) {
-    opacity: 0;
-}
-
-.hamburger.is-active span:nth-child(3) {
-    transform: translateY(-9px) rotate(-45deg);
-}
-
-/* Mobile Menu Overlay */
-.mobile-menu-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(17, 24, 39, 0.98); /* Near-opaque dark background */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 1.5rem; /* space-y-6 equivalent */
-    z-index: 55; /* Higher than navbar, lower than hamburger/close button */
-    transform: translateX(100%); /* Start off-screen (hidden by default) */
-    transition: transform 0.4s ease-out; /* Smooth slide-in/out */
-    visibility: hidden; /* Start truly hidden for screen readers/tabbing */
-}
-
-.mobile-menu-overlay.is-active {
-    transform: translateX(0); /* Slide into view */
-    visibility: visible; /* Make visible when active */
-}
-
-.nav-link-mobile {
-    color: #e2e8f0; /* Light text */
-    font-size: 1.75rem; /* text-3xl */
-    font-weight: 600;
-    padding: 0.75rem 0;
-    transition: color 0.3s ease;
-}
-
-.nav-link-mobile:hover {
-    color: #a78bfa; /* Purple-400 */
-}
-/* Active Nav Link Indicator (Mobile) */
-.nav-link-mobile.active {
-    color: #a78bfa; /* Highlight active mobile link */
-    /* Add any other active styles, e.g., an underline if desired */
-    position: relative;
-}
-.nav-link-mobile.active::after {
-    content: '';
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: -5px; /* Adjust as needed */
-    width: 50%;
-    height: 2px;
-    background-color: #a78bfa;
-    border-radius: 2px;
-}
-
-
-.close-mobile-menu {
-    position: absolute;
-    top: 1.5rem; /* top-6 */
-    right: 1.5rem; /* right-6 */
-    background: none;
-    border: none;
-    color: #fff;
-    font-size: 3rem; /* text-3xl */
-    cursor: pointer;
-    z-index: 60; /* Ensure it's clickable */
-    transition: transform 0.3s ease;
-}
-
-.close-mobile-menu:hover {
-    transform: rotate(90deg);
-}
-
-
-/* General Buttons */
-.btn-primary, .btn-secondary {
-    display: inline-block;
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-weight: 600;
-    text-align: center;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.btn-primary {
-    background-color: #6366f1; /* Indigo-500 */
-    color: #fff;
-    border: 2px solid #6366f1;
-}
-
-.btn-primary:hover {
-    background-color: #4f46e5; /* Indigo-600 */
-    border-color: #4f46e5;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(99, 102, 241, 0.4);
-}
-
-.btn-secondary {
-    background-color: transparent;
-    color: #a78bfa; /* Purple-400 */
-    border: 2px solid #a78bfa;
-}
-
-.btn-secondary:hover {
-    background-color: #a78bfa; /* Purple-400 */
-    color: #fff;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(167, 139, 250, 0.4);
-}
-
-.btn-primary-mobile, .btn-secondary-mobile {
-    display: inline-block;
-    padding: 1rem 2rem; /* Adjusted for mobile */
-    border-radius: 8px;
-    font-weight: 600;
-    text-align: center;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    cursor: pointer;
-    font-size: 1.25rem; /* text-xl */
-}
-
-.btn-primary-mobile {
-    background-color: #6366f1; /* Indigo-500 */
-    color: #fff;
-    border: 2px solid #6366f1;
-}
-
-.btn-primary-mobile:hover {
-    background-color: #4f46e5;
-    border-color: #4f46e5;
-}
-
-.btn-secondary-mobile {
-    background-color: transparent;
-    color: #a78bfa;
-    border: 2px solid #a78bfa;
-}
-
-.btn-secondary-mobile:hover {
-    background-color: #a78bfa;
-    color: #fff;
-}
-
-
-/* Hero Section */
-.hero {
-    height: 100vh;
-    padding-top: 80px; /* Adjust for fixed navbar height */
-}
-
-.video-bg {
-    filter: brightness(0.8); /* Slightly darken video */
-}
-
-.hero-overlay {
-    background-color: rgba(0, 0, 0, 0.7); /* Stronger overlay for readability */
-}
-
-.hero-content {
-    animation-delay: 0.5s;
-}
-
-.btn-primary-hero, .btn-outline-hero {
-    display: inline-block;
-    padding: 16px 32px;
-    border-radius: 10px;
-    font-weight: 700;
-    font-size: 1.125rem;
-    text-align: center;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.btn-primary-hero {
-    background-color: #6366f1;
-    color: #fff;
-    border: 2px solid #6366f1;
-}
-
-.btn-primary-hero:hover {
-    background-color: #4f46e5;
-    border-color: #4f46e5;
-    transform: translateY(-3px);
-    box-shadow: 0 6px 15px rgba(99, 102, 241, 0.5);
-}
-
-.btn-outline-hero {
-    background-color: transparent;
-    color: #fff;
-    border: 2px solid #fff;
-}
-
-.btn-outline-hero:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #fff;
-    transform: translateY(-3px);
-    box-shadow: 0 6px 15px rgba(255, 255, 255, 0.2);
-}
-
-
-/* Section Headers */
-.section-header h2 {
-    color: #a78bfa; /* Purple-400 */
-    text-shadow: 0 0 10px rgba(167, 139, 250, 0.4); /* Subtle glow */
-}
-
-.section-header p {
-    color: #cbd5e1; /* Gray-400 */
-}
-
-/* Service Cards */
-.service-card {
-    background-color: #1a202c; /* Darker gray for cards */
-    padding: 2.5rem;
-    border-radius: 1rem;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-    border: 1px solid #2d3748; /* Subtle border */
-    text-align: center;
-}
-
-.service-card:hover {
-    background-color: #2d3748; /* Slightly lighter on hover */
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
-}
-
-.service-icon {
-    font-size: 3.5rem;
-    color: #6366f1; /* Indigo-500 */
-    margin: 0 auto 1.5rem;
-    width: 6rem;
-    height: 6rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #6366f1, #a78bfa); /* Gradient background for icon */
-    border-radius: 50%;
-    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.6);
-}
-
-.service-card h3 {
-    color: #fff;
-}
-
-.service-card ul {
-    text-align: left;
-    list-style-position: inside; /* Ensures bullets are inside */
-    font-size: 0.95rem;
-    color: #a0aec0; /* Gray-500 */
-}
-
-.service-card ul li::marker {
-    color: #6366f1; /* Bullet color */
-}
-
-
-/* AI Solutions Cards */
-.solution-card {
-    background-color: #1a202c; /* Darker gray for cards */
-    border-radius: 1rem;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-    border: 1px solid #2d3748; /* Subtle border */
-    display: flex;
-    align-items: flex-start;
-    padding: 2rem;
-    transition: all 0.3s ease;
-}
-
-.solution-card:hover {
-    background-color: #2d3748;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
-    transform: translateY(-5px);
-}
-
-.solution-icon i {
-    font-size: 3rem;
-    background: -webkit-linear-gradient(45deg, var(--tw-gradient-stops));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.solution-card .fa-database {
-    --tw-gradient-stops: #6366f1, #a78bfa; /* Blue-400 */
-}
-.solution-card .fa-chart-line {
-    --tw-gradient-stops: #34d399, #10b981; /* Green-400 */
-}
-.solution-card .fa-brain {
-    --tw-gradient-stops: #a78bfa, #8b5cf6; /* Purple-400 */
-}
-.solution-card .fa-eye {
-    --tw-gradient-stops: #fbbf24, #f59e0b; /* Orange-400 */
-}
-
-.solution-card h3 {
-    color: #fff;
-}
-
-
-/* About Section */
-.about-text {
-    background-color: #1a202c;
-    padding: 2.5rem;
-    border-radius: 1rem;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-    border: 1px solid #2d3748;
-}
-
-.text-gradient {
-    background: linear-gradient(to right, #6366f1, #a78bfa);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.about-image {
-    position: relative;
-    border-radius: 1rem;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    border: 1px solid #2d3748;
-}
-
-.about-image img {
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-    filter: brightness(0.9);
-}
-
-.image-overlay {
-    background-color: rgba(99, 102, 241, 0.3);
-    transition: opacity 0.3s ease;
-}
-
-.image-overlay:hover {
-    opacity: 0;
-}
-
-.stat-item {
-    border: 1px solid #2d3748;
-    background-color: #1a202c;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-}
-
-.stat-number {
-    font-size: 3rem;
-    font-weight: 800;
-}
-
-.text-gradient-primary {
-    background: linear-gradient(to right, #6366f1, #4f46e5);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.text-gradient-secondary {
-    background: linear-gradient(to right, #a78bfa, #8b5cf6);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.stat-label {
-    font-size: 1.1rem;
-    color: #cbd5e1;
-}
-
-/* Contact Section */
-.form-input {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border-radius: 0.5rem;
-    background-color: #2d3748; /* Darker input background */
-    border: 1px solid #4a5568; /* Subtle border */
-    color: #e2e8f0;
-    font-size: 1rem;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.form-input::placeholder {
-    color: #a0aec0; /* Lighter placeholder text */
-}
-
-.form-input:focus {
-    outline: none;
-    border-color: #6366f1; /* Indigo-500 focus border */
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3); /* Focus ring */
-}
-
-.contact-form {
-    background-color: #1a202c;
-    border: 1px solid #2d3748;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-}
-
-.info-item {
-    background-color: #1a202c;
-    padding: 1.5rem;
-    border-radius: 0.75rem;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    border: 1px solid #2d3748;
-}
-
-.info-icon {
-    width: 4rem;
-    height: 4rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    font-size: 1.75rem;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-}
-
-.info-item h4 {
-    color: #fff;
-}
-
-.info-item p {
-    color: #cbd5e1;
-}
-
-/* Footer */
-.footer {
-    background-color: #0c0f13; /* Even darker for footer */
-}
-
-.footer-logo-text {
-    background: linear-gradient(to right, #6366f1, #a78bfa);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-size: 2.2rem; /* Adjusted for impact */
-}
-
-.footer-col h4 {
-    position: relative;
-    padding-bottom: 15px;
-    margin-bottom: 25px;
-}
-
-.footer-col h4::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 50px;
-    height: 3px;
-    background-color: #6366f1;
-    border-radius: 2px;
-}
-
-.footer-link {
-    color: #cbd5e1;
-    text-decoration: none;
-    transition: color 0.3s ease, transform 0.3s ease;
-    display: inline-block; /* Allows transform */
-}
-
-.footer-link:hover {
-    color: #a78bfa;
-    transform: translateX(5px);
-}
-
-.social-icon {
-    display: inline-flex;
-    width: 45px;
-    height: 45px;
-    background-color: #2d3748;
-    color: #fff;
-    border-radius: 50%;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-    transition: all 0.3s ease;
-    border: 1px solid #4a5568;
-}
-
-.social-icon:hover {
-    background-color: #6366f1;
-    border-color: #6366f1;
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
-}
-
-
-/* Utility Classes for Animations */
-.animate-fade-in-up {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInUp 0.8s forwards;
-}
-
-.animate-fade-in-up.delay-200 {
-    animation-delay: 0.2s;
-}
-
-.animate-fade-in-up.delay-400 {
-    animation-delay: 0.4s;
-}
-
-@keyframes fadeInUp {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Responsive Adjustments */
-@media (min-width: 768px) {
-    .section {
-        padding-top: 120px;
-        padding-bottom: 120px;
-    }
-    .hero {
-        padding-top: 0; /* No padding needed for hero on larger screens, it's 100vh */
-    }
-    .hero-content h1 {
-        font-size: 4.5rem; /* Equivalent to text-6xl */
-    }
-    .hero-content p {
-        font-size: 1.5rem; /* Equivalent to text-xl */
-    }
-    /* Ensure desktop menu is always visible on md screens and above */
-    .navbar-menu {
-        display: flex !important;
-    }
-    /* Ensure hamburger is hidden on md screens and above */
-    .hamburger {
-        display: none !important;
-    }
-    /* Hide mobile overlay if somehow active on desktop */
-    .mobile-menu-overlay {
-        display: none !important;
-    }
-}
-
-@media (max-width: 767px) {
-    /* Hide desktop menu on mobile */
-    .navbar-menu {
-        display: none;
-    }
-    /* Show hamburger on mobile */
-    .hamburger {
-        display: flex;
-    }
-    /* Control mobile menu visibility via JS and .is-active class */
-    .mobile-menu-overlay:not(.is-active) {
-        /* Ensure it's hidden when not active and not using Tailwind's `hidden` class */
-        display: none;
-    }
-}
-
-/* Accessibility */
-[tabindex="-1"]:focus {
-    outline: none;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pinnacle AI Solutions</title>
+    <!-- Tailwind CSS for utility classes -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar fixed top-0 left-0 w-full z-50 py-4 bg-gray-900 border-b border-gray-700">
+        <div class="container mx-auto px-4 flex justify-between items-center h-full">
+            <!-- Logo -->
+            <a href="#" class="logo flex items-center">
+                <span class="logo-pinnacle">PINNACLE AI </span>
+                <span class="logo-solutions">SOLUTIONS</span>
+            </a>
+
+            <!-- Hamburger Icon - will be flex on mobile, hidden on md and up -->
+            <div class="hamburger md:hidden">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <!-- Main Menu (Desktop) -->
+            <ul class="navbar-menu hidden md:flex items-center space-x-6 lg:space-x-8">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#services" class="nav-link">Services</a></li>
+                <li><a href="#solutions" class="nav-link">Solutions</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+                <li class="ml-4"><a style="padding:15px" href="programs.html" target="_blank" rel="noopener" class="btn-secondary">AI PROGRAMS</a></li>
+                <li><a href="#" style="padding:15px" target="_blank" rel="noopener" class="btn-primary">Learn AI for Free</a></li>
+            </ul>
+
+            <!-- Mobile menu overlay (initially hidden, controlled by JS and CSS) -->
+            <!-- Tailwind classes here for basic positioning and background, then JS/CSS handles display/transform -->
+            <div class="mobile-menu-overlay fixed inset-0 bg-gray-900 bg-opacity-95 z-40 flex-col items-center justify-center space-y-6">
+                <a href="#home" class="nav-link-mobile" data-target="home">Home</a>
+                <a href="#services" class="nav-link-mobile" data-target="services">Services</a>
+                <a href="#solutions" class="nav-link-mobile" data-target="solutions">Solutions</a>
+                <a href="#about" class="nav-link-mobile" data-target="about">About</a>
+                <a href="#contact" class="nav-link-mobile" data-target="contact">Contact</a>
+                <a href="programs.html" target="_blank" rel="noopener" class="btn-secondary-mobile">AI PROGRAMS</a>
+                <a href="#" target="_blank" rel="noopener" class="btn-primary-mobile">Learn AI for Free</a>
+                <!-- Close button for mobile menu -->
+                <button class="close-mobile-menu text-white text-3xl absolute top-6 right-6">×</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Rest of your HTML content (Hero, Services, Solutions, About, Contact, Footer) remains the same -->
+    <!-- Hero Section with Video Background -->
+    <section id="home" class="hero relative overflow-hidden flex items-center justify-center text-center text-white">
+        <video autoplay muted loop playsinline class="video-bg absolute min-w-full min-h-full object-cover">
+            <source src="background.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="hero-overlay absolute inset-0 bg-black opacity-70"></div>
+        <div class="hero-content relative z-10 p-6 max-w-4xl mx-auto">
+            <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-6 animate-fade-in-up">Intelligent Solutions for the Digital Age</h1>
+            <p class="text-lg md:text-xl font-light mb-10 animate-fade-in-up delay-200">Harness the power of AI to transform your business operations and customer experiences.</p>
+            <div class="hero-buttons flex justify-center space-x-4 animate-fade-in-up delay-400">
+                <a href="#services" class="btn-primary-hero">Explore Services</a>
+                <a href="#contact" class="btn-outline-hero">Get Started</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="section py-20 bg-gray-900 text-white">
+        <div class="container mx-auto px-4">
+            <div class="section-header text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4">Our Services</h2>
+                <p class="text-xl text-gray-400">Comprehensive AI-powered solutions tailored to your business needs</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+                <!-- Service Cards -->
+                <div class="service-card transform hover:scale-105 transition-transform duration-300 ease-in-out">
+                    <div class="service-icon mb-6">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-4">App Development</h3>
+                    <p class="text-gray-300 mb-6">Custom mobile and web applications with seamless AI integration.</p>
+                    <ul class="list-disc list-inside text-gray-400 space-y-2 ml-4">
+                        <li>Cross-platform development</li>
+                        <li>Native app development</li>
+                        <li>UI/UX design</li>
+                    </ul>
+                </div>
+
+                <div class="service-card transform hover:scale-105 transition-transform duration-300 ease-in-out">
+                    <div class="service-icon mb-6">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-4">Deployment</h3>
+                    <p class="text-gray-300 mb-6">Seamless deployment to cloud environments with CI/CD pipelines.</p>
+                    <ul class="list-disc list-inside text-gray-400 space-y-2 ml-4">
+                        <li>Cloud deployment</li>
+                        <li>Containerization</li>
+                        <li>Infrastructure as Code</li>
+                    </ul>
+                </div>
+
+                <div class="service-card transform hover:scale-105 transition-transform duration-300 ease-in-out">
+                    <div class="service-icon mb-6">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-4">Maintenance</h3>
+                    <p class="text-gray-300 mb-6">Ongoing support to ensure optimal performance and security.</p>
+                    <ul class="list-disc list-inside text-gray-400 space-y-2 ml-4">
+                        <li>24/7 monitoring</li>
+                        <li>Performance optimization</li>
+                        <li>Security updates</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Solutions Section -->
+    <section id="solutions" class="section py-20 bg-gray-800 text-white">
+        <div class="container mx-auto px-4">
+            <div class="section-header text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4">AI Solutions</h2>
+                <p class="text-xl text-gray-400">Cutting-edge artificial intelligence to solve complex business challenges</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div class="solution-card flex items-start p-8 rounded-lg shadow-lg bg-gray-700 bg-opacity-50 backdrop-filter backdrop-blur-sm transition-all duration-300 hover:shadow-xl hover:bg-opacity-70 group">
+                    <div class="solution-icon flex-shrink-0 mr-6">
+                        <i class="fas fa-database text-4xl text-blue-400 group-hover:text-blue-300 transition-colors duration-300"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-semibold mb-3">Data Scraping</h3>
+                        <p class="text-gray-300">Extract valuable business intelligence from web sources with our advanced scraping technology.</p>
+                    </div>
+                </div>
+
+                <div class="solution-card flex items-start p-8 rounded-lg shadow-lg bg-gray-700 bg-opacity-50 backdrop-filter backdrop-blur-sm transition-all duration-300 hover:shadow-xl hover:bg-opacity-70 group">
+                    <div class="solution-icon flex-shrink-0 mr-6">
+                        <i class="fas fa-chart-line text-4xl text-green-400 group-hover:text-green-300 transition-colors duration-300"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-semibold mb-3">Predictive Analytics</h3>
+                        <p class="text-gray-300">Forecast trends and make data-driven decisions with our machine learning models.</p>
+                    </div>
+                </div>
+
+                <div class="solution-card flex items-start p-8 rounded-lg shadow-lg bg-gray-700 bg-opacity-50 backdrop-filter backdrop-blur-sm transition-all duration-300 hover:shadow-xl hover:bg-opacity-70 group">
+                    <div class="solution-icon flex-shrink-0 mr-6">
+                        <i class="fas fa-brain text-4xl text-purple-400 group-hover:text-purple-300 transition-colors duration-300"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-semibold mb-3">Natural Language Processing</h3>
+                        <p class="text-gray-300">Implement chatbots and sentiment analysis to enhance customer interactions.</p>
+                    </div>
+                </div>
+
+                <div class="solution-card flex items-start p-8 rounded-lg shadow-lg bg-gray-700 bg-opacity-50 backdrop-filter backdrop-blur-sm transition-all duration-300 hover:shadow-xl hover:bg-opacity-70 group">
+                    <div class="solution-icon flex-shrink-0 mr-6">
+                        <i class="fas fa-eye text-4xl text-orange-400 group-hover:text-orange-300 transition-colors duration-300"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-semibold mb-3">Computer Vision</h3>
+                        <p class="text-gray-300">Automate visual recognition tasks with our advanced image processing solutions.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section py-20 bg-gray-900 text-white">
+        <div class="container mx-auto px-4">
+            <div class="section-header text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4">About Us</h2>
+                <p class="text-xl text-gray-400">Innovative AI solutions for forward-thinking businesses</p>
+            </div>
+
+            <div class="about-content grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div class="about-text text-lg leading-relaxed">
+                    <h3 class="text-3xl font-semibold mb-6 text-gradient">Who We Are</h3>
+                    <p class="mb-4 text-gray-300">Pinnacle AI Solutions is a team of passionate engineers, data scientists, and designers dedicated to delivering cutting-edge artificial intelligence solutions.</p>
+                    <p class="mb-8 text-gray-300">We combine technical expertise with business acumen to create tools that drive real results for our clients across industries, fostering growth and efficiency.</p>
+                    <div class="stats grid grid-cols-2 gap-8 mt-10">
+                        <div class="stat-item text-center p-6 bg-gray-800 rounded-lg shadow-inner">
+                            <span class="stat-number text-5xl font-bold text-gradient-primary mb-2 block">50+</span>
+                            <span class="stat-label text-gray-400 text-lg">Projects Completed</span>
+                        </div>
+                        <div class="stat-item text-center p-6 bg-gray-800 rounded-lg shadow-inner">
+                            <span class="stat-number text-5xl font-bold text-gradient-secondary mb-2 block">100%</span>
+                            <span class="stat-label text-gray-400 text-lg">Client Satisfaction</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image relative rounded-xl overflow-hidden shadow-2xl">
+                    <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" alt="AI Technology" class="w-full h-full object-cover">
+                    <div class="image-overlay absolute inset-0 bg-blue-500 opacity-20 hover:opacity-0 transition-opacity duration-300"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section py-20 bg-gray-800 text-white">
+        <div class="container mx-auto px-4">
+            <div class="section-header text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4">Get In Touch</h2>
+                <p class="text-xl text-gray-400">Ready to transform your business with AI? Contact us today.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+                <div class="contact-form p-8 bg-gray-900 rounded-xl shadow-xl border border-gray-700">
+                    <form>
+                        <div class="form-group mb-6">
+                            <label for="name" class="block text-gray-300 text-sm font-bold mb-2">Name</label>
+                            <input type="text" id="name" class="form-input" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group mb-6">
+                            <label for="email" class="block text-gray-300 text-sm font-bold mb-2">Email</label>
+                            <input type="email" id="email" class="form-input" placeholder="you@example.com" required>
+                        </div>
+                        <div class="form-group mb-6">
+                            <label for="subject" class="block text-gray-300 text-sm font-bold mb-2">Subject</label>
+                            <input type="text" id="subject" class="form-input" placeholder="Inquiry Subject">
+                        </div>
+                        <div class="form-group mb-8">
+                            <label for="message" class="block text-gray-300 text-sm font-bold mb-2">Message</label>
+                            <textarea id="message" rows="6" class="form-input resize-y" placeholder="Your Message" required></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary w-full py-3">Send Message</button>
+                    </form>
+                </div>
+
+                <div class="contact-info space-y-10 mt-8 md:mt-0">
+                    <div class="info-item flex items-start">
+                        <div class="info-icon flex-shrink-0 mr-6 p-4 rounded-full bg-blue-600 text-white flex items-center justify-center text-2xl shadow-md">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-2xl font-semibold mb-2">Email Us</h4>
+                            <p class="text-gray-300 text-lg">futureai4all@gmail.com</p>
+                        </div>
+                    </div>
+
+                    <div class="info-item flex items-start">
+                        <div class="info-icon flex-shrink-0 mr-6 p-4 rounded-full bg-green-600 text-white flex items-center justify-center text-2xl shadow-md">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-2xl font-semibold mb-2">Call Us</h4>
+                            <p class="text-gray-300 text-lg">352-443-8670</p>
+                        </div>
+                    </div>
+
+                    <div class="info-item flex items-start">
+                        <div class="info-icon flex-shrink-0 mr-6 p-4 rounded-full bg-purple-600 text-white flex items-center justify-center text-2xl shadow-md">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-2xl font-semibold mb-2">Visit Our Office</h4>
+                            <p class="text-gray-300 text-lg">123 Tech Avenue, Suite 400<br>Gainesville, FL 32601</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer py-16 bg-gray-950 text-gray-300">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 pb-12 border-b border-gray-700">
+                <div class="footer-col">
+                    <h3 class="text-3xl font-bold mb-6 footer-logo-text">Pinnacle AI Solutions</h3>
+                    <p class="text-gray-400 leading-relaxed mb-6">Transforming businesses with intelligent AI solutions that drive innovation and growth, helping you stay ahead in the digital age.</p>
+                    <div class="social-links flex space-x-4">
+                        <a href="#" class="social-icon group"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon group"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon group"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-icon group"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h4 class="text-2xl font-semibold mb-6 text-white">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#home" class="footer-link">Home</a></li>
+                        <li><a href="#services" class="footer-link">Services</a></li>
+                        <li><a href="#solutions" class="footer-link">Solutions</a></li>
+                        <li><a href="#about" class="footer-link">About</a></li>
+                        <li><a href="#contact" class="footer-link">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4 class="text-2xl font-semibold mb-6 text-white">Our Expertise</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="footer-link">App Development</a></li>
+                        <li><a href="#" class="footer-link">AI Integration</a></li>
+                        <li><a href="#" class="footer-link">Data Analytics</a></li>
+                        <li><a href="#" class="footer-link">Cloud Solutions</a></li>
+                        <li><a href="#" class="footer-link">Machine Learning</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4 class="text-2xl font-semibold mb-6 text-white">Legal & Resources</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="footer-link">Privacy Policy</a></li>
+                        <li><a href="#" class="footer-link">Terms of Service</a></li>
+                        <li><a href="#" class="footer-link">Cookie Policy</a></li>
+                        <li><a href="#" class="footer-link">Career Opportunities</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="copyright text-center pt-8 text-gray-500 text-sm">
+                <p>© 2023 Pinnacle AI Solutions. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
