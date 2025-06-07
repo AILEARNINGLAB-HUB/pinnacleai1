@@ -279,21 +279,10 @@
             font-size: 1.125rem;
             transition: all 0.3s ease;
         }
-        .btn-primary-hero {
-            background: linear-gradient(90deg, #3b82f6, #22c55e); /* blue to green */
-            color: white;
-            box-shadow: 0 6px 20px rgba(59,130,246,0.4);
-        }
         .btn-primary-hero:hover {
             transform: translateY(-3px) scale(1.02);
             box-shadow: 0 8px 25px rgba(59,130,246,0.5);
             background: linear-gradient(90deg, #22c55e, #3b82f6); /* green to blue */
-        }
-        .btn-outline-hero {
-            background-color: transparent;
-            border: 2px solid #fff;
-            color: #fff;
-            box-shadow: 0 4px 10px rgba(255,255,255,0.2);
         }
         .btn-outline-hero:hover {
             background-color: rgba(255,255,255,0.1);
@@ -580,7 +569,7 @@
                 <a href="#solutions" class="nav-link-mobile text-3xl font-semibold text-white hover:text-blue-400 transition-colors duration-300 mb-4" data-target="solutions">Solutions</a>
                 <a href="#about" class="nav-link-mobile text-3xl font-semibold text-white hover:text-blue-400 transition-colors duration-300 mb-4" data-target="about">About</a>
                 <a href="#contact" class="nav-link-mobile text-3xl font-semibold text-white hover:text-blue-400 transition-colors duration-300 mb-6" data-target="contact">Contact</a>
-                <a href="programs.html" target="_blank" rel="noopener noreferrer" class="btn-secondary-mobile w-11/12 max-w-xs text-center py-3 px-4 rounded-full bg-gray-700 text-white font-semibold hover:bg-gray-800 transition mb-4">AI PROGRAMS</a>
+                <a href="programs.html" class="btn-secondary-mobile w-11/12 max-w-xs text-center py-3 px-4 rounded-full bg-gray-700 text-white font-semibold hover:bg-gray-800 transition mb-4">AI PROGRAMS</a>
                 <a href="learnaiforfree.html" target="_blank" rel="noopener noreferrer" class="btn-primary-mobile w-11/12 max-w-xs text-center py-3 px-4 rounded-full bg-blue-600 text-white font-semibold hover:bg-blue-700 transition">Learn AI for Free</a>
                 <!-- Close button for mobile menu -->
                 <button class="close-mobile-menu text-white text-4xl absolute top-6 right-6 focus:outline-none focus:ring-2 focus:ring-blue-400 rounded-full w-12 h-12 flex items-center justify-center">×</button>
@@ -608,8 +597,18 @@
     </section>
 
     <!-- Services Section -->
-    <section id="services" class="section py-20 bg-gray-900 text-white">
-        <div class="container mx-auto px-4">
+    <section id="services" class="section py-20 relative overflow-hidden text-white">
+        <!-- Background iframe for "bluesky" animation -->
+        <iframe height="100%" width="100%" scrolling="no" title="bluesky" 
+            src="https://codepen.io/AI-Learning-Lab/full/gbpxbZo/?" 
+            frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true"
+            class="absolute inset-0 w-full h-full z-0 pointer-events-none">
+        </iframe>
+        
+        <!-- Semi-transparent overlay for readability -->
+        <div class="absolute inset-0 bg-gray-900 bg-opacity-80 z-10"></div> <!-- Tailwind opacity-80 -->
+
+        <div class="container mx-auto px-4 relative z-20"> <!-- Ensure content is on top -->
             <div class="section-header text-center mb-16 animate-on-scroll">
                 <h2 class="text-4xl font-bold mb-4">Our Services</h2>
                 <p class="text-xl text-gray-400">Comprehensive AI-powered solutions tailored to your business needs</p>
