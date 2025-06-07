@@ -2,249 +2,327 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>AI Programs | Pinnacle AI Solutions</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Explore the best free and paid AI programs, courses, and certifications from top universities and platforms.">
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
-    <style>
-        body {
-            background: linear-gradient(120deg, #1e3a8a 0%, #4ade80 100%);
-            background-size: 200% 200%;
-            animation: gradientMove 8s ease-in-out infinite;
-            font-family: 'Inter', sans-serif;
-        }
-        @keyframes gradientMove {
-            0% {background-position: 0% 50%;}
-            50% {background-position: 100% 50%;}
-            100% {background-position: 0% 50%;}
-        }
-        .programs-header {
-            text-align: center;
-            margin: 2.5rem 0 1.5rem 0;
-        }
-        .programs-title {
-            font-size: 2.5rem;
-            font-weight: 900;
-            background: linear-gradient(90deg, #4ade80, #3b82f6, #a78bfa);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 0.5rem;
-        }
-        .programs-desc {
-            color: #e5e7eb;
-            font-size: 1.2rem;
-            margin-bottom: 1.5rem;
-        }
-        .program-list {
-            max-width: 900px;
-            margin: 0 auto 2.5rem auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-        }
-        @media (max-width: 900px) {
-            .program-list {
-                grid-template-columns: 1fr;
-            }
-        }
-        .program-card {
-            background: rgba(31,41,55,0.92);
-            border-radius: 1rem;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
-            padding: 2rem 1.5rem;
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            gap: 0.7rem;
-            border: 1px solid #374151;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .program-card:hover {
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: 0 12px 36px rgba(59,130,246,0.18);
-        }
-        .program-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #60a5fa;
-        }
-        .program-meta {
-            font-size: 0.98rem;
-            color: #a5b4fc;
-        }
-        .program-desc {
-            font-size: 1.05rem;
-            color: #e5e7eb;
-        }
-        .program-link {
-            margin-top: 0.5rem;
-            display: inline-block;
-            background: linear-gradient(90deg, #4ade80, #3b82f6);
-            color: #fff;
-            font-weight: 600;
-            border-radius: 9999px;
-            padding: 0.6rem 1.5rem;
-            text-decoration: none;
-            transition: background 0.3s, box-shadow 0.2s;
-            box-shadow: 0 2px 8px rgba(59,130,246,0.08);
-        }
-        .program-link:hover {
-            background: linear-gradient(270deg, #3b82f6, #4ade80);
-            box-shadow: 0 4px 16px rgba(59,130,246,0.18);
-        }
-        .badge {
-            display: inline-block;
-            background: #16a34a;
-            color: #fff;
-            font-size: 0.85rem;
-            border-radius: 0.5rem;
-            padding: 0.2rem 0.7rem;
-            margin-left: 0.5rem;
-            font-weight: 600;
-        }
-        .badge.paid {
-            background: #f59e42;
-        }
-        .badge.cert {
-            background: #6366f1;
-        }
-        .badge.uni {
-            background: #3b82f6;
-        }
-        .badge.beginner {
-            background: #22d3ee;
-        }
-        .badge.advanced {
-            background: #a78bfa;
-        }
-        .badge.intermediate {
-            background: #fbbf24;
-        }
-        .program-footer {
-            margin-top: 2.5rem;
-            text-align: center;
-            color: #d1d5db;
-            font-size: 1rem;
-        }
-    </style>
+    <title>AI Programs - Pinnacle AI Solutions</title>
+    <meta name="description" content="Explore ready-to-use AI programs from Pinnacle AI Solutions: web scrapers, chatbots, and data analysis suites.">
+    <meta name="keywords" content="AI programs, web scraper, chatbot, data analysis, predictive analytics, AI solutions, machine learning, deep learning">
+
+    <!-- Tailwind CSS for utility classes -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts: Inter (if not already in style.css or imported) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Link to your external Custom CSS file (now containing all styles from index.html's inline block) -->
+    <link rel="stylesheet" href="style.css"> 
 </head>
-<body>
-    <header class="programs-header">
-        <div style="display:flex; justify-content:center; align-items:center; gap:1.5rem; margin-bottom:1.5rem;">
-            <a href="learnaiforfre.html" target="_blank" rel="noopener" class="program-link" style="font-size:1rem;">Learn AI for Free</a>
-            <a href="ai-programs.html" target="_blank" rel="noopener" class="program-link" style="font-size:1rem;">AI Programs</a>
+<body class="bg-gray-900 text-gray-200 font-inter">
+    <!-- Navbar (Copied from index.html) -->
+    <nav class="navbar fixed top-0 left-0 w-full z-50 py-4 bg-gray-900 border-b border-gray-700">
+        <div class="container mx-auto px-4 flex justify-between items-center h-full">
+            <!-- Logo -->
+            <a href="index.html#home" class="logo flex items-center">
+                <span class="logo-pinnacle">PINNACLE AI </span>
+                <span class="logo-solutions">SOLUTIONS</span>
+            </a>
+
+            <!-- Hamburger Icon - will be flex on mobile, hidden on md and up -->
+            <div class="hamburger md:hidden flex flex-col justify-center items-center w-10 h-10 cursor-pointer z-50" tabindex="0" aria-label="Open menu" role="button">
+                <span class="block w-8 h-1 bg-white mb-1 rounded transition-all"></span>
+                <span class="block w-8 h-1 bg-white mb-1 rounded transition-all"></span>
+                <span class="block w-8 h-1 bg-white rounded transition-all"></span>
+            </div>
+
+            <!-- Main Menu (Desktop) -->
+            <ul class="navbar-menu hidden md:flex items-center space-x-6 lg:space-x-8">
+                <li><a href="index.html#home" class="nav-link">Home</a></li>
+                <li><a href="index.html#services" class="nav-link">Services</a></li>
+                <li><a href="index.html#solutions" class="nav-link">Solutions</a></li>
+                <li><a href="index.html#about" class="nav-link">About</a></li>
+                <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+                <li class="ml-4"><a href="programs.html" class="btn-secondary btn-secondary-padding active">AI PROGRAMS</a></li>
+                <li><a href="learnaiforfree.html" target="_blank" rel="noopener noreferrer" class="btn-primary btn-primary-padding">Learn AI for Free</a></li>
+            </ul>
+
+            <!-- Mobile menu overlay (Copied from index.html) -->
+            <div class="mobile-menu-overlay">
+                <a href="index.html#home" class="nav-link-mobile text-3xl font-semibold text-white hover:text-blue-400 transition-colors duration-300 mb-4" data-target="home">Home</a>
+                <a href="index.html#services" class="nav-link-mobile text-3xl font-semibold text-white hover:text-blue-400 transition-colors duration-300 mb-4" data-target="services">Services</a>
+                <a href="index.html#solutions" class="nav-link-mobile text-3xl font-semibold text-white hover:text-blue-400 transition-colors duration-300 mb-4" data-target="solutions">Solutions</a>
+                <a href="index.html#about" class="nav-link-mobile text-3xl font-semibold text-white hover:text-blue-400 transition-colors duration-300 mb-4" data-target="about">About</a>
+                <a href="index.html#contact" class="nav-link-mobile text-3xl font-semibold text-white hover:text-blue-400 transition-colors duration-300 mb-6" data-target="contact">Contact</a>
+                <a href="programs.html" class="btn-secondary-mobile w-11/12 max-w-xs text-center py-3 px-4 rounded-full bg-gray-700 text-white font-semibold hover:bg-gray-800 transition mb-4 active">AI PROGRAMS</a>
+                <a href="learnaiforfree.html" target="_blank" rel="noopener noreferrer" class="btn-primary-mobile w-11/12 max-w-xs text-center py-3 px-4 rounded-full bg-blue-600 text-white font-semibold hover:bg-blue-700 transition">Learn AI for Free</a>
+                <!-- Close button for mobile menu -->
+                <button class="close-mobile-menu text-white text-4xl absolute top-6 right-6 focus:outline-none focus:ring-2 focus:ring-blue-400 rounded-full w-12 h-12 flex items-center justify-center">×</button>
+            </div>
         </div>
-        <div class="programs-title">AI Programs & Courses</div>
-        <div class="programs-desc">
-            Discover top-rated, up-to-date AI programs, certifications, and courses from leading universities and platforms. <br>
-            <b>All links open in a new tab.</b>
+    </nav>
+
+    <!-- AI Programs Section -->
+    <section class="section py-20 pt-32 bg-gray-900 text-white"> <!-- Added py-20 bg-gray-900 text-white for consistency -->
+        <div class="container mx-auto px-4">
+            <div class="section-header text-center mb-16"> <!-- Added text-center mb-16 for consistency -->
+                <h1 class="text-4xl font-bold mb-4 text-gradient">Our AI Programs</h1> <!-- Added text-4xl font-bold mb-4 text-gradient for consistency -->
+                <p class="text-xl text-gray-400">Ready-to-use AI solutions for your business needs</p> <!-- Added text-xl text-gray-400 for consistency -->
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12"> <!-- Adjusted gap for consistency -->
+                <!-- Web Scraper Program -->
+                <div class="program-card bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between"> <!-- Added Tailwind classes -->
+                    <div class="program-image mb-4 rounded-lg overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Web Scraper" class="w-full h-48 object-cover"> <!-- Added image classes -->
+                    </div>
+                    <div class="program-content flex-grow">
+                        <h3 class="text-2xl font-semibold mb-3 text-white">Advanced Web Scraper</h3>
+                        <div class="program-features text-gray-300 space-y-2 mb-4">
+                            <p><i class="fas fa-check-circle text-green-500 mr-2"></i> Extract data from any website</p>
+                            <p><i class="fas fa-check-circle text-green-500 mr-2"></i> Clean and organize collected data</p>
+                            <p><i class="fas fa-check-circle text-green-500 mr-2"></i> Export to CSV/Excel</p>
+                            <p><i class="fas fa-check-circle text-green-500 mr-2"></i> Schedule automatic runs</p>
+                        </div>
+                    </div>
+                    <div class="program-price text-right mt-4">
+                        <span class="price text-3xl font-bold text-gradient-primary block">$499</span>
+                        <span class="license text-sm text-gray-400">One-time purchase</span>
+                    </div>
+                    <button class="btn-primary w-full mt-6 py-3 request-btn" data-program="Advanced Web Scraper">
+                        Request Appointment
+                    </button>
+                </div>
+
+                <!-- Chatbot Program -->
+                <div class="program-card bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between">
+                    <div class="program-image mb-4 rounded-lg overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="AI Chatbot" class="w-full h-48 object-cover">
+                    </div>
+                    <div class="program-content flex-grow">
+                        <h3 class="text-2xl font-semibold mb-3 text-white">Automated AI Chatbot</h3>
+                        <div class="program-features text-gray-300 space-y-2 mb-4">
+                            <p><i class="fas fa-check-circle text-green-500 mr-2"></i> 24/7 customer support</p>
+                            <p><i class="fas fa-check-circle text-green-500 mr-2"></i> Natural language processing</p>
+                            <p><i class="fas fa-check-circle text-green-500 mr-2"></i> Integrates with your website</p>
+                            <p><i class="fas fa-check-circle text-green-500 mr-2"></i> Customizable responses</p>
+                        </div>
+                    </div>
+                    <div class="program-price text-right mt-4">
+                        <span class="price text-3xl font-bold text-gradient-secondary block">$799</span>
+                        <span class="license text-sm text-gray-400">+ $99/month maintenance</span>
+                    </div>
+                    <button class="btn-primary w-full mt-6 py-3 request-btn" data-program="Automated AI Chatbot">
+                        Request Appointment
+                    </button>
+                </div>
+
+                <!-- Data Analyzer -->
+                <div class="program-card bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between">
+                    <div class="program-image mb-4 rounded-lg overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Data Analysis" class="w-full h-48 object-cover">
+                    </div>
+                    <div class="program-content flex-grow">
+                        <h3 class="text-2xl font-semibold mb-3 text-white">Data Analysis Suite</h3>
+                        <div class="program-features text-gray-300 space-y-2 mb-4">
+                            <p><i class="fas fa-check-circle text-green-500 mr-2"></i> Predictive analytics</p>
+                            <p><i class="fas fa-check-circle text-green-500 mr-2"></i> Custom dashboards</p>
+                            <p><i class="fas fa-check-circle text-green-500 mr-2"></i> Real-time insights</p>
+                            <p><i class="fas fa-check-circle text-green-500 mr-2"></i> Automated reporting</p>
+                        </div>
+                    </div>
+                    <div class="program-price text-right mt-4">
+                        <span class="price text-3xl font-bold text-gradient-primary block">$1,299</span>
+                        <span class="license text-sm text-gray-400">Custom pricing available</span>
+                    </div>
+                    <button class="btn-primary w-full mt-6 py-3 request-btn" data-program="Data Analysis Suite">
+                        Request Appointment
+                    </button>
+                </div>
+            </div>
         </div>
-    </header>
-    <main>
-        <section class="program-list">
-            <div class="program-card">
-                <div class="program-title">Machine Learning by Andrew Ng <span class="badge">Free</span> <span class="badge cert">Certificate</span></div>
-                <div class="program-meta">Coursera · Stanford University · Beginner</div>
-                <div class="program-desc">
-                    The most popular ML course worldwide. Covers supervised/unsupervised learning, best practices, and real-world case studies.
-                </div>
-                <a href="https://www.coursera.org/learn/machine-learning" target="_blank" rel="noopener" class="program-link">Go to Course</a>
+    </section>
+
+    <!-- Modal for Appointment Request -->
+    <div class="modal hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="modal-content bg-gray-800 rounded-lg p-8 max-w-md w-full text-white shadow-xl border border-gray-700"> <!-- Added Tailwind classes -->
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-white">Request Appointment</h3>
+                <button class="modal-close text-gray-400 hover:text-white transition">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
             </div>
-            <div class="program-card">
-                <div class="program-title">Deep Learning Specialization <span class="badge">Free</span> <span class="badge cert">Certificate</span></div>
-                <div class="program-meta">Coursera · DeepLearning.AI · Intermediate</div>
-                <div class="program-desc">
-                    Five courses covering neural networks, CNNs, RNNs, and practical deep learning for vision, NLP, and more.
+            <form id="appointment-form">
+                <input type="hidden" id="program-name" name="program-name">
+                <div class="mb-4">
+                    <label for="name" class="block text-gray-300 text-sm font-bold mb-2">Your Name</label>
+                    <input type="text" id="name" name="name" class="form-input" placeholder="Your Name" required>
                 </div>
-                <a href="https://www.coursera.org/specializations/deep-learning" target="_blank" rel="noopener" class="program-link">Go to Specialization</a>
-            </div>
-            <div class="program-card">
-                <div class="program-title">AI For Everyone <span class="badge">Free</span></div>
-                <div class="program-meta">Coursera · DeepLearning.AI · Beginner</div>
-                <div class="program-desc">
-                    A non-technical introduction to AI, its societal impact, and how to navigate the AI-powered future.
+                <div class="mb-4">
+                    <label for="email" class="block text-gray-300 text-sm font-bold mb-2">Email Address</label>
+                    <input type="email" id="email" name="email" class="form-input" placeholder="you@example.com" required>
                 </div>
-                <a href="https://www.coursera.org/learn/ai-for-everyone" target="_blank" rel="noopener" class="program-link">Go to Course</a>
-            </div>
-            <div class="program-card">
-                <div class="program-title">fast.ai Practical Deep Learning <span class="badge">Free</span> <span class="badge beginner">Beginner</span></div>
-                <div class="program-meta">fast.ai · Project-based · Beginner/Intermediate</div>
-                <div class="program-desc">
-                    Hands-on deep learning with PyTorch. Build state-of-the-art models with minimal code and theory.
+                <div class="mb-4">
+                    <label for="phone" class="block text-gray-300 text-sm font-bold mb-2">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" class="form-input" placeholder="e.g., (123) 456-7890" required>
                 </div>
-                <a href="https://course.fast.ai/" target="_blank" rel="noopener" class="program-link">Go to Course</a>
-            </div>
-            <div class="program-card">
-                <div class="program-title">Elements of AI <span class="badge">Free</span> <span class="badge cert">Certificate</span></div>
-                <div class="program-meta">University of Helsinki · Beginner</div>
-                <div class="program-desc">
-                    An accessible, global AI literacy course. No coding required. Available in multiple languages.
+                <div class="mb-4">
+                    <label for="message" class="block text-gray-300 text-sm font-bold mb-2">Additional Information</label>
+                    <textarea id="message" name="message" rows="4" class="form-input resize-y" placeholder="Any specific questions or requirements?"></textarea>
                 </div>
-                <a href="https://www.elementsofai.com/" target="_blank" rel="noopener" class="program-link">Go to Course</a>
-            </div>
-            <div class="program-card">
-                <div class="program-title">Google AI for Developers <span class="badge">Free</span> <span class="badge uni">Google</span></div>
-                <div class="program-meta">Google · Beginner/Intermediate</div>
-                <div class="program-desc">
-                    Tutorials, guides, and code labs for TensorFlow, Vertex AI, and Google AI tools.
+                <button type="submit" class="btn-primary w-full py-3">
+                    Send Request <i class="fas fa-paper-plane ml-2"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer (Copied from index.html) -->
+    <footer class="footer py-16 bg-gray-950 text-gray-300">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 pb-12 border-b border-gray-700">
+                <div class="footer-col">
+                    <h3 class="text-3xl font-bold mb-6 footer-logo-text">Pinnacle AI Solutions</h3>
+                    <p class="text-gray-400 leading-relaxed mb-6">Transforming businesses with intelligent AI solutions that drive innovation and growth, helping you stay ahead in the digital age.</p>
+                    <div class="social-links flex space-x-4">
+                        <a href="https://facebook.com/pinnacleaisolutions" class="social-icon group" title="Facebook" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon group" title="GitHub" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
+                        <!-- Add other social links as needed -->
+                    </div>
                 </div>
-                <a href="https://ai.google/education/" target="_blank" rel="noopener" class="program-link">Go to Google AI</a>
-            </div>
-            <div class="program-card">
-                <div class="program-title">Microsoft Learn: Azure AI <span class="badge">Free</span> <span class="badge uni">Microsoft</span></div>
-                <div class="program-meta">Microsoft · Beginner/Intermediate</div>
-                <div class="program-desc">
-                    Learn to build, deploy, and manage AI solutions on Azure. Includes hands-on labs and certifications.
+
+                <div class="footer-col">
+                    <h4 class="text-2xl font-semibold mb-6 text-white">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="index.html#home" class="footer-link">Home</a></li>
+                        <li><a href="index.html#services" class="footer-link">Services</a></li>
+                        <li><a href="index.html#solutions" class="footer-link">Solutions</a></li>
+                        <li><a href="index.html#about" class="footer-link">About</a></li>
+                        <li><a href="index.html#contact" class="footer-link">Contact</a></li>
+                    </ul>
                 </div>
-                <a href="https://learn.microsoft.com/en-us/training/paths/build-ai-solutions-with-azure/" target="_blank" rel="noopener" class="program-link">Go to Microsoft Learn</a>
-            </div>
-            <div class="program-card">
-                <div class="program-title">Kaggle Learn: Intro to AI <span class="badge">Free</span></div>
-                <div class="program-meta">Kaggle · Beginner</div>
-                <div class="program-desc">
-                    Short, interactive notebooks on AI, ML, and data science. Practice with real datasets.
+
+                <div class="footer-col">
+                    <h4 class="text-2xl font-semibold mb-6 text-white">Our Expertise</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="footer-link">App Development</a></li>
+                        <li><a href="#" class="footer-link">AI Integration</a></li>
+                        <li><a href="#" class="footer-link">Data Analytics</a></li>
+                        <li><a href="#" class="footer-link">Cloud Solutions</a></li>
+                        <li><a href="#" class="footer-link">Machine Learning</a></li>
+                    </ul>
                 </div>
-                <a href="https://www.kaggle.com/learn/intro-to-ai" target="_blank" rel="noopener" class="program-link">Go to Kaggle Learn</a>
-            </div>
-            <div class="program-card">
-                <div class="program-title">Harvard CS50's Introduction to AI <span class="badge">Free</span> <span class="badge uni">Harvard</span></div>
-                <div class="program-meta">edX · Harvard University · Intermediate</div>
-                <div class="program-desc">
-                    Explore the concepts and algorithms at the foundation of modern AI, including search, knowledge representation, neural networks, and more.
+
+                <div class="footer-col">
+                    <h4 class="text-2xl font-semibold mb-6 text-white">Learn AI for Free</h4>
+                    <a href="learnaiforfree.html" class="footer-link block py-2 px-4 rounded bg-blue-600 text-white font-semibold text-center hover:bg-blue-700 transition mb-4" target="_blank" rel="noopener noreferrer">Go to Learn AI Page</a>
+                    <div class="grid grid-cols-1 gap-3">
+                        <a href="https://chat.openai.com/" class="footer-link underline text-blue-300 hover:text-blue-400" target="_blank" rel="noopener noreferrer">ChatGPT (OpenAI)</a>
+                        <a href="https://claude.ai/" class="footer-link underline text-blue-300 hover:text-blue-400" target="_blank" rel="noopener noreferrer">Claude (Anthropic)</a>
+                        <a href="https://gemini.google.com/" class="footer-link underline text-blue-300 hover:text-blue-400" target="_blank" rel="noopener noreferrer">Gemini (Google)</a>
+                        <a href="https://copilot.microsoft.com/" class="footer-link underline text-blue-300 hover:text-blue-400" target="_blank" rel="noopener noreferrer">Copilot (Microsoft)</a>
+                        <a href="https://perplexity.ai/" class="footer-link underline text-blue-300 hover:text-blue-400" target="_blank" rel="noopener noreferrer">Perplexity AI</a>
+                    </div>
+                    <div class="mt-4">
+                        <h5 class="font-bold text-white mb-2">Articles & Guides</h5>
+                        <ul class="space-y-2 text-sm">
+                            <li><a href="https://www.huggingface.co/blog/llm-quickstart" class="footer-link underline text-blue-200 hover:text-blue-400" target="_blank" rel="noopener noreferrer">How to Use LLMs (HuggingFace)</a></li>
+                            <li><a href="https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/models" class="footer-link underline text-blue-200 hover:text-blue-400" target="_blank" rel="noopener noreferrer">Azure OpenAI Model Guide</a></li>
+                            <li><a href="https://www.datacamp.com/tutorial/large-language-models" class="footer-link underline text-blue-200 hover:text-blue-400" target="_blank" rel="noopener noreferrer">Intro to LLMs (DataCamp)</a></li>
+                            <li><a href="https://www.analyticsvidhya.com/blog/2023/06/large-language-models-llms/" class="footer-link underline text-blue-200 hover:text-blue-400" target="_blank" rel="noopener noreferrer">LLMs Explained (Analytics Vidhya)</a></li>
+                        </ul>
+                    </div>
                 </div>
-                <a href="https://pll.harvard.edu/course/cs50s-introduction-artificial-intelligence-python" target="_blank" rel="noopener" class="program-link">Go to Harvard AI</a>
             </div>
-            <div class="program-card">
-                <div class="program-title">Udacity AI Programming Nanodegree <span class="badge paid">Paid</span> <span class="badge cert">Certificate</span></div>
-                <div class="program-meta">Udacity · Beginner/Intermediate</div>
-                <div class="program-desc">
-                    Learn Python, NumPy, Pandas, Matplotlib, and build your own neural networks from scratch.
-                </div>
-                <a href="https://www.udacity.com/course/ai-programming-python-nanodegree--nd089" target="_blank" rel="noopener" class="program-link">Go to Udacity</a>
+
+            <div class="copyright text-center pt-8 text-gray-500 text-sm">
+                <p>© 2023 Pinnacle AI Solutions. All rights reserved.</p>
             </div>
-            <div class="program-card">
-                <div class="program-title">MIT OpenCourseWare: Artificial Intelligence <span class="badge">Free</span> <span class="badge uni">MIT</span></div>
-                <div class="program-meta">MIT OCW · Advanced</div>
-                <div class="program-desc">
-                    Full video lectures, assignments, and exams from MIT's classic AI course.
-                </div>
-                <a href="https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-034-artificial-intelligence-fall-2010/" target="_blank" rel="noopener" class="program-link">Go to MIT OCW</a>
-            </div>
-            <div class="program-card">
-                <div class="program-title">Stanford CS221: AI Principles <span class="badge">Free</span> <span class="badge uni">Stanford</span></div>
-                <div class="program-meta">Stanford University · Advanced</div>
-                <div class="program-desc">
-                    Advanced AI theory, search, logic, planning, and probabilistic models. Video lectures and materials.
-                </div>
-                <a href="http://web.stanford.edu/class/cs221/" target="_blank" rel="noopener" class="program-link">Go to Stanford CS221</a>
-            </div>
-        </section>
-    </main>
-    <footer class="program-footer">
-        &copy; 2024 Pinnacle AI Solutions. Curated AI Programs for Everyone.
+        </div>
     </footer>
+
+    <script src="script.js"></script> <!-- Ensure this script.js contains the mobile menu toggle logic -->
+    <script>
+        // Programs page specific JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            // Modal functionality
+            const modal = document.querySelector('.modal');
+            const requestBtns = document.querySelectorAll('.request-btn');
+            const modalClose = document.querySelector('.modal-close');
+            const programNameInput = document.getElementById('program-name');
+            
+            // Open modal with program name
+            requestBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const programName = this.getAttribute('data-program');
+                    programNameInput.value = programName;
+                    modal.classList.remove('hidden');
+                });
+            });
+            
+            // Close modal
+            modalClose.addEventListener('click', function() {
+                modal.classList.add('hidden');
+            });
+            
+            // Close when clicking outside modal
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.classList.add('hidden');
+                }
+            });
+            
+            // Form submission
+            const appointmentForm = document.getElementById('appointment-form');
+            appointmentForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const programName = programNameInput.value;
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const phone = document.getElementById('phone').value;
+                const message = document.getElementById('message').value;
+                
+                // Create mailto link
+                const subject = `Appointment Request for ${encodeURIComponent(programName)}`;
+                const body = `Name: ${encodeURIComponent(name)}\nEmail: ${encodeURIComponent(email)}\nPhone: ${encodeURIComponent(phone)}\n\nMessage: ${encodeURIComponent(message)}`;
+                
+                window.location.href = `mailto:futureai4all@gmail.com?subject=${subject}&body=${body}`;
+                
+                // Close modal after a short delay
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    appointmentForm.reset();
+                }, 500);
+            });
+
+            // Mobile menu toggle logic (copied/adapted from script.js)
+            const hamburger = document.querySelector('.hamburger');
+            const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
+            const closeMobileMenu = document.querySelector('.close-mobile-menu');
+            const mobileNavLinks = document.querySelectorAll('.nav-link-mobile');
+
+            function toggleMobileMenu() {
+                hamburger.classList.toggle('active');
+                mobileMenuOverlay.classList.toggle('active');
+                if (mobileMenuOverlay.classList.contains('active')) {
+                    document.body.style.overflow = 'hidden'; // Prevent scrolling when menu is open
+                } else {
+                    document.body.style.overflow = ''; // Restore scrolling
+                }
+            }
+
+            hamburger.addEventListener('click', toggleMobileMenu);
+            closeMobileMenu.addEventListener('click', toggleMobileMenu);
+
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    if (mobileMenuOverlay.classList.contains('active')) {
+                        toggleMobileMenu(); // Close menu on link click
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
