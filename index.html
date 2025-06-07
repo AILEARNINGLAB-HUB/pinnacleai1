@@ -163,21 +163,43 @@
             background-color: var(--color-dark-bg);
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
-        .logo-pinnacle { color: #fff; font-weight: 800; font-size: 1.8rem; }
-        .logo-solutions { color: var(--color-primary-blue); font-weight: 800; font-size: 1.8rem; }
-        
-        /* New: Styles for the AI SVG in the logo */
-        .logo-ai-svg {
-            width: 30px; /* Adjusted to fit logo size */
-            height: 30px; /* Adjusted to fit logo size */
-            vertical-align: middle; /* Align with text */
-            margin: 0 4px; /* Spacing between text parts */
-            visibility: hidden; /* GSAP will make it visible initially */
+        /* Combined font styles for all logo parts */
+        .logo {
+            font-weight: 800;
+            font-size: 1.8rem;
+            line-height: 1; /* Helps vertical alignment */
+        }
+        .logo-pinnacle { /* Now contains "PINNACLE AI" */
+            color: #fff;
+        }
+        .logo-studio { /* Now contains "STUDIO" */
+            color: var(--color-primary-blue);
+        }
+        /* .logo-ai-text (previous separate span) removed */
+
+        /* New: Styles for the LARGER AI SVG next to the logo */
+        .larger-ai-svg {
+            width: 60px; /* Make it significantly larger */
+            height: 60px; /* Make it significantly larger */
+            /* Vertical align was needed when inside text, now flex handles alignment */
+            visibility: hidden; /* GSAP will make it visible */
             flex-shrink: 0; /* Prevent it from shrinking in flex container */
             /* The path and ellipses fill/stroke are handled by the JS/CodePen CSS */
         }
-        .logo-ai-svg .ell, .logo-ai-svg #ai {
+        .larger-ai-svg .ell, .larger-ai-svg #ai {
             fill: none; /* As per CodePen CSS */
+        }
+        /* Responsive adjustment for the larger SVG */
+        @media (max-width: 767px) {
+            .larger-ai-svg {
+                width: 40px; /* Smaller on mobile */
+                height: 40px;
+                margin-left: 0.5rem; /* Reduce margin on mobile */
+            }
+            /* Adjust overall logo size if needed for the combined block */
+            .logo {
+                font-size: 1.5rem;
+            }
         }
 
 
@@ -476,7 +498,7 @@
 
         /* Responsive adjustments */
         @media (max-width: 767px) {
-            .logo-pinnacle, .logo-solutions { font-size: 1.5rem; }
+            .logo { font-size: 1.5rem; } /* Adjusted parent logo font size */
             .hero-content h1 { font-size: 2.5rem; }
             .hero-content p { font-size: 1rem; }
             .hero-buttons { flex-direction: column; gap: 1rem; }
@@ -514,27 +536,28 @@
     <!-- Navbar -->
     <nav class="navbar fixed top-0 left-0 w-full z-50 py-4 bg-gray-900 border-b border-gray-700">
         <div class="container mx-auto px-4 flex justify-between items-center h-full">
-            <!-- Logo -->
-            <a href="#home" class="logo flex items-center">
-                <span class="logo-pinnacle">PINNACLE </span>
-                <!-- SVG for AI animation - placed right next to the "Pinnacle" text -->
-                <svg viewBox="0 0 100 100" id="mainSVG" class="logo-ai-svg">
+            <!-- Left Group: Logo Text + AI Animation -->
+            <div class="flex items-center">
+                <!-- Logo Text -->
+                <a href="#home" class="logo flex items-center">
+                    <span class="logo-pinnacle">PINNACLE AI</span>
+                    <span class="logo-studio"> STUDIO</span>
+                </a>
+                <!-- AI Animation (Larger, to the right of the text logo) -->
+                <svg viewBox="0 0 100 100" id="mainSVG" class="larger-ai-svg ml-4 md:ml-6"> <!-- Added ml for spacing -->
                     <defs>
                         <linearGradient id="aiGrad" x1="0%" y1="0%" x2="100%" y2="0%">
                             <stop offset="0%" stop-color="#359EEE"/>
                             <stop offset="100%" stop-color="#03CEA4"/>
                         </linearGradient>
                     </defs>
-                    <!-- This path is a placeholder for the "AI" shape that MotionPathPlugin will animate along -->
                     <path id="ai" d="M20 50 C20 20, 80 20, 80 50 S20 80, 20 50" stroke="url(#aiGrad)" stroke-width="4" fill="none"/>
-                    <!-- Ellipses for the primary animation -->
                     <ellipse class="ell" cx="50" cy="50" rx="30" ry="15" stroke="#359EEE" stroke-width="2"/>
                     <ellipse class="ell" cx="50" cy="50" rx="25" ry="10" stroke="#FFC43D" stroke-width="2"/>
                     <ellipse class="ell" cx="50" cy="50" rx="20" ry="7" stroke="#EF476F" stroke-width="2"/>
                     <ellipse class="ell" cx="50" cy="50" rx="15" ry="5" stroke="#03CEA4" stroke-width="2"/>
                 </svg>
-                <span class="logo-solutions"> SOLUTIONS</span>
-            </a>
+            </div>
 
             <!-- Hamburger Icon - will be flex on mobile, hidden on md and up -->
             <div class="hamburger md:hidden flex flex-col justify-center items-center w-10 h-10 cursor-pointer z-50" tabindex="0" aria-label="Open menu" role="button">
@@ -893,8 +916,8 @@
             
             // Custom eases definitions from CodePen
             const easeD = CustomEase.create("custom","M0,0 C0.2,0 0.432,0.147 0.507,0.374 0.59,0.629 0.822,1 1,1 ");
-            const easeK = CustomEase.create("custom","M0,0 C0.266,0.412 0.297,0.582 0.453,0.775 0.53,0.87 0.78,1 1,1 ");
-            const easeH = CustomEase.create("custom","M0,0 C0.594,0.062 0.79,0.698 1,1 ");
+            // const easeK = CustomEase.create("custom","M0,0 C0.266,0.412 0.297,0.582 0.453,0.775 0.53,0.87 0.78,1 1,1 "); // Not directly used as a variable
+            // const easeH = CustomEase.create("custom","M0,0 C0.594,0.062 0.79,0.698 1,1 "); // Not directly used as a variable
 
             const motionPathLength = MotionPathPlugin.getLength("#ai");
             const interpolateColor = gsap.utils.interpolate(["#359EEE","#FFC43D","#EF476F","#03CEA4"]);
@@ -905,7 +928,9 @@
             // Animate each ellipse with a slight delay
             ellipseElements.forEach((el, index) => {
                 // Ensure motionPathLength exists before trying to use it
-                if (motionPathLength) {
+                if (motionPathLength) { // This check is for the #ai path; ellipse animation doesn't rely on it.
+                                      // It's part of the original logic, so kept for consistency, but
+                                      // could potentially be simplified.
                     gsap.delayedCall(index / (ellipseElements.length - 1 || 1), animateEllipse, [el, index + 1]);
                 }
             });
