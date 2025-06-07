@@ -23,8 +23,8 @@
             font-size: 2.8rem;
             font-weight: 900;
             background: linear-gradient(90deg, #4ade80, #3b82f6, #a78bfa);
-            background-clip: text;
             -webkit-background-clip: text;
+            background-clip: text;
             color: transparent;
             -webkit-text-fill-color: transparent;
             animation: fadeInUp 1s;
@@ -158,6 +158,10 @@
                 padding: 1rem 0;
             }
         }
+        .how-list {
+            margin-left: 1.2rem;
+            margin-top: 1rem;
+        }
         html {
             scroll-behavior: smooth;
         }
@@ -197,11 +201,7 @@
             <div class="section-header">Why Learn AI?</div>
             <p>
                 Artificial Intelligence is transforming every industry. Whether you want to automate tasks, build smarter apps, or understand the future of technology, learning AI is essential. Our platform gives you hands-on, project-based learning with zero cost.
-            </p>
-        </section>
-        <section id="how" class="section">
-            <div class="section-header">How It Works</div>
-            <ul style="margin-left:1.2rem; margin-top:1rem;">
+            <ul class="how-list">
                 <li>🚀 <b>Interactive Labs:</b> Learn by doing with real AI code and datasets.</li>
                 <li>📚 <b>Curated Curriculum:</b> Start from basics, progress to advanced topics.</li>
                 <li>🌐 <b>Community Support:</b> Join discussions, ask questions, and collaborate.</li>
@@ -214,15 +214,29 @@
                 Ready to begin your AI journey? Click below to access our free AI learning modules and join our global community.
             </p>
             <div class="slinks">
-                <a href="https://www.coursera.org/learn/machine-learning" target="_blank" class="slink-btn">Coursera ML</a>
-                <a href="https://www.fast.ai/" target="_blank" class="slink-btn">fast.ai</a>
-                <a href="https://www.kaggle.com/learn/intro-to-ai" target="_blank" class="slink-btn">Kaggle AI</a>
-                <a href="https://www.elementsofai.com/" target="_blank" class="slink-btn">Elements of AI</a>
+                <a href="https://www.coursera.org/learn/machine-learning" target="_blank" rel="noopener" class="slink-btn">Coursera ML</a>
+                <a href="https://www.fast.ai/" target="_blank" rel="noopener" class="slink-btn">fast.ai</a>
+                <a href="https://www.kaggle.com/learn/intro-to-ai" target="_blank" rel="noopener" class="slink-btn">Kaggle AI</a>
+                <a href="https://www.elementsofai.com/" target="_blank" rel="noopener" class="slink-btn">Elements of AI</a>
+            </div>
+            <div style="margin-top:2.5rem;">
+                <div class="section-header" style="font-size:1.3rem;">Popular AI Services</div>
+                <ul style="list-style:none; padding:0; margin:1.5rem 0 0 0; display:grid; gap:0.7rem;">
+                    <li><a href="https://chat.openai.com/" target="_blank" rel="noopener" class="slink-btn" style="display:inline-block;">ChatGPT (OpenAI)</a></li>
+                    <li><a href="https://claude.ai/" target="_blank" rel="noopener" class="slink-btn" style="display:inline-block;">Claude (Anthropic)</a></li>
+                    <li><a href="https://gemini.google.com/" target="_blank" rel="noopener" class="slink-btn" style="display:inline-block;">Gemini (Google)</a></li>
+                    <li><a href="https://copilot.microsoft.com/" target="_blank" rel="noopener" class="slink-btn" style="display:inline-block;">Copilot (Microsoft)</a></li>
+                    <li><a href="https://perplexity.ai/" target="_blank" rel="noopener" class="slink-btn" style="display:inline-block;">Perplexity AI</a></li>
+                    <li><a href="https://bard.google.com/" target="_blank" rel="noopener" class="slink-btn" style="display:inline-block;">Google Bard</a></li>
+                    <li><a href="https://www.phind.com/" target="_blank" rel="noopener" class="slink-btn" style="display:inline-block;">Phind</a></li>
+                    <li><a href="https://www.you.com/" target="_blank" rel="noopener" class="slink-btn" style="display:inline-block;">You.com AI</a></li>
+                    <li><a href="https://www.poe.com/" target="_blank" rel="noopener" class="slink-btn" style="display:inline-block;">Poe (Quora)</a></li>
+                </ul>
             </div>
         </section>
     </main>
     <footer style="text-align:center; color:#d1d5db; margin:2.5rem 0 1rem 0;">
-        &copy; 2024 AILEARNINGLAB-HUB. Modern AI for everyone.
+    
     </footer>
 </body>
 </html>
