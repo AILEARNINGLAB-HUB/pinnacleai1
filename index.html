@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pinnacle AI Solutions</title>
+    <title>Pinnacle AI Solutions | Intelligent Solutions for the Digital Age</title>
+    <meta name="description" content="Pinnacle AI Solutions offers cutting-edge AI services: app development, data scraping, predictive analytics, NLP, and computer vision. Learn AI for free with us!">
+    <meta name="keywords" content="AI solutions, artificial intelligence, machine learning, deep learning, app development, data scraping, predictive analytics, NLP, computer vision, learn AI, free AI courses">
+
     <!-- Tailwind CSS for utility classes -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <!-- Font Awesome for icons -->
@@ -12,24 +15,550 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <!-- Custom CSS -->
+    
+    <!-- Link to your external Custom CSS file -->
     <link rel="stylesheet" href="style.css">
+
+    <!-- GSAP Core Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <!-- GSAP Plugins (Re-added for AI logo animation) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/CustomEase.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/MotionPathPlugin.min.js"></script>
+
+    <!-- INLINE STYLES (for immediate testing/demonstration, ideally move to style.css) -->
+    <style>
+        /* Custom Colors & Gradients */
+        :root {
+            --color-primary-blue: #3b82f6; /* Tailwind blue-600 */
+            --color-secondary-green: #22c55e; /* Tailwind green-600 */
+            --color-purple: #a855f7; /* Tailwind purple-500 */
+            --color-orange: #f97316; /* Tailwind orange-500 */
+            --color-text-light: #e5e7eb; /* Tailwind gray-200 */
+            --color-dark-bg: #111827; /* Tailwind gray-900 */
+            --color-darker-bg: #030712; /* Tailwind gray-950 */
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Initial states for scroll-triggered animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        /* Specific initial states for directional slides */
+        .animate-on-scroll.slide-left {
+            transform: translateX(-50px);
+        }
+        .animate-on-scroll.slide-right {
+            transform: translateX(50px);
+        }
+        .animate-on-scroll.scale-in {
+            transform: scale(0.9);
+        }
+        
+        /* Class added by JS when element is visible */
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .animate-on-scroll.slide-left.is-visible {
+            transform: translateX(0);
+        }
+        .animate-on-scroll.slide-right.is-visible {
+            transform: translateX(0);
+        }
+        .animate-on-scroll.scale-in.is-visible {
+            opacity: 1; /* Ensure opacity is also set for scale-in */
+            transform: scale(1);
+        }
+
+        /* Staggered animation delays (can be applied directly to elements too) */
+        .service-card:nth-child(1), .solution-card:nth-child(1) { transition-delay: 0s; }
+        .service-card:nth-child(2), .solution-card:nth-child(2) { transition-delay: 0.1s; }
+        .service-card:nth-child(3), .solution-card:nth-child(3) { transition-delay: 0.2s; }
+        .solution-card:nth-child(4) { transition-delay: 0.3s; }
+
+        /* Specific styles for gradients in sections */
+        .text-gradient {
+            background: linear-gradient(90deg, var(--color-primary-blue), var(--color-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .text-gradient-primary {
+            background: linear-gradient(90deg, var(--color-primary-blue), var(--color-secondary-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .text-gradient-secondary {
+            background: linear-gradient(90deg, var(--color-secondary-green), var(--color-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Mobile Menu specific styles */
+        .mobile-menu-overlay {
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(17,24,39,0.97); /* Slightly transparent dark background */
+            position: fixed;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center; /* Center items vertically now */
+            padding-top: 5rem; /* Still give some top padding if needed for close button */
+            transition: transform 0.4s cubic-bezier(.4,0,.2,1), opacity 0.4s cubic-bezier(.4,0,.2,1);
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none; /* Disables interaction when hidden */
+        }
+        .mobile-menu-overlay.active {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto; /* Enables interaction when active */
+        }
+
+        .hamburger span {
+            transition: all 0.3s ease-in-out;
+        }
+        .hamburger.active span:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+        /* Original Navbar Styles (restored) */
+        .navbar {
+            background-color: var(--color-dark-bg);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-top: 1.5rem; /* Reverted to original padding */
+            padding-bottom: 1.5rem; /* Reverted to original padding */
+        }
+        /* Combined font styles for all logo parts */
+        .logo {
+            font-weight: 800;
+            font-size: 1.8rem;
+            line-height: 1; /* Helps vertical alignment */
+            display: flex; /* Ensure the spans are flex children */
+            align-items: center; /* Vertically align spans */
+            white-space: nowrap; /* Keep text on one line */
+        }
+        /* Colors for the logo text as per original */
+        .logo-pinnacle-green { 
+            color: var(--color-secondary-green); /* Greenish color for PINNACLE */
+        }
+        .logo-aisolutions-blue { 
+            color: var(--color-primary-blue); /* Blueish color for AISOLUTIONS */
+        }
+        
+        /* Styles for the LARGER AI SVG next to the logo */
+        .larger-ai-svg {
+            width: 60px; /* Make it significantly larger */
+            height: 60px; /* Make it significantly larger */
+            visibility: hidden; /* GSAP will make it visible */
+            flex-shrink: 0; /* Prevent it from shrinking in flex container */
+            margin-left: 1rem; /* Spacing between logo text and SVG */
+        }
+        .larger-ai-svg .ell, .larger-ai-svg #ai {
+            fill: none; /* As per CodePen CSS */
+        }
+        /* Responsive adjustment for the larger SVG */
+        @media (max-width: 767px) {
+            .larger-ai-svg {
+                width: 40px; /* Smaller on mobile */
+                height: 40px;
+                margin-left: 0.5rem; /* Reduce margin on mobile */
+            }
+            /* Adjust overall logo text size if needed for the combined block */
+            .logo {
+                font-size: 1.5rem;
+            }
+            /* Adjust navbar padding for mobile if needed */
+            .navbar {
+                padding-top: 1rem; /* Smaller padding for smaller screens */
+                padding-bottom: 1rem;
+            }
+        }
+
+        .nav-link {
+            color: #d1d5db; /* gray-400 */
+            transition: color 0.3s ease;
+            position: relative;
+            font-weight: 500;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background-color: var(--color-primary-blue);
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #fff;
+        }
+
+        .btn-secondary-padding { padding: 0.75rem 1.5rem; }
+        .btn-primary-padding { padding: 0.75rem 1.5rem; }
+
+        .btn-primary {
+            background: linear-gradient(90deg, var(--color-primary-blue), var(--color-secondary-green));
+            color: #fff;
+            border-radius: 9999px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(59,130,246,0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(59,130,246,0.4);
+            background: linear-gradient(90deg, var(--color-secondary-green), var(--color-primary-blue)); /* Reverse for hover */
+        }
+        .btn-secondary {
+            background: linear-gradient(90deg, var(--color-purple), var(--color-orange));
+            color: #fff;
+            border-radius: 9999px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(168,85,247,0.3);
+        }
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(168,85,247,0.4);
+            background: linear-gradient(90deg, var(--color-orange), var(--color-purple));
+        }
+
+        /* NEW: Styles to hide the CodePen's internal header/footer */
+        .codepen-full-bg-iframe {
+            position: absolute;
+            top: -70px; /* Shift up by ~70px to hide CodePen's top bar */
+            left: 0;
+            width: 100%;
+            height: calc(100% + 140px); /* Extend height to compensate for top shift and hide bottom bar */
+            z-index: 0;
+            pointer-events: none; /* Allows interaction with content above it */
+            border: none;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            min-height: 600px; /* Ensure a minimum height for smaller devices */
+            position: relative;
+            background-color: #000; /* Fallback for iframe load */
+        }
+
+        .btn-primary-hero, .btn-outline-hero {
+            padding: 1rem 2.5rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: 1.125rem;
+            transition: all 0.3s ease;
+        }
+        .btn-primary-hero:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(59,130,246,0.5);
+            background: linear-gradient(90deg, #22c55e, #3b82f6); /* green to blue */
+        }
+        .btn-outline-hero:hover {
+            background-color: rgba(255,255,255,0.1);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 6px 15px rgba(255,255,255,0.3);
+        }
+
+        /* Section styles */
+        .section-header h2 {
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--color-primary-blue), var(--color-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .section-header p {
+            font-weight: 300;
+        }
+
+        /* Service Cards */
+        .service-card {
+            background-color: rgba(31,41,55,0.7); /* gray-800 with transparency */
+            border-radius: 1rem;
+            padding: 2.5rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .service-icon {
+            font-size: 3.5rem;
+            color: var(--color-primary-blue);
+            margin: 0 auto 1.5rem auto;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+        .service-card:hover .service-icon {
+            color: var(--color-secondary-green);
+            transform: scale(1.1);
+        }
+        .service-card h3 {
+            font-weight: 700;
+            color: #fff;
+        }
+        .service-card p {
+            color: #ccc;
+        }
+        .service-card ul li {
+            color: #a0aec0; /* gray-400 */
+        }
+
+        /* Solution Cards */
+        .solution-card {
+            background-color: rgba(31,41,55,0.6); /* gray-800 with more transparency */
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+            display: flex; /* For icon alignment */
+            align-items: flex-start; /* Align icon and text at the top */
+        }
+        .solution-card:hover {
+            background-color: rgba(31,41,55,0.8);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+            transform: translateY(-5px);
+        }
+        .solution-icon {
+            font-size: 3rem;
+            padding: 0.75rem;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.08);
+            margin-right: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0; /* Prevent icon from shrinking */
+        }
+        .solution-card h3 {
+            font-weight: 700;
+            color: #fff;
+        }
+        .solution-card p {
+            color: #ccc;
+        }
+
+        /* About Section */
+        .about-image {
+            border-radius: 1.5rem;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            transition: transform 0.4s ease;
+        }
+        .about-image:hover {
+            transform: scale(1.02);
+        }
+        .image-overlay {
+            background: linear-gradient(45deg, rgba(59,130,246,0.6), rgba(34,197,94,0.6));
+            transition: opacity 0.4s ease;
+        }
+        .about-image:hover .image-overlay {
+            opacity: 0;
+        }
+        .stat-item {
+            background-color: rgba(17,24,39,0.8); /* gray-900 with transparency */
+            border-radius: 0.75rem;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: background-color 0.3s ease;
+        }
+        .stat-item:hover {
+            background-color: rgba(31,41,55,0.9);
+        }
+        .stat-number {
+            font-weight: 900;
+        }
+        .stat-label {
+            font-weight: 500;
+        }
+
+        /* Contact Section */
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            background-color: rgba(31,41,55,0.9); /* Darker gray for inputs */
+            border: 1px solid rgba(75,85,99,0.5); /* gray-600 border */
+            color: var(--color-text-light);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: var(--color-primary-blue);
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.3);
+        }
+        .contact-form {
+            border: 1px solid rgba(75,85,99,0.2);
+        }
+        .info-item {
+            align-items: center;
+        }
+        .info-icon {
+            width: 60px;
+            height: 60px;
+            min-width: 60px;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease;
+        }
+        .info-item:hover .info-icon {
+            transform: scale(1.1);
+        }
+        .info-item h4 {
+            font-weight: 700;
+            color: #fff;
+        }
+        .info-item p {
+            font-weight: 300;
+        }
+
+        /* Footer */
+        .footer-logo-text {
+             background: linear-gradient(90deg, #fff, var(--color-primary-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .footer-link {
+            color: #9ca3af; /* gray-400 */
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        .footer-link::before {
+            content: '•';
+            position: absolute;
+            left: -15px;
+            color: var(--color-secondary-green);
+            opacity: 0;
+            transition: opacity 0.3s ease, left 0.3s ease;
+        }
+        .footer-link:hover {
+            color: #fff;
+            padding-left: 15px; /* Adjust for bullet */
+        }
+        .footer-link:hover::before {
+            opacity: 1;
+            left: 0;
+        }
+        .social-icon {
+            color: #9ca3af; /* gray-400 */
+            font-size: 1.5rem;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+        .social-icon:hover {
+            color: var(--color-primary-blue);
+            transform: scale(1.2);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 767px) {
+            .logo { font-size: 1.5rem; } /* Adjusted parent logo font size */
+            .hero-content h1 { font-size: 2.5rem; }
+            .hero-content p { font-size: 1rem; }
+            .hero-buttons { flex-direction: column; gap: 1rem; }
+            .btn-primary-hero, .btn-outline-hero { width: 90%; max-width: 300px; }
+
+            .section-header h2 { font-size: 2.5rem; }
+            .section-header p { font-size: 1.1rem; }
+
+            .service-card, .solution-card { padding: 1.5rem; }
+            .service-icon { font-size: 3rem; }
+            .service-card h3, .solution-card h3 { font-size: 1.8rem; }
+            
+            .about-content { grid-template-columns: 1fr; }
+            .about-image { margin-top: 2rem; }
+            .stats { grid-template-columns: 1fr; gap: 1rem; }
+            .stat-number { font-size: 4rem; }
+
+            .contact-info { margin-top: 4rem; }
+            .info-item { flex-direction: column; text-align: center; margin-bottom: 2rem; }
+            .info-icon { margin: 0 auto 1rem auto; }
+            .info-item h4 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+            .info-item p { font-size: 1rem; }
+
+            .footer-col { margin-bottom: 3rem; }
+            .footer-col:last-child { margin-bottom: 0; }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content h1 { font-size: 2rem; }
+            .section-header h2 { font-size: 2rem; }
+        }
+    </style>
 </head>
-<body>
+<body class="bg-gray-900 text-gray-200 font-inter">
     <!-- Navbar -->
-    <nav class="navbar fixed top-0 left-0 w-full z-50 py-4 bg-gray-900 border-b border-gray-700">
+    <nav class="navbar fixed top-0 left-0 w-full z-50 bg-gray-900 border-b border-gray-700">
         <div class="container mx-auto px-4 flex justify-between items-center h-full">
-            <!-- Logo -->
-            <a href="#" class="logo flex items-center space-x-2">
-                <span class="logo-text text-2xl font-extrabold" style="color: #6EE7B7;">PINNACLE AISOLUTIONS</span>
-                <img src="https://via.placeholder.com/30/00FF00/000000?text=Logo" alt="Pinnacle AI Solutions Logo" class="h-8 w-8"> <!-- REPLACE THIS with your actual logo path -->
-            </a>
+            <!-- Left Group: Logo Text + AI Animation -->
+            <div class="flex items-center">
+                <!-- Logo Text -->
+                <a href="#home" class="logo">
+                    <span class="logo-pinnacle-green">PINNACLE</span><span class="logo-aisolutions-blue">AI<span class="ml-0.5">SOLUTIONS</span></span>
+                </a>
+                <!-- AI Animation (Larger, to the right of the text logo) -->
+                <svg viewBox="0 0 100 100" id="mainSVG" class="larger-ai-svg">
+                    <defs>
+                        <linearGradient id="aiGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#359EEE"/>
+                            <stop offset="100%" stop-color="#03CEA4"/>
+                        </linearGradient>
+                    </defs>
+                    <path id="ai" d="M20 50 C20 20, 80 20, 80 50 S20 80, 20 50" stroke="url(#aiGrad)" stroke-width="4" fill="none"/>
+                    <ellipse class="ell" cx="50" cy="50" rx="30" ry="15" stroke="#359EEE" stroke-width="2"/>
+                    <ellipse class="ell" cx="50" cy="50" rx="25" ry="10" stroke="#FFC43D" stroke-width="2"/>
+                    <ellipse class="ell" cx="50" cy="50" rx="20" ry="7" stroke="#EF476F" stroke-width="2"/>
+                    <ellipse class="ell" cx="50" cy="50" rx="15" ry="5" stroke="#03CEA4" stroke-width="2"/>
+                </svg>
+            </div>
 
             <!-- Hamburger Icon - will be flex on mobile, hidden on md and up -->
-            <div class="hamburger md:hidden">
-                <span></span>
-                <span></span>
-                <span></span>
+            <div class="hamburger md:hidden flex flex-col justify-center items-center w-10 h-10 cursor-pointer z-50" tabindex="0" aria-label="Open menu" role="button">
+                <span class="block w-8 h-1 bg-white mb-1 rounded transition-all"></span>
+                <span class="block w-8 h-1 bg-white mb-1 rounded transition-all"></span>
+                <span class="block w-8 h-1 bg-white rounded transition-all"></span>
             </div>
 
             <!-- Main Menu (Desktop) -->
@@ -37,52 +566,40 @@
                 <li><a href="#home" class="nav-link active">Home</a></li>
                 <li><a href="#services" class="nav-link">Services</a></li>
                 <li><a href="#solutions" class="nav-link">Solutions</a></li>
-                <li><a href="#ai-programs" class="nav-link">AI PROGRAMS</a></li>
                 <li><a href="#about" class="nav-link">About</a></li>
                 <li><a href="#contact" class="nav-link">Contact</a></li>
-                <li class="ml-4"><a style="padding:15px" href="#ai-programs" class="btn-secondary">AI LEARNING</a></li>
-                <li><a style="padding:15px" href="#ai-programs" class="btn-primary">Learn AI for Free</a></li>
+                <li class="ml-4"><a href="programs.html" target="_blank" rel="noopener noreferrer" class="btn-secondary btn-secondary-padding">AI PROGRAMS</a></li>
+                <li><a href="learnaiforfree.html" target="_blank" rel="noopener noreferrer" class="btn-primary btn-primary-padding">Learn AI for Free</a></li>
             </ul>
 
             <!-- Mobile menu overlay (initially hidden, controlled by JS and CSS) -->
-            <div class="mobile-menu-overlay fixed inset-0 bg-gray-900 bg-opacity-95 z-40 flex-col items-center justify-center space-y-6">
-                <a href="#home" class="nav-link-mobile" data-target="home">Home</a>
-                <a href="#services" class="nav-link-mobile" data-target="services">Services</a>
-                <a href="#solutions" class="nav-link-mobile" data-target="solutions">Solutions</a>
-                <a href="#ai-programs" class="nav-link-mobile" data-target="ai-programs">AI PROGRAMS</a>
-                <a href="#about" class="nav-link-mobile" data-target="about">About</a>
-                <a href="#contact" class="nav-link-mobile" data-target="contact">Contact</a>
-                <a href="#ai-programs" class="btn-secondary-mobile">AI PROGRAMS</a>
-                <a href="#ai-programs" class="btn-primary-mobile">Learn AI for Free</a>
+            <div class="mobile-menu-overlay">
+                <a href="#home" class="nav-link-mobile text-3xl font-semibold text-white hover:text-blue-400 transition-colors duration-300 mb-4" data-target="home">Home</a>
+                <a href="#services" class="nav-link-mobile text-3xl font-semibold text-white hover:text-blue-400 transition-colors duration-300 mb-4" data-target="services">Services</a>
+                <a href="#solutions" class="nav-link-mobile text-3xl font-semibold text-white hover:text-blue-400 transition-colors duration-300 mb-4" data-target="solutions">Solutions</a>
+                <a href="#about" class="nav-link-mobile text-3xl font-semibold text-white hover:text-blue-400 transition-colors duration-300 mb-4" data-target="about">About</a>
+                <a href="#contact" class="nav-link-mobile text-3xl font-semibold text-white hover:text-blue-400 transition-colors duration-300 mb-6" data-target="contact">Contact</a>
+                <a href="programs.html" class="btn-secondary-mobile w-11/12 max-w-xs text-center py-3 px-4 rounded-full bg-gray-700 text-white font-semibold hover:bg-gray-800 transition mb-4">AI PROGRAMS</a>
+                <a href="learnaiforfree.html" target="_blank" rel="noopener noreferrer" class="btn-primary-mobile w-11/12 max-w-xs text-center py-3 px-4 rounded-full bg-blue-600 text-white font-semibold hover:bg-blue-700 transition">Learn AI for Free</a>
                 <!-- Close button for mobile menu -->
-                <button class="close-mobile-menu text-white text-3xl absolute top-6 right-6">×</button>
+                <button class="close-mobile-menu text-white text-4xl absolute top-6 right-6 focus:outline-none focus:ring-2 focus:ring-blue-400 rounded-full w-12 h-12 flex items-center justify-center">×</button>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section with Video Background and Creative Black Hole Iframe -->
+    <!-- Hero Section with Creative Black Hole Animation -->
     <section id="home" class="hero relative overflow-hidden flex items-center justify-center text-center text-white">
-        <!-- Video Background (Lowest Layer, Z-index 10) -->
-        <video autoplay muted loop playsinline class="video-bg absolute inset-0 min-w-full min-h-full object-cover z-10">
-            <source src="background.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-
-        <!-- Creative Black Hole Iframe (Above Video, Z-index 20) -->
-        <!-- THIS IS THE CORRECT IFRAME EMBED. IT MUST BE THIS EXACT TAG. -->
-        <iframe height="100%" width="100%" scrolling="no" title="Creative Black Hole" 
-                src="https://codepen.io/wodniack/embed/VYwGEGg?default-tab=result&theme-id=dark&editable=false&height=auto&embed-version=2"
-                frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true"
-                class="absolute inset-0 z-20 pointer-events-none"></iframe>
+        <!-- Creative Black Hole Animation (iframe) - UPDATED CLASS -->
+        <iframe scrolling="no" title="Creative Black Hole" 
+            src="https://codepen.io/wodniack/full/VYwGEGg/?" 
+            frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true"
+            class="codepen-full-bg-iframe">
+        </iframe>
         
-        <!-- Hero Overlay (Above Iframe, Z-index 30) -->
-        <div class="hero-overlay absolute inset-0 bg-black opacity-70 z-30"></div>
-        
-        <!-- Hero Content (Highest Layer, Z-index 40) -->
-        <div class="hero-content relative z-40 p-6 max-w-4xl mx-auto">
-            <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-6 animate-fade-in-up">Intelligent Solutions for the Digital Age</h1>
-            <p class="text-lg md:text-xl font-light mb-10 animate-fade-in-up delay-200">Harness the power of AI to transform your business operations and customer experiences.</p>
-            <div class="hero-buttons flex justify-center space-x-4 animate-fade-in-up delay-400">
+        <div class="hero-content relative z-10 p-6 max-w-4xl mx-auto">
+            <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-6">Intelligent Solutions for the Digital Age</h1>
+            <p class="text-lg md:text-xl font-light mb-10">Harness the power of AI to transform your business operations and customer experiences.</p>
+            <div class="hero-buttons flex justify-center space-x-4">
                 <a href="#services" class="btn-primary-hero">Explore Services</a>
                 <a href="#contact" class="btn-outline-hero">Get Started</a>
             </div>
@@ -90,16 +607,26 @@
     </section>
 
     <!-- Services Section -->
-    <section id="services" class="section py-20 bg-gray-900 text-white">
-        <div class="container mx-auto px-4">
-            <div class="section-header text-center mb-16">
+    <section id="services" class="section py-20 relative overflow-hidden text-white">
+        <!-- Background iframe for "bluesky" animation - UPDATED CLASS -->
+        <iframe scrolling="no" title="bluesky" 
+            src="https://codepen.io/AI-Learning-Lab/full/gbpxbZo/?" 
+            frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true"
+            class="codepen-full-bg-iframe">
+        </iframe>
+        
+        <!-- Semi-transparent overlay for readability -->
+        <div class="absolute inset-0 bg-gray-900 bg-opacity-80 z-10"></div> <!-- Tailwind opacity-80 -->
+
+        <div class="container mx-auto px-4 relative z-20"> <!-- Ensure content is on top -->
+            <div class="section-header text-center mb-16 animate-on-scroll">
                 <h2 class="text-4xl font-bold mb-4">Our Services</h2>
                 <p class="text-xl text-gray-400">Comprehensive AI-powered solutions tailored to your business needs</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
                 <!-- Service Cards -->
-                <div class="service-card transform hover:scale-105 transition-transform duration-300 ease-in-out">
+                <div class="service-card animate-on-scroll scale-in">
                     <div class="service-icon mb-6">
                         <i class="fas fa-mobile-alt"></i>
                     </div>
@@ -112,7 +639,7 @@
                     </ul>
                 </div>
 
-                <div class="service-card transform hover:scale-105 transition-transform duration-300 ease-in-out">
+                <div class="service-card animate-on-scroll scale-in" style="animation-delay: 0.1s;">
                     <div class="service-icon mb-6">
                         <i class="fas fa-rocket"></i>
                     </div>
@@ -125,7 +652,7 @@
                     </ul>
                 </div>
 
-                <div class="service-card transform hover:scale-105 transition-transform duration-300 ease-in-out">
+                <div class="service-card animate-on-scroll scale-in" style="animation-delay: 0.2s;">
                     <div class="service-icon mb-6">
                         <i class="fas fa-cogs"></i>
                     </div>
@@ -144,15 +671,15 @@
     <!-- AI Solutions Section -->
     <section id="solutions" class="section py-20 bg-gray-800 text-white">
         <div class="container mx-auto px-4">
-            <div class="section-header text-center mb-16">
+            <div class="section-header text-center mb-16 animate-on-scroll">
                 <h2 class="text-4xl font-bold mb-4">AI Solutions</h2>
                 <p class="text-xl text-gray-400">Cutting-edge artificial intelligence to solve complex business challenges</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                <div class="solution-card flex items-start p-8 rounded-lg shadow-lg bg-gray-700 bg-opacity-50 backdrop-filter backdrop-blur-sm transition-all duration-300 hover:shadow-xl hover:bg-opacity-70 group">
-                    <div class="solution-icon flex-shrink-0 mr-6">
-                        <i class="fas fa-database text-4xl text-blue-400 group-hover:text-blue-300 transition-colors duration-300"></i>
+                <div class="solution-card animate-on-scroll slide-left">
+                    <div class="solution-icon">
+                        <i class="fas fa-database text-blue-400"></i>
                     </div>
                     <div>
                         <h3 class="text-2xl font-semibold mb-3">Data Scraping</h3>
@@ -160,9 +687,9 @@
                     </div>
                 </div>
 
-                <div class="solution-card flex items-start p-8 rounded-lg shadow-lg bg-gray-700 bg-opacity-50 backdrop-filter backdrop-blur-sm transition-all duration-300 hover:shadow-xl hover:bg-opacity-70 group">
-                    <div class="solution-icon flex-shrink-0 mr-6">
-                        <i class="fas fa-chart-line text-4xl text-green-400 group-hover:text-green-300 transition-colors duration-300"></i>
+                <div class="solution-card animate-on-scroll slide-right">
+                    <div class="solution-icon">
+                        <i class="fas fa-chart-line text-green-400"></i>
                     </div>
                     <div>
                         <h3 class="text-2xl font-semibold mb-3">Predictive Analytics</h3>
@@ -170,9 +697,9 @@
                     </div>
                 </div>
 
-                <div class="solution-card flex items-start p-8 rounded-lg shadow-lg bg-gray-700 bg-opacity-50 backdrop-filter backdrop-blur-sm transition-all duration-300 hover:shadow-xl hover:bg-opacity-70 group">
-                    <div class="solution-icon flex-shrink-0 mr-6">
-                        <i class="fas fa-brain text-4xl text-purple-400 group-hover:text-purple-300 transition-colors duration-300"></i>
+                <div class="solution-card animate-on-scroll slide-left" style="animation-delay: 0.1s;">
+                    <div class="solution-icon">
+                        <i class="fas fa-brain text-purple-400"></i>
                     </div>
                     <div>
                         <h3 class="text-2xl font-semibold mb-3">Natural Language Processing</h3>
@@ -180,9 +707,9 @@
                     </div>
                 </div>
 
-                <div class="solution-card flex items-start p-8 rounded-lg shadow-lg bg-gray-700 bg-opacity-50 backdrop-filter backdrop-blur-sm transition-all duration-300 hover:shadow-xl hover:bg-opacity-70 group">
-                    <div class="solution-icon flex-shrink-0 mr-6">
-                        <i class="fas fa-eye text-4xl text-orange-400 group-hover:text-orange-300 transition-colors duration-300"></i>
+                <div class="solution-card animate-on-scroll slide-right" style="animation-delay: 0.1s;">
+                    <div class="solution-icon">
+                        <i class="fas fa-eye text-orange-400"></i>
                     </div>
                     <div>
                         <h3 class="text-2xl font-semibold mb-3">Computer Vision</h3>
@@ -193,151 +720,98 @@
         </div>
     </section>
 
-    <!-- AI Learning Programs Section (Modeled after AILEARNINGLAB-HUB) -->
-    <section id="ai-programs" class="section py-20 text-white relative overflow-hidden bg-gradient-to-br from-blue-900 to-teal-700">
-        <div class="container mx-auto px-4 relative z-10 text-center">
-            <h2 class="text-5xl md:text-6xl font-extrabold mb-4 text-white">AILEARNINGLAB-HUB</h2>
-            <p class="text-xl md:text-2xl font-light text-blue-100 mb-10">Modern, Free, and Interactive AI Learning</p>
-
-            <div class="flex justify-center space-x-6 mb-16">
-                <a href="#why-learn-ai" class="text-blue-200 hover:text-white transition-colors duration-300 font-medium text-lg">Why Learn AI?</a>
-                <a href="#how-it-works" class="text-blue-200 hover:text-white transition-colors duration-300 font-medium text-lg">How It Works</a>
-                <a href="https://example.com/start-learning" target="_blank" rel="noopener" class="text-blue-200 hover:text-white transition-colors duration-300 font-medium text-lg">Start Learning</a>
-            </div>
-
-            <a href="https://example.com/enroll" target="_blank" rel="noopener" class="inline-block py-4 px-10 rounded-full bg-gradient-to-r from-green-400 to-blue-500 text-white font-bold text-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 mb-20">
-                Start for Free
-            </a>
-
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <!-- Why Learn AI? Card -->
-                <div id="why-learn-ai" class="bg-gray-800 bg-opacity-70 rounded-xl p-8 shadow-2xl backdrop-filter backdrop-blur-sm">
-                    <h3 class="text-3xl font-bold mb-4 text-green-400">Why Learn AI?</h3>
-                    <p class="text-gray-300 leading-relaxed text-lg">Artificial Intelligence is transforming every industry. Whether you want to automate tasks, build smarter apps, or understand the future of technology, learning AI is essential. Our platform gives you hands-on, project-based learning with zero cost.</p>
-                </div>
-
-                <!-- How It Works Card -->
-                <div id="how-it-works" class="bg-gray-800 bg-opacity-70 rounded-xl p-8 shadow-2xl backdrop-filter backdrop-blur-sm">
-                    <h3 class="text-3xl font-bold mb-4 text-green-400">How It Works</h3>
-                    <ul class="text-gray-300 leading-relaxed text-lg space-y-3 list-none">
-                        <li class="flex items-start">
-                            <i class="fas fa-rocket text-blue-400 mr-3 mt-1 text-xl flex-shrink-0"></i>
-                            <span><strong class="text-white">Interactive Labs:</strong> Learn by doing with real AI code and datasets.</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-clipboard-list text-purple-400 mr-3 mt-1 text-xl flex-shrink-0"></i>
-                            <span><strong class="text-white">Curated Curriculum:</strong> Start from basics, progress to advanced topics.</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-users text-red-400 mr-3 mt-1 text-xl flex-shrink-0"></i>
-                            <span><strong class="text-white">Community Support:</strong> Join discussions, ask questions, and collaborate.</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-award text-yellow-400 mr-3 mt-1 text-xl flex-shrink-0"></i>
-                            <span><strong class="text-white">Earn Certificates:</strong> Complete modules and showcase your skills.</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- About Section -->
     <section id="about" class="section py-20 bg-gray-900 text-white">
         <div class="container mx-auto px-4">
-            <div class="section-header text-center mb-16">
+            <div class="section-header text-center mb-16 animate-on-scroll">
                 <h2 class="text-4xl font-bold mb-4">About Us</h2>
                 <p class="text-xl text-gray-400">Innovative AI solutions for forward-thinking businesses</p>
             </div>
 
             <div class="about-content grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                <div class="about-text text-lg leading-relaxed">
+                <div class="about-text text-lg leading-relaxed animate-on-scroll slide-left">
                     <h3 class="text-3xl font-semibold mb-6 text-gradient">Who We Are</h3>
                     <p class="mb-4 text-gray-300">Pinnacle AI Solutions is a team of passionate engineers, data scientists, and designers dedicated to delivering cutting-edge artificial intelligence solutions.</p>
                     <p class="mb-8 text-gray-300">We combine technical expertise with business acumen to create tools that drive real results for our clients across industries, fostering growth and efficiency.</p>
                     <div class="stats grid grid-cols-2 gap-8 mt-10">
-                        <div class="stat-item text-center p-6 bg-gray-800 rounded-lg shadow-inner">
-                            <span class="stat-number text-5xl font-bold text-gradient-primary mb-2 block">50+</span>
+                        <div class="stat-item text-center p-6 animate-on-scroll scale-in" style="animation-delay: 0.2s;">
+                            <span class="stat-number text-5xl font-bold text-gradient-primary mb-2 block" data-target="50">50+</span>
                             <span class="stat-label text-gray-400 text-lg">Projects Completed</span>
                         </div>
-                        <div class="stat-item text-center p-6 bg-gray-800 rounded-lg shadow-inner">
-                            <span class="stat-number text-5xl font-bold text-gradient-secondary mb-2 block">100%</span>
+                        <div class="stat-item text-center p-6 animate-on-scroll scale-in" style="animation-delay: 0.3s;">
+                            <span class="stat-number text-5xl font-bold text-gradient-secondary mb-2 block" data-target="100">100%</span>
                             <span class="stat-label text-gray-400 text-lg">Client Satisfaction</span>
                         </div>
                     </div>
                 </div>
-                <div class="about-image relative rounded-xl overflow-hidden shadow-2xl">
+                <div class="about-image relative rounded-xl overflow-hidden shadow-2xl animate-on-scroll slide-right">
                     <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" alt="AI Technology" class="w-full h-full object-cover">
-                    <div class="image-overlay absolute inset-0 bg-blue-500 opacity-20 hover:opacity-0 transition-opacity duration-300"></div>
+                    <div class="image-overlay absolute inset-0"></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Contact Section - RESTRUCTURED -->
+    <!-- Contact Section -->
     <section id="contact" class="section py-20 bg-gray-800 text-white">
         <div class="container mx-auto px-4">
-            <div class="section-header text-center mb-16">
+            <div class="section-header text-center mb-16 animate-on-scroll">
                 <h2 class="text-4xl font-bold mb-4">Get In Touch</h2>
                 <p class="text-xl text-gray-400">Ready to transform your business with AI? Contact us today.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
-                <!-- LEFT COLUMN: Codepen Embed -->
-                <div class="relative w-full min-h-[300px] lg:h-auto bg-gray-900 rounded-xl shadow-xl overflow-hidden">
-                    <iframe height="100%" width="100%" scrolling="no" title="Wormhole - Three.js"
-                            src="https://codepen.io/kurtgrung/embed/LEVEGby?default-tab=result&theme-id=dark&editable=false&height=auto&embed-version=2"
-                            frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true"
-                            class="absolute inset-0 w-full h-full"></iframe>
+                <div class="contact-form p-8 bg-gray-900 rounded-xl shadow-xl border border-gray-700 animate-on-scroll slide-left">
+                    <form>
+                        <div class="form-group mb-6">
+                            <label for="name" class="block text-gray-300 text-sm font-bold mb-2">Name</label>
+                            <input type="text" id="name" class="form-input" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group mb-6">
+                            <label for="email" class="block text-gray-300 text-sm font-bold mb-2">Email</label>
+                            <input type="email" id="email" class="form-input" placeholder="you@example.com" required>
+                        </div>
+                        <div class="form-group mb-6">
+                            <label for="subject" class="block text-gray-300 text-sm font-bold mb-2">Subject</label>
+                            <input type="text" id="subject" class="form-input" placeholder="Inquiry Subject">
+                        </div>
+                        <div class="form-group mb-8">
+                            <label for="message" class="block text-gray-300 text-sm font-bold mb-2">Message</label>
+                            <textarea id="message" rows="6" class="form-input resize-y" placeholder="Your Message" required></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary w-full py-3">Send Message</button>
+                    </form>
                 </div>
 
-                <!-- RIGHT COLUMN: Email/Phone (with glow) + Contact Form -->
-                <div class="right-contact-column flex flex-col justify-between">
-                    <!-- Email and Phone with Glow Effect -->
-                    <div class="space-y-6 mb-8">
-                        <!-- Email Block -->
-                        <div class="info-item flex items-start p-4 rounded-lg bg-blue-900 bg-opacity-40 shadow-xl shadow-blue-500/20 border border-blue-700/50">
-                            <div class="info-icon flex-shrink-0 mr-6 p-4 rounded-full bg-blue-600 text-white flex items-center justify-center text-2xl shadow-md">
-                                <i class="fas fa-envelope"></i>
-                            </div>
-                            <div>
-                                <h4 class="2xl font-semibold mb-2">Email Us</h4>
-                                <p class="text-gray-200 text-lg">futureai4all@gmail.com</p>
-                            </div>
+                <div class="contact-info space-y-10 mt-8 md:mt-0 animate-on-scroll slide-right">
+                    <div class="info-item flex items-start animate-on-scroll scale-in" style="animation-delay: 0.1s;">
+                        <div class="info-icon flex-shrink-0 mr-6 p-4 rounded-full bg-blue-600 text-white flex items-center justify-center text-2xl shadow-md">
+                            <i class="fas fa-envelope"></i>
                         </div>
-                        <!-- Phone Block -->
-                        <div class="info-item flex items-start p-4 rounded-lg bg-green-900 bg-opacity-40 shadow-xl shadow-green-500/20 border border-green-700/50">
-                            <div class="info-icon flex-shrink-0 mr-6 p-4 rounded-full bg-green-600 text-white flex items-center justify-center text-2xl shadow-md">
-                                <i class="fas fa-phone"></i>
-                            </div>
-                            <div>
-                                <h4 class="text-2xl font-semibold mb-2">Call Us</h4>
-                                <p class="text-gray-200 text-lg">352-443-8670</p>
-                            </div>
+                        <div>
+                            <h4 class="text-2xl font-semibold mb-2">Email Us</h4>
+                            <p class="text-gray-300 text-lg">futureai4all@gmail.com</p>
                         </div>
                     </div>
 
-                    <!-- Contact Form -->
-                    <div class="contact-form p-8 bg-gray-900 rounded-xl shadow-xl border border-gray-700">
-                        <form>
-                            <div class="form-group mb-6">
-                                <label for="name" class="block text-gray-300 text-sm font-bold mb-2">Name</label>
-                                <input type="text" id="name" class="form-input" placeholder="Your Name" required>
-                            </div>
-                            <div class="form-group mb-6">
-                                <label for="email" class="block text-gray-300 text-sm font-bold mb-2">Email</label>
-                                <input type="email" id="email" class="form-input" placeholder="you@example.com" required>
-                            </div>
-                            <div class="form-group mb-6">
-                                <label for="subject" class="block text-gray-300 text-sm font-bold mb-2">Subject</label>
-                                <input type="text" id="subject" class="form-input" placeholder="Inquiry Subject">
-                            </div>
-                            <div class="form-group mb-8">
-                                <label for="message" class="block text-gray-300 text-sm font-bold mb-2">Message</label>
-                                <textarea id="message" rows="6" class="form-input resize-y" placeholder="Your Message" required></textarea>
-                            </div>
-                            <button type="submit" class="btn-primary w-full py-3">Send Message</button>
-                        </form>
+                    <div class="info-item flex items-start animate-on-scroll scale-in" style="animation-delay: 0.2s;">
+                        <div class="info-icon flex-shrink-0 mr-6 p-4 rounded-full bg-green-600 text-white flex items-center justify-center text-2xl shadow-md">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-2xl font-semibold mb-2">Call Us</h4>
+                            <p class="text-gray-300 text-lg">352-443-8670</p>
+                        </div>
+                    </div>
+
+                    <div class="info-item flex items-start animate-on-scroll scale-in" style="animation-delay: 0.3s;">
+                        <div class="info-icon flex-shrink-0 mr-6 p-4 rounded-full bg-purple-600 text-white flex items-center justify-center text-2xl shadow-md">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-2xl font-semibold mb-2">Visit Our Office</h4>
+                            <p class="text-gray-300 text-lg">123 Tech Avenue, Suite 400<br>Gainesville, FL 32601</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -348,30 +822,28 @@
     <footer class="footer py-16 bg-gray-950 text-gray-300">
         <div class="container mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 pb-12 border-b border-gray-700">
-                <div class="footer-col">
+                <div class="footer-col animate-on-scroll scale-in">
                     <h3 class="text-3xl font-bold mb-6 footer-logo-text">Pinnacle AI Solutions</h3>
                     <p class="text-gray-400 leading-relaxed mb-6">Transforming businesses with intelligent AI solutions that drive innovation and growth, helping you stay ahead in the digital age.</p>
                     <div class="social-links flex space-x-4">
-                        <a href="#" class="social-icon group"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="social-icon group"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-icon group"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#" class="social-icon group"><i class="fab fa-github"></i></a>
+                        <a href="https://facebook.com/pinnacleaisolutions" class="social-icon group" title="Facebook" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon group" title="GitHub" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
+                        <!-- Add other social links as needed -->
                     </div>
                 </div>
 
-                <div class="footer-col">
+                <div class="footer-col animate-on-scroll scale-in" style="animation-delay: 0.1s;">
                     <h4 class="text-2xl font-semibold mb-6 text-white">Quick Links</h4>
                     <ul class="space-y-3">
                         <li><a href="#home" class="footer-link">Home</a></li>
                         <li><a href="#services" class="footer-link">Services</a></li>
                         <li><a href="#solutions" class="footer-link">Solutions</a></li>
-                        <li><a href="#ai-programs" class="footer-link">AI Learning</a></li>
                         <li><a href="#about" class="footer-link">About</a></li>
                         <li><a href="#contact" class="footer-link">Contact</a></li>
                     </ul>
                 </div>
 
-                <div class="footer-col">
+                <div class="footer-col animate-on-scroll scale-in" style="animation-delay: 0.2s;">
                     <h4 class="text-2xl font-semibold mb-6 text-white">Our Expertise</h4>
                     <ul class="space-y-3">
                         <li><a href="#" class="footer-link">App Development</a></li>
@@ -382,14 +854,25 @@
                     </ul>
                 </div>
 
-                <div class="footer-col">
-                    <h4 class="text-2xl font-semibold mb-6 text-white">Legal & Resources</h4>
-                    <ul class="space-y-3">
-                        <li><a href="#" class="footer-link">Privacy Policy</a></li>
-                        <li><a href="#" class="footer-link">Terms of Service</a></li>
-                        <li><a href="#" class="footer-link">Cookie Policy</a></li>
-                        <li><a href="#" class="footer-link">Career Opportunities</a></li>
-                    </ul>
+                <div class="footer-col animate-on-scroll scale-in" style="animation-delay: 0.3s;">
+                    <h4 class="text-2xl font-semibold mb-6 text-white">Learn AI for Free</h4>
+                    <a href="learnaiforfree.html" class="footer-link block py-2 px-4 rounded bg-blue-600 text-white font-semibold text-center hover:bg-blue-700 transition mb-4" target="_blank" rel="noopener noreferrer">Go to Learn AI Page</a>
+                    <div class="grid grid-cols-1 gap-3">
+                        <a href="https://chat.openai.com/" class="footer-link underline text-blue-300 hover:text-blue-400" target="_blank" rel="noopener noreferrer">ChatGPT (OpenAI)</a>
+                        <a href="https://claude.ai/" class="footer-link underline text-blue-300 hover:text-blue-400" target="_blank" rel="noopener noreferrer">Claude (Anthropic)</a>
+                        <a href="https://gemini.google.com/" class="footer-link underline text-blue-300 hover:text-blue-400" target="_blank" rel="noopener noreferrer">Gemini (Google)</a>
+                        <a href="https://copilot.microsoft.com/" class="footer-link underline text-blue-300 hover:text-blue-400" target="_blank" rel="noopener noreferrer">Copilot (Microsoft)</a>
+                        <a href="https://perplexity.ai/" class="footer-link underline text-blue-300 hover:text-blue-400" target="_blank" rel="noopener noreferrer">Perplexity AI</a>
+                    </div>
+                    <div class="mt-4">
+                        <h5 class="font-bold text-white mb-2">Articles & Guides</h5>
+                        <ul class="space-y-2 text-sm">
+                            <li><a href="https://www.huggingface.co/blog/llm-quickstart" class="footer-link underline text-blue-200 hover:text-blue-400" target="_blank" rel="noopener noreferrer">How to Use LLMs (HuggingFace)</a></li>
+                            <li><a href="https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/models" class="footer-link underline text-blue-200 hover:text-blue-400" target="_blank" rel="noopener noreferrer">Azure OpenAI Model Guide</a></li>
+                            <li><a href="https://www.datacamp.com/tutorial/large-language-models" class="footer-link underline text-blue-200 hover:text-blue-400" target="_blank" rel="noopener noreferrer">Intro to LLMs (DataCamp)</a></li>
+                            <li><a href="https://www.analyticsvidhya.com/blog/2023/06/large-language-models-llms/" class="footer-link underline text-blue-200 hover:text-blue-400" target="_blank" rel="noopener noreferrer">LLMs Explained (Analytics Vidhya)</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 
@@ -399,6 +882,87 @@
         </div>
     </footer>
 
+    <!-- Link to your external JavaScript file -->
     <script src="script.js"></script>
+
+    <!-- New script for the AI logo animation (placed at the end of body) -->
+    <script>
+        'use strict';
+        (function(){
+            // Function to animate each ellipse
+            function animateEllipse(element, index) {
+                let animationTimeline = gsap.timeline({
+                    defaults: { ease: "none" }, // Changed to "none" for simplicity
+                    repeat: -1
+                });
+                
+                // Set initial opacity and stroke color based on index
+                gsap.set(element, { 
+                    opacity: 1 - index / (ellipseElements.length), // Adjust opacity fade based on index
+                    stroke: interpolateColor(index / (ellipseElements.length - 1 || 1)) // Interpolate color more evenly
+                });
+
+                // Animate rx and ry attributes, then rotate
+                animationTimeline
+                    .to(element, { 
+                        attr: { ry: `-=${(index + 1) * 2.3}`, rx: `+=${(index + 1) * 1.4}` }, 
+                        ease: "power1.inOut" // Using standard GSAP ease
+                    })
+                    .to(element, { 
+                        attr: { ry: `+=${(index + 1) * 2.3}`, rx: ` -=${(index + 1) * 1.4}` }, 
+                        ease: "power1.inOut" // Using standard GSAP ease
+                    })
+                    .to(element, { rotation: -360, transformOrigin: "50% 50%", duration: 2, ease: "linear" }, 0) // Rotate in parallel, adjust duration
+                    .timeScale(0.7); // Slightly slow down the animation
+            }
+
+            gsap.config({ trialWarn: false });
+
+            const mainSVG = document.querySelector("#mainSVG");
+            const ellipseElements = gsap.utils.toArray(".ell");
+            
+            // Re-creating custom eases to ensure they are defined if CustomEase is used
+            if (typeof CustomEase !== 'undefined') {
+                CustomEase.create("custom","M0,0 C0.2,0 0.432,0.147 0.507,0.374 0.59,0.629 0.822,1 1,1 ");
+                // Define other custom eases if needed, but for the provided animation, standard eases work
+            }
+
+
+            const motionPathLength = mainSVG ? (MotionPathPlugin.getLength("#ai") || 100) : 100; // Fallback value if mainSVG not found
+            const interpolateColor = gsap.utils.interpolate(["#359EEE","#FFC43D","#EF476F","#03CEA4"]);
+
+            // Make the SVG visible once GSAP is ready to animate it
+            if (mainSVG) {
+                gsap.set(mainSVG, { visibility: "visible" });
+
+                // Animate each ellipse with a slight delay
+                ellipseElements.forEach((el, index) => {
+                    // Using delayedCall to stagger the animation start
+                    gsap.delayedCall(index * 0.15, animateEllipse, [el, index]); // Stagger delay 
+                });
+
+                // Animate the linear gradient for #aiGrad
+                gsap.to("#aiGrad", {
+                    duration: 4,
+                    delay: 0.75,
+                    attr: { x1: "0%", x2: "100%" }, // Reset to original for a pulsating effect
+                    // Removed scale/transformOrigin from here as it might conflict or not be desired for gradient position
+                    repeat: -1,
+                    yoyo: true, // Make it go back and forth
+                    ease: "sine.inOut" // Smoother gradient animation
+                });
+
+                // Animate the main path #ai (pulse effect)
+                gsap.to("#ai", {
+                    duration: 1,
+                    scale: 1.1,
+                    transformOrigin: "50% 50%",
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "power1.inOut" // Using standard ease
+                });
+            }
+        })();
+    </script>
 </body>
 </html>
