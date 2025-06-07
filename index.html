@@ -19,6 +19,12 @@
     <!-- Link to your external Custom CSS file -->
     <link rel="stylesheet" href="style.css">
 
+    <!-- GSAP Core Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <!-- GSAP Plugins -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/CustomEase.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/MotionPathPlugin.min.js"></script>
+
     <!-- INLINE STYLES (for immediate testing/demonstration, ideally move to style.css) -->
     <style>
         /* Custom Colors & Gradients */
@@ -160,6 +166,21 @@
         .logo-pinnacle { color: #fff; font-weight: 800; font-size: 1.8rem; }
         .logo-solutions { color: var(--color-primary-blue); font-weight: 800; font-size: 1.8rem; }
         
+        /* New: Styles for the AI SVG in the logo */
+        .logo-ai-svg {
+            width: 30px; /* Adjusted to fit logo size */
+            height: 30px; /* Adjusted to fit logo size */
+            vertical-align: middle; /* Align with text */
+            margin: 0 4px; /* Spacing between text parts */
+            visibility: hidden; /* GSAP will make it visible initially */
+            flex-shrink: 0; /* Prevent it from shrinking in flex container */
+            /* The path and ellipses fill/stroke are handled by the JS/CodePen CSS */
+        }
+        .logo-ai-svg .ell, .logo-ai-svg #ai {
+            fill: none; /* As per CodePen CSS */
+        }
+
+
         .nav-link {
             color: #d1d5db; /* gray-400 */
             transition: color 0.3s ease;
@@ -495,8 +516,24 @@
         <div class="container mx-auto px-4 flex justify-between items-center h-full">
             <!-- Logo -->
             <a href="#home" class="logo flex items-center">
-                <span class="logo-pinnacle">PINNACLE AI </span>
-                <span class="logo-solutions">SOLUTIONS</span>
+                <span class="logo-pinnacle">PINNACLE </span>
+                <!-- SVG for AI animation - placed right next to the "Pinnacle" text -->
+                <svg viewBox="0 0 100 100" id="mainSVG" class="logo-ai-svg">
+                    <defs>
+                        <linearGradient id="aiGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#359EEE"/>
+                            <stop offset="100%" stop-color="#03CEA4"/>
+                        </linearGradient>
+                    </defs>
+                    <!-- This path is a placeholder for the "AI" shape that MotionPathPlugin will animate along -->
+                    <path id="ai" d="M20 50 C20 20, 80 20, 80 50 S20 80, 20 50" stroke="url(#aiGrad)" stroke-width="4" fill="none"/>
+                    <!-- Ellipses for the primary animation -->
+                    <ellipse class="ell" cx="50" cy="50" rx="30" ry="15" stroke="#359EEE" stroke-width="2"/>
+                    <ellipse class="ell" cx="50" cy="50" rx="25" ry="10" stroke="#FFC43D" stroke-width="2"/>
+                    <ellipse class="ell" cx="50" cy="50" rx="20" ry="7" stroke="#EF476F" stroke-width="2"/>
+                    <ellipse class="ell" cx="50" cy="50" rx="15" ry="5" stroke="#03CEA4" stroke-width="2"/>
+                </svg>
+                <span class="logo-solutions"> SOLUTIONS</span>
             </a>
 
             <!-- Hamburger Icon - will be flex on mobile, hidden on md and up -->
@@ -817,5 +854,83 @@
 
     <!-- Link to your external JavaScript file -->
     <script src="script.js"></script>
+
+    <!-- New script for the AI logo animation (placed at the end of body) -->
+    <script>
+        'use strict';
+        (function(){
+            // Function to animate each ellipse
+            function animateEllipse(element, index) {
+                let animationTimeline = gsap.timeline({
+                    defaults: { ease: CustomEase.get("custom") }, // Use the custom ease 'd' here if preferred for consistency
+                    repeat: -1
+                });
+                
+                // Set initial opacity and stroke color based on index
+                gsap.set(element, { 
+                    opacity: 1 - index / ellipseElements.length, 
+                    stroke: interpolateColor(index / ellipseElements.length) 
+                });
+
+                // Animate rx and ry attributes, then rotate
+                animationTimeline
+                    .to(element, { 
+                        attr: { ry: `-=${index * 2.3}`, rx: `+=${index * 1.4}` }, 
+                        ease: CustomEase.get("custom", "M0,0 C0.594,0.062 0.79,0.698 1,1 ") // Use ease 'h'
+                    })
+                    .to(element, { 
+                        attr: { ry: `+=${index * 2.3}`, rx: ` -=${index * 1.4}` }, 
+                        ease: CustomEase.get("custom", "M0,0 C0.266,0.412 0.297,0.582 0.453,0.775 0.53,0.87 0.78,1 1,1 ") // Use ease 'k'
+                    })
+                    .to(element, { duration: 1, rotation: -180, transformOrigin: "50% 50%" }, 0) // Rotate in parallel
+                    .timeScale(0.5);
+            }
+
+            gsap.config({ trialWarn: false });
+
+            const mainSVG = document.querySelector("#mainSVG");
+            const ellipseElements = gsap.utils.toArray(".ell");
+            
+            // Custom eases definitions from CodePen
+            const easeD = CustomEase.create("custom","M0,0 C0.2,0 0.432,0.147 0.507,0.374 0.59,0.629 0.822,1 1,1 ");
+            const easeK = CustomEase.create("custom","M0,0 C0.266,0.412 0.297,0.582 0.453,0.775 0.53,0.87 0.78,1 1,1 ");
+            const easeH = CustomEase.create("custom","M0,0 C0.594,0.062 0.79,0.698 1,1 ");
+
+            const motionPathLength = MotionPathPlugin.getLength("#ai");
+            const interpolateColor = gsap.utils.interpolate(["#359EEE","#FFC43D","#EF476F","#03CEA4"]);
+
+            // Make the SVG visible once GSAP is ready to animate it
+            gsap.set(mainSVG, { visibility: "visible" });
+
+            // Animate each ellipse with a slight delay
+            ellipseElements.forEach((el, index) => {
+                // Ensure motionPathLength exists before trying to use it
+                if (motionPathLength) {
+                    gsap.delayedCall(index / (ellipseElements.length - 1 || 1), animateEllipse, [el, index + 1]);
+                }
+            });
+
+            // Animate the linear gradient for #aiGrad
+            gsap.to("#aiGrad", {
+                duration: 4,
+                delay: 0.75,
+                attr: { x1: "-=300", x2: "-=300" }, // Assumes original x1/x2 were 0/100 or similar
+                scale: 1.2, // Scaling the gradient itself, not the path
+                transformOrigin: "50% 50%",
+                repeat: -1,
+                ease: "none"
+            });
+
+            // Animate the main path #ai (pulse effect)
+            gsap.to("#ai", {
+                duration: 1,
+                scale: 1.1,
+                transformOrigin: "50% 50%",
+                repeat: -1,
+                yoyo: true,
+                ease: easeD // Use the custom ease 'd'
+            });
+        })();
+    </script>
 </body>
 </html>
