@@ -173,7 +173,7 @@
             color: #fff;
         }
         .logo-solutions {
-            color: var(--color-primary-blue); /* This was the color of "SOLUTIONS" */
+            color: var(--color-primary-blue);
         }
         
         /* New: Styles for the LARGER AI SVG next to the logo */
@@ -259,19 +259,7 @@
             position: relative;
             background-color: #000; /* Fallback for video */
         }
-        .video-bg {
-            min-width: 100%;
-            min-height: 100%;
-            width: auto;
-            height: auto;
-            right: 0;
-            bottom: 0;
-            z-index: -1;
-        }
-        .hero-overlay {
-            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.8) 100%);
-        }
-        /* Hero content animations are handled by inline style="animation-delay" and the specific JS in script.js */
+        /* Removed video-bg and hero-overlay styles as they are replaced by iframe */
 
         .btn-primary-hero, .btn-outline-hero {
             padding: 1rem 2.5rem;
@@ -590,13 +578,13 @@
         </div>
     </nav>
 
-    <!-- Hero Section with Video Background -->
+    <!-- Hero Section with Creative Black Hole Animation -->
     <section id="home" class="hero relative overflow-hidden flex items-center justify-center text-center text-white">
-        <video autoplay muted loop playsinline webkit-playsinline class="video-bg absolute min-w-full min-h-full object-cover">
-            <source src="background.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-        <div class="hero-overlay absolute inset-0"></div>
+        <!-- Creative Black Hole Animation (iframe) -->
+        <iframe height="100%" width="100%" scrolling="no" title="Creative Black Hole" src="https://codepen.io/wodniack/embed/preview/VYwGEGg?default-tab=html%2Cresult&theme-id=dark" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true"
+            class="absolute inset-0 w-full h-full z-0 pointer-events-none"> <!-- z-0 puts it behind content, pointer-events-none ensures clicks go to content -->
+        </iframe>
+        
         <div class="hero-content relative z-10 p-6 max-w-4xl mx-auto">
             <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-6">Intelligent Solutions for the Digital Age</h1>
             <p class="text-lg md:text-xl font-light mb-10">Harness the power of AI to transform your business operations and customer experiences.</p>
@@ -914,8 +902,6 @@
             
             // Custom eases definitions from CodePen
             const easeD = CustomEase.create("custom","M0,0 C0.2,0 0.432,0.147 0.507,0.374 0.59,0.629 0.822,1 1,1 ");
-            // const easeK = CustomEase.create("custom","M0,0 C0.266,0.412 0.297,0.582 0.453,0.775 0.53,0.87 0.78,1 1,1 "); // Not directly used as a variable
-            // const easeH = CustomEase.create("custom","M0,0 C0.594,0.062 0.79,0.698 1,1 "); // Not directly used as a variable
 
             const motionPathLength = MotionPathPlugin.getLength("#ai");
             const interpolateColor = gsap.utils.interpolate(["#359EEE","#FFC43D","#EF476F","#03CEA4"]);
@@ -925,8 +911,6 @@
 
             // Animate each ellipse with a slight delay
             ellipseElements.forEach((el, index) => {
-                // The motionPathLength check here is for the #ai path; ellipse animation doesn't strictly rely on it.
-                // It's part of the original CodePen logic, so kept for consistency.
                 if (motionPathLength) { 
                     gsap.delayedCall(index / (ellipseElements.length - 1 || 1), animateEllipse, [el, index + 1]);
                 }
