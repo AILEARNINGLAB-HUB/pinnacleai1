@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pinnacle AI Solutions | Intelligent Solutions for the Digital Age</title>
-    <meta name="description" content="Pinnacle AI Solutions offers cutting-edge AI services: app development, data scraping, predictive analytics, NLP, and computer vision. Learn AI for free with us!">
-    <meta name="keywords" content="AI solutions, artificial intelligence, machine learning, deep learning, app development, data scraping, predictive analytics, NLP, computer vision, learn AI, free AI courses">
+    <title>AI Learning Lab | bluesky</title>
+    <meta name="description" content="AI Learning Lab bluesky offers comprehensive AI-powered solutions tailored to your business needs, with services including app development, deployment, and maintenance.">
+    <meta name="keywords" content="AI solutions, artificial intelligence, machine learning, deep learning, app development, data scraping, predictive analytics, NLP, computer vision">
 
     <!-- Tailwind CSS for utility classes -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
@@ -19,12 +19,9 @@
     <!-- Link to your external Custom CSS file -->
     <link rel="stylesheet" href="style.css">
 
-    <!-- GSAP Core Library -->
+    <!-- GSAP Core Library (kept for scroll animations if used by script.js) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
-    <!-- GSAP Plugins -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/CustomEase.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/MotionPathPlugin.min.js"></script>
-
+    
     <!-- INLINE STYLES (for immediate testing/demonstration, ideally move to style.css) -->
     <style>
         /* Custom Colors & Gradients */
@@ -120,147 +117,79 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* Mobile Menu specific styles */
-        .mobile-menu-overlay {
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(17,24,39,0.97); /* Slightly transparent dark background */
-            position: fixed;
-            z-index: 100;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center; /* Center items vertically now */
-            padding-top: 5rem; /* Still give some top padding if needed for close button */
-            transition: transform 0.4s cubic-bezier(.4,0,.2,1), opacity 0.4s cubic-bezier(.4,0,.2,1);
-            transform: translateY(-100%);
-            opacity: 0;
-            pointer-events: none; /* Disables interaction when hidden */
-        }
-        .mobile-menu-overlay.active {
-            transform: translateY(0);
-            opacity: 1;
-            pointer-events: auto; /* Enables interaction when active */
-        }
-
-        .hamburger span {
-            transition: all 0.3s ease-in-out;
-        }
-        .hamburger.active span:nth-child(1) {
-            transform: translateY(8px) rotate(45deg);
-        }
-        .hamburger.active span:nth-child(2) {
-            opacity: 0;
-        }
-        .hamburger.active span:nth-child(3) {
-            transform: translateY(-8px) rotate(-45deg);
-        }
-
-        /* Other Custom Styles (from your original style.css or additional) */
+        /* Navbar specific styles (updated) */
         .navbar {
-            background-color: var(--color-dark-bg);
+            background-color: #1F2937; /* Tailwind gray-800, matching the image */
             border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding-top: 1.5rem; /* Increased from py-4 to py-6 (24px) */
-            padding-bottom: 1.5rem; /* Increased from py-4 to py-6 (24px) */
-        }
-        /* Combined font styles for all logo parts */
-        .logo {
-            font-weight: 800;
-            font-size: 1.8rem;
-            line-height: 1; /* Helps vertical alignment */
-            display: flex; /* Ensure the spans are flex children */
-            align-items: center; /* Vertically align spans */
-            white-space: nowrap; /* Keep text on one line */
-        }
-        /* New: Colors for the logo text as per the image */
-        .logo-pinnacle-green { 
-            color: var(--color-secondary-green); /* Greenish color for PINNACLE */
-        }
-        .logo-aisolutions-blue { 
-            color: var(--color-primary-blue); /* Blueish color for AISOLUTIONS */
         }
         
-        /* New: Styles for the LARGER AI SVG next to the logo */
-        .larger-ai-svg {
-            width: 60px; /* Make it significantly larger */
-            height: 60px; /* Make it significantly larger */
-            visibility: hidden; /* GSAP will make it visible */
-            flex-shrink: 0; /* Prevent it from shrinking in flex container */
-            margin-left: 1rem; /* Spacing between logo text and SVG */
+        /* Specific styling for the new "Log In" button */
+        .btn-navbar-dark {
+            background-color: #374151; /* gray-700 */
+            color: #D1D5DB; /* gray-400 */
+            border-radius: 0.5rem; /* rounded-lg */
+            padding: 0.5rem 1rem; /* px-4 py-2 */
+            font-size: 0.875rem; /* text-sm */
+            font-weight: 500; /* font-medium */
+            transition: background-color 0.2s ease, color 0.2s ease;
         }
-        .larger-ai-svg .ell, .larger-ai-svg #ai {
-            fill: none; /* As per CodePen CSS */
+        .btn-navbar-dark:hover {
+            background-color: #4B5563; /* gray-600 */
+            color: #E5E7EB; /* gray-200 */
         }
-        /* Responsive adjustment for the larger SVG */
-        @media (max-width: 767px) {
-            .larger-ai-svg {
-                width: 40px; /* Smaller on mobile */
-                height: 40px;
-                margin-left: 0.5rem; /* Reduce margin on mobile */
-            }
-            /* Adjust overall logo text size if needed for the combined block */
-            .logo {
-                font-size: 1.5rem;
-            }
-            /* Adjust navbar padding for mobile if needed */
-            .navbar {
-                padding-top: 1rem; /* Smaller padding for smaller screens */
-                padding-bottom: 1rem;
-            }
+        /* Specific styling for "Sign Up" button */
+        .btn-navbar-green {
+            background-color: #10B981; /* emerald-500 or similar */
+            color: white;
+            border-radius: 0.5rem; /* rounded-lg */
+            padding: 0.5rem 1rem; /* px-4 py-2 */
+            font-size: 0.875rem; /* text-sm */
+            font-weight: 500; /* font-medium */
+            transition: background-color 0.2s ease;
+        }
+        .btn-navbar-green:hover {
+            background-color: #059669; /* emerald-600 */
         }
 
-
-        .nav-link {
-            color: #d1d5db; /* gray-400 */
-            transition: color 0.3s ease;
-            position: relative;
-            font-weight: 500;
+        /* Styles for the "AI Learning Lab" logo and "bluesky" text */
+        .logo-text-top {
+            color: #9CA3AF; /* gray-400 */
+            font-size: 0.875rem; /* text-sm */
+            font-weight: 600; /* font-semibold */
+            line-height: 1; /* Adjust to reduce spacing */
         }
-        .nav-link::after {
-            content: '';
+        .logo-text-bottom {
+            color: #E5E7EB; /* gray-200 */
+            font-size: 1.125rem; /* text-lg */
+            font-weight: 700; /* font-bold */
+            line-height: 1; /* Adjust to reduce spacing */
+        }
+        /* Styling for the small follow button */
+        .btn-follow {
+            background-color: #10B981; /* emerald-500 */
+            color: white;
+            border-radius: 0.375rem; /* rounded-md */
+            padding: 0.25rem 0.75rem; /* px-3 py-1 */
+            font-size: 0.875rem; /* text-sm */
+            font-weight: 500; /* font-medium */
+            transition: background-color 0.2s ease;
+        }
+        .btn-follow:hover {
+            background-color: #059669; /* emerald-600 */
+        }
+
+        /* Styles to hide the iframe's internal header */
+        .bluesky-bg-iframe {
             position: absolute;
+            top: -70px; /* Adjust this value based on the actual height of the iframe's internal header */
             left: 0;
-            bottom: -5px;
-            width: 0;
-            height: 2px;
-            background-color: var(--color-primary-blue);
-            transition: width 0.3s ease;
-        }
-        .nav-link:hover::after, .nav-link.active::after {
             width: 100%;
-        }
-        .nav-link:hover, .nav-link.active {
-            color: #fff;
-        }
-
-        .btn-secondary-padding { padding: 0.75rem 1.5rem; }
-        .btn-primary-padding { padding: 0.75rem 1.5rem; }
-
-        .btn-primary {
-            background: linear-gradient(90deg, var(--color-primary-blue), var(--color-secondary-green));
-            color: #fff;
-            border-radius: 9999px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 15px rgba(59,130,246,0.3);
-        }
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(59,130,246,0.4);
-            background: linear-gradient(90deg, var(--color-secondary-green), var(--color-primary-blue)); /* Reverse for hover */
-        }
-        .btn-secondary {
-            background: linear-gradient(90deg, var(--color-purple), var(--color-orange));
-            color: #fff;
-            border-radius: 9999px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 15px rgba(168,85,247,0.3);
-        }
-        .btn-secondary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(168,85,247,0.4);
-            background: linear-gradient(90deg, var(--color-orange), var(--color-purple));
+            height: calc(100% + 70px); /* Extend height to compensate for negative top */
+            z-index: 0;
+            pointer-events: none;
+            /* Keep other styles: */
+            border: none; /* Ensure no visible border */
+            transform: translateZ(0); /* Potentially helps with rendering performance */
         }
 
         /* Hero Section */
@@ -270,8 +199,7 @@
             position: relative;
             background-color: #000; /* Fallback for iframe load */
         }
-        /* Removed video-bg and hero-overlay styles as they are replaced by iframe */
-
+        
         .btn-primary-hero, .btn-outline-hero {
             padding: 1rem 2.5rem;
             border-radius: 9999px;
@@ -279,10 +207,20 @@
             font-size: 1.125rem;
             transition: all 0.3s ease;
         }
+        .btn-primary-hero {
+            background: linear-gradient(90deg, var(--color-primary-blue), var(--color-secondary-green));
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(59,130,246,0.3);
+        }
         .btn-primary-hero:hover {
             transform: translateY(-3px) scale(1.02);
             box-shadow: 0 8px 25px rgba(59,130,246,0.5);
             background: linear-gradient(90deg, #22c55e, #3b82f6); /* green to blue */
+        }
+        .btn-outline-hero {
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+            background-color: transparent;
         }
         .btn-outline-hero:hover {
             background-color: rgba(255,255,255,0.1);
@@ -293,7 +231,7 @@
         /* Section styles */
         .section-header h2 {
             font-weight: 800;
-            background: linear-gradient(90deg, var(--color-primary-blue), var(--color-purple));
+            background: linear-gradient(90deg, #A855F7, #6B46C1); /* Darker purple gradient for h2 */
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -303,23 +241,28 @@
 
         /* Service Cards */
         .service-card {
-            background-color: rgba(31,41,55,0.7); /* gray-800 with transparency */
-            border-radius: 1rem;
+            background-color: #1A202C; /* Darker gray, similar to #1F2937 but slightly darker for contrast */
+            border-radius: 0.75rem; /* Adjust to match image's rounded corners */
             padding: 2.5rem;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.08);
             position: relative;
             overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.5);
         }
         .service-icon {
             font-size: 3.5rem;
-            color: var(--color-primary-blue);
+            color: #6366F1; /* Indigo-500, a blue-purple */
             margin: 0 auto 1.5rem auto;
             transition: transform 0.3s ease, color 0.3s ease;
         }
         .service-card:hover .service-icon {
-            color: var(--color-secondary-green);
+            color: #A855F7; /* Purple-500 */
             transform: scale(1.1);
         }
         .service-card h3 {
@@ -327,25 +270,25 @@
             color: #fff;
         }
         .service-card p {
-            color: #ccc;
+            color: #C2C5CC; /* Lighter gray */
         }
         .service-card ul li {
-            color: #a0aec0; /* gray-400 */
+            color: #A0AEC0; /* gray-400 */
         }
 
         /* Solution Cards */
         .solution-card {
-            background-color: rgba(31,41,55,0.6); /* gray-800 with more transparency */
-            border-radius: 1rem;
+            background-color: #1A202C; /* Same as service cards */
+            border-radius: 0.75rem;
             padding: 2rem;
             box-shadow: 0 8px 25px rgba(0,0,0,0.2);
             border: 1px solid rgba(255,255,255,0.1);
             transition: all 0.3s ease;
-            display: flex; /* For icon alignment */
-            align-items: flex-start; /* Align icon and text at the top */
+            display: flex;
+            align-items: flex-start;
         }
         .solution-card:hover {
-            background-color: rgba(31,41,55,0.8);
+            background-color: #2D3748; /* Slightly lighter on hover */
             box-shadow: 0 12px 40px rgba(0,0,0,0.3);
             transform: translateY(-5px);
         }
@@ -358,7 +301,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-shrink: 0; /* Prevent icon from shrinking */
+            flex-shrink: 0;
         }
         .solution-card h3 {
             font-weight: 700;
@@ -484,7 +427,6 @@
 
         /* Responsive adjustments */
         @media (max-width: 767px) {
-            .logo { font-size: 1.5rem; } /* Adjusted parent logo font size */
             .hero-content h1 { font-size: 2.5rem; }
             .hero-content p { font-size: 1rem; }
             .hero-buttons { flex-direction: column; gap: 1rem; }
@@ -510,6 +452,24 @@
 
             .footer-col { margin-bottom: 3rem; }
             .footer-col:last-child { margin-bottom: 0; }
+
+            /* Mobile adjustments for new navbar */
+            .navbar .container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .navbar .flex.items-center.space-x-4 {
+                width: 100%;
+                justify-content: center; /* Center buttons below logo on small screens */
+                margin-top: 0.5rem; /* Small space below logo */
+            }
+            .navbar .flex.items-center.space-x-4 button {
+                padding: 0.4rem 0.8rem; /* Slightly smaller buttons on mobile */
+            }
+            .navbar .flex.items-center:first-child {
+                width: 100%;
+                justify-content: space-between; /* Space between logo and follow on mobile */
+            }
         }
 
         @media (max-width: 480px) {
@@ -520,59 +480,39 @@
 </head>
 <body class="bg-gray-900 text-gray-200 font-inter">
     <!-- Navbar -->
-    <nav class="navbar fixed top-0 left-0 w-full z-50 bg-gray-900 border-b border-gray-700">
+    <nav class="navbar fixed top-0 left-0 w-full z-50 py-2">
         <div class="container mx-auto px-4 flex justify-between items-center h-full">
-            <!-- Left Group: Logo Text + AI Animation -->
+            <!-- Left Group: Logo Text + Follow Button -->
             <div class="flex items-center">
-                <!-- Logo Text -->
-                <a href="#home" class="logo">
-                    <span class="logo-pinnacle-green">PINNACLE</span><span class="logo-aisolutions-blue">AISOLUTIONS</span>
-                </a>
-                <!-- AI Animation (Larger, to the right of the text logo) -->
-                <svg viewBox="0 0 100 100" id="mainSVG" class="larger-ai-svg">
-                    <defs>
-                        <linearGradient id="aiGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" stop-color="#359EEE"/>
-                            <stop offset="100%" stop-color="#03CEA4"/>
-                        </linearGradient>
-                    </defs>
-                    <path id="ai" d="M20 50 C20 20, 80 20, 80 50 S20 80, 20 50" stroke="url(#aiGrad)" stroke-width="4" fill="none"/>
-                    <ellipse class="ell" cx="50" cy="50" rx="30" ry="15" stroke="#359EEE" stroke-width="2"/>
-                    <ellipse class="ell" cx="50" cy="50" rx="25" ry="10" stroke="#FFC43D" stroke-width="2"/>
-                    <ellipse class="ell" cx="50" cy="50" rx="20" ry="7" stroke="#EF476F" stroke-width="2"/>
-                    <ellipse class="ell" cx="50" cy="50" rx="15" ry="5" stroke="#03CEA4" stroke-width="2"/>
+                <!-- Icon: A simple cube/data structure icon for AI Learning Lab -->
+                <svg class="w-8 h-8 mr-2 text-gray-400" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.31L18 7.2v7.58L12 19.69l-6-4.91V7.2L12 4.31zm0 2.22L7 9.61v4.78L12 17.07l5-2.43V9.61L12 6.53z"/>
                 </svg>
+                <!-- Text Logo -->
+                <div>
+                    <span class="logo-text-top block leading-none">AI Learning Lab</span>
+                    <span class="logo-text-bottom block leading-none">bluesky</span>
+                </div>
+                <!-- Follow Button -->
+                <button class="ml-3 btn-follow flex items-center">
+                    <i class="fas fa-plus mr-1 text-xs"></i> Follow
+                </button>
             </div>
 
-            <!-- Hamburger Icon - will be flex on mobile, hidden on md and up -->
-            <div class="hamburger md:hidden flex flex-col justify-center items-center w-10 h-10 cursor-pointer z-50" tabindex="0" aria-label="Open menu" role="button">
-                <span class="block w-8 h-1 bg-white mb-1 rounded transition-all"></span>
-                <span class="block w-8 h-1 bg-white mb-1 rounded transition-all"></span>
-                <span class="block w-8 h-1 bg-white rounded transition-all"></span>
-            </div>
-
-            <!-- Main Menu (Desktop) -->
-            <ul class="navbar-menu hidden md:flex items-center space-x-6 lg:space-x-8">
-                <li><a href="#home" class="nav-link active">Home</a></li>
-                <li><a href="#services" class="nav-link">Services</a></li>
-                <li><a href="#solutions" class="nav-link">Solutions</a></li>
-                <li><a href="#about" class="nav-link">About</a></li>
-                <li><a href="#contact" class="nav-link">Contact</a></li>
-                <li class="ml-4"><a href="programs.html" target="_blank" rel="noopener noreferrer" class="btn-secondary btn-secondary-padding">AI PROGRAMS</a></li>
-                <li><a href="learnaiforfree.html" target="_blank" rel="noopener noreferrer" class="btn-primary btn-primary-padding">Learn AI for Free</a></li>
-            </ul>
-
-            <!-- Mobile menu overlay (initially hidden, controlled by JS and CSS) -->
-            <div class="mobile-menu-overlay">
-                <a href="#home" class="nav-link-mobile text-3xl font-semibold text-white hover:text-blue-400 transition-colors duration-300 mb-4" data-target="home">Home</a>
-                <a href="#services" class="nav-link-mobile text-3xl font-semibold text-white hover:text-blue-400 transition-colors duration-300 mb-4" data-target="services">Services</a>
-                <a href="#solutions" class="nav-link-mobile text-3xl font-semibold text-white hover:text-blue-400 transition-colors duration-300 mb-4" data-target="solutions">Solutions</a>
-                <a href="#about" class="nav-link-mobile text-3xl font-semibold text-white hover:text-blue-400 transition-colors duration-300 mb-4" data-target="about">About</a>
-                <a href="#contact" class="nav-link-mobile text-3xl font-semibold text-white hover:text-blue-400 transition-colors duration-300 mb-6" data-target="contact">Contact</a>
-                <a href="programs.html" class="btn-secondary-mobile w-11/12 max-w-xs text-center py-3 px-4 rounded-full bg-gray-700 text-white font-semibold hover:bg-gray-800 transition mb-4">AI PROGRAMS</a>
-                <a href="learnaiforfree.html" target="_blank" rel="noopener noreferrer" class="btn-primary-mobile w-11/12 max-w-xs text-center py-3 px-4 rounded-full bg-blue-600 text-white font-semibold hover:bg-blue-700 transition">Learn AI for Free</a>
-                <!-- Close button for mobile menu -->
-                <button class="close-mobile-menu text-white text-4xl absolute top-6 right-6 focus:outline-none focus:ring-2 focus:ring-blue-400 rounded-full w-12 h-12 flex items-center justify-center">×</button>
+            <!-- Right Group: Action Buttons -->
+            <div class="flex items-center space-x-2 md:space-x-4">
+                <button class="p-2 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white transition duration-200" title="Favorite">
+                    <i class="fas fa-heart text-lg"></i>
+                </button>
+                <button class="btn-navbar-dark">
+                    View Source Code
+                </button>
+                <button class="btn-navbar-green">
+                    Sign Up
+                </button>
+                <button class="btn-navbar-dark">
+                    Log In
+                </button>
             </div>
         </div>
     </nav>
@@ -580,7 +520,7 @@
     <!-- Hero Section with Creative Black Hole Animation -->
     <section id="home" class="hero relative overflow-hidden flex items-center justify-center text-center text-white">
         <!-- Creative Black Hole Animation (iframe) -->
-        <iframe height="100%" width="100%" scrolling="no" title="Creative Black Hole" 
+        <iframe scrolling="no" title="Creative Black Hole" 
             src="https://codepen.io/wodniack/full/VYwGEGg/?" 
             frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true"
             class="absolute inset-0 w-full h-full z-0 pointer-events-none">
@@ -598,11 +538,11 @@
 
     <!-- Services Section -->
     <section id="services" class="section py-20 relative overflow-hidden text-white">
-        <!-- Background iframe for "bluesky" animation -->
-        <iframe height="100%" width="100%" scrolling="no" title="bluesky" 
+        <!-- Background iframe for "bluesky" animation (UPDATED CLASS) -->
+        <iframe scrolling="no" title="bluesky" 
             src="https://codepen.io/AI-Learning-Lab/full/gbpxbZo/?" 
             frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true"
-            class="absolute inset-0 w-full h-full z-0 pointer-events-none">
+            class="bluesky-bg-iframe">
         </iframe>
         
         <!-- Semi-transparent overlay for readability -->
@@ -875,79 +815,6 @@
     <!-- Link to your external JavaScript file -->
     <script src="script.js"></script>
 
-    <!-- New script for the AI logo animation (placed at the end of body) -->
-    <script>
-        'use strict';
-        (function(){
-            // Function to animate each ellipse
-            function animateEllipse(element, index) {
-                let animationTimeline = gsap.timeline({
-                    defaults: { ease: CustomEase.get("custom") }, // Use the custom ease 'd' here if preferred for consistency
-                    repeat: -1
-                });
-                
-                // Set initial opacity and stroke color based on index
-                gsap.set(element, { 
-                    opacity: 1 - index / ellipseElements.length, 
-                    stroke: interpolateColor(index / ellipseElements.length) 
-                });
-
-                // Animate rx and ry attributes, then rotate
-                animationTimeline
-                    .to(element, { 
-                        attr: { ry: `-=${index * 2.3}`, rx: `+=${index * 1.4}` }, 
-                        ease: CustomEase.get("custom", "M0,0 C0.594,0.062 0.79,0.698 1,1 ") // Use ease 'h'
-                    })
-                    .to(element, { 
-                        attr: { ry: `+=${index * 2.3}`, rx: ` -=${index * 1.4}` }, 
-                        ease: CustomEase.get("custom", "M0,0 C0.266,0.412 0.297,0.582 0.453,0.775 0.53,0.87 0.78,1 1,1 ") // Use ease 'k'
-                    })
-                    .to(element, { duration: 1, rotation: -180, transformOrigin: "50% 50%" }, 0) // Rotate in parallel
-                    .timeScale(0.5);
-            }
-
-            gsap.config({ trialWarn: false });
-
-            const mainSVG = document.querySelector("#mainSVG");
-            const ellipseElements = gsap.utils.toArray(".ell");
-            
-            // Custom eases definitions from CodePen
-            const easeD = CustomEase.create("custom","M0,0 C0.2,0 0.432,0.147 0.507,0.374 0.59,0.629 0.822,1 1,1 ");
-
-            const motionPathLength = MotionPathPlugin.getLength("#ai");
-            const interpolateColor = gsap.utils.interpolate(["#359EEE","#FFC43D","#EF476F","#03CEA4"]);
-
-            // Make the SVG visible once GSAP is ready to animate it
-            gsap.set(mainSVG, { visibility: "visible" });
-
-            // Animate each ellipse with a slight delay
-            ellipseElements.forEach((el, index) => {
-                if (motionPathLength) { 
-                    gsap.delayedCall(index / (ellipseElements.length - 1 || 1), animateEllipse, [el, index + 1]);
-                }
-            });
-
-            // Animate the linear gradient for #aiGrad
-            gsap.to("#aiGrad", {
-                duration: 4,
-                delay: 0.75,
-                attr: { x1: "-=300", x2: "-=300" }, 
-                scale: 1.2, 
-                transformOrigin: "50% 50%",
-                repeat: -1,
-                ease: "none"
-            });
-
-            // Animate the main path #ai (pulse effect)
-            gsap.to("#ai", {
-                duration: 1,
-                scale: 1.1,
-                transformOrigin: "50% 50%",
-                repeat: -1,
-                yoyo: true,
-                ease: easeD 
-            });
-        })();
-    </script>
+    <!-- Removed GSAP AI logo animation script as it's no longer used -->
 </body>
 </html>
