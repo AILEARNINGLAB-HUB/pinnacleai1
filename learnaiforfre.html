@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AILEARNINGLAB-HUB | Learn AI for Free</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Inter font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Minimal extra for animated gradient background */
+        body {
+            background: linear-gradient(120deg, #1e3a8a 0%, #4ade80 100%);
+            background-size: 200% 200%;
+            animation: gradientMove 8s ease-in-out infinite;
+        }
+        @keyframes gradientMove {
+            0% {background-position: 0% 50%;}
+            50% {background-position: 100% 50%;}
+            100% {background-position: 0% 50%;}
+        }
+        .hero-title {
+            font-size: 2.8rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, #4ade80, #3b82f6, #a78bfa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+            animation: fadeInUp 1s;
+        }
+        .nav-links {
+            margin: 1.5rem 0 2.5rem 0;
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .section-link {
+            color: #3b82f6;
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.2s;
+            padding: 0.7rem 1.2rem;
+            border-radius: 9999px;
+            font-size: 1.1rem;
+            /* Larger tap target for mobile */
+        }
+        .section-link:active,
+        .section-link:focus {
+            outline: 2px solid #4ade80;
+            background: rgba(74,222,128,0.12);
+        }
+        .section-link:hover {
+            color: #4ade80;
+            background: rgba(74,222,128,0.08);
+        }
+        .animated-btn {
+            background: linear-gradient(90deg, #3b82f6, #1e3a8a);
+            color: #fff;
+            border: none;
+            border-radius: 9999px;
+            padding: 1rem 2.5rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(59,130,246,0.2);
+            transition: background 0.4s, transform 0.2s;
+            margin-top: 0.5rem;
+        }
+        .animated-btn:active,
+        .animated-btn:focus {
+            outline: 2px solid #4ade80;
+            background: linear-gradient(270deg, #4ade80, #3b82f6);
+        }
+        .animated-btn:hover {
+            background: linear-gradient(270deg, #4ade80, #3b82f6);
+            transform: scale(1.05);
+        }
+        .section {
+            background: rgba(31,41,55,0.8);
+            border-radius: 1rem;
+            margin: 2rem auto;
+            padding: 2.5rem 1.5rem;
+            max-width: 700px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+            color: #fff;
+            animation: fadeInUp 1s;
+        }
+        .section-header {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, #4ade80, #a78bfa);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+        }
+        .slinks {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        .slink-btn {
+            background: linear-gradient(90deg, #a78bfa, #4ade80);
+            color: #fff;
+            border: none;
+            border-radius: 9999px;
+            padding: 0.9rem 1.7rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+            margin-bottom: 0.5rem;
+        }
+        .slink-btn:active,
+        .slink-btn:focus {
+            outline: 2px solid #3b82f6;
+            background: linear-gradient(270deg, #4ade80, #a78bfa);
+        }
+        .slink-btn:hover {
+            background: linear-gradient(270deg, #4ade80, #a78bfa);
+            transform: scale(1.07);
+        }
+        @media (max-width: 600px) {
+            .hero-title {
+                font-size: 1.6rem;
+            }
+            .section-header {
+                font-size: 1.2rem;
+            }
+            .section {
+                padding: 1.2rem 0.7rem;
+            }
+            .nav-links {
+                gap: 0.7rem;
+            }
+            .section-link {
+                font-size: 1rem;
+                padding: 0.7rem 0.7rem;
+            }
+            .animated-btn {
+                width: 90vw;
+                max-width: 320px;
+                font-size: 1rem;
+                padding: 1rem 0;
+            }
+            .slinks {
+                gap: 0.7rem;
+            }
+            .slink-btn {
+                width: 90vw;
+                max-width: 320px;
+                font-size: 1rem;
+                padding: 1rem 0;
+            }
+        }
+        .how-list {
+            margin-left: 1.2rem;
+            margin-top: 1rem;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+    <script>
+        // Ensure nav links scroll smoothly and close any mobile nav if present
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.section-link').forEach(function(link) {
+                link.addEventListener('click', function(e) {
+                    const targetId = this.getAttribute('href').replace('#', '');
+                    const target = document.getElementById(targetId);
+                    if (target) {
+                        e.preventDefault();
+                        target.scrollIntoView({behavior: 'smooth'});
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <header style="padding: 2rem 0 1rem 0; text-align: center;">
+        <div class="hero-title">AILEARNINGLAB-HUB</div>
+        <div style="font-size:1.2rem; color:#e5e7eb; margin-top:0.5rem;">Modern, Free, and Interactive AI Learning</div>
+        <nav class="nav-links">
+            <a href="#why" class="section-link">Why Learn AI?</a>
+            <a href="#how" class="section-link">How It Works</a>
+            <a href="#start" class="section-link">Start Learning</a>
+        </nav>
+        <button class="animated-btn" onclick="document.getElementById('start').scrollIntoView({behavior:'smooth'})">
+            Start for Free
+        </button>
+    </header>
+
+    <main>
+        <section id="why" class="section">
+            <div class="section-header">Why Learn AI?</div>
+            <p>
+                Artificial Intelligence is transforming every industry. Whether you want to automate tasks, build smarter apps, or understand the future of technology, learning AI is essential. Our platform gives you hands-on, project-based learning with zero cost.
+            <ul class="how-list">
+                <li>🚀 <b>Interactive Labs:</b> Learn by doing with real AI code and datasets.</li>
+                <li>📚 <b>Curated Curriculum:</b> Start from basics, progress to advanced topics.</li>
+                <li>🌐 <b>Community Support:</b> Join discussions, ask questions, and collaborate.</li>
+                <li>🏆 <b>Earn Certificates:</b> Complete modules and showcase your skills.</li>
+            </ul>
+        </section>
+        <section id="start" class="section">
+            <div class="section-header">Start Learning Now</div>
+            <p>
+                Ready to begin your AI journey? Click below to access our free AI learning modules and join our global community.
+            </p>
+            <div class="slinks">
+                <a href="https://www.coursera.org/learn/machine-learning" target="_blank" rel="noopener" class="slink-btn">Coursera ML</a>
+                <a href="https://www.fast.ai/" target="_blank" rel="noopener" class="slink-btn">fast.ai</a>
+                <a href="https://www.kaggle.com/learn/intro-to-ai" target="_blank" rel="noopener" class="slink-btn">Kaggle AI</a>
+                <a href="https://www.elementsofai.com/" target="_blank" rel="noopener" class="slink-btn">Elements of AI</a>
+            </div>
+            <div style="margin-top:2.5rem;">
+                <div class="section-header" style="font-size:1.3rem;">Popular AI Services</div>
+                <ul style="list-style:none; padding:0; margin:1.5rem 0 0 0; display:grid; gap:0.7rem;">
+                    <li><a href="https://chat.openai.com/" target="_blank" rel="noopener" class="slink-btn" style="display:inline-block;">ChatGPT (OpenAI)</a></li>
+                    <li><a href="https://claude.ai/" target="_blank" rel="noopener" class="slink-btn" style="display:inline-block;">Claude (Anthropic)</a></li>
+                    <li><a href="https://gemini.google.com/" target="_blank" rel="noopener" class="slink-btn" style="display:inline-block;">Gemini (Google)</a></li>
+                    <li><a href="https://copilot.microsoft.com/" target="_blank" rel="noopener" class="slink-btn" style="display:inline-block;">Copilot (Microsoft)</a></li>
+                    <li><a href="https://perplexity.ai/" target="_blank" rel="noopener" class="slink-btn" style="display:inline-block;">Perplexity AI</a></li>
+                    <li><a href="https://bard.google.com/" target="_blank" rel="noopener" class="slink-btn" style="display:inline-block;">Google Bard</a></li>
+                    <li><a href="https://www.phind.com/" target="_blank" rel="noopener" class="slink-btn" style="display:inline-block;">Phind</a></li>
+                    <li><a href="https://www.you.com/" target="_blank" rel="noopener" class="slink-btn" style="display:inline-block;">You.com AI</a></li>
+                    <li><a href="https://www.poe.com/" target="_blank" rel="noopener" class="slink-btn" style="display:inline-block;">Poe (Quora)</a></li>
+                </ul>
+            </div>
+        </section>
+    </main>
+    <footer style="text-align:center; color:#d1d5db; margin:2.5rem 0 1rem 0;">
+    
+    </footer>
+</body>
+</html>
