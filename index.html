@@ -456,6 +456,34 @@
         }
 
         /* Footer */
+        /* Ensure footer is relative for absolute children positioning */
+        .footer {
+            position: relative; 
+            overflow: hidden; /* Hide any content overflow outside */
+        }
+
+        /* Wormhole Canvas Container (positioned absolutely within the footer) */
+        #wormhole-canvas-container {
+            position: absolute;
+            inset: 0; /* Cover the entire parent footer */
+            z-index: 0; /* Place it behind footer content */
+            pointer-events: none; /* Allow interaction with content above */
+            /* The canvas itself will be appended here by JS, filling this div */
+        }
+        #wormhole-canvas-container canvas {
+            display: block;
+            width: 100%;
+            height: 100%; /* IMPORTANT: Changed from 100vh to 100% to fill the footer container */
+            cursor: grab; /* Cursor style for the canvas area */
+        }
+
+        /* Ensure footer content is on top of the canvas */
+        .footer .container, .footer .copyright {
+            position: relative; /* Make these elements relative */
+            z-index: 1; /* Place them above the canvas */
+        }
+
+
         .footer-logo-text {
              background: linear-gradient(90deg, #fff, var(--color-primary-blue));
             -webkit-background-clip: text;
@@ -589,7 +617,7 @@
 
     <!-- Hero Section with Creative Black Hole Animation -->
     <section id="home" class="hero relative overflow-hidden flex items-center justify-center text-center text-white">
-        <!-- Creative Black Hole Animation (iframe) - UPDATED CLASS -->
+        <!-- Creative Black Hole Animation (iframe) -->
         <iframe scrolling="no" title="Creative Black Hole" 
             src="https://codepen.io/wodniack/full/VYwGEGg/?" 
             frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true"
@@ -608,7 +636,7 @@
 
     <!-- Services Section -->
     <section id="services" class="section py-20 relative overflow-hidden text-white">
-        <!-- Background iframe for "bluesky" animation - UPDATED CLASS -->
+        <!-- Background iframe for "bluesky" animation -->
         <iframe scrolling="no" title="bluesky" 
             src="https://codepen.io/AI-Learning-Lab/full/gbpxbZo/?" 
             frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true"
@@ -818,9 +846,13 @@
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="footer py-16 bg-gray-950 text-gray-300">
-        <div class="container mx-auto px-4">
+    <!-- Footer - Wormhole Animation Background -->
+    <footer id="footer" class="footer py-16 bg-gray-950 text-gray-300 relative overflow-hidden">
+        <!-- Wormhole Canvas Container (positioned absolutely within the footer) -->
+        <div id="wormhole-canvas-container"></div>
+
+        <!-- Footer Content (positioned relative, above the canvas) -->
+        <div class="container mx-auto px-4 relative z-10">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 pb-12 border-b border-gray-700">
                 <div class="footer-col animate-on-scroll scale-in">
                     <h3 class="text-3xl font-bold mb-6 footer-logo-text">Pinnacle AI Solutions</h3>
@@ -882,87 +914,157 @@
         </div>
     </footer>
 
-    <!-- Link to your external JavaScript file -->
+    <!-- Existing script.js -->
     <script src="script.js"></script>
 
-    <!-- New script for the AI logo animation (placed at the end of body) -->
-    <script>
-        'use strict';
-        (function(){
-            // Function to animate each ellipse
-            function animateEllipse(element, index) {
-                let animationTimeline = gsap.timeline({
-                    defaults: { ease: "none" }, // Changed to "none" for simplicity
-                    repeat: -1
-                });
-                
-                // Set initial opacity and stroke color based on index
-                gsap.set(element, { 
-                    opacity: 1 - index / (ellipseElements.length), // Adjust opacity fade based on index
-                    stroke: interpolateColor(index / (ellipseElements.length - 1 || 1)) // Interpolate color more evenly
-                });
+    <!-- NEW: Script for Three.js Wormhole Animation (at the end of body) -->
+    <script type="module">
+        import * as $ from 'https://unpkg.com/three@0.125.0/build/three.module.js'; // Changed to unpkg for direct browser use
+        import { OrbitControls } from 'https://unpkg.com/three@0.125.0/examples/jsm/controls/OrbitControls.js'; // Changed to unpkg
+        import { EffectComposer } from 'https://unpkg.com/three@0.125.0/examples/jsm/postprocessing/EffectComposer.js'; // Changed to unpkg
+        import { RenderPass } from 'https://unpkg.com/three@0.125.0/examples/jsm/postprocessing/RenderPass.js'; // Changed to unpkg
+        import { UnrealBloomPass } from 'https://unpkg.com/three@0.125.0/examples/jsm/postprocessing/UnrealBloomPass.js'; // Changed to unpkg
 
-                // Animate rx and ry attributes, then rotate
-                animationTimeline
-                    .to(element, { 
-                        attr: { ry: `-=${(index + 1) * 2.3}`, rx: `+=${(index + 1) * 1.4}` }, 
-                        ease: "power1.inOut" // Using standard GSAP ease
-                    })
-                    .to(element, { 
-                        attr: { ry: `+=${(index + 1) * 2.3}`, rx: ` -=${(index + 1) * 1.4}` }, 
-                        ease: "power1.inOut" // Using standard GSAP ease
-                    })
-                    .to(element, { rotation: -360, transformOrigin: "50% 50%", duration: 2, ease: "linear" }, 0) // Rotate in parallel, adjust duration
-                    .timeScale(0.7); // Slightly slow down the animation
+        // Ensure the container is ready before initializing
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('wormhole-canvas-container');
+            if (!container) {
+                console.error('Wormhole canvas container not found!');
+                return;
             }
 
-            gsap.config({ trialWarn: false });
-
-            const mainSVG = document.querySelector("#mainSVG");
-            const ellipseElements = gsap.utils.toArray(".ell");
+            //// Boot
+            const renderer = new $.WebGLRenderer({ antialias: true }); // Added antialias for smoother edges
+            const scene = new $.Scene();
+            const camera = new $.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 20, 12000); // Initial camera aspect
             
-            // Re-creating custom eases to ensure they are defined if CustomEase is used
-            if (typeof CustomEase !== 'undefined') {
-                CustomEase.create("custom","M0,0 C0.2,0 0.432,0.147 0.507,0.374 0.59,0.629 0.822,1 1,1 ");
-                // Define other custom eases if needed, but for the provided animation, standard eases work
+            // Append the renderer's DOM element (the canvas) to your specific container
+            container.appendChild(renderer.domElement); 
+
+            const controls = new OrbitControls(camera, renderer.domElement);
+            
+            const handleResize = () => {
+                const { clientWidth, clientHeight } = container; // Use container's dimensions
+                renderer.setSize(clientWidth, clientHeight, false);
+                renderer.setPixelRatio(window.devicePixelRatio);
+                camera.aspect = clientWidth / clientHeight;
+                camera.updateProjectionMatrix();
+                // Update effect composer size on resize
+                const res = new $.Vector2();
+                renderer.getDrawingBufferSize(res);
+                if (fx) fx.setSize(res.width, res.height); // Check if fx is defined before updating
+            };
+            window.addEventListener('resize', handleResize);
+            handleResize(); // Call once initially to set sizes
+
+            //// Inputs
+            const size = 5000;
+            const segs = 500;
+            const disp = 500;
+
+            //// Setup
+            camera.position.set(1000, 1200, 1200);
+            controls.autoRotate = true;
+            controls.enableDamping = true;
+            controls.maxPolarAngle = Math.PI / 2.9;
+
+            const light0 = new $.DirectionalLight('white', 1);
+            light0.position.set(0, 1, 0);
+            scene.add(light0);
+
+            // Using your provided texture URL
+            const tex0 = new $.TextureLoader().load('https://images.unsplash.com/photo-1613799122437-c48c0e4cd5c0?ixid=MXwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw3OXx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60');
+
+            const mesh0 = new $.Mesh(
+                new $.PlaneBufferGeometry(size, size, segs, segs).rotateX(-0.5 * Math.PI),
+                f()
+            );
+            scene.add(mesh0);
+            const mesh1 = new $.Mesh(
+                new $.PlaneBufferGeometry(size, size, segs >> 1, segs >> 1).rotateX(-0.5 * Math.PI),
+                f({ wireframe: true, color: new $.Color('#333') })
+            );
+            scene.add(mesh1);
+
+            //// Make Material
+            function f({ wireframe, color } = {}) {
+                const mat = new $.ShaderMaterial({
+                    extensions: {
+                        derivatives: true, // wgl 1
+                    },
+                    lights: true,
+                    wireframe: Boolean(wireframe),
+                    uniforms: $.UniformsUtils.merge([
+                        $.ShaderLib.standard.uniforms, {
+                            time: { value: 0 },
+                            displacementScale: { value: disp },
+                            wireframe: { value: wireframe || false },
+                            color: { value: color || new $.Color() },
+                            roughness: { value: 1 },
+                            metalness: { value: 0 }
+                        }
+                    ]),
+                    vertexShader: `
+                    varying vec3 vWorldPos;
+                    ` + $.ShaderLib.standard.vertexShader.replace("#include <worldpos_vertex>", `
+                    // #if defined( USE_ENVMAP ) || defined( DISTANCE ) || defined ( USE_SHADOWMAP )
+                        vec4 worldPosition = vec4( transformed, 1.0 );
+                        #ifdef USE_INSTANCING
+                            worldPosition = instanceMatrix * worldPosition;
+                        #endif
+                        worldPosition = modelMatrix * worldPosition;
+                        vWorldPos = worldPosition.xyz;
+                    // #endif
+                    `).replace("#include <displacementmap_vertex>", `
+                    #ifdef USE_DISPLACEMENTMAP
+                        transformed += normalize( objectNormal ) * ( texture2D( displacementMap, vUv ).x * displacementScale + displacementBias );
+                        // form a bowl
+                        float yOffset = length( position.xz ) / ${size.toFixed(1)};
+                        yOffset = pow(sin(yOffset * 2.0), 2.0);
+                        transformed.y += yOffset * ${size.toFixed(1)} / 3.0;
+                    #endif
+                    `),
+                    fragmentShader: `
+                    varying vec3 vWorldPos;
+                    uniform float time;
+                    uniform bool wireframe;
+                    uniform vec3 color;
+                    ` + $.ShaderLib.standard.fragmentShader.replace(
+                        "gl_FragColor = vec4( outgoingLight, diffuseColor.a );", `
+                        gl_FragColor = vec4( outgoingLight, diffuseColor.a );
+                        float ths = ${size.toFixed(1)} * pow(sin(time * 0.00015), 2.0);
+                        if ( !wireframe ) {
+                            if ( length( vWorldPos ) > ths ) {
+                                discard;
+                            } 
+                        } else {
+                            gl_FragColor = vec4( color, 1.0 );
+                            if ( length( vWorldPos ) < ths ) {
+                                discard;
+                            }
+                        }
+                    `)
+                });
+                mat.map = mat.uniforms.map.value = tex0;
+                mat.displacementMap = mat.uniforms.displacementMap.value = tex0;
+                return mat;
             }
 
+            //// Render
+            const res = new $.Vector2();
+            renderer.getDrawingBufferSize(res); // Get initial size
+            
+            const fx = new EffectComposer(renderer);
+            fx.addPass(new RenderPass(scene, camera));
+            fx.addPass(new UnrealBloomPass(res, 0.5, 0.5, 0.3));
 
-            const motionPathLength = mainSVG ? (MotionPathPlugin.getLength("#ai") || 100) : 100; // Fallback value if mainSVG not found
-            const interpolateColor = gsap.utils.interpolate(["#359EEE","#FFC43D","#EF476F","#03CEA4"]);
-
-            // Make the SVG visible once GSAP is ready to animate it
-            if (mainSVG) {
-                gsap.set(mainSVG, { visibility: "visible" });
-
-                // Animate each ellipse with a slight delay
-                ellipseElements.forEach((el, index) => {
-                    // Using delayedCall to stagger the animation start
-                    gsap.delayedCall(index * 0.15, animateEllipse, [el, index]); // Stagger delay 
-                });
-
-                // Animate the linear gradient for #aiGrad
-                gsap.to("#aiGrad", {
-                    duration: 4,
-                    delay: 0.75,
-                    attr: { x1: "0%", x2: "100%" }, // Reset to original for a pulsating effect
-                    // Removed scale/transformOrigin from here as it might conflict or not be desired for gradient position
-                    repeat: -1,
-                    yoyo: true, // Make it go back and forth
-                    ease: "sine.inOut" // Smoother gradient animation
-                });
-
-                // Animate the main path #ai (pulse effect)
-                gsap.to("#ai", {
-                    duration: 1,
-                    scale: 1.1,
-                    transformOrigin: "50% 50%",
-                    repeat: -1,
-                    yoyo: true,
-                    ease: "power1.inOut" // Using standard ease
-                });
-            }
-        })();
+            renderer.setAnimationLoop((t) => {
+                fx.render();
+                mesh0.material.uniforms.time.value = t;
+                mesh1.material.uniforms.time.value = t;
+                controls.update();
+            });
+        });
     </script>
 </body>
 </html>
