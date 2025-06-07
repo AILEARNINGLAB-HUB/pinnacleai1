@@ -468,7 +468,7 @@
             inset: 0; /* Cover the entire parent footer */
             z-index: 0; /* Place it behind footer content */
             pointer-events: none; /* Allow interaction with content above */
-            /* The canvas itself will be appended here by JS, filling this div */
+            background-color: black; /* Fallback/initial background color */
         }
         #wormhole-canvas-container canvas {
             display: block;
@@ -919,43 +919,58 @@
 
     <!-- NEW: Script for Three.js Wormhole Animation (at the end of body) -->
     <script type="module">
-        import * as $ from 'https://unpkg.com/three@0.125.0/build/three.module.js'; // Changed to unpkg for direct browser use
-        import { OrbitControls } from 'https://unpkg.com/three@0.125.0/examples/jsm/controls/OrbitControls.js'; // Changed to unpkg
-        import { EffectComposer } from 'https://unpkg.com/three@0.125.0/examples/jsm/postprocessing/EffectComposer.js'; // Changed to unpkg
-        import { RenderPass } from 'https://unpkg.com/three@0.125.0/examples/jsm/postprocessing/RenderPass.js'; // Changed to unpkg
-        import { UnrealBloomPass } from 'https://unpkg.com/three@0.125.0/examples/jsm/postprocessing/UnrealBloomPass.js'; // Changed to unpkg
+        import * as THREE from 'https://unpkg.com/three@0.125.0/build/three.module.js'; // Renamed $ to THREE for clarity
+        import { OrbitControls } from 'https://unpkg.com/three@0.125.0/examples/jsm/controls/OrbitControls.js';
+        import { EffectComposer } from 'https://unpkg.com/three@0.125.0/examples/jsm/postprocessing/EffectComposer.js';
+        import { RenderPass } from 'https://unpkg.com/three@0.125.0/examples/jsm/postprocessing/RenderPass.js';
+        import { UnrealBloomPass } from 'https://unpkg.com/three@0.125.0/examples/jsm/postprocessing/UnrealBloomPass.js';
 
         // Ensure the container is ready before initializing
         document.addEventListener('DOMContentLoaded', () => {
             const container = document.getElementById('wormhole-canvas-container');
             if (!container) {
                 console.error('Wormhole canvas container not found!');
-                return;
+                return; // Exit if container is not found
+            }
+
+            // Ensure container has some initial dimensions before trying to render Three.js
+            // This is primarily for local testing or cases where CSS might not be fully applied yet
+            if (container.clientWidth === 0 || container.clientHeight === 0) {
+                 console.warn('Wormhole canvas container has zero dimensions. Animation might not appear.');
+                 // You might add a small delay and retry or set a fallback fixed size for development
+                 // For now, it will use 0 for aspect ratio, which will look bad.
+                 // The CSS with py-16 should ensure it has height.
             }
 
             //// Boot
-            const renderer = new $.WebGLRenderer({ antialias: true }); // Added antialias for smoother edges
-            const scene = new $.Scene();
-            const camera = new $.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 20, 12000); // Initial camera aspect
+            const renderer = new THREE.WebGLRenderer({ antialias: true }); 
+            const scene = new THREE.Scene();
+            // Initial camera aspect ratio based on container, will be updated on resize
+            const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 20, 12000); 
             
             // Append the renderer's DOM element (the canvas) to your specific container
             container.appendChild(renderer.domElement); 
 
             const controls = new OrbitControls(camera, renderer.domElement);
             
+            // Handle window resize for responsiveness
             const handleResize = () => {
                 const { clientWidth, clientHeight } = container; // Use container's dimensions
+                if (clientWidth === 0 || clientHeight === 0) {
+                    console.warn('Wormhole container dimensions are zero on resize. Skipping update.');
+                    return; // Prevent division by zero errors for aspect ratio
+                }
                 renderer.setSize(clientWidth, clientHeight, false);
                 renderer.setPixelRatio(window.devicePixelRatio);
                 camera.aspect = clientWidth / clientHeight;
                 camera.updateProjectionMatrix();
+
                 // Update effect composer size on resize
-                const res = new $.Vector2();
-                renderer.getDrawingBufferSize(res);
-                if (fx) fx.setSize(res.width, res.height); // Check if fx is defined before updating
+                const res = new THREE.Vector2(clientWidth, clientHeight);
+                if (fx) fx.setSize(res.width, res.height); 
             };
             window.addEventListener('resize', handleResize);
-            handleResize(); // Call once initially to set sizes
+            handleResize(); // Call once initially to set sizes correctly
 
             //// Inputs
             const size = 5000;
@@ -968,45 +983,55 @@
             controls.enableDamping = true;
             controls.maxPolarAngle = Math.PI / 2.9;
 
-            const light0 = new $.DirectionalLight('white', 1);
+            const light0 = new THREE.DirectionalLight('white', 1);
             light0.position.set(0, 1, 0);
             scene.add(light0);
 
             // Using your provided texture URL
-            const tex0 = new $.TextureLoader().load('https://images.unsplash.com/photo-1613799122437-c48c0e4cd5c0?ixid=MXwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw3OXx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60');
+            // Using a basic fallback if the Unsplash image fails to load
+            const tex0 = new THREE.TextureLoader().load(
+                'https://images.unsplash.com/photo-1613799122437-c48c0e4cd5c0?ixid=MXwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw3OXx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60',
+                undefined, // onLoad
+                undefined, // onProgress
+                function (err) {
+                    console.error('An error occurred loading texture:', err);
+                    // Optionally, load a local fallback texture or use a simple color
+                    // tex0 = new THREE.TextureLoader().load('path/to/local/fallback.jpg');
+                }
+            );
 
-            const mesh0 = new $.Mesh(
-                new $.PlaneBufferGeometry(size, size, segs, segs).rotateX(-0.5 * Math.PI),
+            const mesh0 = new THREE.Mesh(
+                new THREE.PlaneBufferGeometry(size, size, segs, segs).rotateX(-0.5 * Math.PI),
                 f()
             );
             scene.add(mesh0);
-            const mesh1 = new $.Mesh(
-                new $.PlaneBufferGeometry(size, size, segs >> 1, segs >> 1).rotateX(-0.5 * Math.PI),
-                f({ wireframe: true, color: new $.Color('#333') })
+            const mesh1 = new THREE.Mesh(
+                new THREE.PlaneBufferGeometry(size, size, segs >> 1, segs >> 1).rotateX(-0.5 * Math.PI),
+                f({ wireframe: true, color: new THREE.Color('#333') })
             );
             scene.add(mesh1);
 
             //// Make Material
             function f({ wireframe, color } = {}) {
-                const mat = new $.ShaderMaterial({
+                const mat = new THREE.ShaderMaterial({
                     extensions: {
                         derivatives: true, // wgl 1
                     },
                     lights: true,
                     wireframe: Boolean(wireframe),
-                    uniforms: $.UniformsUtils.merge([
-                        $.ShaderLib.standard.uniforms, {
+                    uniforms: THREE.UniformsUtils.merge([
+                        THREE.ShaderLib.standard.uniforms, {
                             time: { value: 0 },
                             displacementScale: { value: disp },
                             wireframe: { value: wireframe || false },
-                            color: { value: color || new $.Color() },
+                            color: { value: color || new THREE.Color() },
                             roughness: { value: 1 },
                             metalness: { value: 0 }
                         }
                     ]),
                     vertexShader: `
                     varying vec3 vWorldPos;
-                    ` + $.ShaderLib.standard.vertexShader.replace("#include <worldpos_vertex>", `
+                    ` + THREE.ShaderLib.standard.vertexShader.replace("#include <worldpos_vertex>", `
                     // #if defined( USE_ENVMAP ) || defined( DISTANCE ) || defined ( USE_SHADOWMAP )
                         vec4 worldPosition = vec4( transformed, 1.0 );
                         #ifdef USE_INSTANCING
@@ -1029,7 +1054,7 @@
                     uniform float time;
                     uniform bool wireframe;
                     uniform vec3 color;
-                    ` + $.ShaderLib.standard.fragmentShader.replace(
+                    ` + THREE.ShaderLib.standard.fragmentShader.replace(
                         "gl_FragColor = vec4( outgoingLight, diffuseColor.a );", `
                         gl_FragColor = vec4( outgoingLight, diffuseColor.a );
                         float ths = ${size.toFixed(1)} * pow(sin(time * 0.00015), 2.0);
@@ -1051,8 +1076,7 @@
             }
 
             //// Render
-            const res = new $.Vector2();
-            renderer.getDrawingBufferSize(res); // Get initial size
+            const res = new THREE.Vector2(container.clientWidth, container.clientHeight); // Initial size for EffectComposer
             
             const fx = new EffectComposer(renderer);
             fx.addPass(new RenderPass(scene, camera));
