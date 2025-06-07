@@ -1,79 +1,149 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', function () {
     const hamburger = document.querySelector('.hamburger');
-    const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
-    const closeMobileMenuButton = document.querySelector('.close-mobile-menu');
-    const navLinksMobile = document.querySelectorAll('.nav-link-mobile');
-    const navLinksDesktop = document.querySelectorAll('.navbar-menu .nav-link');
-    const sections = document.querySelectorAll('section[id]');
-    const navbar = document.querySelector('.navbar');
+    const mobileMenu = document.querySelector('.mobile-menu-overlay');
+    const closeBtn = document.querySelector('.close-mobile-menu');
+    const navLinks = document.querySelectorAll('.nav-link'); // Desktop links
+    const mobileLinks = document.querySelectorAll('.nav-link-mobile'); // Mobile links
+    const sections = document.querySelectorAll('section'); // All sections for active link highlighting
 
-    // Function to toggle mobile menu visibility and body scroll
-    const toggleMobileMenu = () => {
-        mobileMenuOverlay.classList.toggle('is-active'); // Toggles slide-in/out and visibility
-        hamburger.classList.toggle('is-active'); // Toggles hamburger to X icon
-        document.body.classList.toggle('overflow-hidden'); // Prevents background scrolling
+    // --- Mobile Menu Toggle ---
+    function openMenu() {
+        mobileMenu.classList.add('active');
+        hamburger.classList.add('active'); // Add active class to hamburger for animation
+        document.body.style.overflow = 'hidden'; // Prevent scrolling when mobile menu is open
+    }
+    function closeMenu() {
+        mobileMenu.classList.remove('active');
+        hamburger.classList.remove('active'); // Remove active class from hamburger
+        document.body.style.overflow = ''; // Restore scrolling
+    }
+
+    hamburger.addEventListener('click', openMenu);
+    closeBtn.addEventListener('click', closeMenu);
+
+    // Close mobile menu when a mobile link is clicked
+    mobileLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            // Check if it's an internal anchor link
+            if (this.getAttribute('href').startsWith('#')) {
+                // Prevent default hash jump to allow smooth scroll
+                e.preventDefault(); 
+                // Smooth scroll to the section
+                const targetId = this.getAttribute('href');
+                document.querySelector(targetId).scrollIntoView({
+                    behavior: 'smooth'
+                });
+                // Close menu after scrolling
+                closeMenu();
+            } else {
+                // For external links or links to other HTML files, just close the menu
+                closeMenu();
+            }
+        });
+    });
+
+    // Close menu on outside click of the overlay itself
+    mobileMenu.addEventListener('click', function(e) {
+        if (e.target === mobileMenu) {
+            closeMenu();
+        }
+    });
+
+    // --- Active Navbar Link Highlighting ---
+    function updateActiveNavLink() {
+        let currentActiveSection = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop - 100; // Offset for fixed navbar
+            const sectionBottom = sectionTop + section.offsetHeight;
+            if (window.scrollY >= sectionTop && window.scrollY < sectionBottom) {
+                currentActiveSection = section.id;
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(currentActiveSection)) {
+                link.classList.add('active');
+            }
+        });
+    }
+
+    window.addEventListener('scroll', updateActiveNavLink);
+    updateActiveNavLink(); // Call on load to set initial active link
+
+    // --- Scroll-Triggered Animations (Intersection Observer) ---
+    const animatedElements = document.querySelectorAll('.animate-on-scroll');
+
+    const observerOptions = {
+        root: null, // relative to the viewport
+        rootMargin: '0px',
+        threshold: 0.1 // Trigger when 10% of the item is visible
     };
 
-    // Event listener for hamburger icon click
-    if (hamburger) {
-        hamburger.addEventListener('click', toggleMobileMenu);
-    }
-
-    // Event listener for close button click
-    if (closeMobileMenuButton) {
-        closeMobileMenuButton.addEventListener('click', toggleMobileMenu);
-    }
-
-    // Event listeners for mobile menu links (to close menu on click and scroll)
-    navLinksMobile.forEach(link => {
-        link.addEventListener('click', (e) => {
-            // Smooth scroll logic (optional, as browser default anchor is usually smooth enough)
-            e.preventDefault(); // Prevent default jump
-            const targetId = link.getAttribute('href').substring(1);
-            const targetSection = document.getElementById(targetId);
-            if (targetSection) {
-                const navbarHeight = navbar ? navbar.offsetHeight : 0;
-                window.scrollTo({
-                    top: targetSection.offsetTop - navbarHeight,
-                    behavior: 'smooth'
-                });
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target); // Stop observing once animated
             }
-            toggleMobileMenu(); // Close the mobile menu after clicking a link
         });
+    }, observerOptions);
+
+    animatedElements.forEach(element => {
+        observer.observe(element);
     });
 
-    // Event listeners for desktop menu links (for smooth scroll)
-    navLinksDesktop.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault(); // Prevent default jump
-            const targetId = link.getAttribute('href').substring(1);
-            const targetSection = document.getElementById(targetId);
-            if (targetSection) {
-                const navbarHeight = navbar ? navbar.offsetHeight : 0;
-                window.scrollTo({
-                    top: targetSection.offsetTop - navbarHeight,
+    // --- Smooth Scroll for internal links ---
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        // Exclude the hero buttons as they have their own click handlers already
+        if (!anchor.classList.contains('btn-primary-hero') && !anchor.classList.contains('btn-outline-hero')) {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
                     behavior: 'smooth'
                 });
-            }
-        });
+            });
+        }
     });
 
-    // Function to set active navigation link based on scroll position
-    const setActiveNavLink = () => {
-        let currentActiveSectionId = '';
-        const navbarHeight = navbar ? navbar.offsetHeight : 0; // Get navbar height
+    // --- Number Counter for Stats (Optional) ---
+    const counters = document.querySelectorAll('.stat-number');
+    const speed = 200; // The lower the speed, the faster the count
 
-        sections.forEach(section => {
-            // Adjust sectionTop to account for the fixed navbar
-            const sectionTop = section.offsetTop - navbarHeight - 1; // -1 for slight buffer
+    const counterObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const counter = entry.target;
+                const updateCount = () => {
+                    const target = +counter.getAttribute('data-target');
+                    const count = +counter.innerText.replace('+', '').replace('%', ''); // Clean text for parsing
+                    const increment = target / speed;
 
-            // Check if scroll position is within the current section's bounds
-            if (window.pageYOffset >= sectionTop && window.pageYOffset < sectionTop + section.offsetHeight) {
-                currentActiveSectionId = section.getAttribute('id');
+                    if (count < target) {
+                        counter.innerText = Math.ceil(count + increment) + (counter.classList.contains('percent') ? '%' : '+');
+                        setTimeout(updateCount, 1);
+                    } else {
+                        counter.innerText = target + (counter.classList.contains('percent') ? '%' : '+');
+                    }
+                };
+
+                // Set initial data-target attributes
+                if (counter.innerText.includes('+')) {
+                    counter.setAttribute('data-target', counter.innerText.replace('+', ''));
+                    counter.innerText = '0+';
+                } else if (counter.innerText.includes('%')) {
+                    counter.setAttribute('data-target', counter.innerText.replace('%', ''));
+                    counter.innerText = '0%';
+                    counter.classList.add('percent'); // Add class to distinguish percent
+                }
+                
+                updateCount();
+                observer.unobserve(entry.target); // Stop observing after counting
             }
         });
+    }, { threshold: 0.7 }); // Trigger when 70% of the counter is visible
 
-        // Update desktop navigation links
-        navLinksDesktop.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('
+    counters.forEach(counter => {
+        counterObserver.observe(counter);
+    });
+});
