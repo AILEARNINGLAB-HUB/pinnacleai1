@@ -169,22 +169,20 @@
             font-size: 1.8rem;
             line-height: 1; /* Helps vertical alignment */
         }
-        .logo-pinnacle { /* Now contains "PINNACLE AI" */
+        .logo-pinnacle {
             color: #fff;
         }
-        .logo-studio { /* Now contains "STUDIO" */
-            color: var(--color-primary-blue);
+        .logo-solutions {
+            color: var(--color-primary-blue); /* This was the color of "SOLUTIONS" */
         }
-        /* .logo-ai-text (previous separate span) removed */
-
+        
         /* New: Styles for the LARGER AI SVG next to the logo */
         .larger-ai-svg {
             width: 60px; /* Make it significantly larger */
             height: 60px; /* Make it significantly larger */
-            /* Vertical align was needed when inside text, now flex handles alignment */
             visibility: hidden; /* GSAP will make it visible */
             flex-shrink: 0; /* Prevent it from shrinking in flex container */
-            /* The path and ellipses fill/stroke are handled by the JS/CodePen CSS */
+            margin-left: 1rem; /* Spacing between logo text and SVG */
         }
         .larger-ai-svg .ell, .larger-ai-svg #ai {
             fill: none; /* As per CodePen CSS */
@@ -196,7 +194,7 @@
                 height: 40px;
                 margin-left: 0.5rem; /* Reduce margin on mobile */
             }
-            /* Adjust overall logo size if needed for the combined block */
+            /* Adjust overall logo text size if needed for the combined block */
             .logo {
                 font-size: 1.5rem;
             }
@@ -540,11 +538,11 @@
             <div class="flex items-center">
                 <!-- Logo Text -->
                 <a href="#home" class="logo flex items-center">
-                    <span class="logo-pinnacle">PINNACLE AI</span>
-                    <span class="logo-studio"> STUDIO</span>
+                    <span class="logo-pinnacle">PINNACLE AI </span>
+                    <span class="logo-solutions">SOLUTIONS</span>
                 </a>
                 <!-- AI Animation (Larger, to the right of the text logo) -->
-                <svg viewBox="0 0 100 100" id="mainSVG" class="larger-ai-svg ml-4 md:ml-6"> <!-- Added ml for spacing -->
+                <svg viewBox="0 0 100 100" id="mainSVG" class="larger-ai-svg">
                     <defs>
                         <linearGradient id="aiGrad" x1="0%" y1="0%" x2="100%" y2="0%">
                             <stop offset="0%" stop-color="#359EEE"/>
@@ -927,10 +925,9 @@
 
             // Animate each ellipse with a slight delay
             ellipseElements.forEach((el, index) => {
-                // Ensure motionPathLength exists before trying to use it
-                if (motionPathLength) { // This check is for the #ai path; ellipse animation doesn't rely on it.
-                                      // It's part of the original logic, so kept for consistency, but
-                                      // could potentially be simplified.
+                // The motionPathLength check here is for the #ai path; ellipse animation doesn't strictly rely on it.
+                // It's part of the original CodePen logic, so kept for consistency.
+                if (motionPathLength) { 
                     gsap.delayedCall(index / (ellipseElements.length - 1 || 1), animateEllipse, [el, index + 1]);
                 }
             });
@@ -939,8 +936,8 @@
             gsap.to("#aiGrad", {
                 duration: 4,
                 delay: 0.75,
-                attr: { x1: "-=300", x2: "-=300" }, // Assumes original x1/x2 were 0/100 or similar
-                scale: 1.2, // Scaling the gradient itself, not the path
+                attr: { x1: "-=300", x2: "-=300" }, 
+                scale: 1.2, 
                 transformOrigin: "50% 50%",
                 repeat: -1,
                 ease: "none"
@@ -953,7 +950,7 @@
                 transformOrigin: "50% 50%",
                 repeat: -1,
                 yoyo: true,
-                ease: easeD // Use the custom ease 'd'
+                ease: easeD 
             });
         })();
     </script>
