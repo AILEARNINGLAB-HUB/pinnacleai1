@@ -557,5 +557,21 @@ textarea.form-input {
     }
     /* Adjust hamburger position if needed, but absolute/fixed works well */
 }
+/* style.css or your inline <style> block */
 
+/* ... existing styles ... */
+
+/* NEW: Class for background iframes that don't have CodePen's header/footer UI */
+.footer-bg-iframe {
+    position: absolute; /* Positioned relative to its parent footer */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0; /* Place it behind footer content (which has z-index: 1 or higher) */
+    pointer-events: none; /* Allow clicks to pass through to elements below */
+    border: none; /* Remove any default iframe border */
+}
+
+/* ... existing styles ... */
 /* Remove any commented out JavaScript blocks from here */
