@@ -834,17 +834,72 @@
         </div>
     </section>
 
-    <!-- Footer - Now ONLY Twinkling Particles -->
+    <!-- Footer - Wormhole Animation Background -->
     <footer id="footer" class="footer py-16 bg-gray-950 text-gray-300 relative overflow-hidden">
-        <!-- Twinkling Particles CodePen Iframe -->
-        <iframe height="300" style="width: 100%;" scrolling="no" title="Dynamic Twinkling Particle System | Vanilla JS"
-            src="https://codepen.io/TheMOZZARELLA/embed/preview/ZYzpWPw?theme-id=dark"
-            frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true"
-            class="footer-bg-iframe">
-            See the Pen <a href="https://codepen.io/TheMOZZARELLA/pen/ZYzpWPw">
-            Dynamic Twinkling Particle System | Vanilla JS</a> by MOZZARELLA (<a href="https://codepen.io/TheMOZZARELLA">@TheMOZZARELLA</a>)
-            on <a href="https://codepen.io">CodePen</a>.
-        </iframe>
+        <!-- Wormhole Canvas Container (positioned absolutely within the footer) -->
+        <div id="wormhole-canvas-container"></div>
+
+        <!-- Footer Content (positioned relative, above the canvas) -->
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 pb-12 border-b border-gray-700">
+                <div class="footer-col animate-on-scroll scale-in">
+                    <h3 class="text-3xl font-bold mb-6 footer-logo-text">Pinnacle AI Solutions</h3>
+                    <p class="text-gray-400 leading-relaxed mb-6">Transforming businesses with intelligent AI solutions that drive innovation and growth, helping you stay ahead in the digital age.</p>
+                    <div class="social-links flex space-x-4">
+                        <a href="https://facebook.com/pinnacleaisolutions" class="social-icon group" title="Facebook" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon group" title="GitHub" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
+                        <!-- Add other social links as needed -->
+                    </div>
+                </div>
+
+                <div class="footer-col animate-on-scroll scale-in" style="animation-delay: 0.1s;">
+                    <h4 class="text-2xl font-semibold mb-6 text-white">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#home" class="footer-link">Home</a></li>
+                        <li><a href="#services" class="footer-link">Services</a></li>
+                        <li><a href="#solutions" class="footer-link">Solutions</a></li>
+                        <li><a href="#about" class="footer-link">About</a></li>
+                        <li><a href="#contact" class="footer-link">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col animate-on-scroll scale-in" style="animation-delay: 0.2s;">
+                    <h4 class="text-2xl font-semibold mb-6 text-white">Our Expertise</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="footer-link">App Development</a></li>
+                        <li><a href="#" class="footer-link">AI Integration</a></li>
+                        <li><a href="#" class="footer-link">Data Analytics</a></li>
+                        <li><a href="#" class="footer-link">Cloud Solutions</a></li>
+                        <li><a href="#" class="footer-link">Machine Learning</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col animate-on-scroll scale-in" style="animation-delay: 0.3s;">
+                    <h4 class="text-2xl font-semibold mb-6 text-white">Learn AI for Free</h4>
+                    <a href="learnaiforfree.html" class="footer-link block py-2 px-4 rounded bg-blue-600 text-white font-semibold text-center hover:bg-blue-700 transition mb-4" target="_blank" rel="noopener noreferrer">Go to Learn AI Page</a>
+                    <div class="grid grid-cols-1 gap-3">
+                        <a href="https://chat.openai.com/" class="footer-link underline text-blue-300 hover:text-blue-400" target="_blank" rel="noopener noreferrer">ChatGPT (OpenAI)</a>
+                        <a href="https://claude.ai/" class="footer-link underline text-blue-300 hover:text-blue-400" target="_blank" rel="noopener noreferrer">Claude (Anthropic)</a>
+                        <a href="https://gemini.google.com/" class="footer-link underline text-blue-300 hover:text-blue-400" target="_blank" rel="noopener noreferrer">Gemini (Google)</a>
+                        <a href="https://copilot.microsoft.com/" class="footer-link underline text-blue-300 hover:text-blue-400" target="_blank" rel="noopener noreferrer">Copilot (Microsoft)</a>
+                        <a href="https://perplexity.ai/" class="footer-link underline text-blue-300 hover:text-blue-400" target="_blank" rel="noopener noreferrer">Perplexity AI</a>
+                    </div>
+                    <div class="mt-4">
+                        <h5 class="font-bold text-white mb-2">Articles & Guides</h5>
+                        <ul class="space-y-2 text-sm">
+                            <li><a href="https://www.huggingface.co/blog/llm-quickstart" class="footer-link underline text-blue-200 hover:text-blue-400" target="_blank" rel="noopener noreferrer">How to Use LLMs (HuggingFace)</a></li>
+                            <li><a href="https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/models" class="footer-link underline text-blue-200 hover:text-blue-400" target="_blank" rel="noopener noreferrer">Azure OpenAI Model Guide</a></li>
+                            <li><a href="https://www.datacamp.com/tutorial/large-language-models" class="footer-link underline text-blue-200 hover:text-blue-400" target="_blank" rel="noopener noreferrer">Intro to LLMs (DataCamp)</a></li>
+                            <li><a href="https://www.analyticsvidhya.com/blog/2023/06/large-language-models-llms/" class="footer-link underline text-blue-200 hover:text-blue-400" target="_blank" rel="noopener noreferrer">LLMs Explained (Analytics Vidhya)</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="copyright text-center pt-8 text-gray-500 text-sm">
+                <p>© 2023 Pinnacle AI Solutions. All rights reserved.</p>
+            </div>
+        </div>
     </footer>
 
     <!-- Existing script.js -->
