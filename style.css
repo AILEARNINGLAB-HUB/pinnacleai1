@@ -146,7 +146,7 @@ body.overflow-hidden {
 /* These styles make the mobile menu visible and interactive when the 'active' class is added by JavaScript */
 .mobile-menu-overlay.active {
     display: flex; /* <--- ADDED THIS CRUCIAL LINE */
-    transform: translateX(0); /* Slide fully into view */
+    transform: translateY(0); /* Slide fully into view */
     opacity: 1;               /* Become fully visible */
     pointer-events: auto;     /* Allow clicks when active */
     /* z-index is already set to 40 in HTML, but might need adjustment if it's behind other elements */
