@@ -496,9 +496,8 @@ textarea.form-input {
 /* --- Footer Styles --- */
 .footer {
     /* Tailwind classes handle py-16, bg-gray-950, text-gray-300 */
-    /* Additions for CodePen embed as background */
-    position: relative;
-    overflow: hidden;
+    position: relative; 
+    overflow: hidden; /* Hide any content overflow outside */
 }
 
 .footer-col {
