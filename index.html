@@ -262,7 +262,7 @@
             background: linear-gradient(90deg, var(--color-orange), var(--color-purple));
         }
 
-        /* Styles for iframes used as full-page/section backgrounds (originally had CodePen UI) */
+        /* NEW: Styles to hide the CodePen's internal header/footer */
         .codepen-full-bg-iframe {
             position: absolute;
             top: -70px; /* Shift up by ~70px to hide CodePen's top bar */
@@ -462,49 +462,86 @@
             overflow: hidden; /* Hide any content overflow outside */
         }
 
-        /* NEW: Class for the CodePen iframe when used as a background in the footer (no CodePen UI) */
-        .footer-bg-iframe {
+        /* Wormhole Canvas Container (positioned absolutely within the footer) */
+        #wormhole-canvas-container {
             position: absolute;
-            top: 0;
-            left: 0;
+            inset: 0; /* Cover the entire parent footer */
+            z-index: 0; /* Place it behind footer content */
+            pointer-events: none; /* Allow interaction with content above */
+            background-color: black; /* Fallback/initial background color */
+        }
+        #wormhole-canvas-container canvas {
+            display: block;
             width: 100%;
-            height: 100%;
-            z-index: 0; /* Place it behind any content (though there won't be any now) */
-            pointer-events: none; /* Allows interaction to pass through (good practice) */
-            border: none;
+            height: 100%; /* IMPORTANT: Changed from 100vh to 100% to fill the footer container */
+            cursor: grab; /* Cursor style for the canvas area */
         }
 
-        /* Responsive adjustments */
-        @media (max-width: 767px) {
-            .logo { font-size: 1.5rem; } /* Adjusted parent logo font size */
-            .hero-content h1 { font-size: 2.5rem; }
-            .hero-content p { font-size: 1rem; }
-            .hero-buttons { flex-direction: column; gap: 1rem; }
-            .btn-primary-hero, .btn-outline-hero { width: 90%; max-width: 300px; }
-
-            .section-header h2 { font-size: 2.5rem; }
-            .section-header p { font-size: 1.1rem; }
-
-            .service-card, .solution-card { padding: 1.5rem; }
-            .service-icon { font-size: 3rem; }
-            .service-card h3, .solution-card h3 { font-size: 1.8rem; }
-            
-            .about-content { grid-template-columns: 1fr; }
-            .about-image { margin-top: 2rem; }
-            .stats { grid-template-columns: 1fr; gap: 1rem; }
-            .stat-number { font-size: 4rem; }
-
-            .contact-info { margin-top: 4rem; }
-            .info-item { flex-direction: column; text-align: center; margin-bottom: 2rem; }
-            .info-icon { margin: 0 auto 1rem auto; }
-            .info-item h4 { font-size: 1.8rem; margin-bottom: 0.5rem; }
-            .info-item p { font-size: 1rem; }
+        /* Ensure footer content is on top of the canvas */
+        .footer .container, .footer .copyright {
+            position: relative; /* Make these elements relative */
+            z-index: 1; /* Place them above the canvas */
         }
 
-        @media (max-width: 480px) {
-            .hero-content h1 { font-size: 2rem; }
-            .section-header h2 { font-size: 2rem; }
+
+        .footer-logo-text {
+             background: linear-gradient(90deg, #fff, var(--color-primary-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
+        .footer-link {
+            color: #9ca3af; /* gray-400 */
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        .footer-link::before {
+            content: '•';
+            position: absolute;
+            left: -15px;
+            color: var(--color-secondary-green);
+            opacity: 0;
+            transition: opacity 0.3s ease, left 0.3s ease;
+        }
+        .footer-link:hover {
+            color: #fff;
+            padding-left: 15px; /* Adjust for bullet */
+        }
+        .footer-link:hover::before {
+            opacity: 1;
+            left: 0;
+        }
+        .social-icon {
+            color: #9ca3af; /* gray-400 */
+            font-size: 1.5rem;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+        .social-icon:hover {
+            color: var(--color-primary-blue);
+            transform: scale(1.2);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 8;
+            color: #6b7280; /* gray-500 */
+            font-size: 0.875rem; /* text-sm */
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 767px) { /* Below md breakpoint */
+            .navbar .container {
+                /* Ensure full width and padding */
+                padding-left: 1rem; /* px-4 */
+                padding-right: 1rem; /* px-4 */
+            }
+
+            .logo {
+                font-size: 1.3rem; /* Smaller logo on mobile */
+            }
+            /* Adjust hamburger position if needed, but absolute/fixed works well */
+        }
+
+        /* Remove any commented out JavaScript blocks from here */
     </style>
 </head>
 <body class="bg-gray-900 text-gray-200 font-inter">
@@ -566,9 +603,9 @@
         </div>
     </nav>
 
-    <!-- Hero Section with Creative Black Hole Animation (original src restored) -->
+    <!-- Hero Section with Creative Black Hole Animation -->
     <section id="home" class="hero relative overflow-hidden flex items-center justify-center text-center text-white">
-        <!-- Creative Black Hole Animation (iframe) - Original src with /full/ to show editor UI -->
+        <!-- Creative Black Hole Animation (iframe) -->
         <iframe scrolling="no" title="Creative Black Hole" 
             src="https://codepen.io/wodniack/full/VYwGEGg/?" 
             frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true"
@@ -585,9 +622,9 @@
         </div>
     </section>
 
-    <!-- Services Section (original src restored) -->
+    <!-- Services Section -->
     <section id="services" class="section py-20 relative overflow-hidden text-white">
-        <!-- Background iframe for "bluesky" animation - Original src with /full/ to show editor UI -->
+        <!-- Background iframe for "bluesky" animation -->
         <iframe scrolling="no" title="bluesky" 
             src="https://codepen.io/AI-Learning-Lab/full/gbpxbZo/?" 
             frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true"
@@ -812,6 +849,179 @@
 
     <!-- Existing script.js -->
     <script src="script.js"></script>
-    <!-- REMOVED: The Three.js Wormhole Animation Script (if it was present here) -->
+
+    <!-- NEW: Script for Three.js Wormhole Animation (at the end of body) -->
+    <script type="module">
+        import * as THREE from 'https://unpkg.com/three@0.125.0/build/three.module.js'; // Renamed $ to THREE for clarity
+        import { OrbitControls } from 'https://unpkg.com/three@0.125.0/examples/jsm/controls/OrbitControls.js';
+        import { EffectComposer } from 'https://unpkg.com/three@0.125.0/examples/jsm/postprocessing/EffectComposer.js';
+        import { RenderPass } from 'https://unpkg.com/three@0.125.0/examples/jsm/postprocessing/RenderPass.js';
+        import { UnrealBloomPass } from 'https://unpkg.com/three@0.125.0/examples/jsm/postprocessing/UnrealBloomPass.js';
+
+        // Ensure the container is ready before initializing
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('wormhole-canvas-container');
+            if (!container) {
+                console.error('Wormhole canvas container not found!');
+                return; // Exit if container is not found
+            }
+
+            // Ensure container has some initial dimensions before trying to render Three.js
+            // This is primarily for local testing or cases where CSS might not be fully applied yet
+            if (container.clientWidth === 0 || container.clientHeight === 0) {
+                 console.warn('Wormhole container dimensions are zero on resize. Animation might not appear.');
+                 // You might add a small delay and retry or set a fallback fixed size for development
+                 // For now, it will use 0 for aspect ratio, which will look bad.
+                 // The CSS with py-16 should ensure it has height.
+            }
+
+            //// Boot
+            const renderer = new THREE.WebGLRenderer({ antialias: true }); 
+            const scene = new THREE.Scene();
+            // Initial camera aspect ratio based on container, will be updated on resize
+            const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 20, 12000); 
+            
+            // Append the renderer's DOM element (the canvas) to your specific container
+            container.appendChild(renderer.domElement); 
+
+            const controls = new OrbitControls(camera, renderer.domElement);
+            
+            // Handle window resize for responsiveness
+            const handleResize = () => {
+                const { clientWidth, clientHeight } = container; // Use container's dimensions
+                if (clientWidth === 0 || clientHeight === 0) {
+                    console.warn('Wormhole container dimensions are zero on resize. Skipping update.');
+                    return; // Prevent division by zero errors for aspect ratio
+                }
+                renderer.setSize(clientWidth, clientHeight, false);
+                renderer.setPixelRatio(window.devicePixelRatio);
+                camera.aspect = clientWidth / clientHeight;
+                camera.updateProjectionMatrix();
+
+                // Update effect composer size on resize
+                const res = new THREE.Vector2(clientWidth, clientHeight);
+                if (fx) fx.setSize(res.width, res.height); 
+            };
+            window.addEventListener('resize', handleResize);
+            handleResize(); // Call once initially to set sizes correctly
+
+            //// Inputs
+            const size = 5000;
+            const segs = 500;
+            const disp = 500;
+
+            //// Setup
+            camera.position.set(1000, 1200, 1200);
+            controls.autoRotate = true;
+            controls.enableDamping = true;
+            controls.maxPolarAngle = Math.PI / 2.9;
+
+            const light0 = new THREE.DirectionalLight('white', 1);
+            light0.position.set(0, 1, 0);
+            scene.add(light0);
+
+            // Using your provided texture URL
+            // Using a basic fallback if the Unsplash image fails to load
+            const tex0 = new THREE.TextureLoader().load(
+                'https://images.unsplash.com/photo-1613799122437-c48c0e4cd5c0?ixid=MXwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw3OXx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60',
+                undefined, // onLoad
+                undefined, // onProgress
+                function (err) {
+                    console.error('An error occurred loading texture:', err);
+                    // Optionally, load a local fallback texture or use a simple color
+                    // tex0 = new THREE.TextureLoader().load('path/to/local/fallback.jpg');
+                }
+            );
+
+            const mesh0 = new THREE.Mesh(
+                new THREE.PlaneBufferGeometry(size, size, segs, segs).rotateX(-0.5 * Math.PI),
+                f()
+            );
+            scene.add(mesh0);
+            const mesh1 = new THREE.Mesh(
+                new THREE.PlaneBufferGeometry(size, size, segs >> 1, segs >> 1).rotateX(-0.5 * Math.PI),
+                f({ wireframe: true, color: new THREE.Color('#333') })
+            );
+            scene.add(mesh1);
+
+            //// Make Material
+            function f({ wireframe, color } = {}) {
+                const mat = new THREE.ShaderMaterial({
+                    extensions: {
+                        derivatives: true, // wgl 1
+                    },
+                    lights: true,
+                    wireframe: Boolean(wireframe),
+                    uniforms: THREE.UniformsUtils.merge([
+                        THREE.ShaderLib.standard.uniforms, {
+                            time: { value: 0 },
+                            displacementScale: { value: disp },
+                            wireframe: { value: wireframe || false },
+                            color: { value: color || new THREE.Color() },
+                            roughness: { value: 1 },
+                            metalness: { value: 0 }
+                        }
+                    ]),
+                    vertexShader: `
+                    varying vec3 vWorldPos;
+                    ` + THREE.ShaderLib.standard.vertexShader.replace("#include <worldpos_vertex>", `
+                    // #if defined( USE_ENVMAP ) || defined( DISTANCE ) || defined ( USE_SHADOWMAP )
+                        vec4 worldPosition = vec4( transformed, 1.0 );
+                        #ifdef USE_INSTANCING
+                            worldPosition = instanceMatrix * worldPosition;
+                        #endif
+                        worldPosition = modelMatrix * worldPosition;
+                        vWorldPos = worldPosition.xyz;
+                    // #endif
+                    `).replace("#include <displacementmap_vertex>", `
+                    #ifdef USE_DISPLACEMENTMAP
+                        transformed += normalize( objectNormal ) * ( texture2D( displacementMap, vUv ).x * displacementScale + displacementBias );
+                        // form a bowl
+                        float yOffset = length( position.xz ) / ${size.toFixed(1)};
+                        yOffset = pow(sin(yOffset * 2.0), 2.0);
+                        transformed.y += yOffset * ${size.toFixed(1)} / 3.0;
+                    #endif
+                    `),
+                    fragmentShader: `
+                    varying vec3 vWorldPos;
+                    uniform float time;
+                    uniform bool wireframe;
+                    uniform vec3 color;
+                    ` + THREE.ShaderLib.standard.fragmentShader.replace(
+                        "gl_FragColor = vec4( outgoingLight, diffuseColor.a );", `
+                        gl_FragColor = vec4( outgoingLight, diffuseColor.a );
+                        float ths = ${size.toFixed(1)} * pow(sin(time * 0.00015), 2.0);
+                        if ( !wireframe ) {
+                            if ( length( vWorldPos ) > ths ) {
+                                discard;
+                            } 
+                        } else {
+                            gl_FragColor = vec4( color, 1.0 );
+                            if ( length( vWorldPos ) < ths ) {
+                                discard;
+                            }
+                        }
+                    `)
+                });
+                mat.map = mat.uniforms.map.value = tex0;
+                mat.displacementMap = mat.uniforms.displacementMap.value = tex0;
+                return mat;
+            }
+
+            //// Render
+            const res = new THREE.Vector2(container.clientWidth, container.clientHeight); // Initial size for EffectComposer
+            
+            const fx = new EffectComposer(renderer);
+            fx.addPass(new RenderPass(scene, camera));
+            fx.addPass(new UnrealBloomPass(res, 0.5, 0.5, 0.3));
+
+            renderer.setAnimationLoop((t) => {
+                fx.render();
+                mesh0.material.uniforms.time.value = t;
+                mesh1.material.uniforms.time.value = t;
+                controls.update();
+            });
+        });
+    </script>
 </body>
 </html>
