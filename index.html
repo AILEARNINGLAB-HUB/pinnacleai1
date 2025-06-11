@@ -1,4 +1,4 @@
-\<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -262,7 +262,7 @@
             background: linear-gradient(90deg, var(--color-orange), var(--color-purple));
         }
 
-        /* NEW: Styles to hide the CodePen's internal header/footer */
+        /* Styles for iframes used as full-page/section backgrounds */
         .codepen-full-bg-iframe {
             position: absolute;
             top: -70px; /* Shift up by ~70px to hide CodePen's top bar */
@@ -462,7 +462,7 @@
             overflow: hidden; /* Hide any content overflow outside */
         }
 
-        /* NEW: Class for the CodePen iframe when used as a background */
+        /* NEW: Class for the CodePen iframe when used as a background in the footer */
         .footer-bg-iframe {
             position: absolute;
             top: 0;
@@ -473,7 +473,6 @@
             pointer-events: none; /* Allows interaction to pass through (good practice) */
             border: none;
         }
-
 
         /* Responsive adjustments */
         @media (max-width: 767px) {
@@ -569,9 +568,9 @@
 
     <!-- Hero Section with Creative Black Hole Animation -->
     <section id="home" class="hero relative overflow-hidden flex items-center justify-center text-center text-white">
-        <!-- Creative Black Hole Animation (iframe) -->
+        <!-- Creative Black Hole Animation (iframe) - Corrected src to hide editor UI -->
         <iframe scrolling="no" title="Creative Black Hole" 
-            src="https://codepen.io/wodniack/full/VYwGEGg/?" 
+            src="https://codepen.io/wodniack/embed/preview/VYwGEGg/?theme-id=dark" 
             frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true"
             class="codepen-full-bg-iframe">
         </iframe>
@@ -588,9 +587,9 @@
 
     <!-- Services Section -->
     <section id="services" class="section py-20 relative overflow-hidden text-white">
-        <!-- Background iframe for "bluesky" animation -->
+        <!-- Background iframe for "bluesky" animation - Corrected src to hide editor UI -->
         <iframe scrolling="no" title="bluesky" 
-            src="https://codepen.io/AI-Learning-Lab/full/gbpxbZo/?" 
+            src="https://codepen.io/AI-Learning-Lab/embed/preview/gbpxbZo/?theme-id=dark" 
             frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true"
             class="codepen-full-bg-iframe">
         </iframe>
