@@ -9,7 +9,7 @@ body.overflow-hidden {
     overflow: hidden;
 }
 
-/* --- Navbar Styles --- */
+/* ---Navbar Styles --- */
 /* Tailwind classes handle most navbar styling */
 
 /* Logo Styling in Navbar (specific to header) */
@@ -30,7 +30,7 @@ body.overflow-hidden {
         transform-origin: center;
     }
 
-/* Navbar Menu (Desktop) handled by inline styles in index.html */
+/*Navbar Menu (Desktop) handled by inline styles in index.html */
 /* Mobile Menu Overlay handled by inline styles in index.html */
 
 .nav-link-mobile {
