@@ -150,10 +150,26 @@
         .btn-secondary:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(168,85,247,0.4); background: linear-gradient(90deg, var(--color-orange), var(--color-purple)); }
 
         /* CodePen iframe styling */
-        .codepen-full-bg-iframe { position: absolute; top: -70px; left: 0; width: 100%; height: calc(100% + 140px); z-index: 0; pointer-events: none; border: none; }
+        .codepen-full-bg-iframe {
+            position: absolute; /* Changed from top:-70px to top:0 to ensure full coverage */
+            top: 0; /* Ensure it starts from the top */
+            left: 0;
+            width: 100%;
+            height: 100%; /* Changed from calc(100% + 140px) to 100% to cover just the section */
+            z-index: 0;
+            pointer-events: none;
+            border: none;
+        }
 
         /* Hero Section */
-        .hero { height: 100vh; min-height: 600px; position: relative; background-color: #000; }
+        .hero { height: 100vh; min-height: 600px; position: relative; background-color: #000; overflow: hidden; /* Added overflow hidden */ }
+        .hero-content {
+            position: relative; /* Ensure content is above the iframe */
+            z-index: 10; /* Higher z-index than the iframe */
+            text-align: center;
+            color: #fff;
+            padding: 1rem; /* Add some padding for mobile */
+        }
         .btn-primary-hero, .btn-outline-hero { padding: 1rem 2.5rem; border-radius: 9999px; font-weight: 600; font-size: 1.125rem; transition: all 0.3s ease; }
         .btn-primary-hero:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 25px rgba(59,130,246,0.5); background: linear-gradient(90deg, #22c55e, #3b82f6); }
         .btn-outline-hero:hover { background-color: rgba(255,255,255,0.1); transform: translateY(-3px) scale(1.02); box-shadow: 0 6px 15px rgba(255,255,255,0.3); }
@@ -296,7 +312,7 @@
     </style>
 </head>
 <body class="bg-gray-900 text-gray-200 font-inter">
-    <!-- Navbar -->
+    <!--Navbar -->
     <nav class="navbar fixed top-0 left-0 w-full z-50">
         <div class="container mx-auto px-4 flex justify-between items-center h-full">
             <div class="flex items-center">
@@ -368,7 +384,6 @@
             frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true"
             class="codepen-full-bg-iframe" style="opacity: 0.3;"> <!-- Added opacity to iframe -->
         </iframe>
-        <!-- Removed absolute inset overlay div, relying on section background and iframe opacity -->
         <div class="container mx-auto px-4 relative z-20"> <!-- Ensure content is above iframe -->
             <div class="section-header text-center mb-16 animate-on-scroll">
                 <h2 class="text-4xl font-bold mb-4">Our Services</h2>
@@ -774,211 +789,6 @@ void main() {
             if (typeof RGBA !== 'function') console.error('RGBA.js library not loaded or RGBA function not available!');
         }
     });
-    </script>
-
-    <!-- Embedded and Modified CodePen JavaScript for Contact Section Background -->
-    <script>
-/*********
- * made by Matthias Hurrle (@atzedent)
- */
-let editModeContactBg = false;
-let resolutionContactBg = 0.5;
-let renderDelayContactBg = 1000;
-let dprContactBg = Math.max(1, resolutionContactBg * window.devicePixelRatio);
-let frmContactBg, sourceContactBg, editorContactBg, storeContactBg, rendererContactBg, pointersContactBg;
-const shaderIdContactBg = 'NPqjWPp_contact_bg';
-
-function resizeContactBackground() {
-  const canvas = document.getElementById('codepenCanvasContactBackground');
-  if (!canvas) return;
-  const contactSection = document.getElementById('contact');
-  if (!contactSection) return;
-
-  const { clientWidth: width, clientHeight: height } = contactSection;
-
-  canvas.width = width * dprContactBg;
-  canvas.height = height * dprContactBg;
-  // CSS dimensions are 100% of parent, so no need to set style.width/height here
-
-  if (rendererContactBg && rendererContactBg.gl) {
-    rendererContactBg.updateScale(dprContactBg);
-    rendererContactBg.gl.viewport(0, 0, canvas.width, canvas.height); // Ensure viewport updates
-  }
-}
-
-function toggleViewContactBg() { /* Not actively used for fixed background */ }
-function resetContactBg() { /* Not actively used for fixed background */ }
-function toggleResolutionContactBg() { /* Not actively used if resolution is fixed */ }
-
-function loopContactBackground(now) {
-  if (!rendererContactBg || !pointersContactBg || !rendererContactBg.gl) {
-      frmContactBg = requestAnimationFrame(loopContactBackground);
-      return;
-  }
-  rendererContactBg.updateMouse(pointersContactBg.first);
-  rendererContactBg.updatePointerCount(pointersContactBg.count);
-  rendererContactBg.updatePointerCoords(pointersContactBg.coords);
-  rendererContactBg.updateMove(pointersContactBg.move);
-  rendererContactBg.render(now);
-  frmContactBg = requestAnimationFrame(loopContactBackground);
-}
-
-function renderThisContactBg() { /* Not actively used for fixed background */ }
-const debounceContactBg = (fn, delay) => { /* Not actively used for fixed background */ };
-const renderContactBackgroundDebounced = debounceContactBg(renderThisContactBg, renderDelayContactBg);
-
-function initContactBackgroundShader() {
-  const canvas = document.getElementById('codepenCanvasContactBackground');
-  const codeEditorEl = document.getElementById('codeEditorContactBg'); // Dummy
-  const errorEl = document.getElementById('errorContactBg'); // Dummy
-  const indicatorEl = document.getElementById('indicatorContactBg'); // Dummy
-  // Control buttons are not needed for a fixed background
-
-  if (!canvas) { console.error("Canvas for Contact Background Shader not found."); return; }
-
-  sourceContactBg = document.getElementById('contactShaderSource');
-  if (!sourceContactBg || !sourceContactBg.textContent.trim()) {
-      console.error("Shader source for Contact Background not found or is empty.");
-      return;
-  }
-
-  rendererContactBg = new Renderer(canvas, dprContactBg);
-  if (!rendererContactBg.gl) return; // Renderer constructor handles WebGL2 check
-
-  pointersContactBg = new PointerHandler(canvas, dprContactBg);
-  editorContactBg   = new Editor(codeEditorEl, errorEl, indicatorEl); // Uses hidden dummy elements
-  editorContactBg.text = sourceContactBg.textContent; // Set shader source
-
-  rendererContactBg.setup();
-  rendererContactBg.init();
-
-  // For a fixed background, we don't need editor toggle or resolution toggle functionality here.
-  // We'll set the resolution once.
-  dprContactBg = Math.max(1, resolutionContactBg * window.devicePixelRatio); // Use the preset resolutionContactBg
-  pointersContactBg.updateScale(dprContactBg);
-
-  canvas.addEventListener('shader-error', e => {
-      console.error("Shader Error in Contact Background:", e.detail);
-      if(editorContactBg) editorContactBg.setError(e.detail);
-  });
-
-  resizeContactBackground(); // Initial size setup
-
-  const testResult = rendererContactBg.test(sourceContactBg.textContent);
-  if (testResult === null) {
-    rendererContactBg.updateShader(sourceContactBg.textContent);
-  } else {
-    console.error("Contact Background Shader compilation failed:", testResult);
-    if(editorContactBg) editorContactBg.setError(testResult);
-    return; // Don't start loop if shader fails
-  }
-
-  loopContactBackground(0);
-
-  // Responsive resize
-  let resizeTimeoutContactBg;
-  window.addEventListener('resize', () => {
-      clearTimeout(resizeTimeoutContactBg);
-      resizeTimeoutContactBg = setTimeout(resizeContactBackground, 100); // Debounce resize
-  });
-}
-
-class Renderer {
-  #vertexSrc = "#version 300 es\nprecision highp float;\nin vec4 position;\nvoid main(){gl_Position=position;}";
-  #fragmtSrc = "#version 300 es\nprecision highp float;\nout vec4 O;\nuniform float time;\nuniform vec2 resolution;\nvoid main() {\n\tvec2 uv=gl_FragCoord.xy/resolution;\n\tO=vec4(uv,sin(time)*.5+.5,1);\n}"; // Default fallback
-  #vertices = [-1, 1, -1, -1, 1, 1, 1, -1];
-  constructor(canvas, scale) {
-    this.canvas = canvas;
-    this.scale = scale;
-    this.gl = canvas.getContext("webgl2");
-    if (!this.gl) { console.error("WebGL2 not supported for Contact Background Renderer."); return; }
-    this.gl.viewport(0, 0, canvas.width, canvas.height);
-    this.shaderSource = this.#fragmtSrc;
-    this.mouseMove = [0, 0]; this.mouseCoords = [0, 0]; this.pointerCoords = [0, 0]; this.nbrOfPointers = 0;
-  }
-  get defaultSource() { return this.#fragmtSrc; }
-  updateShader(source) {
-    if (!this.gl) return; this.reset(); this.shaderSource = source; this.setup(); this.init();
-  }
-  updateMove(d) { this.mouseMove = d; } updateMouse(c) { this.mouseCoords = c; }
-  updatePointerCoords(c) { this.pointerCoords = c; } updatePointerCount(n) { this.nbrOfPointers = n; }
-  updateScale(s) { this.scale = s; /* Viewport updated in resizeContactBackground */ }
-  compile(shader, source) {
-    const gl = this.gl; if (!gl) return; gl.shaderSource(shader, source); gl.compileShader(shader);
-    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-      const errorMsg = gl.getShaderInfoLog(shader); console.error("Shader Compile Error:", errorMsg);
-      this.canvas.dispatchEvent(new CustomEvent('shader-error', { detail: errorMsg }));
-    }
-  }
-  test(source) {
-    let result = null; const gl = this.gl; if (!gl) return "WebGL context not available for test.";
-    const shader = gl.createShader(gl.FRAGMENT_SHADER); gl.shaderSource(shader, source); gl.compileShader(shader);
-    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) { result = gl.getShaderInfoLog(shader); }
-    if (gl.isShader(shader) && !gl.getShaderParameter(shader, gl.DELETE_STATUS)) { gl.deleteShader(shader); }
-    return result;
-  }
-  reset() {
-    const { gl, program, vs, fs } = this; if (!gl) return;
-    if (!program || !gl.isProgram(program) || gl.getProgramParameter(program, gl.DELETE_STATUS)) return;
-    if (vs && gl.isShader(vs) && !gl.getShaderParameter(vs, gl.DELETE_STATUS)) { gl.detachShader(program, vs); gl.deleteShader(vs); }
-    if (fs && gl.isShader(fs) && !gl.getShaderParameter(fs, gl.DELETE_STATUS)) { gl.detachShader(program, fs); gl.deleteShader(fs); }
-    gl.deleteProgram(program);
-  }
-  setup() {
-    const gl = this.gl; if (!gl) return; this.vs = gl.createShader(gl.VERTEX_SHADER); this.fs = gl.createShader(gl.FRAGMENT_SHADER);
-    this.compile(this.vs, this.#vertexSrc); this.compile(this.fs, this.shaderSource);
-    this.program = gl.createProgram(); gl.attachShader(this.program, this.vs); gl.attachShader(this.program, this.fs); gl.linkProgram(this.program);
-    if (!gl.getProgramParameter(this.program, gl.LINK_STATUS)) { console.error("Program Link Error:", gl.getProgramInfoLog(this.program)); }
-  }
-  init() {
-    const { gl, program } = this; if (!gl || !program) return; this.buffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.#vertices), gl.STATIC_DRAW);
-    const pos = gl.getAttribLocation(program, "position"); gl.enableVertexAttribArray(pos); gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
-    program.resolution = gl.getUniformLocation(program, "resolution"); program.time = gl.getUniformLocation(program, "time");
-    program.move = gl.getUniformLocation(program, "move"); program.touch = gl.getUniformLocation(program, "touch");
-    program.pointerCount = gl.getUniformLocation(program, "pointerCount"); program.pointers = gl.getUniformLocation(program, "pointers");
-  }
-  render(now = 0) {
-    const { gl, program, buffer, canvas, mouseMove, mouseCoords, pointerCoords, nbrOfPointers } = this;
-    if (!gl || !program || !gl.isProgram(program) || gl.getProgramParameter(program, gl.DELETE_STATUS) || !canvas) return;
-    gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT); // Clear with transparent for section bg to show if shader is not opaque
-    gl.useProgram(program); gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-    gl.uniform2f(program.resolution, gl.drawingBufferWidth, gl.drawingBufferHeight);
-    gl.uniform1f(program.time, now * 1e-3);
-    gl.uniform2f(program.move, ...mouseMove); gl.uniform2f(program.touch, ...mouseCoords);
-    gl.uniform1i(program.pointerCount, nbrOfPointers); gl.uniform2fv(program.pointers, pointerCoords);
-    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-  }
-}
-class Store { /* Likely not needed for fixed background */
-  constructor(key) { this.key = key; this.store = window.localStorage; }
-  putShaderSource(name, source) { try { this.store.setItem(name, source); } catch(e) { console.warn("localStorage unavailable for Store", e); } }
-}
-class PointerHandler {
-  constructor(element, scale) {
-    this.element = element; this.scale = scale; this.active = false; this.pointers = new Map();
-    this.lastCoords = [0,0]; this.moves = [0,0];
-    const map = (el, s, clientX, clientY) => {
-        const r = el.getBoundingClientRect(); const x = (clientX - r.left); const y = (clientY - r.top);
-        return [x * s, (el.height / s - y) * s]; // Map to shader coords (origin bottom-left for GL)
-    };
-    element.addEventListener("pointerdown", (e) => { this.active = true; this.pointers.set(e.pointerId, map(this.element, this.getScale(), e.clientX, e.clientY)); });
-    element.addEventListener("pointerup", (e) => { if (this.count === 1) { this.lastCoords = this.first; } this.pointers.delete(e.pointerId); this.active = this.pointers.size > 0; });
-    element.addEventListener("pointerleave", (e) => { if (this.count === 1) { this.lastCoords = this.first; } this.pointers.delete(e.pointerId); this.active = this.pointers.size > 0; });
-    element.addEventListener("pointermove", (e) => { if (!this.active) return; this.pointers.set(e.pointerId, map(this.element, this.getScale(), e.clientX, e.clientY)); this.moves = [this.moves[0]+e.movementX, this.moves[1]+e.movementY]; });
-  }
-  getScale() { return this.scale; } updateScale(s) { this.scale = s; } reset() { this.pointers.clear(); this.active = false; this.moves = [0,0]; }
-  get count() { return this.pointers.size; } get move() { return this.moves; }
-  get coords() { return this.pointers.size > 0 ? Array.from(this.pointers.values()).map(p => [...p]).flat() : [0, 0]; }
-  get first() { return this.pointers.values().next().value || this.lastCoords; }
-}
-class Editor { /* Interacts with dummy hidden elements, minimal functionality needed for bg */
-  constructor(textarea, errorfield, errorindicator) { this.textarea = textarea; this.errorfield = errorfield; this.errorindicator = errorindicator; }
-  get text() { return this.textarea ? this.textarea.value : ""; } set text(v) { if (this.textarea) this.textarea.value = v; }
-  setError(m) { if (this.errorfield) this.errorfield.innerHTML = m; console.error("Editor SetError:", m); /* Basic error logging */ }
-  clearError() { if (this.errorfield) this.errorfield.textContent = ''; }
-  // Other editor methods (hidden, focus, scroll, keydown, indent) are not essential for a fixed background.
-}
     </script>
 
     <!-- Existing script.js -->
