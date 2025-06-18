@@ -262,7 +262,7 @@
             background: linear-gradient(90deg, var(--color-orange), var(--color-purple));
         }
 
-        /* NEW: Styles to hide the CodePen's internal header/footer */
+        /* Styles to hide the CodePen's internal header/footer (for Hero and Services iframes) */
         .codepen-full-bg-iframe {
             position: absolute;
             top: -70px; /* Shift up by ~70px to hide CodePen's top bar */
@@ -456,25 +456,26 @@
         }
 
         /* Footer */
-        /* Ensure footer is relative for absolute children positioning */
         .footer {
             position: relative; 
             overflow: hidden; /* Hide any content overflow outside */
         }
 
-        /* Wormhole Canvas Container (positioned absolutely within the footer) */
-        #wormhole-canvas-container {
+        /* NEW: Footer Shader Background Canvas Container (for RGBA.js) */
+        #footer-shader-canvas-container {
             position: absolute;
-            inset: 0; /* Cover the entire parent footer */
-            z-index: 0; /* Place it behind footer content */
-            pointer-events: none; /* Allow interaction with content above */
-            background-color: black; /* Fallback/initial background color */
-        }
-        #wormhole-canvas-container canvas {
-            display: block;
+            top: 0;
+            left: 0;
             width: 100%;
-            height: 100%; /* IMPORTANT: Changed from 100vh to 100% to fill the footer container */
-            cursor: grab; /* Cursor style for the canvas area */
+            height: 100%;
+            z-index: 0; /* Behind footer content */
+            pointer-events: none; /* Allow interaction with content above */
+            background-color: var(--color-darker-bg); /* Fallback dark background */
+        }
+        #footer-shader-canvas-container canvas {
+            display: block; /* Remove extra space below canvas */
+            width: 100%;
+            height: 100%;
         }
 
         /* Ensure footer content is on top of the canvas */
@@ -482,7 +483,6 @@
             position: relative; /* Make these elements relative */
             z-index: 1; /* Place them above the canvas */
         }
-
 
         .footer-logo-text {
              background: linear-gradient(90deg, #fff, var(--color-primary-blue));
@@ -834,10 +834,12 @@
         </div>
     </section>
 
-    <!-- Footer - Wormhole Animation Background -->
+    <!-- Footer - RGBA.js Shader Animation Background -->
     <footer id="footer" class="footer py-16 bg-gray-950 text-gray-300 relative overflow-hidden">
-        <!-- Wormhole Canvas Container (positioned absolutely within the footer) -->
-        <div id="wormhole-canvas-container"></div>
+        <!-- Container for RGBA.js shader canvas -->
+        <div id="footer-shader-canvas-container">
+            <!-- RGBA.js will inject its canvas here -->
+        </div>
 
         <!-- Footer Content (positioned relative, above the canvas) -->
         <div class="container mx-auto px-4 relative z-10">
@@ -905,178 +907,99 @@
     <!-- Existing script.js -->
     <script src="script.js"></script>
 
-    <!-- NEW: Script for Three.js Wormhole Animation (at the end of body) -->
-    <script type="module">
-        import * as THREE from 'https://unpkg.com/three@0.125.0/build/three.module.js'; // Renamed $ to THREE for clarity
-        import { OrbitControls } from 'https://unpkg.com/three@0.125.0/examples/jsm/controls/OrbitControls.js';
-        import { EffectComposer } from 'https://unpkg.com/three@0.125.0/examples/jsm/postprocessing/EffectComposer.js';
-        import { RenderPass } from 'https://unpkg.com/three@0.125.0/examples/jsm/postprocessing/RenderPass.js';
-        import { UnrealBloomPass } from 'https://unpkg.com/three@0.125.0/examples/jsm/postprocessing/UnrealBloomPass.js';
+    <!-- RGBA.js library -->
+    <script src="https://raw.githack.com/strangerintheq/rgba/0.0.8/rgba.js"></script>
+    
+    <!-- Script for RGBA.js Footer Animation -->
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const footerShaderContainer = document.getElementById('footer-shader-canvas-container');
+        if (footerShaderContainer && typeof RGBA === 'function') {
+            const shaderCode = `
+float sdOrientedBox( in vec2 p, in vec2 a, in vec2 b, float th )
+{
+    float l = length(b-a);
+    vec2  d = (b-a)/l;
+    vec2  q = (p-(a+b)*0.5);
+          q = mat2(d.x,-d.y,d.y,d.x)*q;
+          q = abs(q)-vec2(l,th)*0.5;
+    return length(max(q,0.0)) + min(max(q.x,q.y),0.0);    
+}
 
-        // Ensure the container is ready before initializing
-        document.addEventListener('DOMContentLoaded', () => {
-            const container = document.getElementById('wormhole-canvas-container');
-            if (!container) {
-                console.error('Wormhole canvas container not found!');
-                return; // Exit if container is not found
-            }
+float addLine (in vec2 uv, in vec2 p, in float angle, in float length)
+{
+  return sdOrientedBox(
+    uv,
+    p,
+    vec2(p.x + cos(angle) * length, p.y + sin(angle) * length),
+    0.01
+  );
+}
 
-            // Ensure container has some initial dimensions before trying to render Three.js
-            // This is primarily for local testing or cases where CSS might not be fully applied yet
-            if (container.clientWidth === 0 || container.clientHeight === 0) {
-                 console.warn('Wormhole container dimensions are zero on resize. Animation might not appear.');
-                 // You might add a small delay and retry or set a fallback fixed size for development
-                 // For now, it will use 0 for aspect ratio, which will look bad.
-                 // The CSS with py-16 should ensure it has height.
-            }
+float addWave (in vec2 uv, in vec2 p, in float length)
+{
+  float t = time * 0.1;
+  return sdOrientedBox(
+    vec2(uv.x, uv.y + sin((uv.x + t) * 30.) * 0.02),
+    vec2(p.x - length * 0.5, p.y),
+    vec2(p.x + length * 0.5, p.y),
+    0.01
+  );
+}
 
-            //// Boot
-            const renderer = new THREE.WebGLRenderer({ antialias: true }); 
-            const scene = new THREE.Scene();
-            // Initial camera aspect ratio based on container, will be updated on resize
-            const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 20, 12000); 
-            
-            // Append the renderer's DOM element (the canvas) to your specific container
-            container.appendChild(renderer.domElement); 
+//https://iquilezles.org/articles/palettes/
+vec3 palette( float t ) {
+    vec3 a = vec3(0.5, 0.5, 0.5);
+    vec3 b = vec3(0.5, 0.5, 0.5);
+    vec3 c = vec3(1.0, 1.0, 1.0);
+    vec3 d = vec3(0.263,0.416,0.557);
 
-            const controls = new OrbitControls(camera, renderer.domElement);
-            
-            // Handle window resize for responsiveness
-            const handleResize = () => {
-                const { clientWidth, clientHeight } = container; // Use container's dimensions
-                if (clientWidth === 0 || clientHeight === 0) {
-                    console.warn('Wormhole container dimensions are zero on resize. Skipping update.');
-                    return; // Prevent division by zero errors for aspect ratio
-                }
-                renderer.setSize(clientWidth, clientHeight, false);
-                renderer.setPixelRatio(window.devicePixelRatio);
-                camera.aspect = clientWidth / clientHeight;
-                camera.updateProjectionMatrix();
+    return a + b*cos( 6.28318*(c*t+d) );
+}
 
-                // Update effect composer size on resize
-                const res = new THREE.Vector2(clientWidth, clientHeight);
-                if (fx) fx.setSize(res.width, res.height); 
-            };
-            window.addEventListener('resize', handleResize);
-            handleResize(); // Call once initially to set sizes correctly
+void main() {
+  vec2 uv = gl_FragCoord.xy / resolution.xy*2.-1.;
+  uv.y *= resolution.y/resolution.x;
 
-            //// Inputs
-            const size = 5000;
-            const segs = 500;
-            const disp = 500;
+  float d = 1.;
+  float PI = 3.14159;
+  
+  float t = time * 0.1;
+  float y1 = sin((uv.x - 0.125 + t) * 30.) * 0.02 - 0.005;
+  float y2 = sin((uv.x + 0.125 + t) * 30.) * 0.02 - 0.005;
+  float angle = pow(clamp(sin(time) + 1., 0., 1.), 4.);
+  
+  uv=vec2(
+    atan(uv.x, uv.y) + time * 0.1,
+    (log(length(uv)) - atan(uv.x, uv.y) + time * 0.1)
+  );
+  
+  uv = mod(uv, vec2(0.3, PI * 0.1)) - 0.15;
+  
+  // left
+  d = min(addLine(uv, vec2(-0.125, y1), mix(0., PI * 0.4, angle), 0.15), d);
+  
+  // right
+  d = min(addLine(uv, vec2(0.125, y2), mix(PI, PI * 0.6, angle), 0.1), d);
+  
+  // wave
+  d = min(addWave(uv, vec2(0.), mix(0.5, 0.2, angle)), d);
+  
+  d = smoothstep(0.0, mix(0.1, 0.001, angle), d);
 
-            //// Setup
-            camera.position.set(1000, 1200, 1200);
-            controls.autoRotate = true;
-            controls.enableDamping = true;
-            controls.maxPolarAngle = Math.PI / 2.9;
+  vec3 bgColor = palette(gl_FragCoord.y + gl_FragCoord.x + t) * 0.1;
+  vec3 fgColor = palette(uv.y + uv.x * 0.001 + t);
+  vec3 color = mix(fgColor, bgColor, d);
 
-            const light0 = new THREE.DirectionalLight('white', 1);
-            light0.position.set(0, 1, 0);
-            scene.add(light0);
-
-            // Using your provided texture URL
-            // Using a basic fallback if the Unsplash image fails to load
-            const tex0 = new THREE.TextureLoader().load(
-                'https://images.unsplash.com/photo-1613799122437-c48c0e4cd5c0?ixid=MXwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw3OXx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60',
-                undefined, // onLoad
-                undefined, // onProgress
-                function (err) {
-                    console.error('An error occurred loading texture:', err);
-                    // Optionally, load a local fallback texture or use a simple color
-                    // tex0 = new THREE.TextureLoader().load('path/to/local/fallback.jpg');
-                }
-            );
-
-            const mesh0 = new THREE.Mesh(
-                new THREE.PlaneBufferGeometry(size, size, segs, segs).rotateX(-0.5 * Math.PI),
-                f()
-            );
-            scene.add(mesh0);
-            const mesh1 = new THREE.Mesh(
-                new THREE.PlaneBufferGeometry(size, size, segs >> 1, segs >> 1).rotateX(-0.5 * Math.PI),
-                f({ wireframe: true, color: new THREE.Color('#333') })
-            );
-            scene.add(mesh1);
-
-            //// Make Material
-            function f({ wireframe, color } = {}) {
-                const mat = new THREE.ShaderMaterial({
-                    extensions: {
-                        derivatives: true, // wgl 1
-                    },
-                    lights: true,
-                    wireframe: Boolean(wireframe),
-                    uniforms: THREE.UniformsUtils.merge([
-                        THREE.ShaderLib.standard.uniforms, {
-                            time: { value: 0 },
-                            displacementScale: { value: disp },
-                            wireframe: { value: wireframe || false },
-                            color: { value: color || new THREE.Color() },
-                            roughness: { value: 1 },
-                            metalness: { value: 0 }
-                        }
-                    ]),
-                    vertexShader: `
-                    varying vec3 vWorldPos;
-                    ` + THREE.ShaderLib.standard.vertexShader.replace("#include <worldpos_vertex>", `
-                    // #if defined( USE_ENVMAP ) || defined( DISTANCE ) || defined ( USE_SHADOWMAP )
-                        vec4 worldPosition = vec4( transformed, 1.0 );
-                        #ifdef USE_INSTANCING
-                            worldPosition = instanceMatrix * worldPosition;
-                        #endif
-                        worldPosition = modelMatrix * worldPosition;
-                        vWorldPos = worldPosition.xyz;
-                    // #endif
-                    `).replace("#include <displacementmap_vertex>", `
-                    #ifdef USE_DISPLACEMENTMAP
-                        transformed += normalize( objectNormal ) * ( texture2D( displacementMap, vUv ).x * displacementScale + displacementBias );
-                        // form a bowl
-                        float yOffset = length( position.xz ) / ${size.toFixed(1)};
-                        yOffset = pow(sin(yOffset * 2.0), 2.0);
-                        transformed.y += yOffset * ${size.toFixed(1)} / 3.0;
-                    #endif
-                    `),
-                    fragmentShader: `
-                    varying vec3 vWorldPos;
-                    uniform float time;
-                    uniform bool wireframe;
-                    uniform vec3 color;
-                    ` + THREE.ShaderLib.standard.fragmentShader.replace(
-                        "gl_FragColor = vec4( outgoingLight, diffuseColor.a );", `
-                        gl_FragColor = vec4( outgoingLight, diffuseColor.a );
-                        float ths = ${size.toFixed(1)} * pow(sin(time * 0.00015), 2.0);
-                        if ( !wireframe ) {
-                            if ( length( vWorldPos ) > ths ) {
-                                discard;
-                            } 
-                        } else {
-                            gl_FragColor = vec4( color, 1.0 );
-                            if ( length( vWorldPos ) < ths ) {
-                                discard;
-                            }
-                        }
-                    `)
-                });
-                mat.map = mat.uniforms.map.value = tex0;
-                mat.displacementMap = mat.uniforms.displacementMap.value = tex0;
-                return mat;
-            }
-
-            //// Render
-            const res = new THREE.Vector2(container.clientWidth, container.clientHeight); // Initial size for EffectComposer
-            
-            const fx = new EffectComposer(renderer);
-            fx.addPass(new RenderPass(scene, camera));
-            fx.addPass(new UnrealBloomPass(res, 0.5, 0.5, 0.3));
-
-            renderer.setAnimationLoop((t) => {
-                fx.render();
-                mesh0.material.uniforms.time.value = t;
-                mesh1.material.uniforms.time.value = t;
-                controls.update();
-            });
-        });
+  gl_FragColor = vec4(color, 1.0);
+}
+`;
+            new RGBA(footerShaderContainer, shaderCode);
+        } else {
+            if (!footerShaderContainer) console.error('Footer shader canvas container (#footer-shader-canvas-container) not found!');
+            if (typeof RGBA !== 'function') console.error('RGBA.js library not loaded or RGBA function not available!');
+        }
+    });
     </script>
 </body>
 </html>
