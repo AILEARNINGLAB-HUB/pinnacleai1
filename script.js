@@ -1,3 +1,4 @@
+// script.js
 document.addEventListener('DOMContentLoaded', function () {
     const hamburger = document.querySelector('.hamburger');
     const mobileMenu = document.querySelector('.mobile-menu-overlay');
@@ -8,142 +9,178 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // --- Mobile Menu Toggle ---
     function openMenu() {
-        mobileMenu.classList.add('active');
-        hamburger.classList.add('active'); // Add active class to hamburger for animation
-        document.body.style.overflow = 'hidden'; // Prevent scrolling when mobile menu is open
+        if (mobileMenu && hamburger) {
+            mobileMenu.classList.add('active');
+            hamburger.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
     }
     function closeMenu() {
-        mobileMenu.classList.remove('active');
-        hamburger.classList.remove('active'); // Remove active class from hamburger
-        document.body.style.overflow = ''; // Restore scrolling
+        if (mobileMenu && hamburger) {
+            mobileMenu.classList.remove('active');
+            hamburger.classList.remove('active');
+            document.body.style.overflow = '';
+        }
     }
 
-    hamburger.addEventListener('click', openMenu);
-    closeBtn.addEventListener('click', closeMenu);
+    if (hamburger) hamburger.addEventListener('click', openMenu);
+    if (closeBtn) closeBtn.addEventListener('click', closeMenu);
 
-    // Close mobile menu when a mobile link is clicked
     mobileLinks.forEach(link => {
         link.addEventListener('click', function(e) {
-            // Check if it's an internal anchor link
-            if (this.getAttribute('href').startsWith('#')) {
-                // Prevent default hash jump to allow smooth scroll
-                e.preventDefault(); 
-                // Smooth scroll to the section
-                const targetId = this.getAttribute('href');
-                document.querySelector(targetId).scrollIntoView({
-                    behavior: 'smooth'
-                });
-                // Close menu after scrolling
+            const href = this.getAttribute('href');
+            if (href && href.startsWith('#')) {
+                e.preventDefault();
+                const targetElement = document.querySelector(href);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
                 closeMenu();
             } else {
-                // For external links or links to other HTML files, just close the menu
                 closeMenu();
             }
         });
     });
 
-    // Close menu on outside click of the overlay itself
-    mobileMenu.addEventListener('click', function(e) {
-        if (e.target === mobileMenu) {
-            closeMenu();
-        }
-    });
+    if (mobileMenu) {
+        mobileMenu.addEventListener('click', function(e) {
+            if (e.target === mobileMenu) {
+                closeMenu();
+            }
+        });
+    }
 
     // --- Active Navbar Link Highlighting ---
     function updateActiveNavLink() {
-        let currentActiveSection = '';
+        let currentActiveSectionId = '';
+        const navbarHeight = document.querySelector('.navbar')?.offsetHeight || 70;
+
         sections.forEach(section => {
-            const sectionTop = section.offsetTop - 100; // Offset for fixed navbar
+            const sectionTop = section.offsetTop - navbarHeight - 20;
             const sectionBottom = sectionTop + section.offsetHeight;
             if (window.scrollY >= sectionTop && window.scrollY < sectionBottom) {
-                currentActiveSection = section.id;
+                currentActiveSectionId = section.id;
             }
         });
+
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 2 && sections.length > 0) {
+             currentActiveSectionId = sections[sections.length - 1].id;
+        }
 
         navLinks.forEach(link => {
             link.classList.remove('active');
-            if (link.getAttribute('href').includes(currentActiveSection)) {
+            const linkHref = link.getAttribute('href');
+            if (linkHref && linkHref.includes(currentActiveSectionId) && currentActiveSectionId !== '') {
                 link.classList.add('active');
             }
         });
+
+        if (currentActiveSectionId === '' && sections.length > 0 && window.scrollY < sections[0]?.offsetTop - navbarHeight - 20) {
+            navLinks.forEach(link => link.classList.remove('active'));
+            const homeLink = document.querySelector('.nav-link[href="#home"]');
+            if (homeLink) homeLink.classList.add('active');
+        } else if (currentActiveSectionId === '' && sections.length === 0) {
+            const homeLink = document.querySelector('.nav-link[href="#home"]');
+            if (homeLink) homeLink.classList.add('active');
+        }
     }
 
     window.addEventListener('scroll', updateActiveNavLink);
-    updateActiveNavLink(); // Call on load to set initial active link
+    updateActiveNavLink();
 
     // --- Scroll-Triggered Animations (Intersection Observer) ---
     const animatedElements = document.querySelectorAll('.animate-on-scroll');
-
-    const observerOptions = {
-        root: null, // relative to the viewport
-        rootMargin: '0px',
-        threshold: 0.1 // Trigger when 10% of the item is visible
-    };
-
-    const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
-                observer.unobserve(entry.target); // Stop observing once animated
-            }
-        });
-    }, observerOptions);
-
-    animatedElements.forEach(element => {
-        observer.observe(element);
-    });
+    if (typeof IntersectionObserver !== 'undefined') {
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+        const observer = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    obs.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        animatedElements.forEach(element => observer.observe(element));
+    } else {
+        animatedElements.forEach(element => element.classList.add('is-visible'));
+    }
 
     // --- Smooth Scroll for internal links ---
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        // Exclude the hero buttons as they have their own click handlers already
-        if (!anchor.classList.contains('btn-primary-hero') && !anchor.classList.contains('btn-outline-hero')) {
+        if (!anchor.classList.contains('btn-primary-hero') && !anchor.classList.contains('btn-outline-hero') && !anchor.closest('.mobile-menu-overlay')) {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+                const targetElement = document.querySelector(this.getAttribute('href'));
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
             });
         }
     });
 
-    // --- Number Counter for Stats (Optional) ---
+    // --- Number Counter for Stats ---
     const counters = document.querySelectorAll('.stat-number');
-    const speed = 200; // The lower the speed, the faster the count
+    const speed = 200;
 
-    const counterObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const counter = entry.target;
-                const updateCount = () => {
-                    const target = +counter.getAttribute('data-target');
-                    const count = +counter.innerText.replace('+', '').replace('%', ''); // Clean text for parsing
-                    const increment = target / speed;
+    if (counters.length > 0 && typeof IntersectionObserver !== 'undefined') {
+        const counterObserver = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counter = entry.target;
+                    const animateCount = () => {
+                        const target = +counter.dataset.target;
+                        let count = +counter.innerText.replace(/[+%]/g, '');
+                        const increment = target / speed;
 
-                    if (count < target) {
-                        counter.innerText = Math.ceil(count + increment) + (counter.classList.contains('percent') ? '%' : '+');
-                        setTimeout(updateCount, 1);
-                    } else {
-                        counter.innerText = target + (counter.classList.contains('percent') ? '%' : '+');
+                        if (count < target) {
+                            count += increment;
+                            counter.innerText = Math.ceil(count) + (counter.dataset.suffix || '');
+                            requestAnimationFrame(animateCount);
+                        } else {
+                            counter.innerText = target + (counter.dataset.suffix || '');
+                        }
+                    };
+
+                    if (!counter.dataset.target) {
+                        const text = counter.innerText;
+                        if (text.includes('+')) {
+                            counter.dataset.target = text.replace('+', '');
+                            counter.dataset.suffix = '+';
+                        } else if (text.includes('%')) {
+                            counter.dataset.target = text.replace('%', '');
+                            counter.dataset.suffix = '%';
+                        } else {
+                            counter.dataset.target = text;
+                            counter.dataset.suffix = '';
+                        }
+                        counter.innerText = '0' + (counter.dataset.suffix || '');
                     }
-                };
-
-                // Set initial data-target attributes
-                if (counter.innerText.includes('+')) {
-                    counter.setAttribute('data-target', counter.innerText.replace('+', ''));
-                    counter.innerText = '0+';
-                } else if (counter.innerText.includes('%')) {
-                    counter.setAttribute('data-target', counter.innerText.replace('%', ''));
-                    counter.innerText = '0%';
-                    counter.classList.add('percent'); // Add class to distinguish percent
+                    animateCount();
+                    obs.unobserve(entry.target);
                 }
-                
-                updateCount();
-                observer.unobserve(entry.target); // Stop observing after counting
-            }
-        });
-    }, { threshold: 0.7 }); // Trigger when 70% of the counter is visible
+            });
+        }, { threshold: 0.7 });
+        counters.forEach(counter => counterObserver.observe(counter));
+    }
 
-    counters.forEach(counter => {
-        counterObserver.observe(counter);
-    });
+    // GSAP AI Logo Animation
+    if (typeof gsap !== 'undefined' && document.getElementById('mainSVG')) {
+        gsap.set("#mainSVG", { visibility: "visible" });
+        const tl = gsap.timeline({ defaults: { ease: "power2.inOut" }, repeat: -1, yoyo: true });
+        tl.to("#ai", { duration: 2, morphSVG: "M50 20 C20 20, 20 80, 50 80 S80 80, 80 20 Z" })
+          .to(".ell", { duration: 1, scale: 1.2, transformOrigin: "50% 50%", stagger: 0.1 }, "-=1.5")
+          .to("#ai", { duration: 1.5, strokeDasharray: "20 10", strokeDashoffset: 30 }, "-=1")
+          .to("#mainSVG", { duration: 1, rotation: 360, transformOrigin: "50% 50%" }, "-=0.5");
+    }
+
+    // --- Initialize Contact Section CodePen Background ---
+    if (typeof initContactBackgroundShader === 'function') {
+        initContactBackgroundShader();
+    } else {
+        console.error("initContactBackgroundShader function not found. Ensure the CodePen JS is embedded in the HTML and loaded correctly before script.js.");
+    }
 });

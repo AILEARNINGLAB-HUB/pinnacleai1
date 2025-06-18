@@ -1,563 +1,181 @@
 /* style.css */
 
-/* Import Inter font - already in HTML, but good practice to note */
-/* @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap'); */
-
 body {
     font-family: 'Inter', sans-serif;
-    /* Ensure smooth scrolling for section links */
     scroll-behavior: smooth;
 }
 
-/* IMPORTANT: This rule prevents body scrolling when the mobile menu is open. */
-/* It is toggled by JavaScript when the .mobile-menu-overlay gains/loses the 'active' class. */
 body.overflow-hidden {
     overflow: hidden;
 }
 
 /* --- Navbar Styles --- */
-.navbar {
-    /* Tailwind classes handle fixed positioning, width, z-index, padding, background, border */
-    /* py-4, bg-gray-900, border-b, border-gray-700, fixed, top-0, left-0, w-full, z-50 */
-}
+/* Tailwind classes handle most navbar styling */
 
-    .navbar .container {
-        /* Tailwind classes handle flex, justify-between, items-center, height */
-        /* mx-auto, px-4, flex, justify-between, items-center, h-full */
-    }
-
-/* Logo Styling */
-.logo {
-    /* Remove default text decoration */
-    text-decoration: none;
-    /* Apply gradient and strong font style */
-    font-size: 2rem; /* Adjust size as needed */
-    font-weight: 800; /* Use a strong weight from Inter */
-    letter-spacing: -0.025em; /* Optional: slight negative letter spacing */
-    /* Apply gradient text effect */
-    background: linear-gradient(to right, #4ade80, #3b82f6); /* Green to Blue gradient */
-    -webkit-background-clip: text; /* Clip background to text */
-    background-clip: text; /* Standard property */
-    color: transparent; /* Make text transparent to show background */
-    -webkit-text-fill-color: transparent; /* For older browsers */
-}
-
-/* Optional: Style the individual spans within the logo if needed,
-   but applying to the parent .logo makes them inherit styles */
-.logo-pinnacle,
-.logo-solutions {
-    /* No specific styles needed here if .logo styles are applied to both */
-    /* Ensure no unwanted margins are added here */
-}
-
+/* Logo Styling in Navbar (specific to header) */
+/* This is handled by inline styles in index.html for .logo-pinnacle-green and .logo-aisolutions-blue */
 
 /* Hamburger Icon Styling (for mobile) */
-.hamburger {
-    width: 25px;
-    height: 20px;
-    /* REMOVED: display: flex; <-- Tailwind classes flex and md:hidden handle this */
-    flex-direction: column;
-    justify-content: space-between;
-    cursor: pointer;
-    z-index: 60; /* Above the mobile menu overlay */
-    /* Added padding/margin for touch target */
-    padding: 10px;
-    margin: -10px; /* Negative margin to offset padding */
-    box-sizing: content-box; /* Include padding in element's total width/height for margin adjustment */
+.hamburger { /* Tailwind md:hidden handles visibility */
+    padding: 10px; /* For touch target */
+    margin: -10px; /* Offset padding */
+    box-sizing: content-box;
 }
-
     .hamburger span {
         display: block;
-        width: 100%;
-        height: 2px;
-        background-color: #fff; /* White lines */
-        transition: all 0.3s ease-in-out;
-        transform-origin: center; /* Ensure rotation is centered */
+        width: 100%; /* Tailwind w-8 */
+        height: 2px; /* Tailwind h-1 */
+        background-color: #fff; /* Tailwind bg-white */
+        transition: all 0.3s ease-in-out; /* Tailwind transition-all */
+        transform-origin: center;
     }
 
-    /* Hamburger Active State (when mobile menu is open) */
-    /* These styles make the hamburger icon transform into an 'X' */
-    .hamburger.active span:nth-child(1) {
-        transform: translateY(9px) rotate(45deg);
-    }
+/* Navbar Menu (Desktop) handled by inline styles in index.html */
+/* Mobile Menu Overlay handled by inline styles in index.html */
 
-    .hamburger.active span:nth-child(2) {
-        opacity: 0;
-    }
-
-    .hamburger.active span:nth-child(3) {
-        transform: translateY(-9px) rotate(-45deg);
-    }
-
-
-/* Navbar Menu (Desktop) */
-.navbar-menu {
-    /* Tailwind classes handle hidden/flex, items-center, space-x */
-    /* hidden, md:flex, items-center, space-x-6/8 */
-}
-
-.nav-link {
-    color: #d1d5db; /* Gray 300 */
-    font-weight: 500; /* Medium weight */
-    transition: color 0.3s ease;
-    position: relative; /* Needed for underline effect */
-}
-
-    .nav-link:hover,
-    .nav-link.active {
-        color: #fff; /* White on hover/active */
-    }
-
-    /* Optional: Underline effect on hover/active */
-    .nav-link::after {
-        content: '';
-        position: absolute;
-        left: 0;
-        bottom: -5px; /* Adjust distance from text */
-        width: 0;
-        height: 2px;
-        background-color: #3b82f6; /* Blue 500 */
-        transition: width 0.3s ease;
-    }
-
-    .nav-link:hover::after,
-    .nav-link.active::after {
-        width: 100%;
-    }
-
-
-/* Mobile Menu Overlay */
-.mobile-menu-overlay {
-    /* Tailwind classes handle fixed, top/left 0, w/h-full, background, flex-col, items/justify-center, space-y */
-    /* fixed, inset-0, w-full, h-full, bg-gray-900, bg-opacity-95, hidden, flex-col, items-center, justify-center, space-y-6, z-40 */
-
-    /* These styles control the initial (hidden) state of the mobile menu */
-    /* Tailwind's 'hidden' class adds display: none, which is why we need display: flex in the active state */
-    transform: translateX(100%); /* Start off-screen to the right */
-    opacity: 0;                   /* Start invisible */
-    transition: transform 0.3s ease-out, opacity 0.3s ease-out; /* Smooth animation for appearance/disappearance */
-    pointer-events: none;         /* Prevent clicks when hidden */
-    /* Adding explicit display: none here is optional if Tailwind 'hidden' is used, */
-    /* but harmless and can prevent issues if the 'hidden' class were ever removed from HTML */
-    /* display: none; */
-}
-
-/* Mobile Menu Overlay Active State */
-/* These styles make the mobile menu visible and interactive when the 'active' class is added by JavaScript */
-.mobile-menu-overlay.active {
-    display: flex; /* <--- ADDED THIS CRUCIAL LINE */
-    transform: translateX(0); /* Slide fully into view */
-    opacity: 1;               /* Become fully visible */
-    pointer-events: auto;     /* Allow clicks when active */
-    /* z-index is already set to 40 in HTML, but might need adjustment if it's behind other elements */
-     z-index: 50; /* Ensure it's above the fixed navbar if navbar z-index is 50 */
-}
-
-
-/* Styling for links inside the mobile menu */
 .nav-link-mobile {
-    color: #e5e7eb; /* Gray 200 */
-    font-size: 1.5rem; /* Larger font size */
-    font-weight: 600; /* Semi-bold */
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
-    .nav-link-mobile:hover {
-        color: #3b82f6; /* Blue 500 on hover */
-    }
-
-/* Buttons within menus */
-/* Shared button base styles */
 .btn-base {
-    padding: 0.6rem 1.5rem; /* Adjusted padding slightly */
-    border-radius: 9999px; /* Full rounded */
-    font-weight: 600; /* Semi-bold */
+    padding: 0.6rem 1.5rem;
+    border-radius: 9999px;
+    font-weight: 600;
     text-decoration: none;
     transition: all 0.3s ease;
-    display: inline-block; /* Ensure padding/margin works */
-    text-align: center; /* Center text */
-    white-space: nowrap; /* Prevent wrapping */
-    cursor: pointer; /* Add pointer cursor */
-}
-
-/* Primary Button (e.g., "Learn AI for Free") */
-.btn-primary {
-    background: linear-gradient(to right, #3b82f6, #1e3a8a); /* Blue gradient */
-    color: #fff;
-    border: 1px solid transparent;
-}
-
-    .btn-primary:hover {
-        background: linear-gradient(to left, #3b82f6, #1e3a8a); /* Reverse gradient on hover */
-        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); /* Subtle shadow */
-    }
-
-/* Secondary Button (e.g., "AI PROGRAMS") */
-.btn-secondary {
-    background: linear-gradient(to right, #4ade80, #16a34a); /* Green gradient */
-    color: #fff;
-    border: 1px solid transparent;
-}
-
-    .btn-secondary:hover {
-        background: linear-gradient(to left, #4ade80, #16a34a); /* Reverse gradient on hover */
-        box-shadow: 0 4px 15px rgba(74, 222, 128, 0.4); /* Subtle shadow */
-    }
-
-
-/* Mobile Button Styles */
-.btn-primary-mobile, .btn-secondary-mobile {
-    /* Using @extend needs a preprocessor like Sass/Less.
-       Copying styles or using Tailwind utilities directly is an alternative. */
-    /* @extend .btn-base; */ /* Inherit base styles */
-    padding: 0.75rem 1.5rem; /* Slightly more padding */
-    border-radius: 9999px; /* Full rounded */
-    font-weight: 600; /* Semi-bold */
-    text-decoration: none;
-    transition: all 0.3s ease;
-    display: inline-block; /* Ensure padding/margin works */
-    text-align: center; /* Center text */
-    white-space: nowrap; /* Prevent wrapping */
-    width: 80%; /* Adjust width for mobile */
-    max-width: 300px; /* Max width for larger phones */
-    font-size: 1.125rem; /* Large text */
-    cursor: pointer; /* Add pointer cursor */
-}
-
-.btn-primary-mobile {
-    background: linear-gradient(to right, #3b82f6, #1e3a8a); /* Blue gradient */
-    color: #fff;
-    border: 1px solid transparent;
-}
-
-    .btn-primary-mobile:hover {
-        background: linear-gradient(to left, #3b82f6, #1e3a8a); /* Reverse gradient on hover */
-        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); /* Subtle shadow */
-    }
-
-
-.btn-secondary-mobile {
-    background: linear-gradient(to right, #4ade80, #16a34a); /* Green gradient */
-    color: #fff;
-    border: 1px solid transparent;
-}
-
-    .btn-secondary-mobile:hover {
-        background: linear-gradient(to left, #4ade80, #16a34a); /* Reverse gradient on hover */
-        box-shadow: 0 4px 15px rgba(74, 222, 128, 0.4); /* Subtle shadow */
-    }
-
-
-/* Close mobile menu button */
-.close-mobile-menu {
-    position: absolute;
-    top: 1.5rem; /* 6 * 0.25rem = 1.5rem */
-    right: 1.5rem; /* 6 * 0.25rem = 1.5rem */
+    display: inline-block;
+    text-align: center;
+    white-space: nowrap;
     cursor: pointer;
-    font-size: 2rem; /* Adjust size */
-    color: #d1d5db; /* Gray 300 */
-    transition: color 0.3s ease;
-    /* Added padding/margin for touch target */
-    padding: 10px;
-    margin: -10px;
-    box-sizing: content-box; /* Include padding in element's total width/height for margin adjustment */
 }
 
-    .close-mobile-menu:hover {
-        color: #fff; /* White on hover */
-    }
+.btn-primary-mobile, .btn-secondary-mobile {
+    width: 91.666667%;
+    max-width: 20rem;
+}
 
+.close-mobile-menu {
+    transition: color 0.3s ease;
+}
 
 /* --- Hero Section Styles --- */
-.hero {
-    height: 100vh; /* Full viewport height */
-    /* Tailwind classes handle relative, overflow, flex, items/justify-center, text-center, text-white */
-    /* relative, overflow-hidden, flex, items-center, justify-center, text-center, text-white */
-}
-
-.video-bg {
-    /* Tailwind classes handle absolute, inset, min-w/h-full, object-cover */
-    /* absolute, inset-0, min-w-full, min-h-full, object-cover */
-}
-
-.hero-overlay {
-    /* Tailwind classes handle absolute, inset, background, opacity */
-    /* absolute, inset-0, bg-black, opacity-70 */
-}
-
-.hero-content {
-    /* Tailwind classes handle relative, z-index, padding, max-width, margin-auto */
-    /* relative, z-10, p-6, max-w-4xl, mx-auto */
-}
-
-/* Hero Button Styles - separate from menu buttons */
-.btn-primary-hero,
-.btn-outline-hero {
-    /* Using @extend needs a preprocessor like Sass/Less.
-       Copying styles or using Tailwind utilities directly is an alternative. */
-    /* @extend .btn-base; */ /* Inherit base styles */
-    padding: 1rem 2.5rem; /* Larger padding */
-    border-radius: 9999px; /* Full rounded */
-    font-weight: 600; /* Semi-bold */
-    text-decoration: none;
-    transition: all 0.3s ease;
-    display: inline-block; /* Ensure padding/margin works */
-    text-align: center; /* Center text */
-    white-space: nowrap; /* Prevent wrapping */
-    font-size: 1.125rem; /* Large text */
-    cursor: pointer; /* Add pointer cursor */
-}
-
-.btn-primary-hero {
-    /* @extend .btn-primary; */ /* Inherit primary button styles */
-    background: linear-gradient(to right, #3b82f6, #1e3a8a); /* Blue gradient */
-    color: #fff;
-    border: 1px solid transparent;
-}
-
-    .btn-primary-hero:hover {
-        background: linear-gradient(to left, #3b82f6, #1e3a8a); /* Reverse gradient on hover */
-        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); /* Subtle shadow */
-    }
-
-
-.btn-outline-hero {
-    background-color: transparent;
-    color: #fff;
-    border: 2px solid #fff;
-    transition: all 0.3s ease;
-}
-
-    .btn-outline-hero:hover {
-        background-color: rgba(255, 255, 255, 0.1); /* Subtle white background */
-        border-color: #3b82f6; /* Blue border on hover */
-        color: #3b82f6; /* Blue text on hover */
-    }
-
-
-/* Keyframes for animations (used in hero) */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
+/* @keyframes fadeInUp is defined in inline styles in index.html */
 .animate-fade-in-up {
     animation: fadeInUp 0.8s ease-out forwards;
-    opacity: 0; /* Start invisible */
+    opacity: 0;
 }
-
-    .animate-fade-in-up.delay-200 {
-        animation-delay: 0.2s;
-    }
-
-    .animate-fade-in-up.delay-400 {
-        animation-delay: 0.4s;
-    }
-
-
-/* --- Section Common Styles --- */
-.section {
-    /* py-20, bg-*, text-white handled by Tailwind */
-}
-
-.section-header {
-    /* text-center, mb-16 handled by Tailwind */
-}
-
-
-/* --- Services Section Styles --- */
-.service-card {
-    background-color: #1f2937; /* Gray 800 */
-    padding: 2rem; /* p-8 equivalent */
-    border-radius: 0.5rem; /* rounded-lg equivalent */
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
-    border: 1px solid #374151; /* Gray 700 */
-    /* Tailwind classes handle transform, hover:scale-105, transition-transform, duration-300, ease-in-out */
-}
-
-.service-icon {
-    font-size: 3rem; /* text-4xl equivalent */
-    color: #3b82f6; /* Blue 500 */
-    margin-bottom: 1.5rem; /* mb-6 equivalent */
-}
-
-
-/* --- AI Solutions Section Styles --- */
-.solution-card {
-    /* Tailwind classes handle flex, items-start, p-8, rounded-lg, shadow-lg, bg-gray-700, bg-opacity-50, backdrop-filter, backdrop-blur-sm, transition-all, duration-300, hover:shadow-xl, hover:bg-opacity-70, group */
-    border: 1px solid rgba(55, 65, 81, 0.5); /* Gray 700 with transparency */
-}
-
-.solution-icon i {
-    /* Tailwind classes handle font-size, text-color, group-hover:text-color, transition-colors, duration-300 */
-    /* Added specific color classes in HTML */
-}
-
-
-/* --- About Section Styles --- */
-.text-gradient {
-    background: linear-gradient(to right, #3b82f6, #a78bfa); /* Blue to Purple gradient */
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    -webkit-text-fill-color: transparent;
-}
-
-.text-gradient-primary {
-    background: linear-gradient(to right, #3b82f6, #60a5fa); /* Lighter blue gradient */
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    -webkit-text-fill-color: transparent;
-}
-
-.text-gradient-secondary {
-    background: linear-gradient(to right, #4ade80, #86efac); /* Lighter green gradient */
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    -webkit-text-fill-color: transparent;
-}
-
-
-.stat-item {
-    /* Tailwind classes handle text-center, p-6, bg-gray-800, rounded-lg, shadow-inner */
-    border: 1px solid #374151; /* Gray 700 */
-}
-
-.about-image img {
-    /* Tailwind classes handle w/h-full, object-cover */
-}
-
-.image-overlay {
-    /* Tailwind classes handle absolute, inset, bg-blue-500, opacity-20, hover:opacity-0, transition-opacity, duration-300 */
-}
-
+    .animate-fade-in-up.delay-200 { animation-delay: 0.2s; }
+    .animate-fade-in-up.delay-400 { animation-delay: 0.4s; }
 
 /* --- Contact Section Styles --- */
-.contact-form {
-    /* Tailwind classes handle p-8, bg-gray-900, rounded-xl, shadow-xl, border, border-gray-700 */
+textarea.form-input { /* General form-input, specific override for #contact below */
+    min-height: 8rem; /* Custom style for textarea */
 }
-
-.form-input {
-    /* Basic styling for form inputs */
-    display: block;
-    width: 100%;
-    padding: 0.75rem 1rem; /* py-3 px-4 */
-    font-size: 1rem;
-    line-height: 1.5;
-    color: #e5e7eb; /* Gray 200 */
-    background-color: #1f2937; /* Gray 800 */
-    background-image: none;
-    border: 1px solid #374151; /* Gray 700 */
-    border-radius: 0.375rem; /* rounded-md */
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
-
-    .form-input::placeholder {
-        color: #9ca3af; /* Gray 400 */
-        opacity: 1;
-    }
-
-    .form-input:focus {
-        color: #e5e7eb; /* Gray 200 */
-        background-color: #1f2937; /* Gray 800 */
-        border-color: #60a5fa; /* Blue 400 */
-        outline: 0;
-        box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25); /* Blue 500 with opacity */
-    }
-
-textarea.form-input {
-    min-height: 8rem; /* Added min-height */
-}
-
-
-.contact-info {
-    /* Tailwind classes handle space-y-10 */
-}
-
-.info-item {
-    /* Tailwind classes handle flex, items-start */
-}
-
-.info-icon {
-    /* Tailwind classes handle flex-shrink-0, mr-6, p-4, rounded-full, bg-*, text-white, flex, items/justify-center, text-2xl, shadow-md */
-}
-
 
 /* --- Footer Styles --- */
-.footer {
-    /* Tailwind classes handle py-16, bg-gray-950, text-gray-300 */
-    position: relative; 
-    overflow: hidden; /* Hide any content overflow outside */
-}
+/* Handled by Tailwind and inline styles */
 
-.footer-col {
-    /* Column spacing handled by grid gap */
-}
-
-/* Styling for the logo text in the footer */
-.footer-logo-text {
-    /* Inherit logo gradient styling */
-    background: linear-gradient(to right, #4ade80, #3b82f6); /* Green to Blue gradient */
-    -webkit-background-clip: text; /* Clip background to text */
-    background-clip: text; /* Standard property */
-    color: transparent; /* Make text transparent to show background */
-    -webkit-text-fill-color: transparent; /* For older browsers */
-    font-weight: 800; /* Match header logo weight */
-}
-
-
-.footer-link {
-    color: #9ca3af; /* Gray 400 */
-    text-decoration: none;
-    transition: color 0.3s ease;
-    display: inline-block; /* Allows padding/margin if needed later */
-}
-
-    .footer-link:hover {
-        color: #d1d5db; /* Gray 300 on hover */
-    }
-
-.social-links {
-    /* Tailwind classes handle flex, space-x-4 */
-}
-
-.social-icon {
-    color: #9ca3af; /* Gray 400 */
-    font-size: 1.5rem; /* Adjust size */
-    transition: color 0.3s ease, transform 0.3s ease;
-}
-
-    .social-icon:hover {
-        color: #fff; /* White on hover */
-        transform: translateY(-3px); /* Slight lift effect */
-    }
-
-.copyright {
-    /* Tailwind classes handle text-center, pt-8, text-gray-500, text-sm */
-}
 
 /* Media Queries for Responsiveness */
 @media (max-width: 767px) { /* Below md breakpoint */
-    .navbar .container {
-        /* Ensure full width and padding */
-        padding-left: 1rem; /* px-4 */
-        padding-right: 1rem; /* px-4 */
-    }
-
-    .logo {
-        font-size: 1.3rem; /* Smaller logo on mobile */
-    }
-    /* Adjust hamburger position if needed, but absolute/fixed works well */
+    /* Responsive adjustments for navbar handled by inline styles */
 }
 
-/* Remove any commented out JavaScript blocks from here */
+/* === STYLES FOR CONTACT SECTION VISIBILITY WITH CODEPEN BACKGROUND === */
+
+#contact {
+    position: relative; /* For containing the absolute canvas */
+    /* Tailwind bg-gray-800 utility class provides base dark background */
+    overflow: hidden; /* Recommended to contain the canvas */
+}
+
+#codepenCanvasContactBackground {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0; /* Behind content */
+    pointer-events: none; /* Allow clicks to pass through to content */
+}
+
+#contact .contact-content-wrapper {
+    position: relative;
+    z-index: 1; /* Ensures this wrapper is above the canvas */
+}
+
+/* Style the "Get In Touch" header block */
+#contact .section-header {
+    background-color: rgba(17, 24, 39, 0.9); /* Tailwind gray-900 with 90% opacity for better contrast */
+    padding: 1.5rem; /* Tailwind p-6 */
+    border-radius: 0.75rem; /* Tailwind rounded-xl */
+    margin-bottom: 4rem; /* Tailwind mb-16, ensure it's applied or re-add */
+    position: relative;
+    z-index: 2;
+}
+/* Ensure header text is light and readable on the new dark semi-transparent background */
+#contact .section-header h2 {
+    /* Uses .text-gradient from inline styles which is fine. Ensure it stands out. */
+    /* If gradient isn't enough, override color: var(--color-text-light); */
+}
+#contact .section-header p {
+    color: var(--color-text-light); /* Tailwind gray-200 (light gray) */
+}
+
+/* Style the form container on the left */
+#contact .contact-form {
+    /* Tailwind classes: p-8 bg-gray-900 rounded-xl shadow-xl border border-gray-700 */
+    /* The existing bg-gray-900 is good for the form block background. */
+    background-color: rgba(17, 24, 39, 0.95); /* Slightly more opaque gray-900 */
+    position: relative;
+    z-index: 2;
+}
+
+/* Style form input fields and textarea for high contrast */
+#contact .form-input { /* This overrides the general .form-input from inline styles for #contact section */
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    background-color: rgba(229, 231, 235, 0.95); /* Tailwind gray-200 with 95% opacity (light background) */
+    color: #111827; /* Tailwind gray-900 (dark text) for input text */
+    border: 1px solid rgba(107, 114, 128, 0.7); /* Tailwind gray-500 border */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+#contact .form-input::placeholder {
+    color: #4b5563; /* Tailwind gray-600 for placeholder */
+}
+#contact .form-input:focus {
+    background-color: #ffffff; /* Fully white on focus */
+    color: #030712; /* Tailwind gray-950 for darker text on focus */
+    border-color: var(--color-primary-blue);
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.3);
+    outline: none;
+}
+/* Ensure form labels are light and readable on the .contact-form's dark background */
+#contact .contact-form .form-group label {
+    color: var(--color-text-light); /* Tailwind gray-200 or similar */
+}
+
+/* Style the contact information block on the right */
+#contact .contact-info {
+    background-color: rgba(17, 24, 39, 0.9); /* Tailwind gray-900 with 90% opacity, matches section-header */
+    padding: 2rem; /* Tailwind p-8 */
+    border-radius: 0.75rem; /* Tailwind rounded-xl */
+    position: relative;
+    z-index: 2;
+}
+/* Ensure text within contact info items is light and readable */
+#contact .contact-info h4 {
+    color: #ffffff; /* White for better emphasis */
+}
+#contact .contact-info p {
+    color: var(--color-text-light); /* Tailwind gray-200 (light gray) */
+}
+/* The info-icons (.info-icon) already have distinct, colorful backgrounds from Tailwind. */
+
+/* Hide dummy CodePen editor/control elements if not already handled by JS */
+#codeEditorContactBg, #errorContactBg, #indicatorContactBg, #controlsContactBg {
+    display: none !important;
+    visibility: hidden !important;
+}

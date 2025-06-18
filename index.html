@@ -15,7 +15,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
+
     <!-- Link to your external Custom CSS file -->
     <link rel="stylesheet" href="style.css">
 
@@ -25,7 +25,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/CustomEase.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/MotionPathPlugin.min.js"></script>
 
-    <!-- INLINE STYLES (for immediate testing/demonstration, ideally move to style.css) -->
+    <!-- INLINE STYLES (Includes styles for footer animation container) -->
     <style>
         /* Custom Colors & Gradients */
         :root {
@@ -43,22 +43,18 @@
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
         @keyframes slideInLeft {
             from { opacity: 0; transform: translateX(-50px); }
             to { opacity: 1; transform: translateX(0); }
         }
-
         @keyframes slideInRight {
             from { opacity: 0; transform: translateX(50px); }
             to { opacity: 1; transform: translateX(0); }
         }
-
         @keyframes scaleIn {
             from { opacity: 0; transform: scale(0.9); }
             to { opacity: 1; transform: scale(1); }
         }
-        
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -70,491 +66,139 @@
             transform: translateY(20px);
             transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
-        /* Specific initial states for directional slides */
-        .animate-on-scroll.slide-left {
-            transform: translateX(-50px);
-        }
-        .animate-on-scroll.slide-right {
-            transform: translateX(50px);
-        }
-        .animate-on-scroll.scale-in {
-            transform: scale(0.9);
-        }
-        
-        /* Class added by JS when element is visible */
-        .animate-on-scroll.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .animate-on-scroll.slide-left.is-visible {
-            transform: translateX(0);
-        }
-        .animate-on-scroll.slide-right.is-visible {
-            transform: translateX(0);
-        }
-        .animate-on-scroll.scale-in.is-visible {
-            opacity: 1; /* Ensure opacity is also set for scale-in */
-            transform: scale(1);
-        }
+        .animate-on-scroll.slide-left { transform: translateX(-50px); }
+        .animate-on-scroll.slide-right { transform: translateX(50px); }
+        .animate-on-scroll.scale-in { transform: scale(0.9); }
 
-        /* Staggered animation delays (can be applied directly to elements too) */
+        /* Class added by JS when element is visible */
+        .animate-on-scroll.is-visible { opacity: 1; transform: translateY(0); }
+        .animate-on-scroll.slide-left.is-visible { transform: translateX(0); }
+        .animate-on-scroll.slide-right.is-visible { transform: translateX(0); }
+        .animate-on-scroll.scale-in.is-visible { opacity: 1; transform: scale(1); }
+
+        /* Staggered animation delays */
         .service-card:nth-child(1), .solution-card:nth-child(1) { transition-delay: 0s; }
         .service-card:nth-child(2), .solution-card:nth-child(2) { transition-delay: 0.1s; }
         .service-card:nth-child(3), .solution-card:nth-child(3) { transition-delay: 0.2s; }
         .solution-card:nth-child(4) { transition-delay: 0.3s; }
 
-        /* Specific styles for gradients in sections */
-        .text-gradient {
-            background: linear-gradient(90deg, var(--color-primary-blue), var(--color-purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .text-gradient-primary {
-            background: linear-gradient(90deg, var(--color-primary-blue), var(--color-secondary-green));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .text-gradient-secondary {
-            background: linear-gradient(90deg, var(--color-secondary-green), var(--color-purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+        /* Text Gradients */
+        .text-gradient { background: linear-gradient(90deg, var(--color-primary-blue), var(--color-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .text-gradient-primary { background: linear-gradient(90deg, var(--color-primary-blue), var(--color-secondary-green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .text-gradient-secondary { background: linear-gradient(90deg, var(--color-secondary-green), var(--color-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        /* Mobile Menu specific styles */
-        .mobile-menu-overlay {
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(17,24,39,0.97); /* Slightly transparent dark background */
-            position: fixed;
-            z-index: 100;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center; /* Center items vertically now */
-            padding-top: 5rem; /* Still give some top padding if needed for close button */
-            transition: transform 0.4s cubic-bezier(.4,0,.2,1), opacity 0.4s cubic-bezier(.4,0,.2,1);
-            transform: translateY(-100%);
-            opacity: 0;
-            pointer-events: none; /* Disables interaction when hidden */
-        }
-        .mobile-menu-overlay.active {
-            transform: translateY(0);
-            opacity: 1;
-            pointer-events: auto; /* Enables interaction when active */
-        }
+        /* Mobile Menu */
+        .mobile-menu-overlay { top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(17,24,39,0.97); position: fixed; z-index: 100; display: flex; flex-direction: column; align-items: center; justify-content: center; padding-top: 5rem; transition: transform 0.4s cubic-bezier(.4,0,.2,1), opacity 0.4s cubic-bezier(.4,0,.2,1); transform: translateY(-100%); opacity: 0; pointer-events: none; }
+        .mobile-menu-overlay.active { transform: translateY(0); opacity: 1; pointer-events: auto; }
+        .hamburger span { transition: all 0.3s ease-in-out; }
+        .hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
-        .hamburger span {
-            transition: all 0.3s ease-in-out;
-        }
-        .hamburger.active span:nth-child(1) {
-            transform: translateY(8px) rotate(45deg);
-        }
-        .hamburger.active span:nth-child(2) {
-            opacity: 0;
-        }
-        .hamburger.active span:nth-child(3) {
-            transform: translateY(-8px) rotate(-45deg);
-        }
-
-        /* Original Navbar Styles (restored) */
-        .navbar {
-            background-color: var(--color-dark-bg);
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding-top: 1.5rem; /* Reverted to original padding */
-            padding-bottom: 1.5rem; /* Reverted to original padding */
-        }
-        /* Combined font styles for all logo parts */
-        .logo {
-            font-weight: 800;
-            font-size: 1.8rem;
-            line-height: 1; /* Helps vertical alignment */
-            display: flex; /* Ensure the spans are flex children */
-            align-items: center; /* Vertically align spans */
-            white-space: nowrap; /* Keep text on one line */
-        }
-        /* Colors for the logo text as per original */
-        .logo-pinnacle-green { 
-            color: var(--color-secondary-green); /* Greenish color for PINNACLE */
-        }
-        .logo-aisolutions-blue { 
-            color: var(--color-primary-blue); /* Blueish color for AISOLUTIONS */
-        }
-        
-        /* Styles for the LARGER AI SVG next to the logo */
-        .larger-ai-svg {
-            width: 60px; /* Make it significantly larger */
-            height: 60px; /* Make it significantly larger */
-            visibility: hidden; /* GSAP will make it visible */
-            flex-shrink: 0; /* Prevent it from shrinking in flex container */
-            margin-left: 1rem; /* Spacing between logo text and SVG */
-        }
-        .larger-ai-svg .ell, .larger-ai-svg #ai {
-            fill: none; /* As per CodePen CSS */
-        }
-        /* Responsive adjustment for the larger SVG */
+        /* Navbar */
+        .navbar { background-color: var(--color-dark-bg); border-bottom: 1px solid rgba(255,255,255,0.1); padding-top: 1.5rem; padding-bottom: 1.5rem; }
+        .logo { font-weight: 800; font-size: 1.8rem; line-height: 1; display: flex; align-items: center; white-space: nowrap; }
+        .logo-pinnacle-green { color: var(--color-secondary-green); }
+        .logo-aisolutions-blue { color: var(--color-primary-blue); }
+        .larger-ai-svg { width: 60px; height: 60px; visibility: hidden; flex-shrink: 0; margin-left: 1rem; }
+        .larger-ai-svg .ell, .larger-ai-svg #ai { fill: none; }
         @media (max-width: 767px) {
-            .larger-ai-svg {
-                width: 40px; /* Smaller on mobile */
-                height: 40px;
-                margin-left: 0.5rem; /* Reduce margin on mobile */
-            }
-            /* Adjust overall logo text size if needed for the combined block */
-            .logo {
-                font-size: 1.5rem;
-            }
-            /* Adjust navbar padding for mobile if needed */
-            .navbar {
-                padding-top: 1rem; /* Smaller padding for smaller screens */
-                padding-bottom: 1rem;
-            }
+            .larger-ai-svg { width: 40px; height: 40px; margin-left: 0.5rem; }
+            .logo { font-size: 1.5rem; }
+            .navbar { padding-top: 1rem; padding-bottom: 1rem; }
         }
+        .nav-link { color: #d1d5db; transition: color 0.3s ease; position: relative; font-weight: 500; }
+        .nav-link::after { content: ''; position: absolute; left: 0; bottom: -5px; width: 0; height: 2px; background-color: var(--color-primary-blue); transition: width 0.3s ease; }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+        .nav-link:hover, .nav-link.active { color: #fff; }
 
-        .nav-link {
-            color: #d1d5db; /* gray-400 */
-            transition: color 0.3s ease;
-            position: relative;
-            font-weight: 500;
-        }
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: -5px;
-            width: 0;
-            height: 2px;
-            background-color: var(--color-primary-blue);
-            transition: width 0.3s ease;
-        }
-        .nav-link:hover::after, .nav-link.active::after {
-            width: 100%;
-        }
-        .nav-link:hover, .nav-link.active {
-            color: #fff;
-        }
+        /* Buttons */
+        .btn-secondary-padding, .btn-primary-padding { padding: 0.75rem 1.5rem; }
+        .btn-primary { background: linear-gradient(90deg, var(--color-primary-blue), var(--color-secondary-green)); color: #fff; border-radius: 9999px; transition: transform 0.3s ease, box-shadow 0.3s ease; box-shadow: 0 4px 15px rgba(59,130,246,0.3); }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(59,130,246,0.4); background: linear-gradient(90deg, var(--color-secondary-green), var(--color-primary-blue)); }
+        .btn-secondary { background: linear-gradient(90deg, var(--color-purple), var(--color-orange)); color: #fff; border-radius: 9999px; transition: transform 0.3s ease, box-shadow 0.3s ease; box-shadow: 0 4px 15px rgba(168,85,247,0.3); }
+        .btn-secondary:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(168,85,247,0.4); background: linear-gradient(90deg, var(--color-orange), var(--color-purple)); }
 
-        .btn-secondary-padding { padding: 0.75rem 1.5rem; }
-        .btn-primary-padding { padding: 0.75rem 1.5rem; }
-
-        .btn-primary {
-            background: linear-gradient(90deg, var(--color-primary-blue), var(--color-secondary-green));
-            color: #fff;
-            border-radius: 9999px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 15px rgba(59,130,246,0.3);
-        }
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(59,130,246,0.4);
-            background: linear-gradient(90deg, var(--color-secondary-green), var(--color-primary-blue)); /* Reverse for hover */
-        }
-        .btn-secondary {
-            background: linear-gradient(90deg, var(--color-purple), var(--color-orange));
-            color: #fff;
-            border-radius: 9999px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 15px rgba(168,85,247,0.3);
-        }
-        .btn-secondary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(168,85,247,0.4);
-            background: linear-gradient(90deg, var(--color-orange), var(--color-purple));
-        }
-
-        /* Styles to hide the CodePen's internal header/footer (for Hero and Services iframes) */
-        .codepen-full-bg-iframe {
-            position: absolute;
-            top: -70px; /* Shift up by ~70px to hide CodePen's top bar */
-            left: 0;
-            width: 100%;
-            height: calc(100% + 140px); /* Extend height to compensate for top shift and hide bottom bar */
-            z-index: 0;
-            pointer-events: none; /* Allows interaction with content above it */
-            border: none;
-        }
+        /* CodePen iframe styling */
+        .codepen-full-bg-iframe { position: absolute; top: -70px; left: 0; width: 100%; height: calc(100% + 140px); z-index: 0; pointer-events: none; border: none; }
 
         /* Hero Section */
-        .hero {
-            height: 100vh;
-            min-height: 600px; /* Ensure a minimum height for smaller devices */
-            position: relative;
-            background-color: #000; /* Fallback for iframe load */
-        }
+        .hero { height: 100vh; min-height: 600px; position: relative; background-color: #000; }
+        .btn-primary-hero, .btn-outline-hero { padding: 1rem 2.5rem; border-radius: 9999px; font-weight: 600; font-size: 1.125rem; transition: all 0.3s ease; }
+        .btn-primary-hero:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 25px rgba(59,130,246,0.5); background: linear-gradient(90deg, #22c55e, #3b82f6); }
+        .btn-outline-hero:hover { background-color: rgba(255,255,255,0.1); transform: translateY(-3px) scale(1.02); box-shadow: 0 6px 15px rgba(255,255,255,0.3); }
 
-        .btn-primary-hero, .btn-outline-hero {
-            padding: 1rem 2.5rem;
-            border-radius: 9999px;
-            font-weight: 600;
-            font-size: 1.125rem;
-            transition: all 0.3s ease;
-        }
-        .btn-primary-hero:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 8px 25px rgba(59,130,246,0.5);
-            background: linear-gradient(90deg, #22c55e, #3b82f6); /* green to blue */
-        }
-        .btn-outline-hero:hover {
-            background-color: rgba(255,255,255,0.1);
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 6px 15px rgba(255,255,255,0.3);
-        }
-
-        /* Section styles */
-        .section-header h2 {
-            font-weight: 800;
-            background: linear-gradient(90deg, var(--color-primary-blue), var(--color-purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .section-header p {
-            font-weight: 300;
-        }
+        /* Section Headers */
+        .section-header h2 { font-weight: 800; background: linear-gradient(90deg, var(--color-primary-blue), var(--color-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .section-header p { font-weight: 300; }
 
         /* Service Cards */
-        .service-card {
-            background-color: rgba(31,41,55,0.7); /* gray-800 with transparency */
-            border-radius: 1rem;
-            padding: 2.5rem;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            border: 1px solid rgba(255,255,255,0.1);
-            position: relative;
-            overflow: hidden;
-        }
-        .service-icon {
-            font-size: 3.5rem;
-            color: var(--color-primary-blue);
-            margin: 0 auto 1.5rem auto;
-            transition: transform 0.3s ease, color 0.3s ease;
-        }
-        .service-card:hover .service-icon {
-            color: var(--color-secondary-green);
-            transform: scale(1.1);
-        }
-        .service-card h3 {
-            font-weight: 700;
-            color: #fff;
-        }
-        .service-card p {
-            color: #ccc;
-        }
-        .service-card ul li {
-            color: #a0aec0; /* gray-400 */
-        }
+        .service-card { background-color: rgba(31,41,55,0.7); border-radius: 1rem; padding: 2.5rem; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); position: relative; overflow: hidden; }
+        .service-icon { font-size: 3.5rem; color: var(--color-primary-blue); margin: 0 auto 1.5rem auto; transition: transform 0.3s ease, color 0.3s ease; }
+        .service-card:hover .service-icon { color: var(--color-secondary-green); transform: scale(1.1); }
+        .service-card h3 { font-weight: 700; color: #fff; }
+        .service-card p { color: #ccc; }
+        .service-card ul li { color: #a0aec0; }
 
         /* Solution Cards */
-        .solution-card {
-            background-color: rgba(31,41,55,0.6); /* gray-800 with more transparency */
-            border-radius: 1rem;
-            padding: 2rem;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-            border: 1px solid rgba(255,255,255,0.1);
-            transition: all 0.3s ease;
-            display: flex; /* For icon alignment */
-            align-items: flex-start; /* Align icon and text at the top */
-        }
-        .solution-card:hover {
-            background-color: rgba(31,41,55,0.8);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.3);
-            transform: translateY(-5px);
-        }
-        .solution-icon {
-            font-size: 3rem;
-            padding: 0.75rem;
-            border-radius: 50%;
-            background-color: rgba(255,255,255,0.08);
-            margin-right: 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0; /* Prevent icon from shrinking */
-        }
-        .solution-card h3 {
-            font-weight: 700;
-            color: #fff;
-        }
-        .solution-card p {
-            color: #ccc;
-        }
+        .solution-card { background-color: rgba(31,41,55,0.6); border-radius: 1rem; padding: 2rem; box-shadow: 0 8px 25px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); transition: all 0.3s ease; display: flex; align-items: flex-start; }
+        .solution-card:hover { background-color: rgba(31,41,55,0.8); box-shadow: 0 12px 40px rgba(0,0,0,0.3); transform: translateY(-5px); }
+        .solution-icon { font-size: 3rem; padding: 0.75rem; border-radius: 50%; background-color: rgba(255,255,255,0.08); margin-right: 1.5rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .solution-card h3 { font-weight: 700; color: #fff; }
+        .solution-card p { color: #ccc; }
 
         /* About Section */
-        .about-image {
-            border-radius: 1.5rem;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-            transition: transform 0.4s ease;
-        }
-        .about-image:hover {
-            transform: scale(1.02);
-        }
-        .image-overlay {
-            background: linear-gradient(45deg, rgba(59,130,246,0.6), rgba(34,197,94,0.6));
-            transition: opacity 0.4s ease;
-        }
-        .about-image:hover .image-overlay {
-            opacity: 0;
-        }
-        .stat-item {
-            background-color: rgba(17,24,39,0.8); /* gray-900 with transparency */
-            border-radius: 0.75rem;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.3);
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: background-color 0.3s ease;
-        }
-        .stat-item:hover {
-            background-color: rgba(31,41,55,0.9);
-        }
-        .stat-number {
-            font-weight: 900;
-        }
-        .stat-label {
-            font-weight: 500;
-        }
+        .about-image { border-radius: 1.5rem; box-shadow: 0 15px 40px rgba(0,0,0,0.3); transition: transform 0.4s ease; }
+        .about-image:hover { transform: scale(1.02); }
+        .image-overlay { background: linear-gradient(45deg, rgba(59,130,246,0.6), rgba(34,197,94,0.6)); transition: opacity 0.4s ease; }
+        .about-image:hover .image-overlay { opacity: 0; }
+        .stat-item { background-color: rgba(17,24,39,0.8); border-radius: 0.75rem; box-shadow: inset 0 2px 5px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05); transition: background-color 0.3s ease; }
+        .stat-item:hover { background-color: rgba(31,41,55,0.9); }
+        .stat-number { font-weight: 900; }
+        .stat-label { font-weight: 500; }
 
-        /* Contact Section */
-        .form-input {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            border-radius: 0.5rem;
-            background-color: rgba(31,41,55,0.9); /* Darker gray for inputs */
-            border: 1px solid rgba(75,85,99,0.5); /* gray-600 border */
-            color: var(--color-text-light);
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        /* Contact Section Original Styles */
+        .form-input { /* This is the original definition, will be overridden for #contact specifically in style.css */
+            width: 100%; padding: 0.75rem 1rem; border-radius: 0.5rem;
+            background-color: rgba(31,41,55,0.9); border: 1px solid rgba(75,85,99,0.5);
+            color: var(--color-text-light); transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
-        .form-input:focus {
-            outline: none;
-            border-color: var(--color-primary-blue);
-            box-shadow: 0 0 0 3px rgba(59,130,246,0.3);
-        }
-        .contact-form {
-            border: 1px solid rgba(75,85,99,0.2);
-        }
-        .info-item {
-            align-items: center;
-        }
-        .info-icon {
-            width: 60px;
-            height: 60px;
-            min-width: 60px;
-            min-height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
-            transition: transform 0.3s ease;
-        }
-        .info-item:hover .info-icon {
-            transform: scale(1.1);
-        }
-        .info-item h4 {
-            font-weight: 700;
-            color: #fff;
-        }
-        .info-item p {
-            font-weight: 300;
-        }
+        .form-input:focus { outline: none; border-color: var(--color-primary-blue); box-shadow: 0 0 0 3px rgba(59,130,246,0.3); }
+        .contact-form { border: 1px solid rgba(75,85,99,0.2); } /* Original border */
+        .info-item { align-items: center; }
+        .info-icon { width: 60px; height: 60px; min-width: 60px; min-height: 60px; display: flex; align-items: center; justify-content: center; border-radius: 50%; box-shadow: 0 6px 15px rgba(0,0,0,0.3); transition: transform 0.3s ease; }
+        .info-item:hover .info-icon { transform: scale(1.1); }
+        .info-item h4 { font-weight: 700; color: #fff; }
+        .info-item p { font-weight: 300; }
 
         /* Footer */
-        .footer {
-            position: relative; 
-            overflow: hidden; /* Hide any content overflow outside */
-        }
+        .footer { position: relative; overflow: hidden; }
+        #footer-shader-canvas-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; background-color: var(--color-darker-bg); }
+        #footer-shader-canvas-container canvas { display: block; width: 100%; height: 100%; }
+        .footer .container, .footer .copyright { position: relative; z-index: 1; }
+        .footer-logo-text { background: linear-gradient(90deg, #fff, var(--color-primary-blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .footer-link { color: #9ca3af; transition: color 0.3s ease; position: relative; }
+        .footer-link::before { content: '•'; position: absolute; left: -15px; color: var(--color-secondary-green); opacity: 0; transition: opacity 0.3s ease, left 0.3s ease; }
+        .footer-link:hover { color: #fff; padding-left: 15px; }
+        .footer-link:hover::before { opacity: 1; left: 0; }
+        .social-icon { color: #9ca3af; font-size: 1.5rem; transition: color 0.3s ease, transform 0.3s ease; }
+        .social-icon:hover { color: var(--color-primary-blue); transform: scale(1.2); }
+        .copyright { text-align: center; padding-top: 2rem; /* Tailwind pt-8 */ color: #6b7280; font-size: 0.875rem; }
 
-        /* NEW: Footer Shader Background Canvas Container (for RGBA.js) */
-        #footer-shader-canvas-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0; /* Behind footer content */
-            pointer-events: none; /* Allow interaction with content above */
-            background-color: var(--color-darker-bg); /* Fallback dark background */
+        /* Responsive Navbar Container Padding */
+        @media (max-width: 767px) {
+            .navbar .container { padding-left: 1rem; padding-right: 1rem; }
         }
-        #footer-shader-canvas-container canvas {
-            display: block; /* Remove extra space below canvas */
-            width: 100%;
-            height: 100%;
-        }
-
-        /* Ensure footer content is on top of the canvas */
-        .footer .container, .footer .copyright {
-            position: relative; /* Make these elements relative */
-            z-index: 1; /* Place them above the canvas */
-        }
-
-        .footer-logo-text {
-             background: linear-gradient(90deg, #fff, var(--color-primary-blue));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .footer-link {
-            color: #9ca3af; /* gray-400 */
-            transition: color 0.3s ease;
-            position: relative;
-        }
-        .footer-link::before {
-            content: '•';
-            position: absolute;
-            left: -15px;
-            color: var(--color-secondary-green);
-            opacity: 0;
-            transition: opacity 0.3s ease, left 0.3s ease;
-        }
-        .footer-link:hover {
-            color: #fff;
-            padding-left: 15px; /* Adjust for bullet */
-        }
-        .footer-link:hover::before {
-            opacity: 1;
-            left: 0;
-        }
-        .social-icon {
-            color: #9ca3af; /* gray-400 */
-            font-size: 1.5rem;
-            transition: color 0.3s ease, transform 0.3s ease;
-        }
-        .social-icon:hover {
-            color: var(--color-primary-blue);
-            transform: scale(1.2);
-        }
-
-        .copyright {
-            text-align: center;
-            padding-top: 8;
-            color: #6b7280; /* gray-500 */
-            font-size: 0.875rem; /* text-sm */
-        }
-
-        /* Media Queries for Responsiveness */
-        @media (max-width: 767px) { /* Below md breakpoint */
-            .navbar .container {
-                /* Ensure full width and padding */
-                padding-left: 1rem; /* px-4 */
-                padding-right: 1rem; /* px-4 */
-            }
-
-            .logo {
-                font-size: 1.3rem; /* Smaller logo on mobile */
-            }
-            /* Adjust hamburger position if needed, but absolute/fixed works well */
-        }
-
-        /* Remove any commented out JavaScript blocks from here */
     </style>
 </head>
 <body class="bg-gray-900 text-gray-200 font-inter">
     <!-- Navbar -->
-    <nav class="navbar fixed top-0 left-0 w-full z-50 bg-gray-900 border-b border-gray-700">
+    <nav class="navbar fixed top-0 left-0 w-full z-50">
         <div class="container mx-auto px-4 flex justify-between items-center h-full">
-            <!-- Left Group: Logo Text + AI Animation -->
             <div class="flex items-center">
-                <!-- Logo Text -->
                 <a href="#home" class="logo">
                     <span class="logo-pinnacle-green">PINNACLE</span><span class="logo-aisolutions-blue">AI<span class="ml-0.5">SOLUTIONS</span></span>
                 </a>
-                <!-- AI Animation (Larger, to the right of the text logo) -->
                 <svg viewBox="0 0 100 100" id="mainSVG" class="larger-ai-svg">
                     <defs>
                         <linearGradient id="aiGrad" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -569,15 +213,11 @@
                     <ellipse class="ell" cx="50" cy="50" rx="15" ry="5" stroke="#03CEA4" stroke-width="2"/>
                 </svg>
             </div>
-
-            <!-- Hamburger Icon - will be flex on mobile, hidden on md and up -->
-            <div class="hamburger md:hidden flex flex-col justify-center items-center w-10 h-10 cursor-pointer z-50" tabindex="0" aria-label="Open menu" role="button">
+            <div class="hamburger md:hidden flex flex-col justify-center items-center w-10 h-10 cursor-pointer z-[101]" tabindex="0" aria-label="Open menu" role="button">
                 <span class="block w-8 h-1 bg-white mb-1 rounded transition-all"></span>
                 <span class="block w-8 h-1 bg-white mb-1 rounded transition-all"></span>
                 <span class="block w-8 h-1 bg-white rounded transition-all"></span>
             </div>
-
-            <!-- Main Menu (Desktop) -->
             <ul class="navbar-menu hidden md:flex items-center space-x-6 lg:space-x-8">
                 <li><a href="#home" class="nav-link active">Home</a></li>
                 <li><a href="#services" class="nav-link">Services</a></li>
@@ -587,35 +227,30 @@
                 <li class="ml-4"><a href="programs.html" target="_blank" rel="noopener noreferrer" class="btn-secondary btn-secondary-padding">AI PROGRAMS</a></li>
                 <li><a href="learnaiforfree.html" target="_blank" rel="noopener noreferrer" class="btn-primary btn-primary-padding">Learn AI for Free</a></li>
             </ul>
-
-            <!-- Mobile menu overlay (initially hidden, controlled by JS and CSS) -->
             <div class="mobile-menu-overlay">
                 <a href="#home" class="nav-link-mobile text-3xl font-semibold text-white hover:text-blue-400 transition-colors duration-300 mb-4" data-target="home">Home</a>
                 <a href="#services" class="nav-link-mobile text-3xl font-semibold text-white hover:text-blue-400 transition-colors duration-300 mb-4" data-target="services">Services</a>
                 <a href="#solutions" class="nav-link-mobile text-3xl font-semibold text-white hover:text-blue-400 transition-colors duration-300 mb-4" data-target="solutions">Solutions</a>
                 <a href="#about" class="nav-link-mobile text-3xl font-semibold text-white hover:text-blue-400 transition-colors duration-300 mb-4" data-target="about">About</a>
                 <a href="#contact" class="nav-link-mobile text-3xl font-semibold text-white hover:text-blue-400 transition-colors duration-300 mb-6" data-target="contact">Contact</a>
-                <a href="programs.html" class="btn-secondary-mobile w-11/12 max-w-xs text-center py-3 px-4 rounded-full bg-gray-700 text-white font-semibold hover:bg-gray-800 transition mb-4">AI PROGRAMS</a>
+                <a href="programs.html" target="_blank" rel="noopener noreferrer" class="btn-secondary-mobile w-11/12 max-w-xs text-center py-3 px-4 rounded-full bg-purple-600 hover:bg-purple-700 text-white font-semibold transition mb-4">AI PROGRAMS</a>
                 <a href="learnaiforfree.html" target="_blank" rel="noopener noreferrer" class="btn-primary-mobile w-11/12 max-w-xs text-center py-3 px-4 rounded-full bg-blue-600 text-white font-semibold hover:bg-blue-700 transition">Learn AI for Free</a>
-                <!-- Close button for mobile menu -->
                 <button class="close-mobile-menu text-white text-4xl absolute top-6 right-6 focus:outline-none focus:ring-2 focus:ring-blue-400 rounded-full w-12 h-12 flex items-center justify-center">×</button>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section with Creative Black Hole Animation -->
+    <!-- Hero Section -->
     <section id="home" class="hero relative overflow-hidden flex items-center justify-center text-center text-white">
-        <!-- Creative Black Hole Animation (iframe) -->
-        <iframe scrolling="no" title="Creative Black Hole" 
-            src="https://codepen.io/wodniack/full/VYwGEGg/?" 
+        <iframe scrolling="no" title="Creative Black Hole"
+            src="https://codepen.io/wodniack/full/VYwGEGg/?"
             frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true"
             class="codepen-full-bg-iframe">
         </iframe>
-        
         <div class="hero-content relative z-10 p-6 max-w-4xl mx-auto">
-            <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-6">Intelligent Solutions for the Digital Age</h1>
-            <p class="text-lg md:text-xl font-light mb-10">Harness the power of AI to transform your business operations and customer experiences.</p>
-            <div class="hero-buttons flex justify-center space-x-4">
+            <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-6 animate-on-scroll">Intelligent Solutions for the Digital Age</h1>
+            <p class="text-lg md:text-xl font-light mb-10 animate-on-scroll" style="animation-delay: 0.2s;">Harness the power of AI to transform your business operations and customer experiences.</p>
+            <div class="hero-buttons flex justify-center space-x-4 animate-on-scroll" style="animation-delay: 0.4s;">
                 <a href="#services" class="btn-primary-hero">Explore Services</a>
                 <a href="#contact" class="btn-outline-hero">Get Started</a>
             </div>
@@ -623,62 +258,36 @@
     </section>
 
     <!-- Services Section -->
-    <section id="services" class="section py-20 relative overflow-hidden text-white">
-        <!-- Background iframe for "bluesky" animation -->
-        <iframe scrolling="no" title="bluesky" 
-            src="https://codepen.io/AI-Learning-Lab/full/gbpxbZo/?" 
+    <section id="services" class="section py-20 relative overflow-hidden text-white bg-gray-900"> <!-- Added bg-gray-900 for content overlay -->
+        <iframe scrolling="no" title="bluesky"
+            src="https://codepen.io/AI-Learning-Lab/full/gbpxbZo/?"
             frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true"
-            class="codepen-full-bg-iframe">
+            class="codepen-full-bg-iframe" style="opacity: 0.3;"> <!-- Added opacity to iframe -->
         </iframe>
-        
-        <!-- Semi-transparent overlay for readability -->
-        <div class="absolute inset-0 bg-gray-900 bg-opacity-80 z-10"></div> <!-- Tailwind opacity-80 -->
-
-        <div class="container mx-auto px-4 relative z-20"> <!-- Ensure content is on top -->
+        <!-- Removed absolute inset overlay div, relying on section background and iframe opacity -->
+        <div class="container mx-auto px-4 relative z-20"> <!-- Ensure content is above iframe -->
             <div class="section-header text-center mb-16 animate-on-scroll">
                 <h2 class="text-4xl font-bold mb-4">Our Services</h2>
                 <p class="text-xl text-gray-400">Comprehensive AI-powered solutions tailored to your business needs</p>
             </div>
-
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-                <!-- Service Cards -->
                 <div class="service-card animate-on-scroll scale-in">
-                    <div class="service-icon mb-6">
-                        <i class="fas fa-mobile-alt"></i>
-                    </div>
+                    <div class="service-icon mb-6"><i class="fas fa-mobile-alt"></i></div>
                     <h3 class="text-2xl font-semibold mb-4">App Development</h3>
                     <p class="text-gray-300 mb-6">Custom mobile and web applications with seamless AI integration.</p>
-                    <ul class="list-disc list-inside text-gray-400 space-y-2 ml-4">
-                        <li>Cross-platform development</li>
-                        <li>Native app development</li>
-                        <li>UI/UX design</li>
-                    </ul>
+                    <ul class="list-disc list-inside text-gray-400 space-y-2 ml-4"><li>Cross-platform development</li><li>Native app development</li><li>UI/UX design</li></ul>
                 </div>
-
-                <div class="service-card animate-on-scroll scale-in" style="animation-delay: 0.1s;">
-                    <div class="service-icon mb-6">
-                        <i class="fas fa-rocket"></i>
-                    </div>
+                <div class="service-card animate-on-scroll scale-in">
+                    <div class="service-icon mb-6"><i class="fas fa-rocket"></i></div>
                     <h3 class="text-2xl font-semibold mb-4">Deployment</h3>
                     <p class="text-gray-300 mb-6">Seamless deployment to cloud environments with CI/CD pipelines.</p>
-                    <ul class="list-disc list-inside text-gray-400 space-y-2 ml-4">
-                        <li>Cloud deployment</li>
-                        <li>Containerization</li>
-                        <li>Infrastructure as Code</li>
-                    </ul>
+                    <ul class="list-disc list-inside text-gray-400 space-y-2 ml-4"><li>Cloud deployment</li><li>Containerization</li><li>Infrastructure as Code</li></ul>
                 </div>
-
-                <div class="service-card animate-on-scroll scale-in" style="animation-delay: 0.2s;">
-                    <div class="service-icon mb-6">
-                        <i class="fas fa-cogs"></i>
-                    </div>
+                <div class="service-card animate-on-scroll scale-in">
+                    <div class="service-icon mb-6"><i class="fas fa-cogs"></i></div>
                     <h3 class="text-2xl font-semibold mb-4">Maintenance</h3>
                     <p class="text-gray-300 mb-6">Ongoing support to ensure optimal performance and security.</p>
-                    <ul class="list-disc list-inside text-gray-400 space-y-2 ml-4">
-                        <li>24/7 monitoring</li>
-                        <li>Performance optimization</li>
-                        <li>Security updates</li>
-                    </ul>
+                    <ul class="list-disc list-inside text-gray-400 space-y-2 ml-4"><li>24/7 monitoring</li><li>Performance optimization</li><li>Security updates</li></ul>
                 </div>
             </div>
         </div>
@@ -691,46 +300,22 @@
                 <h2 class="text-4xl font-bold mb-4">AI Solutions</h2>
                 <p class="text-xl text-gray-400">Cutting-edge artificial intelligence to solve complex business challenges</p>
             </div>
-
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
                 <div class="solution-card animate-on-scroll slide-left">
-                    <div class="solution-icon">
-                        <i class="fas fa-database text-blue-400"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-2xl font-semibold mb-3">Data Scraping</h3>
-                        <p class="text-gray-300">Extract valuable business intelligence from web sources with our advanced scraping technology.</p>
-                    </div>
+                    <div class="solution-icon"><i class="fas fa-database text-blue-400"></i></div>
+                    <div><h3 class="text-2xl font-semibold mb-3">Data Scraping</h3><p class="text-gray-300">Extract valuable business intelligence from web sources with our advanced scraping technology.</p></div>
                 </div>
-
                 <div class="solution-card animate-on-scroll slide-right">
-                    <div class="solution-icon">
-                        <i class="fas fa-chart-line text-green-400"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-2xl font-semibold mb-3">Predictive Analytics</h3>
-                        <p class="text-gray-300">Forecast trends and make data-driven decisions with our machine learning models.</p>
-                    </div>
+                    <div class="solution-icon"><i class="fas fa-chart-line text-green-400"></i></div>
+                    <div><h3 class="text-2xl font-semibold mb-3">Predictive Analytics</h3><p class="text-gray-300">Forecast trends and make data-driven decisions with our machine learning models.</p></div>
                 </div>
-
-                <div class="solution-card animate-on-scroll slide-left" style="animation-delay: 0.1s;">
-                    <div class="solution-icon">
-                        <i class="fas fa-brain text-purple-400"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-2xl font-semibold mb-3">Natural Language Processing</h3>
-                        <p class="text-gray-300">Implement chatbots and sentiment analysis to enhance customer interactions.</p>
-                    </div>
+                <div class="solution-card animate-on-scroll slide-left">
+                    <div class="solution-icon"><i class="fas fa-brain text-purple-400"></i></div>
+                    <div><h3 class="text-2xl font-semibold mb-3">Natural Language Processing</h3><p class="text-gray-300">Implement chatbots and sentiment analysis to enhance customer interactions.</p></div>
                 </div>
-
-                <div class="solution-card animate-on-scroll slide-right" style="animation-delay: 0.1s;">
-                    <div class="solution-icon">
-                        <i class="fas fa-eye text-orange-400"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-2xl font-semibold mb-3">Computer Vision</h3>
-                        <p class="text-gray-300">Automate visual recognition tasks with our advanced image processing solutions.</p>
-                    </div>
+                <div class="solution-card animate-on-scroll slide-right">
+                    <div class="solution-icon"><i class="fas fa-eye text-orange-400"></i></div>
+                    <div><h3 class="text-2xl font-semibold mb-3">Computer Vision</h3><p class="text-gray-300">Automate visual recognition tasks with our advanced image processing solutions.</p></div>
                 </div>
             </div>
         </div>
@@ -743,21 +328,14 @@
                 <h2 class="text-4xl font-bold mb-4">About Us</h2>
                 <p class="text-xl text-gray-400">Innovative AI solutions for forward-thinking businesses</p>
             </div>
-
             <div class="about-content grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                 <div class="about-text text-lg leading-relaxed animate-on-scroll slide-left">
                     <h3 class="text-3xl font-semibold mb-6 text-gradient">Who We Are</h3>
                     <p class="mb-4 text-gray-300">Pinnacle AI Solutions is a team of passionate engineers, data scientists, and designers dedicated to delivering cutting-edge artificial intelligence solutions.</p>
                     <p class="mb-8 text-gray-300">We combine technical expertise with business acumen to create tools that drive real results for our clients across industries, fostering growth and efficiency.</p>
                     <div class="stats grid grid-cols-2 gap-8 mt-10">
-                        <div class="stat-item text-center p-6 animate-on-scroll scale-in" style="animation-delay: 0.2s;">
-                            <span class="stat-number text-5xl font-bold text-gradient-primary mb-2 block" data-target="50">50+</span>
-                            <span class="stat-label text-gray-400 text-lg">Projects Completed</span>
-                        </div>
-                        <div class="stat-item text-center p-6 animate-on-scroll scale-in" style="animation-delay: 0.3s;">
-                            <span class="stat-number text-5xl font-bold text-gradient-secondary mb-2 block" data-target="100">100%</span>
-                            <span class="stat-label text-gray-400 text-lg">Client Satisfaction</span>
-                        </div>
+                        <div class="stat-item text-center p-6 animate-on-scroll scale-in"><span class="stat-number text-5xl font-bold text-gradient-primary mb-2 block">50+</span><span class="stat-label text-gray-400 text-lg">Projects Completed</span></div>
+                        <div class="stat-item text-center p-6 animate-on-scroll scale-in"><span class="stat-number text-5xl font-bold text-gradient-secondary mb-2 block">100%</span><span class="stat-label text-gray-400 text-lg">Client Satisfaction</span></div>
                     </div>
                 </div>
                 <div class="about-image relative rounded-xl overflow-hidden shadow-2xl animate-on-scroll slide-right">
@@ -768,81 +346,164 @@
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="section py-20 bg-gray-800 text-white">
-        <div class="container mx-auto px-4">
-            <div class="section-header text-center mb-16 animate-on-scroll">
+    <!-- Contact Section - Modified -->
+    <section id="contact" class="section py-20 bg-gray-800 text-white"> <!-- Tailwind bg-gray-800 provides base color -->
+        <!-- CodePen Canvas and Shader Source -->
+        <canvas id="codepenCanvasContactBackground"></canvas>
+        <script type="x-shader/x-fragment" id="contactShaderSource">#version 300 es
+/*********
+* made by Matthias Hurrle (@atzedent)
+*/
+precision highp float;
+out vec4 O;
+uniform float time;
+uniform vec2 resolution;
+#define FC gl_FragCoord.xy
+#define R resolution
+#define T time
+#define N normalize
+#define MN min(R.x,R.y)
+#define rot(a) mat2(cos((a)-vec4(0,11,33,0)))
+#define hue(a) (.5+.5*sin(3.14*(a)+vec3(1,2,3)))
+float rnd(vec3 p) {
+	p=fract(p*vec3(12.9898,78.233,156.345));
+	p+=dot(p,p+34.56);
+	return fract(p.x*p.y*p.z);
+}
+float cube(vec3 p, vec3 c) {
+	p=abs(p)-c;
+	return length(max(p,.0))+min(.0,max(max(p.x,p.y),p.z));
+}
+float smin(float a, float b, float k) {
+	float h=clamp(.5+.5*(b-a)/k,.0,1.);
+	return mix(b,a,h)-k*h*(1.-h);
+}
+vec4 map(vec3 p) {
+	float t=T;
+	const float k=1.2;
+	p.z-=t;
+	vec3 id=floor(p/k);
+	p.xy*=rot(sin(t+id.z*.2));
+	id=floor(p/k);
+	p=mod(p, k)-k*.5;
+	const float s=.34, o=.55;
+	float d=cube(p, vec3(0.25))-.05;
+	d=smin(d,-(length(p)-s),-.02);
+	d=smin(d,-min(
+		min(
+			length(abs(p)-vec3(o,0,0))-s,
+			length(abs(p)-vec3(0,o,0))-s
+		),length(abs(p)-vec3(0,0,o))-s),
+		-.02
+	);
+	return vec4(id,d);
+}
+vec3 norm(vec3 p) {
+	float h=1e-3; vec2 k=vec2(-1,1);
+	return N(
+		k.xyy*map(p+k.xyy*h).w+
+		k.yxy*map(p+k.yxy*h).w+
+		k.yyx*map(p+k.yyx*h).w+
+		k.xxx*map(p+k.xxx*h).w
+	);
+}
+vec3 render(inout vec3 p, vec3 rd, inout vec3 n, float mx) {
+	vec3 col=vec3(0);
+	float iter;
+	vec3 id=vec3(0);
+	float dd=.0, at=.0;
+	for (float i=.0; i<mx; i++) {
+		vec4 d = map(p);
+		if(abs(d.w)<1e-3) {
+			iter=i/100.;
+			id=d.xyz;
+			break;
+		}
+		if (dd>8.) break;
+		p+=d.w*rd;
+		dd+=d.w;
+		at+=.05*(.05/dd);
+	}
+	if(dd<8.) {
+		n=norm(p);
+		vec3
+		lp=vec3(1,2.*sin(T),exp(-cos(T))-5.),
+		l=normalize(lp-p), c=hue(rnd(id));
+		float dif=clamp(dot(l,n),.0,1.),
+		fres=pow(clamp(1.+dot(rd,n),.0,1.),5.),
+		spec=pow(clamp(dot(reflect(rd,n),l),.0,1.),64.);
+		col+=.08*c+dif*dif*c;
+		col=mix(col,vec3(0),fres);
+		col+=spec*c+spec*.7;
+		col*=vec3(1.-iter);
+		col+=at;
+	}
+	col=mix(vec3(0),min(col,.5),exp(-225e-4*dd*dd));
+	return col;
+}
+void main() {
+	vec2 uv=(FC-.5*R)/MN;
+	vec3 p=vec3(sin(T)*.4,0,-4),
+	rd=N(vec3(uv,.4)), n=vec3(0),
+	col=render(p,rd,n,800.);
+	p+=n*5e-2;
+	rd=reflect(rd,n);
+	col+=.25*render(p,rd,n,15.);
+	col*=1.5;
+	col=tanh(col*col*col);
+	col=pow(col,vec3(.4545));
+	uv=FC/R*2.-1.;
+	uv*=.95;
+	uv*=uv*uv*uv*uv;
+	float v=pow(dot(uv,uv),.8);
+	col=mix(col,vec3(0),v);
+	col=max(col,.08);
+  O=vec4(col,1);
+}</script>
+
+        <!-- Dummy hidden elements for CodePen JS -->
+        <textarea id="codeEditorContactBg" style="display: none;" class="editor" spellcheck="false" autocorrect="off" autocapitalize="off" translate="no"></textarea>
+        <pre id="errorContactBg" style="display: none;"></pre>
+        <div id="indicatorContactBg" style="display: none;"></div>
+        <div id="controlsContactBg" style="display: none;">
+          <div class="controls">
+            <input id="btnToggleViewContactBg" class="icon" type="checkbox" name="toggleView">
+            <input id="btnToggleResolutionContactBg" class="icon" type="checkbox" name="toggleResolution">
+            <input id="btnResetContactBg" class="icon" type="checkbox" name="reset">
+          </div>
+        </div>
+
+        <!-- Original Contact Section Content - Wrapped for z-indexing -->
+        <div class="container mx-auto px-4 contact-content-wrapper">
+            <div class="section-header text-center mb-16 animate-on-scroll"> <!-- This will get a background from style.css -->
                 <h2 class="text-4xl font-bold mb-4">Get In Touch</h2>
                 <p class="text-xl text-gray-400">Ready to transform your business with AI? Contact us today.</p>
             </div>
-
             <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
-                <div class="contact-form p-8 bg-gray-900 rounded-xl shadow-xl border border-gray-700 animate-on-scroll slide-left">
+                <div class="contact-form p-8 bg-gray-900 rounded-xl shadow-xl border border-gray-700 animate-on-scroll slide-left"> <!-- Tailwind classes define this block -->
                     <form>
-                        <div class="form-group mb-6">
-                            <label for="name" class="block text-gray-300 text-sm font-bold mb-2">Name</label>
-                            <input type="text" id="name" class="form-input" placeholder="Your Name" required>
-                        </div>
-                        <div class="form-group mb-6">
-                            <label for="email" class="block text-gray-300 text-sm font-bold mb-2">Email</label>
-                            <input type="email" id="email" class="form-input" placeholder="you@example.com" required>
-                        </div>
-                        <div class="form-group mb-6">
-                            <label for="subject" class="block text-gray-300 text-sm font-bold mb-2">Subject</label>
-                            <input type="text" id="subject" class="form-input" placeholder="Inquiry Subject">
-                        </div>
-                        <div class="form-group mb-8">
-                            <label for="message" class="block text-gray-300 text-sm font-bold mb-2">Message</label>
-                            <textarea id="message" rows="6" class="form-input resize-y" placeholder="Your Message" required></textarea>
-                        </div>
+                        <div class="form-group mb-6"><label for="name" class="block text-gray-300 text-sm font-bold mb-2">Name</label><input type="text" id="name" class="form-input" placeholder="Your Name" required></div>
+                        <div class="form-group mb-6"><label for="email" class="block text-gray-300 text-sm font-bold mb-2">Email</label><input type="email" id="email" class="form-input" placeholder="you@example.com" required></div>
+                        <div class="form-group mb-6"><label for="subject" class="block text-gray-300 text-sm font-bold mb-2">Subject</label><input type="text" id="subject" class="form-input" placeholder="Inquiry Subject"></div>
+                        <div class="form-group mb-8"><label for="message" class="block text-gray-300 text-sm font-bold mb-2">Message</label><textarea id="message" rows="6" class="form-input resize-y" placeholder="Your Message" required></textarea></div>
                         <button type="submit" class="btn-primary w-full py-3">Send Message</button>
                     </form>
                 </div>
-
-                <div class="contact-info space-y-10 mt-8 md:mt-0 animate-on-scroll slide-right">
-                    <div class="info-item flex items-start animate-on-scroll scale-in" style="animation-delay: 0.1s;">
-                        <div class="info-icon flex-shrink-0 mr-6 p-4 rounded-full bg-blue-600 text-white flex items-center justify-center text-2xl shadow-md">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                        <div>
-                            <h4 class="text-2xl font-semibold mb-2">Email Us</h4>
-                            <p class="text-gray-300 text-lg">futureai4all@gmail.com</p>
-                        </div>
-                    </div>
-
-                    <div class="info-item flex items-start animate-on-scroll scale-in" style="animation-delay: 0.2s;">
-                        <div class="info-icon flex-shrink-0 mr-6 p-4 rounded-full bg-green-600 text-white flex items-center justify-center text-2xl shadow-md">
-                            <i class="fas fa-phone"></i>
-                        </div>
-                        <div>
-                            <h4 class="text-2xl font-semibold mb-2">Call Us</h4>
-                            <p class="text-gray-300 text-lg">352-443-8670</p>
-                        </div>
-                    </div>
-
-                    <div class="info-item flex items-start animate-on-scroll scale-in" style="animation-delay: 0.3s;">
-                        <div class="info-icon flex-shrink-0 mr-6 p-4 rounded-full bg-purple-600 text-white flex items-center justify-center text-2xl shadow-md">
-                            <i class="fas fa-map-marker-alt"></i>
-                        </div>
-                        <div>
-                            <h4 class="text-2xl font-semibold mb-2">Visit Our Office</h4>
-                            <p class="text-gray-300 text-lg">123 Tech Avenue, Suite 400<br>Gainesville, FL 32601</p>
-                        </div>
-                    </div>
+                <div class="contact-info space-y-10 mt-8 md:mt-0 animate-on-scroll slide-right"> <!-- This will get a background from style.css -->
+                    <div class="info-item flex items-start animate-on-scroll scale-in"><div class="info-icon flex-shrink-0 mr-6 p-4 rounded-full bg-blue-600 text-white flex items-center justify-center text-2xl shadow-md"><i class="fas fa-envelope"></i></div><div><h4 class="text-2xl font-semibold mb-2">Email Us</h4><p class="text-gray-300 text-lg">futureai4all@gmail.com</p></div></div>
+                    <div class="info-item flex items-start animate-on-scroll scale-in"><div class="info-icon flex-shrink-0 mr-6 p-4 rounded-full bg-green-600 text-white flex items-center justify-center text-2xl shadow-md"><i class="fas fa-phone"></i></div><div><h4 class="text-2xl font-semibold mb-2">Call Us</h4><p class="text-gray-300 text-lg">352-443-8670</p></div></div>
+                    <div class="info-item flex items-start animate-on-scroll scale-in"><div class="info-icon flex-shrink-0 mr-6 p-4 rounded-full bg-purple-600 text-white flex items-center justify-center text-2xl shadow-md"><i class="fas fa-map-marker-alt"></i></div><div><h4 class="text-2xl font-semibold mb-2">Visit Our Office</h4><p class="text-gray-300 text-lg">123 Tech Avenue, Suite 400<br>Gainesville, FL 32601</p></div></div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer - RGBA.js Shader Animation Background -->
-    <footer id="footer" class="footer py-16 bg-gray-950 text-gray-300 relative overflow-hidden">
-        <!-- Container for RGBA.js shader canvas -->
+    <footer id="footer" class="footer py-16 bg-gray-950 text-gray-300">
         <div id="footer-shader-canvas-container">
             <!-- RGBA.js will inject its canvas here -->
         </div>
-
-        <!-- Footer Content (positioned relative, above the canvas) -->
-        <div class="container mx-auto px-4 relative z-10">
+        <div class="container mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 pb-12 border-b border-gray-700">
                 <div class="footer-col animate-on-scroll scale-in">
                     <h3 class="text-3xl font-bold mb-6 footer-logo-text">Pinnacle AI Solutions</h3>
@@ -850,11 +511,9 @@
                     <div class="social-links flex space-x-4">
                         <a href="https://facebook.com/pinnacleaisolutions" class="social-icon group" title="Facebook" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
                         <a href="#" class="social-icon group" title="GitHub" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
-                        <!-- Add other social links as needed -->
                     </div>
                 </div>
-
-                <div class="footer-col animate-on-scroll scale-in" style="animation-delay: 0.1s;">
+                <div class="footer-col animate-on-scroll scale-in">
                     <h4 class="text-2xl font-semibold mb-6 text-white">Quick Links</h4>
                     <ul class="space-y-3">
                         <li><a href="#home" class="footer-link">Home</a></li>
@@ -864,8 +523,7 @@
                         <li><a href="#contact" class="footer-link">Contact</a></li>
                     </ul>
                 </div>
-
-                <div class="footer-col animate-on-scroll scale-in" style="animation-delay: 0.2s;">
+                <div class="footer-col animate-on-scroll scale-in">
                     <h4 class="text-2xl font-semibold mb-6 text-white">Our Expertise</h4>
                     <ul class="space-y-3">
                         <li><a href="#" class="footer-link">App Development</a></li>
@@ -875,8 +533,7 @@
                         <li><a href="#" class="footer-link">Machine Learning</a></li>
                     </ul>
                 </div>
-
-                <div class="footer-col animate-on-scroll scale-in" style="animation-delay: 0.3s;">
+                <div class="footer-col animate-on-scroll scale-in">
                     <h4 class="text-2xl font-semibold mb-6 text-white">Learn AI for Free</h4>
                     <a href="learnaiforfree.html" class="footer-link block py-2 px-4 rounded bg-blue-600 text-white font-semibold text-center hover:bg-blue-700 transition mb-4" target="_blank" rel="noopener noreferrer">Go to Learn AI Page</a>
                     <div class="grid grid-cols-1 gap-3">
@@ -897,19 +554,15 @@
                     </div>
                 </div>
             </div>
-
-            <div class="copyright text-center pt-8 text-gray-500 text-sm">
+            <div class="copyright">
                 <p>© 2023 Pinnacle AI Solutions. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
-    <!-- Existing script.js -->
-    <script src="script.js"></script>
-
     <!-- RGBA.js library -->
     <script src="https://raw.githack.com/strangerintheq/rgba/0.0.8/rgba.js"></script>
-    
+
     <!-- Script for RGBA.js Footer Animation -->
     <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -923,7 +576,7 @@ float sdOrientedBox( in vec2 p, in vec2 a, in vec2 b, float th )
     vec2  q = (p-(a+b)*0.5);
           q = mat2(d.x,-d.y,d.y,d.x)*q;
           q = abs(q)-vec2(l,th)*0.5;
-    return length(max(q,0.0)) + min(max(q.x,q.y),0.0);    
+    return length(max(q,0.0)) + min(max(q.x,q.y),0.0);
 }
 
 float addLine (in vec2 uv, in vec2 p, in float angle, in float length)
@@ -959,36 +612,26 @@ vec3 palette( float t ) {
 
 void main() {
   vec2 uv = gl_FragCoord.xy / resolution.xy*2.-1.;
-  uv.y *= resolution.y/resolution.x;
+  uv.y *= resolution.y/resolution.x; // Aspect ratio correction
 
   float d = 1.;
   float PI = 3.14159;
-  
-  float t = time * 0.1;
+
+  float t = time * 0.1; // Animation speed
   float y1 = sin((uv.x - 0.125 + t) * 30.) * 0.02 - 0.005;
   float y2 = sin((uv.x + 0.125 + t) * 30.) * 0.02 - 0.005;
   float angle = pow(clamp(sin(time) + 1., 0., 1.), 4.);
-  
+
   uv=vec2(
     atan(uv.x, uv.y) + time * 0.1,
     (log(length(uv)) - atan(uv.x, uv.y) + time * 0.1)
   );
-  
-  uv = mod(uv, vec2(0.3, PI * 0.1)) - 0.15;
-  
-  // left
-  d = min(addLine(uv, vec2(-0.125, y1), mix(0., PI * 0.4, angle), 0.15), d);
-  
-  // right
-  d = min(addLine(uv, vec2(0.125, y2), mix(PI, PI * 0.6, angle), 0.1), d);
-  
-  // wave
-  d = min(addWave(uv, vec2(0.), mix(0.5, 0.2, angle)), d);
-  
-  d = smoothstep(0.0, mix(0.1, 0.001, angle), d);
 
-  vec3 bgColor = palette(gl_FragCoord.y + gl_FragCoord.x + t) * 0.1;
-  vec3 fgColor = palette(uv.y + uv.x * 0.001 + t);
+  uv = mod(uv, vec2(0.3, PI * 0.1)) - 0.15;
+   d = smoothstep(0.0, 0.1, sin(uv.y * 20.0 + t*2.0) * 0.5 + 0.5 );
+
+  vec3 bgColor = palette(gl_FragCoord.y * 0.01 + gl_FragCoord.x * 0.01 + t * 0.5) * 0.1;
+  vec3 fgColor = palette( (uv.y * 10.0 + uv.x * 5.0) * 0.1 + t*0.3);
   vec3 color = mix(fgColor, bgColor, d);
 
   gl_FragColor = vec4(color, 1.0);
@@ -1001,5 +644,214 @@ void main() {
         }
     });
     </script>
+
+    <!-- Embedded and Modified CodePen JavaScript for Contact Section Background -->
+    <script>
+/*********
+ * made by Matthias Hurrle (@atzedent)
+ */
+let editModeContactBg = false;
+let resolutionContactBg = 0.5;
+let renderDelayContactBg = 1000;
+let dprContactBg = Math.max(1, resolutionContactBg * window.devicePixelRatio);
+let frmContactBg, sourceContactBg, editorContactBg, storeContactBg, rendererContactBg, pointersContactBg;
+const shaderIdContactBg = 'NPqjWPp_contact_bg';
+
+function resizeContactBackground() {
+  const canvas = document.getElementById('codepenCanvasContactBackground');
+  if (!canvas) return;
+  const contactSection = document.getElementById('contact');
+  if (!contactSection) return;
+
+  const { clientWidth: width, clientHeight: height } = contactSection;
+
+  canvas.width = width * dprContactBg;
+  canvas.height = height * dprContactBg;
+  // CSS dimensions are 100% of parent, so no need to set style.width/height here
+
+  if (rendererContactBg && rendererContactBg.gl) {
+    rendererContactBg.updateScale(dprContactBg);
+    rendererContactBg.gl.viewport(0, 0, canvas.width, canvas.height); // Ensure viewport updates
+  }
+}
+
+function toggleViewContactBg() { /* Not actively used for fixed background */ }
+function resetContactBg() { /* Not actively used for fixed background */ }
+function toggleResolutionContactBg() { /* Not actively used if resolution is fixed */ }
+
+function loopContactBackground(now) {
+  if (!rendererContactBg || !pointersContactBg || !rendererContactBg.gl) {
+      frmContactBg = requestAnimationFrame(loopContactBackground);
+      return;
+  }
+  rendererContactBg.updateMouse(pointersContactBg.first);
+  rendererContactBg.updatePointerCount(pointersContactBg.count);
+  rendererContactBg.updatePointerCoords(pointersContactBg.coords);
+  rendererContactBg.updateMove(pointersContactBg.move);
+  rendererContactBg.render(now);
+  frmContactBg = requestAnimationFrame(loopContactBackground);
+}
+
+function renderThisContactBg() { /* Not actively used for fixed background */ }
+const debounceContactBg = (fn, delay) => { /* Not actively used for fixed background */ };
+const renderContactBackgroundDebounced = debounceContactBg(renderThisContactBg, renderDelayContactBg);
+
+function initContactBackgroundShader() {
+  const canvas = document.getElementById('codepenCanvasContactBackground');
+  const codeEditorEl = document.getElementById('codeEditorContactBg'); // Dummy
+  const errorEl = document.getElementById('errorContactBg'); // Dummy
+  const indicatorEl = document.getElementById('indicatorContactBg'); // Dummy
+  // Control buttons are not needed for a fixed background
+
+  if (!canvas) { console.error("Canvas for Contact Background Shader not found."); return; }
+
+  sourceContactBg = document.getElementById('contactShaderSource');
+  if (!sourceContactBg || !sourceContactBg.textContent.trim()) {
+      console.error("Shader source for Contact Background not found or is empty.");
+      return;
+  }
+
+  rendererContactBg = new Renderer(canvas, dprContactBg);
+  if (!rendererContactBg.gl) return; // Renderer constructor handles WebGL2 check
+
+  pointersContactBg = new PointerHandler(canvas, dprContactBg);
+  editorContactBg   = new Editor(codeEditorEl, errorEl, indicatorEl); // Uses hidden dummy elements
+  editorContactBg.text = sourceContactBg.textContent; // Set shader source
+
+  rendererContactBg.setup();
+  rendererContactBg.init();
+
+  // For a fixed background, we don't need editor toggle or resolution toggle functionality here.
+  // We'll set the resolution once.
+  dprContactBg = Math.max(1, resolutionContactBg * window.devicePixelRatio); // Use the preset resolutionContactBg
+  pointersContactBg.updateScale(dprContactBg);
+
+  canvas.addEventListener('shader-error', e => {
+      console.error("Shader Error in Contact Background:", e.detail);
+      if(editorContactBg) editorContactBg.setError(e.detail);
+  });
+
+  resizeContactBackground(); // Initial size setup
+
+  const testResult = rendererContactBg.test(sourceContactBg.textContent);
+  if (testResult === null) {
+    rendererContactBg.updateShader(sourceContactBg.textContent);
+  } else {
+    console.error("Contact Background Shader compilation failed:", testResult);
+    if(editorContactBg) editorContactBg.setError(testResult);
+    return; // Don't start loop if shader fails
+  }
+
+  loopContactBackground(0);
+
+  // Responsive resize
+  let resizeTimeoutContactBg;
+  window.addEventListener('resize', () => {
+      clearTimeout(resizeTimeoutContactBg);
+      resizeTimeoutContactBg = setTimeout(resizeContactBackground, 100); // Debounce resize
+  });
+}
+
+class Renderer {
+  #vertexSrc = "#version 300 es\nprecision highp float;\nin vec4 position;\nvoid main(){gl_Position=position;}";
+  #fragmtSrc = "#version 300 es\nprecision highp float;\nout vec4 O;\nuniform float time;\nuniform vec2 resolution;\nvoid main() {\n\tvec2 uv=gl_FragCoord.xy/resolution;\n\tO=vec4(uv,sin(time)*.5+.5,1);\n}"; // Default fallback
+  #vertices = [-1, 1, -1, -1, 1, 1, 1, -1];
+  constructor(canvas, scale) {
+    this.canvas = canvas;
+    this.scale = scale;
+    this.gl = canvas.getContext("webgl2");
+    if (!this.gl) { console.error("WebGL2 not supported for Contact Background Renderer."); return; }
+    this.gl.viewport(0, 0, canvas.width, canvas.height);
+    this.shaderSource = this.#fragmtSrc;
+    this.mouseMove = [0, 0]; this.mouseCoords = [0, 0]; this.pointerCoords = [0, 0]; this.nbrOfPointers = 0;
+  }
+  get defaultSource() { return this.#fragmtSrc; }
+  updateShader(source) {
+    if (!this.gl) return; this.reset(); this.shaderSource = source; this.setup(); this.init();
+  }
+  updateMove(d) { this.mouseMove = d; } updateMouse(c) { this.mouseCoords = c; }
+  updatePointerCoords(c) { this.pointerCoords = c; } updatePointerCount(n) { this.nbrOfPointers = n; }
+  updateScale(s) { this.scale = s; /* Viewport updated in resizeContactBackground */ }
+  compile(shader, source) {
+    const gl = this.gl; if (!gl) return; gl.shaderSource(shader, source); gl.compileShader(shader);
+    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+      const errorMsg = gl.getShaderInfoLog(shader); console.error("Shader Compile Error:", errorMsg);
+      this.canvas.dispatchEvent(new CustomEvent('shader-error', { detail: errorMsg }));
+    }
+  }
+  test(source) {
+    let result = null; const gl = this.gl; if (!gl) return "WebGL context not available for test.";
+    const shader = gl.createShader(gl.FRAGMENT_SHADER); gl.shaderSource(shader, source); gl.compileShader(shader);
+    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) { result = gl.getShaderInfoLog(shader); }
+    if (gl.isShader(shader) && !gl.getShaderParameter(shader, gl.DELETE_STATUS)) { gl.deleteShader(shader); }
+    return result;
+  }
+  reset() {
+    const { gl, program, vs, fs } = this; if (!gl) return;
+    if (!program || !gl.isProgram(program) || gl.getProgramParameter(program, gl.DELETE_STATUS)) return;
+    if (vs && gl.isShader(vs) && !gl.getShaderParameter(vs, gl.DELETE_STATUS)) { gl.detachShader(program, vs); gl.deleteShader(vs); }
+    if (fs && gl.isShader(fs) && !gl.getShaderParameter(fs, gl.DELETE_STATUS)) { gl.detachShader(program, fs); gl.deleteShader(fs); }
+    gl.deleteProgram(program);
+  }
+  setup() {
+    const gl = this.gl; if (!gl) return; this.vs = gl.createShader(gl.VERTEX_SHADER); this.fs = gl.createShader(gl.FRAGMENT_SHADER);
+    this.compile(this.vs, this.#vertexSrc); this.compile(this.fs, this.shaderSource);
+    this.program = gl.createProgram(); gl.attachShader(this.program, this.vs); gl.attachShader(this.program, this.fs); gl.linkProgram(this.program);
+    if (!gl.getProgramParameter(this.program, gl.LINK_STATUS)) { console.error("Program Link Error:", gl.getProgramInfoLog(this.program)); }
+  }
+  init() {
+    const { gl, program } = this; if (!gl || !program) return; this.buffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.#vertices), gl.STATIC_DRAW);
+    const pos = gl.getAttribLocation(program, "position"); gl.enableVertexAttribArray(pos); gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+    program.resolution = gl.getUniformLocation(program, "resolution"); program.time = gl.getUniformLocation(program, "time");
+    program.move = gl.getUniformLocation(program, "move"); program.touch = gl.getUniformLocation(program, "touch");
+    program.pointerCount = gl.getUniformLocation(program, "pointerCount"); program.pointers = gl.getUniformLocation(program, "pointers");
+  }
+  render(now = 0) {
+    const { gl, program, buffer, canvas, mouseMove, mouseCoords, pointerCoords, nbrOfPointers } = this;
+    if (!gl || !program || !gl.isProgram(program) || gl.getProgramParameter(program, gl.DELETE_STATUS) || !canvas) return;
+    gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT); // Clear with transparent for section bg to show if shader is not opaque
+    gl.useProgram(program); gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+    gl.uniform2f(program.resolution, gl.drawingBufferWidth, gl.drawingBufferHeight);
+    gl.uniform1f(program.time, now * 1e-3);
+    gl.uniform2f(program.move, ...mouseMove); gl.uniform2f(program.touch, ...mouseCoords);
+    gl.uniform1i(program.pointerCount, nbrOfPointers); gl.uniform2fv(program.pointers, pointerCoords);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+  }
+}
+class Store { /* Likely not needed for fixed background */
+  constructor(key) { this.key = key; this.store = window.localStorage; }
+  putShaderSource(name, source) { try { this.store.setItem(name, source); } catch(e) { console.warn("localStorage unavailable for Store", e); } }
+}
+class PointerHandler {
+  constructor(element, scale) {
+    this.element = element; this.scale = scale; this.active = false; this.pointers = new Map();
+    this.lastCoords = [0,0]; this.moves = [0,0];
+    const map = (el, s, clientX, clientY) => {
+        const r = el.getBoundingClientRect(); const x = (clientX - r.left); const y = (clientY - r.top);
+        return [x * s, (el.height / s - y) * s]; // Map to shader coords (origin bottom-left for GL)
+    };
+    element.addEventListener("pointerdown", (e) => { this.active = true; this.pointers.set(e.pointerId, map(this.element, this.getScale(), e.clientX, e.clientY)); });
+    element.addEventListener("pointerup", (e) => { if (this.count === 1) { this.lastCoords = this.first; } this.pointers.delete(e.pointerId); this.active = this.pointers.size > 0; });
+    element.addEventListener("pointerleave", (e) => { if (this.count === 1) { this.lastCoords = this.first; } this.pointers.delete(e.pointerId); this.active = this.pointers.size > 0; });
+    element.addEventListener("pointermove", (e) => { if (!this.active) return; this.pointers.set(e.pointerId, map(this.element, this.getScale(), e.clientX, e.clientY)); this.moves = [this.moves[0]+e.movementX, this.moves[1]+e.movementY]; });
+  }
+  getScale() { return this.scale; } updateScale(s) { this.scale = s; } reset() { this.pointers.clear(); this.active = false; this.moves = [0,0]; }
+  get count() { return this.pointers.size; } get move() { return this.moves; }
+  get coords() { return this.pointers.size > 0 ? Array.from(this.pointers.values()).map(p => [...p]).flat() : [0, 0]; }
+  get first() { return this.pointers.values().next().value || this.lastCoords; }
+}
+class Editor { /* Interacts with dummy hidden elements, minimal functionality needed for bg */
+  constructor(textarea, errorfield, errorindicator) { this.textarea = textarea; this.errorfield = errorfield; this.errorindicator = errorindicator; }
+  get text() { return this.textarea ? this.textarea.value : ""; } set text(v) { if (this.textarea) this.textarea.value = v; }
+  setError(m) { if (this.errorfield) this.errorfield.innerHTML = m; console.error("Editor SetError:", m); /* Basic error logging */ }
+  clearError() { if (this.errorfield) this.errorfield.textContent = ''; }
+  // Other editor methods (hidden, focus, scroll, keydown, indent) are not essential for a fixed background.
+}
+    </script>
+
+    <!-- Existing script.js -->
+    <script src="script.js"></script>
+
 </body>
 </html>
