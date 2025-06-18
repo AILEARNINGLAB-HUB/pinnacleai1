@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // --- Active Navbar Link Highlighting ---
+    // --- ActiveNavbar Link Highlighting ---
     function updateActiveNavLink() {
         let currentActiveSectionId = '';
         const navbarHeight = document.querySelector('.navbar')?.offsetHeight || 70;
