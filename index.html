@@ -97,15 +97,45 @@
 
         /* Navbar */
         .navbar { background-color: var(--color-dark-bg); border-bottom: 1px solid rgba(255,255,255,0.1); padding-top: 1.5rem; padding-bottom: 1.5rem; }
-        .logo { font-weight: 800; font-size: 1.8rem; line-height: 1; display: flex; align-items: center; white-space: nowrap; }
-        .logo-pinnacle-green { color: var(--color-secondary-green); }
-        .logo-aisolutions-blue { color: var(--color-primary-blue); }
+        .logo {
+            font-weight: 800;
+            font-size: 1.8rem;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            background: linear-gradient(90deg, var(--color-secondary-green), var(--color-primary-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
         .larger-ai-svg { width: 60px; height: 60px; visibility: hidden; flex-shrink: 0; margin-left: 1rem; }
         .larger-ai-svg .ell, .larger-ai-svg #ai { fill: none; }
         @media (max-width: 767px) {
             .larger-ai-svg { width: 40px; height: 40px; margin-left: 0.5rem; }
-            .logo { font-size: 1.5rem; }
+            .logo { font-size: 1.5rem; white-space: normal; }
             .navbar { padding-top: 1rem; padding-bottom: 1rem; }
+            
+            /* Responsive fix for hero section iframe */
+            .codepen-full-bg-iframe {
+                top: 0;
+                height: 100%;
+            }
+
+            /* Responsive FAB */
+            .call-us-fab .fab-text {
+                display: none;
+            }
+            .call-us-fab {
+                width: 60px;
+                height: 60px;
+                padding: 0;
+                border-radius: 50%;
+                bottom: 1.5rem;
+                right: 1.5rem;
+            }
+            .call-us-fab i {
+                margin-right: 0;
+            }
         }
         .nav-link { color: #d1d5db; transition: color 0.3s ease; position: relative; font-weight: 500; }
         .nav-link::after { content: ''; position: absolute; left: 0; bottom: -5px; width: 0; height: 2px; background-color: var(--color-primary-blue); transition: width 0.3s ease; }
@@ -132,13 +162,38 @@
         .section-header h2 { font-weight: 800; background: linear-gradient(90deg, var(--color-primary-blue), var(--color-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .section-header p { font-weight: 300; }
 
-        /* Service Cards */
-        .service-card { background-color: rgba(31,41,55,0.7); border-radius: 1rem; padding: 2.5rem; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); position: relative; overflow: hidden; }
+        /* Service Cards with Glow Effect */
+        .box {
+            --list: #ffbc00, #ff0058;
+            --grad: linear-gradient(45deg, var(--list));
+            position: relative;
+            border: solid 4px transparent;
+            border-radius: 1em;
+            background: conic-gradient(rgb(0 0 0/ .75) 0 0) padding-box, 
+                var(--grad) border-box;
+            padding: 2.5rem;
+            text-align: center;
+        }
+        
+        .box:nth-child(2) { --list: #03a9f4, #ff0058; }
+        .box:nth-child(3) { --list: #4dff03, #00d0ff; }
+        
+        .box::before {
+            position: absolute;
+            inset: -4px;
+            z-index: -1;
+            background: var(--grad);
+            filter: blur(.75em);
+            content: '';
+            border-radius: inherit;
+        }
+
         .service-icon { font-size: 3.5rem; color: var(--color-primary-blue); margin: 0 auto 1.5rem auto; transition: transform 0.3s ease, color 0.3s ease; }
-        .service-card:hover .service-icon { color: var(--color-secondary-green); transform: scale(1.1); }
-        .service-card h3 { font-weight: 700; color: #fff; }
-        .service-card p { color: #ccc; }
-        .service-card ul li { color: #a0aec0; }
+        
+        .box:hover .service-icon {
+            color: var(--color-secondary-green);
+            transform: scale(1.1);
+        }
 
         /* Solution Cards */
         .solution-card { background-color: rgba(31,41,55,0.6); border-radius: 1rem; padding: 2rem; box-shadow: 0 8px 25px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); transition: all 0.3s ease; display: flex; align-items: flex-start; }
@@ -171,6 +226,33 @@
         .info-item h4 { font-weight: 700; color: #fff; }
         .info-item p { font-weight: 300; }
 
+        /* Floating Action Button for "Call Us" */
+        .call-us-fab {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: var(--color-secondary-green);
+            color: white;
+            border-radius: 50px;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 20px rgba(34, 197, 94, 0.4);
+            z-index: 1000;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .call-us-fab:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(34, 197, 94, 0.5);
+        }
+        .call-us-fab i {
+            margin-right: 0.5rem;
+            font-size: 1.25rem;
+        }
+
         /* Footer */
         .footer { position: relative; overflow: hidden; }
         #footer-shader-canvas-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; background-color: var(--color-darker-bg); }
@@ -188,6 +270,28 @@
         /* Responsive Navbar Container Padding */
         @media (max-width: 767px) {
             .navbar .container { padding-left: 1rem; padding-right: 1rem; }
+            
+            /* Responsive fix for hero section iframe */
+            .codepen-full-bg-iframe {
+                top: 0;
+                height: 100%;
+            }
+
+            /* Responsive FAB */
+            .call-us-fab .fab-text {
+                display: none;
+            }
+            .call-us-fab {
+                width: 60px;
+                height: 60px;
+                padding: 0;
+                border-radius: 50%;
+                bottom: 1.5rem;
+                right: 1.5rem;
+            }
+            .call-us-fab i {
+                margin-right: 0;
+            }
         }
     </style>
 </head>
@@ -197,7 +301,7 @@
         <div class="container mx-auto px-4 flex justify-between items-center h-full">
             <div class="flex items-center">
                 <a href="#home" class="logo">
-                    <span class="logo-pinnacle-green">PINNACLE</span><span class="logo-aisolutions-blue">AI<span class="ml-0.5">SOLUTIONS</span></span>
+                    <span>PINNACLE AI SOLUTIONS</span>
                 </a>
                 <svg viewBox="0 0 100 100" id="mainSVG" class="larger-ai-svg">
                     <defs>
@@ -271,23 +375,20 @@
                 <p class="text-xl text-gray-400">Comprehensive AI-powered solutions tailored to your business needs</p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-                <div class="service-card animate-on-scroll scale-in">
-                    <div class="service-icon mb-6"><i class="fas fa-mobile-alt"></i></div>
-                    <h3 class="text-2xl font-semibold mb-4">App Development</h3>
-                    <p class="text-gray-300 mb-6">Custom mobile and web applications with seamless AI integration.</p>
-                    <ul class="list-disc list-inside text-gray-400 space-y-2 ml-4"><li>Cross-platform development</li><li>Native app development</li><li>UI/UX design</li></ul>
+                <div class="box animate-on-scroll scale-in">
+                    <div class="service-icon mb-6"><i class="fas fa-desktop"></i></div>
+                    <h3 class="text-2xl font-semibold mb-4">Custom Websites</h3>
+                    <p class="text-white mb-6">Custom landing pages with advanced coding and animations.</p>
                 </div>
-                <div class="service-card animate-on-scroll scale-in">
-                    <div class="service-icon mb-6"><i class="fas fa-rocket"></i></div>
-                    <h3 class="text-2xl font-semibold mb-4">Deployment</h3>
-                    <p class="text-gray-300 mb-6">Seamless deployment to cloud environments with CI/CD pipelines.</p>
-                    <ul class="list-disc list-inside text-gray-400 space-y-2 ml-4"><li>Cloud deployment</li><li>Containerization</li><li>Infrastructure as Code</li></ul>
+                <div class="box animate-on-scroll scale-in">
+                    <div class="service-icon mb-6"><i class="fas fa-comments"></i></div>
+                    <h3 class="text-2xl font-semibold mb-4">Chat Box Integration</h3>
+                    <p class="text-white mb-6">Seamlessly integrate intelligent chat boxes into any of your services.</p>
                 </div>
-                <div class="service-card animate-on-scroll scale-in">
-                    <div class="service-icon mb-6"><i class="fas fa-cogs"></i></div>
-                    <h3 class="text-2xl font-semibold mb-4">Maintenance</h3>
-                    <p class="text-gray-300 mb-6">Ongoing support to ensure optimal performance and security.</p>
-                    <ul class="list-disc list-inside text-gray-400 space-y-2 ml-4"><li>24/7 monitoring</li><li>Performance optimization</li><li>Security updates</li></ul>
+                <div class="box animate-on-scroll scale-in">
+                    <div class="service-icon mb-6"><i class="fas fa-brain"></i></div>
+                    <h3 class="text-2xl font-semibold mb-4">Custom AI Solutions</h3>
+                    <p class="text-white mb-6">Bespoke AI solutions tailored to solve your unique business challenges.</p>
                 </div>
             </div>
         </div>
@@ -481,11 +582,11 @@ void main() {
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
                 <div class="contact-form p-8 bg-gray-900 rounded-xl shadow-xl border border-gray-700 animate-on-scroll slide-left"> <!-- Tailwind classes define this block -->
-                    <form>
-                        <div class="form-group mb-6"><label for="name" class="block text-gray-300 text-sm font-bold mb-2">Name</label><input type="text" id="name" class="form-input" placeholder="Your Name" required></div>
-                        <div class="form-group mb-6"><label for="email" class="block text-gray-300 text-sm font-bold mb-2">Email</label><input type="email" id="email" class="form-input" placeholder="you@example.com" required></div>
-                        <div class="form-group mb-6"><label for="subject" class="block text-gray-300 text-sm font-bold mb-2">Subject</label><input type="text" id="subject" class="form-input" placeholder="Inquiry Subject"></div>
-                        <div class="form-group mb-8"><label for="message" class="block text-gray-300 text-sm font-bold mb-2">Message</label><textarea id="message" rows="6" class="form-input resize-y" placeholder="Your Message" required></textarea></div>
+                    <form action="https://formsubmit.co/futureai4all@gmail.com" method="POST">
+                        <div class="form-group mb-6"><label for="name" class="block text-gray-300 text-sm font-bold mb-2">Name</label><input type="text" id="name" name="name" class="form-input" placeholder="Your Name" required></div>
+                        <div class="form-group mb-6"><label for="email" class="block text-gray-300 text-sm font-bold mb-2">Email</label><input type="email" id="email" name="email" class="form-input" placeholder="you@example.com" required></div>
+                        <div class="form-group mb-6"><label for="subject" class="block text-gray-300 text-sm font-bold mb-2">Subject</label><input type="text" id="subject" name="subject" class="form-input" placeholder="Inquiry Subject"></div>
+                        <div class="form-group mb-8"><label for="message" class="block text-gray-300 text-sm font-bold mb-2">Message</label><textarea id="message" name="message" rows="6" class="form-input resize-y" placeholder="Your Message" required></textarea></div>
                         <button type="submit" class="btn-primary w-full py-3">Send Message</button>
                     </form>
                 </div>
@@ -559,6 +660,12 @@ void main() {
             </div>
         </div>
     </footer>
+
+    <!-- Floating "Call Us" Button -->
+    <a href="tel:3524438670" class="call-us-fab" aria-label="Call Us">
+        <i class="fas fa-phone"></i>
+        <span class="fab-text">Call Us</span>
+    </a>
 
     <!-- RGBA.js library -->
     <script src="https://raw.githack.com/strangerintheq/rgba/0.0.8/rgba.js"></script>
