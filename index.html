@@ -368,9 +368,8 @@
 
     <!-- Hero Section -->
     <section id="home" class="hero relative overflow-hidden flex items-center justify-center text-center text-white">
-        <!-- THIS IS THE FIRST CORRECTED IFRAME -->
         <iframe scrolling="no" title="Creative Black Hole"
-            src="https://codepen.io/wodniack/full/VYwGEGg"
+            src="https://cdpn.io/wodniack/debug/VYwGEGg"
             frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true"
             class="codepen-full-bg-iframe">
         </iframe>
@@ -386,9 +385,8 @@
 
     <!-- Services Section -->
     <section id="services" class="section py-20 relative overflow-hidden text-white bg-gray-900">
-        <!-- THIS IS THE SECOND CORRECTED IFRAME -->
         <iframe scrolling="no" title="bluesky"
-            src="https://codepen.io/AI-Learning-Lab/full/gbpxbZo"
+            src="https://cdpn.io/AI-Learning-Lab/debug/gbpxbZo"
             frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true"
             class="codepen-full-bg-iframe" style="opacity: 0.3;">
         </iframe>
@@ -984,8 +982,11 @@ class PointerHandler {
   get first() { return this.pointers.values().next().value || this.lastCoords; }
 }
 class Editor { /* Interacts with dummy hidden elements, minimal functionality needed for bg */
-  constructor(textarea, errorfield, errorindicator) { this.textarea = textarea; this.errorfield = errorfield; this.errorindicator = errorindicator; }
-  get text() { return this.textarea ? this.textarea.value : ""; } set text(v) { if (this.textarea) this.textarea.value = v; }
+  constructor(textarea, errorfield, errorindicator) {
+    this.textarea = textarea; this.errorfield = errorfield; this.errorindicator = errorindicator;
+  }
+  get text() { return this.textarea ? this.textarea.value : ""; }
+  set text(v) { if (this.textarea) this.textarea.value = v; }
   setError(m) { if (this.errorfield) this.errorfield.innerHTML = m; console.error("Editor SetError:", m); /* Basic error logging */ }
   clearError() { if (this.errorfield) this.errorfield.textContent = ''; }
   // Other editor methods (hidden, focus, scroll, keydown, indent) are not essential for a fixed background.
