@@ -217,6 +217,28 @@
             transform: scale(1.1);
         }
 
+        /* NEW: Styles for Solutions Section Background */
+        #solutions {
+            position: relative;
+            overflow: hidden; /* Ensures canvas doesn't bleed out */
+        }
+
+        #solutions-background-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none; /* Allow clicks on content */
+        }
+
+        /* Ensure content is on top of the background */
+        #solutions .container {
+            position: relative;
+            z-index: 1;
+        }
+
         /* New styles for the circular service boxes */
         .circular-service-container {
             display: grid;
@@ -235,39 +257,18 @@
             text-align: center;
             padding: 1rem;
             color: white;
-            background: var(--color-dark-bg);
+            /* Making background transparent to see the shader behind it */
+            background: rgba(17, 24, 39, 0.5); /* Semi-transparent version of gray-900 */
+            backdrop-filter: blur(5px); /* Optional: blur effect for the background */
             border: 4px solid transparent;
             transition: transform 0.4s ease, box-shadow 0.4s ease;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
         }
 
-        .circular-service-box::before,
-        .circular-service-box::after {
-            content: '';
-            position: absolute;
-            top: -4px;
-            left: -4px;
-            width: calc(100% + 8px);
-            height: calc(100% + 8px);
-            border-radius: 50%;
-            background: conic-gradient(from var(--angle), transparent 0%, var(--glow-color) 20%, transparent 35%);
-            z-index: -1;
-            animation: spin 5s linear infinite;
-            pointer-events: none;
-        }
-        
-        .circular-service-box::after {
-            filter: blur(20px);
-            opacity: 0.8;
-        }
-
+        /* Removed spinning border animation to not conflict with background */
         .circular-service-box:hover {
             transform: scale(1.05) translateY(-5px);
-            box-shadow: 0 0 35px var(--glow-color);
-        }
-
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+            box-shadow: 0 0 35px var(--glow-color), inset 0 0 15px rgba(0,0,0,0.5);
         }
 
         .circular-icon {
@@ -486,8 +487,12 @@
         </div>
     </section>
 
-    <!-- New Services Section -->
-    <section id="solutions" class="section py-20 bg-gray-900 text-white">
+    <!-- New Services Section with Shader Background -->
+    <section id="solutions" class="section py-20 bg-gray-950 text-white">
+        <!-- Shader Background Canvas Container -->
+        <div id="solutions-background-canvas"></div>
+
+        <!-- Content Wrapper -->
         <div class="container mx-auto px-4">
             <div class="section-header text-center mb-16 animate-on-scroll">
                 <h2 class="text-4xl font-bold mb-4">Our Creative Services</h2>
@@ -495,7 +500,7 @@
             </div>
             <div class="circular-service-container">
                 <!-- Virtual Training -->
-                <div class="circular-service-box animate-on-scroll scale-in" style="--glow-color: #3b82f6; --angle: 45deg;">
+                <div class="circular-service-box animate-on-scroll scale-in" style="--glow-color: #3b82f6;">
                     <div>
                         <i class="fas fa-chalkboard-teacher circular-icon" style="color: #3b82f6;"></i>
                         <h3>Virtual Training</h3>
@@ -504,7 +509,7 @@
                 </div>
 
                 <!-- Social Media Management -->
-                <div class="circular-service-box animate-on-scroll scale-in" style="--glow-color: #ec4899; --angle: 135deg; transition-delay: 0.1s;">
+                <div class="circular-service-box animate-on-scroll scale-in" style="--glow-color: #ec4899; transition-delay: 0.1s;">
                     <div>
                         <i class="fas fa-users circular-icon" style="color: #ec4899;"></i>
                         <h3>Social Media Management</h3>
@@ -513,7 +518,7 @@
                 </div>
 
                 <!-- Video Editing Services -->
-                <div class="circular-service-box animate-on-scroll scale-in" style="--glow-color: #8b5cf6; --angle: 225deg; transition-delay: 0.2s;">
+                <div class="circular-service-box animate-on-scroll scale-in" style="--glow-color: #8b5cf6; transition-delay: 0.2s;">
                     <div>
                         <i class="fas fa-video circular-icon" style="color: #8b5cf6;"></i>
                         <h3>Video Editing Services</h3>
@@ -522,7 +527,7 @@
                 </div>
 
                 <!-- Marketing Services -->
-                <div class="circular-service-box animate-on-scroll scale-in" style="--glow-color: #10b981; --angle: 315deg; transition-delay: 0.3s;">
+                <div class="circular-service-box animate-on-scroll scale-in" style="--glow-color: #10b981; transition-delay: 0.3s;">
                     <div>
                         <i class="fas fa-bullhorn circular-icon" style="color: #10b981;"></i>
                         <h3>Marketing Services</h3>
@@ -863,6 +868,98 @@ void main() {
             new RGBA(footerShaderContainer, shaderCode);
         } else {
             if (!footerShaderContainer) console.error('Footer shader canvas container (#footer-shader-canvas-container) not found!');
+            if (typeof RGBA !== 'function') console.error('RGBA.js library not loaded or RGBA function not available!');
+        }
+    });
+    </script>
+    
+    <!-- NEW SCRIPT for Solutions Section Background -->
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const solutionsShaderContainer = document.getElementById('solutions-background-canvas');
+        if (solutionsShaderContainer && typeof RGBA === 'function') {
+            const shaderCode = `
+                float sdOrientedBox( in vec2 p, in vec2 a, in vec2 b, float th )
+                {
+                    float l = length(b-a);
+                    vec2  d = (b-a)/l;
+                    vec2  q = (p-(a+b)*0.5);
+                          q = mat2(d.x,-d.y,d.y,d.x)*q;
+                          q = abs(q)-vec2(l,th)*0.5;
+                    return length(max(q,0.0)) + min(max(q.x,q.y),0.0);    
+                }
+
+                float addLine (in vec2 uv, in vec2 p, in float angle, in float length)
+                {
+                  return sdOrientedBox(
+                    uv,
+                    p,
+                    vec2(p.x + cos(angle) * length, p.y + sin(angle) * length),
+                    0.01
+                  );
+                }
+
+                float addWave (in vec2 uv, in vec2 p, in float length)
+                {
+                  float t = time * 0.1;
+                  return sdOrientedBox(
+                    vec2(uv.x, uv.y + sin((uv.x + t) * 30.) * 0.02),
+                    vec2(p.x - length * 0.5, p.y),
+                    vec2(p.x + length * 0.5, p.y),
+                    0.01
+                  );
+                }
+
+                //https://iquilezles.org/articles/palettes/
+                vec3 palette( float t ) {
+                    vec3 a = vec3(0.5, 0.5, 0.5);
+                    vec3 b = vec3(0.5, 0.5, 0.5);
+                    vec3 c = vec3(1.0, 1.0, 1.0);
+                    vec3 d = vec3(0.263,0.416,0.557);
+
+                    return a + b*cos( 6.28318*(c*t+d) );
+                }
+
+                void main() {
+                  vec2 uv = gl_FragCoord.xy / resolution.xy*2.-1.;
+                  uv.y *= resolution.y/resolution.x;
+
+                  float d = 1.;
+                  float PI = 3.14159;
+                  
+                  float t = time * 0.1;
+                  float y1 = sin((uv.x - 0.125 + t) * 30.) * 0.02 - 0.005;
+                  float y2 = sin((uv.x + 0.125 + t) * 30.) * 0.02 - 0.005;
+                  float angle = pow(clamp(sin(time) + 1., 0., 1.), 4.);
+                  
+                  uv=vec2(
+                    atan(uv.x, uv.y) + time * 0.1,
+                    (log(length(uv)) - atan(uv.x, uv.y) + time * 0.1)
+                  );
+                  
+                  uv = mod(uv, vec2(0.3, PI * 0.1)) - 0.15;
+                  
+                  // left
+                  d = min(addLine(uv, vec2(-0.125, y1), mix(0., PI * 0.4, angle), 0.15), d);
+                  
+                  // right
+                  d = min(addLine(uv, vec2(0.125, y2), mix(PI, PI * 0.6, angle), 0.1), d);
+                  
+                  // wave
+                  d = min(addWave(uv, vec2(0.), mix(0.5, 0.2, angle)), d);
+                  
+                  d = smoothstep(0.0, mix(0.1, 0.001, angle), d);
+
+                  vec3 bgColor = palette(gl_FragCoord.y + gl_FragCoord.x + t) * 0.1;
+                  vec3 fgColor = palette(uv.y + uv.x * 0.001 + t);
+                  vec3 color = mix(fgColor, bgColor, d);
+
+                  gl_FragColor = vec4(color, 1.0);
+                }
+            `;
+            new RGBA(solutionsShaderContainer, shaderCode);
+        } else {
+            if (!solutionsShaderContainer) console.error('Solutions shader canvas container not found!');
             if (typeof RGBA !== 'function') console.error('RGBA.js library not loaded or RGBA function not available!');
         }
     });
