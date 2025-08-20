@@ -43,21 +43,15 @@
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        @keyframes slideInLeft {
-            from { opacity: 0; transform: translateX(-50px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        @keyframes slideInRight {
-            from { opacity: 0; transform: translateX(50px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
         @keyframes scaleIn {
             from { opacity: 0; transform: scale(0.9); }
             to { opacity: 1; transform: scale(1); }
         }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        
+        /* NEW PULSE ANIMATION FOR CREATIVE SERVICES BOXES */
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px -5px var(--glow-color), 0 0 35px -10px var(--glow-color), inset 0 0 15px rgba(0,0,0,0.5); }
+            50% { box-shadow: 0 0 35px 0px var(--glow-color), 0 0 55px -5px var(--glow-color), inset 0 0 15px rgba(0,0,0,0.5); }
         }
 
         /* Initial states for scroll-triggered animations */
@@ -66,17 +60,16 @@
             transform: translateY(20px);
             transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
-        .animate-on-scroll.slide-left { transform: translateX(-50px); }
-        .animate-on-scroll.slide-right { transform: translateX(50px); }
         .animate-on-scroll.scale-in { transform: scale(0.9); }
 
         /* Class added by JS when element is visible */
         .animate-on-scroll.is-visible { opacity: 1; transform: translateY(0); }
-        .animate-on-scroll.slide-left.is-visible { transform: translateX(0); }
-        .animate-on-scroll.slide-right.is-visible { transform: translateX(0); }
         .animate-on-scroll.scale-in.is-visible { opacity: 1; transform: scale(1); }
 
         /* Staggered animation delays */
+        .box:nth-child(1) { transition-delay: 0s; }
+        .box:nth-child(2) { transition-delay: 0.1s; }
+        .box:nth-child(3) { transition-delay: 0.2s; }
         .circular-service-box:nth-child(1) { transition-delay: 0s; }
         .circular-service-box:nth-child(2) { transition-delay: 0.1s; }
         .circular-service-box:nth-child(3) { transition-delay: 0.2s; }
@@ -108,73 +101,41 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .larger-ai-svg { width: 60px; height: 60px; visibility: hidden; flex-shrink: 0; margin-left: 1rem; }
-        .larger-ai-svg .ell, .larger-ai-svg #ai { fill: none; }
-        @media (max-width: 767px) {
-            .larger-ai-svg { width: 40px; height: 40px; margin-left: 0.5rem; }
-            .logo { font-size: 1.5rem; white-space: normal; }
-            .navbar { padding-top: 1rem; padding-bottom: 1rem; }
-            
-            /* Responsive fix for hero section iframe */
-            .codepen-full-bg-iframe {
-                top: 0;
-                height: 100%;
-            }
-
-            /* Responsive FAB */
-            .call-us-fab .fab-text {
-                display: none;
-            }
-            .call-us-fab {
-                width: 60px;
-                height: 60px;
-                padding: 0;
-                border-radius: 50%;
-                bottom: 1.5rem;
-                right: 1.5rem;
-            }
-            .call-us-fab i {
-                margin-right: 0;
-            }
-        }
         .nav-link { color: #d1d5db; transition: color 0.3s ease; position: relative; font-weight: 500; }
         .nav-link::after { content: ''; position: absolute; left: 0; bottom: -5px; width: 0; height: 2px; background-color: var(--color-primary-blue); transition: width 0.3s ease; }
         .nav-link:hover::after, .nav-link.active::after { width: 100%; }
         .nav-link:hover, .nav-link.active { color: #fff; }
 
         /* Buttons */
-        .btn-secondary-padding, .btn-primary-padding { padding: 0.75rem 1.5rem; }
         .btn-primary { background: linear-gradient(90deg, var(--color-primary-blue), var(--color-secondary-green)); color: #fff; border-radius: 9999px; transition: transform 0.3s ease, box-shadow 0.3s ease; box-shadow: 0 4px 15px rgba(59,130,246,0.3); }
         .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(59,130,246,0.4); background: linear-gradient(90deg, var(--color-secondary-green), var(--color-primary-blue)); }
-        .btn-secondary { background: linear-gradient(90deg, var(--color-purple), var(--color-orange)); color: #fff; border-radius: 9999px; transition: transform 0.3s ease, box-shadow 0.3s ease; box-shadow: 0 4px 15px rgba(168,85,247,0.3); }
-        .btn-secondary:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(168,85,247,0.4); background: linear-gradient(90deg, var(--color-orange), var(--color-purple)); }
-
+        
         /* CodePen iframe styling */
         .codepen-full-bg-iframe {
-            position: absolute; /* Crucial for background positioning */
-            top: 0; /* Position at the top of its parent */
-            left: 0; /* Position at the left of its parent */
-            width: 100%; /* Make it span the full width */
-            height: 100%; /* Make it span the full height */
-            z-index: 0; /* Place it behind the content */
-            pointer-events: none; /* Allow clicks to pass through to content */
-            border: none; /* Remove default iframe border */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            border: none;
         }
 
         /* Hero Section */
         .hero { 
             height: 100vh; 
             min-height: 600px; 
-            position: relative; /* Needed to contain the absolute iframe */
+            position: relative;
             background-color: #000; 
-            overflow: hidden; /* Prevent any overflow from the iframe */
+            overflow: hidden;
         }
         .hero-content {
-            position: relative; /* Needed to place it above the iframe */
-            z-index: 10; /* Higher z-index than the iframe (z-index: 0) */
+            position: relative;
+            z-index: 10;
             text-align: center;
             color: #fff;
-            padding: 1rem; /* Add some padding for mobile */
+            padding: 1rem;
         }
         .btn-primary-hero, .btn-outline-hero { padding: 1rem 2.5rem; border-radius: 9999px; font-weight: 600; font-size: 1.125rem; transition: all 0.3s ease; }
         .btn-primary-hero:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 25px rgba(59,130,246,0.5); background: linear-gradient(90deg, #22c55e, #3b82f6); }
@@ -184,40 +145,48 @@
         .section-header h2 { font-weight: 800; background: linear-gradient(90deg, var(--color-primary-blue), var(--color-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .section-header p { font-weight: 300; }
 
-        /* Service Cards with Glow Effect */
+        /* MODIFIED: Service Cards with Vibrant Glow Effect */
         .box {
-            --list: #ffbc00, #ff0058;
-            --grad: linear-gradient(45deg, var(--list));
             position: relative;
             border: solid 4px transparent;
-            border-radius: 1em;
-            background: conic-gradient(rgb(0 0 0/ .75) 0 0) padding-box, 
-                var(--grad) border-box;
+            border-radius: 1.5rem; /* More rounded corners */
+            background-clip: padding-box;
             padding: 2.5rem;
             text-align: center;
+            color: white;
+            background: var(--grad-bg); /* Use new background gradient variable */
         }
         
-        .box:nth-child(2) { --list: #03a9f4, #ff0058; }
-        .box:nth-child(3) { --list: #4dff03, #00d0ff; }
-        
         .box::before {
-            position: absolute;
-            inset: -4px;
-            z-index: -1;
-            background: var(--grad);
-            filter: blur(.75em);
             content: '';
+            position: absolute;
+            inset: -5px; /* Slightly larger for a bigger glow */
+            z-index: -1;
+            background: var(--grad-glow); /* Use new glow gradient variable */
+            filter: blur(1.5em); /* Increased blur for more glow */
             border-radius: inherit;
         }
 
-        .service-icon { font-size: 3.5rem; color: var(--color-primary-blue); margin: 0 auto 1.5rem auto; transition: transform 0.3s ease, color 0.3s ease; }
-        
-        .box:hover .service-icon {
-            color: var(--color-secondary-green);
-            transform: scale(1.1);
+        /* Define unique colors for each box */
+        .box:nth-child(1) {
+            --grad-bg: linear-gradient(45deg, #ff512f, #f09819);
+            --grad-glow: linear-gradient(45deg, #ff512f, #f09819);
+        }
+        .box:nth-child(2) {
+            --grad-bg: linear-gradient(45deg, #4e54c8, #8f94fb);
+            --grad-glow: linear-gradient(45deg, #4e54c8, #8f94fb);
+        }
+        .box:nth-child(3) {
+            --grad-bg: linear-gradient(45deg, #11998e, #38ef7d);
+            --grad-glow: linear-gradient(45deg, #11998e, #38ef7d);
         }
 
-        /* Styles for Solutions Section */
+        .service-icon { font-size: 3.5rem; margin: 0 auto 1.5rem auto; transition: transform 0.3s ease; }
+        .box:hover .service-icon { transform: scale(1.1); }
+        .box h3 { color: white; }
+        .box p { color: rgba(255, 255, 255, 0.9); }
+
+        /* MODIFIED: Styles for Creative Services Section */
         #solutions {
             position: relative;
             overflow: hidden;
@@ -245,17 +214,22 @@
             text-align: center;
             padding: 1rem;
             color: white;
-            background: rgba(17, 24, 39, 0.7);
-            backdrop-filter: blur(5px);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
-            box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
+            /* NEW: Gradient background using the glow color */
+            background: radial-gradient(circle, color-mix(in srgb, var(--glow-color) 40%, black), color-mix(in srgb, var(--glow-color) 10%, black) 70%);
+            border: 2px solid color-mix(in srgb, var(--glow-color) 50%, transparent);
+            transition: transform 0.4s ease;
+            /* NEW: Applying the pulse animation */
+            animation: pulse-glow 4s infinite ease-in-out;
         }
+        
+        /* Stagger the pulse animation */
+        .circular-service-box:nth-child(2) { animation-delay: -1s; }
+        .circular-service-box:nth-child(3) { animation-delay: -2s; }
+        .circular-service-box:nth-child(4) { animation-delay: -3s; }
 
-        /* GLOW EFFECT ON HOVER */
         .circular-service-box:hover {
             transform: scale(1.05) translateY(-5px);
-            box-shadow: 0 0 25px var(--glow-color), 0 0 45px var(--glow-color), inset 0 0 15px rgba(0,0,0,0.5);
+            animation-play-state: paused; /* Pause pulsing on hover for a stable effect */
         }
 
         .circular-icon {
@@ -268,58 +242,23 @@
             transform: scale(1.15);
         }
 
-        .circular-service-box h3 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-
-        .circular-service-box p {
-            font-size: 0.9rem;
-            color: #d1d5db;
-            max-width: 90%;
-            margin: 0 auto;
-            line-height: 1.5;
-        }
-
+        .circular-service-box h3 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .circular-service-box p { font-size: 0.9rem; color: #d1d5db; max-width: 90%; margin: 0 auto; line-height: 1.5; }
 
         /* About Section */
         .about-image { border-radius: 1.5rem; box-shadow: 0 15px 40px rgba(0,0,0,0.3); transition: transform 0.4s ease; }
         .about-image:hover { transform: scale(1.02); }
-        .image-overlay { background: linear-gradient(45deg, rgba(59,130,246,0.6), rgba(34,197,94,0.6)); transition: opacity 0.4s ease; }
-        .about-image:hover .image-overlay { opacity: 0; }
-        .stat-item { background-color: rgba(17,24,39,0.8); border-radius: 0.75rem; box-shadow: inset 0 2px 5px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05); transition: background-color 0.3s ease; }
-        .stat-item:hover { background-color: rgba(31,41,55,0.9); }
-        .stat-number { font-weight: 900; }
-        .stat-label { font-weight: 500; }
-
-        /* Contact Section Original Styles */
-        #contact {
-            position: relative;
-            overflow: hidden;
-        }
-        #codepenCanvasContactBackground {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
-        }
+        
+        /* Contact Section */
+        #contact { position: relative; overflow: hidden; }
+        #codepenCanvasContactBackground { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
         .form-input {
             width: 100%; padding: 0.75rem 1rem; border-radius: 0.5rem;
             background-color: rgba(31,41,55,0.9); border: 1px solid rgba(75,85,99,0.5);
             color: var(--color-text-light); transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
         .form-input:focus { outline: none; border-color: var(--color-primary-blue); box-shadow: 0 0 0 3px rgba(59,130,246,0.3); }
-        .contact-form { border: 1px solid rgba(75,85,99,0.2); }
-        .info-item { align-items: center; }
-        .info-icon { width: 60px; height: 60px; min-width: 60px; min-height: 60px; display: flex; align-items: center; justify-content: center; border-radius: 50%; box-shadow: 0 6px 15px rgba(0,0,0,0.3); transition: transform 0.3s ease; }
-        .info-item:hover .info-icon { transform: scale(1.1); }
-        .info-item h4 { font-weight: 700; color: #fff; }
-        .info-item p { font-weight: 300; }
-
+        
         /* Floating Action Button for "Call Us" */
         .call-us-fab {
             position: fixed;
@@ -342,21 +281,15 @@
             transform: translateY(-3px) scale(1.05);
             box-shadow: 0 8px 25px rgba(34, 197, 94, 0.5);
         }
-        .call-us-fab i {
-            margin-right: 0.5rem;
-            font-size: 1.25rem;
-        }
+        .call-us-fab i { margin-right: 0.5rem; font-size: 1.25rem; }
 
         /* Footer */
         .footer { position: relative; overflow: hidden; }
         #footer-shader-canvas-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; background-color: var(--color-darker-bg); }
-        #footer-shader-canvas-container canvas { display: block; width: 100%; height: 100%; }
         .footer .container, .footer .copyright { position: relative; z-index: 1; }
         .footer-logo-text { background: linear-gradient(90deg, #fff, var(--color-primary-blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .footer-link { color: #9ca3af; transition: color 0.3s ease; position: relative; }
-        .footer-link::before { content: '•'; position: absolute; left: -15px; color: var(--color-secondary-green); opacity: 0; transition: opacity 0.3s ease, left 0.3s ease; }
-        .footer-link:hover { color: #fff; padding-left: 15px; }
-        .footer-link:hover::before { opacity: 1; left: 0; }
+        .footer-link:hover { color: #fff; }
         .social-icon { color: #9ca3af; font-size: 1.5rem; transition: color 0.3s ease, transform 0.3s ease; }
         .social-icon:hover { color: var(--color-primary-blue); transform: scale(1.2); }
         .copyright { text-align: center; padding-top: 2rem; color: #6b7280; font-size: 0.875rem; }
@@ -368,35 +301,23 @@
     <nav class="navbar fixed top-0 left-0 w-full z-50">
         <div class="container mx-auto px-4 flex justify-between items-center h-full">
             <div class="flex items-center">
-                <a href="#home" class="logo">
-                    <span>PINNACLE AI SOLUTIONS</span>
-                </a>
+                <a href="#home" class="logo"><span>PINNACLE AI SOLUTIONS</span></a>
             </div>
-            <div class="hamburger md:hidden flex flex-col justify-center items-center w-10 h-10 cursor-pointer z-[101]" tabindex="0" aria-label="Open menu" role="button">
-                <span class="block w-8 h-1 bg-white mb-1 rounded transition-all"></span>
-                <span class="block w-8 h-1 bg-white mb-1 rounded transition-all"></span>
-                <span class="block w-8 h-1 bg-white rounded transition-all"></span>
-            </div>
+            <div class="hamburger md:hidden"><span></span><span></span><span></span></div>
             <ul class="navbar-menu hidden md:flex items-center space-x-6 lg:space-x-8">
                 <li><a href="#home" class="nav-link active">Home</a></li>
                 <li><a href="#services" class="nav-link">Services</a></li>
                 <li><a href="#solutions" class="nav-link">Solutions</a></li>
                 <li><a href="#about" class="nav-link">About</a></li>
                 <li><a href="#contact" class="nav-link">Contact</a></li>
-                <li class="ml-4"><a href="programs.html" target="_blank" rel="noopener noreferrer" class="btn-secondary btn-secondary-padding">AI PROGRAMS</a></li>
-                <li><a href="https://pinnacleaisolutions.github.io/aitraining/" target="_blank" rel="noopener noreferrer" class="btn-primary btn-primary-padding">learnaiforfree</a></li>
             </ul>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section id="home" class="hero relative overflow-hidden flex items-center justify-center text-center text-white">
-        <iframe scrolling="no" title="Creative Black Hole"
-            src="https://cdpn.io/wodniack/debug/VYwGEGg"
-            frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true"
-            class="codepen-full-bg-iframe">
-        </iframe>
-        <div class="hero-content relative z-10 p-6 max-w-4xl mx-auto">
+    <section id="home" class="hero">
+        <iframe scrolling="no" title="Creative Black Hole" src="https://cdpn.io/wodniack/debug/VYwGEGg" class="codepen-full-bg-iframe"></iframe>
+        <div class="hero-content">
             <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-6 animate-on-scroll">Intelligent Solutions for the Digital Age</h1>
             <p class="text-lg md:text-xl font-light mb-10 animate-on-scroll" style="animation-delay: 0.2s;">Harness the power of AI to transform your business operations and customer experiences.</p>
             <div class="hero-buttons flex justify-center space-x-4 animate-on-scroll" style="animation-delay: 0.4s;">
@@ -406,28 +327,36 @@
         </div>
     </section>
 
-    <!-- Services Section -->
-    <section id="services" class="section py-20 relative overflow-hidden text-white bg-gray-900">
-        <iframe scrolling="no" title="bluesky"
-            src="https://cdpn.io/AI-Learning-Lab/debug/gbpxbZo"
-            frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true"
-            class="codepen-full-bg-iframe" style="opacity: 0.3;">
-        </iframe>
+    <!-- Services Section with Vibrant Boxes -->
+    <section id="services" class="section py-20 bg-gray-900 text-white">
         <div class="container mx-auto px-4 relative z-10">
             <div class="section-header text-center mb-16 animate-on-scroll">
                 <h2 class="text-4xl font-bold mb-4">Our Services</h2>
                 <p class="text-xl text-gray-400">Comprehensive AI-powered solutions tailored to your business needs</p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-                <div class="box animate-on-scroll scale-in"><div class="service-icon mb-6"><i class="fas fa-desktop"></i></div><h3 class="text-2xl font-semibold mb-4">Custom Websites</h3><p class="text-white mb-6">Custom landing pages with advanced coding and animations.</p></div>
-                <div class="box animate-on-scroll scale-in"><div class="service-icon mb-6"><i class="fas fa-comments"></i></div><h3 class="text-2xl font-semibold mb-4">Chat Box Integration</h3><p class="text-white mb-6">Seamlessly integrate intelligent chat boxes into any of your services.</p></div>
-                <div class="box animate-on-scroll scale-in"><div class="service-icon mb-6"><i class="fas fa-brain"></i></div><h3 class="text-2xl font-semibold mb-4">Custom AI Solutions</h3><p class="text-white mb-6">Bespoke AI solutions tailored to solve your unique business challenges.</p></div>
+                <div class="box animate-on-scroll scale-in">
+                    <div class="service-icon mb-6"><i class="fas fa-desktop"></i></div>
+                    <h3 class="text-2xl font-semibold mb-4">Custom Websites</h3>
+                    <p class="mb-6">Custom landing pages with advanced coding and animations.</p>
+                </div>
+                <div class="box animate-on-scroll scale-in">
+                    <div class="service-icon mb-6"><i class="fas fa-comments"></i></div>
+                    <h3 class="text-2xl font-semibold mb-4">Chat Box Integration</h3>
+                    <p class="mb-6">Seamlessly integrate intelligent chat boxes into any of your services.</p>
+                </div>
+                <div class="box animate-on-scroll scale-in">
+                    <div class="service-icon mb-6"><i class="fas fa-brain"></i></div>
+                    <h3 class="text-2xl font-semibold mb-4">Custom AI Solutions</h3>
+                    <p class="mb-6">Bespoke AI solutions tailored to solve your unique business challenges.</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Creative Services Section with Color Background, Glow, and Animation -->
+    <!-- Creative Services Section with Animated Background and Boxes -->
     <section id="solutions" class="section py-20 bg-gray-950 text-white">
+        <iframe scrolling="no" title="Plexus Background Animation" src="https://cdpn.io/rpsthecoder/debug/PGEQpe" class="codepen-full-bg-iframe"></iframe>
         <div class="container mx-auto px-4">
             <div class="section-header text-center mb-16 animate-on-scroll">
                 <h2 class="text-4xl font-bold mb-4">Our Creative Services</h2>
@@ -449,15 +378,14 @@
                 <h2 class="text-4xl font-bold mb-4">About Us</h2>
                 <p class="text-xl text-gray-400">Innovative AI solutions for forward-thinking businesses</p>
             </div>
-            <div class="about-content grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                <div class="about-text text-lg leading-relaxed animate-on-scroll slide-left">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div class="animate-on-scroll">
                     <h3 class="text-3xl font-semibold mb-6 text-gradient">Who We Are</h3>
                     <p class="mb-4 text-gray-300">Pinnacle AI Solutions is a team of passionate engineers, data scientists, and designers dedicated to delivering cutting-edge artificial intelligence solutions.</p>
-                    <p class="mb-8 text-gray-300">We combine technical expertise with business acumen to create tools that drive real results for our clients across industries, fostering growth and efficiency.</p>
+                    <p class="text-gray-300">We combine technical expertise with business acumen to create tools that drive real results for our clients across industries, fostering growth and efficiency.</p>
                 </div>
-                <div class="about-image relative rounded-xl overflow-hidden shadow-2xl animate-on-scroll slide-right">
-                    <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" alt="AI Technology" class="w-full h-full object-cover">
-                    <div class="image-overlay absolute inset-0"></div>
+                <div class="animate-on-scroll">
+                    <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" alt="AI Technology" class="about-image w-full h-full object-cover">
                 </div>
             </div>
         </div>
@@ -529,4 +457,4 @@
         });
     </script>
 </body>
-</html>```
+</html>
