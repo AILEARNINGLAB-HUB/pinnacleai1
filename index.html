@@ -25,7 +25,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/CustomEase.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/MotionPathPlugin.min.js"></script>
 
-    <!-- INLINE STYLES (Includes styles for footer animation container) -->
+    <!-- INLINE STYLES -->
     <style>
         /* Custom Colors & Gradients */
         :root {
@@ -43,99 +43,39 @@
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        @keyframes slideInLeft {
-            from { opacity: 0; transform: translateX(-50px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        @keyframes slideInRight {
-            from { opacity: 0; transform: translateX(50px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
         @keyframes scaleIn {
             from { opacity: 0; transform: scale(0.9); }
             to { opacity: 1; transform: scale(1); }
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
         }
 
         /* Initial states for scroll-triggered animations */
         .animate-on-scroll {
             opacity: 0;
-            transform: translateY(20px);
             transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
-        .animate-on-scroll.slide-left { transform: translateX(-50px); }
-        .animate-on-scroll.slide-right { transform: translateX(50px); }
-        .animate-on-scroll.scale-in { transform: scale(0.9); }
-
-        /* Class added by JS when element is visible */
-        .animate-on-scroll.is-visible { opacity: 1; transform: translateY(0); }
-        .animate-on-scroll.slide-left.is-visible { transform: translateX(0); }
-        .animate-on-scroll.slide-right.is-visible { transform: translateX(0); }
-        .animate-on-scroll.scale-in.is-visible { opacity: 1; transform: scale(1); }
-
-        /* Staggered animation delays */
-        .service-card:nth-child(1), .solution-card:nth-child(1) { transition-delay: 0s; }
-        .service-card:nth-child(2), .solution-card:nth-child(2) { transition-delay: 0.1s; }
-        .service-card:nth-child(3), .solution-card:nth-child(3) { transition-delay: 0.2s; }
-        .solution-card:nth-child(4) { transition-delay: 0.3s; }
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+        }
 
         /* Text Gradients */
         .text-gradient { background: linear-gradient(90deg, var(--color-primary-blue), var(--color-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .text-gradient-primary { background: linear-gradient(90deg, var(--color-primary-blue), var(--color-secondary-green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .text-gradient-secondary { background: linear-gradient(90deg, var(--color-secondary-green), var(--color-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-
+        
         /* Mobile Menu */
-        .mobile-menu-overlay { top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(17,24,39,0.97); position: fixed; z-index: 100; display: flex; flex-direction: column; align-items: center; justify-content: center; padding-top: 5rem; transition: transform 0.4s cubic-bezier(.4,0,.2,1), opacity 0.4s cubic-bezier(.4,0,.2,1); transform: translateY(-100%); opacity: 0; pointer-events: none; }
+        .mobile-menu-overlay { top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(17,24,39,0.97); position: fixed; z-index: 100; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: transform 0.4s cubic-bezier(.4,0,.2,1), opacity 0.4s cubic-bezier(.4,0,.2,1); transform: translateY(-100%); opacity: 0; pointer-events: none; }
         .mobile-menu-overlay.active { transform: translateY(0); opacity: 1; pointer-events: auto; }
         .hamburger span { transition: all 0.3s ease-in-out; }
         .hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
         .hamburger.active span:nth-child(2) { opacity: 0; }
         .hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
-        /*Navbar */
-        .navbar { background-color: var(--color-dark-bg); border-bottom: 1px solid rgba(255,255,255,0.1); padding-top: 1.5rem; padding-bottom: 1.5rem; }
+        /* Navbar */
+        .navbar { background-color: var(--color-dark-bg); border-bottom: 1px solid rgba(255,255,255,0.1); }
         .logo {
             font-weight: 800;
             font-size: 1.8rem;
-            line-height: 1;
-            display: flex;
-            align-items: center;
-            white-space: nowrap;
             background: linear-gradient(90deg, var(--color-secondary-green), var(--color-primary-blue));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-        }
-        .larger-ai-svg { width: 60px; height: 60px; visibility: hidden; flex-shrink: 0; margin-left: 1rem; }
-        .larger-ai-svg .ell, .larger-ai-svg #ai { fill: none; }
-        @media (max-width: 767px) {
-            .larger-ai-svg { width: 40px; height: 40px; margin-left: 0.5rem; }
-            .logo { font-size: 1.5rem; white-space: normal; }
-            .navbar { padding-top: 1rem; padding-bottom: 1rem; }
-            
-            /* Responsive fix for hero section iframe */
-            .codepen-full-bg-iframe {
-                top: 0;
-                height: 100%;
-            }
-
-            /* Responsive FAB */
-            .call-us-fab .fab-text {
-                display: none;
-            }
-            .call-us-fab {
-                width: 60px;
-                height: 60px;
-                padding: 0;
-                border-radius: 50%;
-                bottom: 1.5rem;
-                right: 1.5rem;
-            }
-            .call-us-fab i {
-                margin-right: 0;
-            }
         }
         .nav-link { color: #d1d5db; transition: color 0.3s ease; position: relative; font-weight: 500; }
         .nav-link::after { content: ''; position: absolute; left: 0; bottom: -5px; width: 0; height: 2px; background-color: var(--color-primary-blue); transition: width 0.3s ease; }
@@ -143,100 +83,51 @@
         .nav-link:hover, .nav-link.active { color: #fff; }
 
         /* Buttons */
-        .btn-secondary-padding, .btn-primary-padding { padding: 0.75rem 1.5rem; }
         .btn-primary { background: linear-gradient(90deg, var(--color-primary-blue), var(--color-secondary-green)); color: #fff; border-radius: 9999px; transition: transform 0.3s ease, box-shadow 0.3s ease; box-shadow: 0 4px 15px rgba(59,130,246,0.3); }
-        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(59,130,246,0.4); background: linear-gradient(90deg, var(--color-secondary-green), var(--color-primary-blue)); }
-        .btn-secondary { background: linear-gradient(90deg, var(--color-purple), var(--color-orange)); color: #fff; border-radius: 9999px; transition: transform 0.3s ease, box-shadow 0.3s ease; box-shadow: 0 4px 15px rgba(168,85,247,0.3); }
-        .btn-secondary:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(168,85,247,0.4); background: linear-gradient(90deg, var(--color-orange), var(--color-purple)); }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(59,130,246,0.4); }
 
         /* CodePen iframe styling */
         .codepen-full-bg-iframe {
-            position: absolute; /* Crucial for background positioning */
-            top: 0; /* Position at the top of its parent */
-            left: 0; /* Position at the left of its parent */
-            width: 100%; /* Make it span the full width */
-            height: 100%; /* Make it span the full height */
-            z-index: 0; /* Place it behind the content */
-            pointer-events: none; /* Allow clicks to pass through to content */
-            border: none; /* Remove default iframe border */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            border: none;
         }
 
         /* Hero Section */
         .hero { 
             height: 100vh; 
-            min-height: 600px; 
-            position: relative; /* Needed to contain the absolute iframe */
+            position: relative;
             background-color: #000; 
-            overflow: hidden; /* Prevent any overflow from the iframe */
+            overflow: hidden;
         }
         .hero-content {
-            position: relative; /* Needed to place it above the iframe */
-            z-index: 10; /* Higher z-index than the iframe (z-index: 0) */
-            text-align: center;
-            color: #fff;
-            padding: 1rem; /* Add some padding for mobile */
+            position: relative;
+            z-index: 10;
         }
-        .btn-primary-hero, .btn-outline-hero { padding: 1rem 2.5rem; border-radius: 9999px; font-weight: 600; font-size: 1.125rem; transition: all 0.3s ease; }
-        .btn-primary-hero:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 25px rgba(59,130,246,0.5); background: linear-gradient(90deg, #22c55e, #3b82f6); }
-        .btn-outline-hero:hover { background-color: rgba(255,255,255,0.1); transform: translateY(-3px) scale(1.02); box-shadow: 0 6px 15px rgba(255,255,255,0.3); }
 
         /* Section Headers */
         .section-header h2 { font-weight: 800; background: linear-gradient(90deg, var(--color-primary-blue), var(--color-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .section-header p { font-weight: 300; }
-
-        /* Service Cards with Glow Effect */
-        .box {
-            --list: #ffbc00, #ff0058;
-            --grad: linear-gradient(45deg, var(--list));
-            position: relative;
-            border: solid 4px transparent;
-            border-radius: 1em;
-            background: conic-gradient(rgb(0 0 0/ .75) 0 0) padding-box, 
-                var(--grad) border-box;
-            padding: 2.5rem;
-            text-align: center;
-        }
         
-        .box:nth-child(2) { --list: #03a9f4, #ff0058; }
-        .box:nth-child(3) { --list: #4dff03, #00d0ff; }
-        
-        .box::before {
-            position: absolute;
-            inset: -4px;
-            z-index: -1;
-            background: var(--grad);
-            filter: blur(.75em);
-            content: '';
-            border-radius: inherit;
-        }
-
-        .service-icon { font-size: 3.5rem; color: var(--color-primary-blue); margin: 0 auto 1.5rem auto; transition: transform 0.3s ease, color 0.3s ease; }
-        
-        .box:hover .service-icon {
-            color: var(--color-secondary-green);
-            transform: scale(1.1);
-        }
-
-        /* Styles for Solutions Section */
+        /* Solutions Section (Creative Services) */
         #solutions {
             position: relative;
-            overflow: hidden; /* Ensures iframe doesn't bleed out */
+            overflow: hidden;
         }
-
-        /* Ensure content is on top of the background */
         #solutions .container {
             position: relative;
             z-index: 1;
         }
-
-        /* New styles for the circular service boxes */
         .circular-service-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 4rem;
             padding: 2rem 0;
         }
-
         .circular-service-box {
             position: relative;
             aspect-ratio: 1 / 1;
@@ -247,54 +138,37 @@
             text-align: center;
             padding: 1rem;
             color: white;
-            background: rgba(17, 24, 39, 0.5); /* Semi-transparent version of gray-900 */
-            backdrop-filter: blur(5px); /* Optional: blur effect for the background */
-            border: 4px solid transparent;
+            background: rgba(17, 24, 39, 0.6);
+            backdrop-filter: blur(8px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
             transition: transform 0.4s ease, box-shadow 0.4s ease;
-            box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
         }
-
         .circular-service-box:hover {
             transform: scale(1.05) translateY(-5px);
-            box-shadow: 0 0 35px var(--glow-color), inset 0 0 15px rgba(0,0,0,0.5);
+            box-shadow: 0 0 35px var(--glow-color);
         }
-
         .circular-icon {
             font-size: 3rem;
             margin-bottom: 1rem;
             transition: transform 0.3s ease;
         }
-
         .circular-service-box:hover .circular-icon {
             transform: scale(1.15);
         }
-
         .circular-service-box h3 {
             font-size: 1.5rem;
             font-weight: 700;
             margin-bottom: 0.5rem;
         }
-
         .circular-service-box p {
             font-size: 0.9rem;
-            color: #d1d5db; /* Tailwind gray-300 */
+            color: #d1d5db;
             max-width: 90%;
             margin: 0 auto;
             line-height: 1.5;
         }
 
-
-        /* About Section */
-        .about-image { border-radius: 1.5rem; box-shadow: 0 15px 40px rgba(0,0,0,0.3); transition: transform 0.4s ease; }
-        .about-image:hover { transform: scale(1.02); }
-        .image-overlay { background: linear-gradient(45deg, rgba(59,130,246,0.6), rgba(34,197,94,0.6)); transition: opacity 0.4s ease; }
-        .about-image:hover .image-overlay { opacity: 0; }
-        .stat-item { background-color: rgba(17,24,39,0.8); border-radius: 0.75rem; box-shadow: inset 0 2px 5px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05); transition: background-color 0.3s ease; }
-        .stat-item:hover { background-color: rgba(31,41,55,0.9); }
-        .stat-number { font-weight: 900; }
-        .stat-label { font-weight: 500; }
-
-        /* Contact Section Original Styles */
+        /* Contact Section */
         #contact {
             position: relative;
             overflow: hidden;
@@ -308,18 +182,6 @@
             z-index: 0;
             pointer-events: none;
         }
-        .form-input { /* This is the original definition, will be overridden for #contact specifically in style.css */
-            width: 100%; padding: 0.75rem 1rem; border-radius: 0.5rem;
-            background-color: rgba(31,41,55,0.9); border: 1px solid rgba(75,85,99,0.5);
-            color: var(--color-text-light); transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-        .form-input:focus { outline: none; border-color: var(--color-primary-blue); box-shadow: 0 0 0 3px rgba(59,130,246,0.3); }
-        .contact-form { border: 1px solid rgba(75,85,99,0.2); } /* Original border */
-        .info-item { align-items: center; }
-        .info-icon { width: 60px; height: 60px; min-width: 60px; min-height: 60px; display: flex; align-items: center; justify-content: center; border-radius: 50%; box-shadow: 0 6px 15px rgba(0,0,0,0.3); transition: transform 0.3s ease; }
-        .info-item:hover .info-icon { transform: scale(1.1); }
-        .info-item h4 { font-weight: 700; color: #fff; }
-        .info-item p { font-weight: 300; }
 
         /* Floating Action Button for "Call Us" */
         .call-us-fab {
@@ -347,192 +209,87 @@
             margin-right: 0.5rem;
             font-size: 1.25rem;
         }
-
+        
         /* Footer */
         .footer { position: relative; overflow: hidden; }
-        #footer-shader-canvas-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; background-color: var(--color-darker-bg); }
-        #footer-shader-canvas-container canvas { display: block; width: 100%; height: 100%; }
-        .footer .container, .footer .copyright { position: relative; z-index: 1; }
-        .footer-logo-text { background: linear-gradient(90deg, #fff, var(--color-primary-blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .footer-link { color: #9ca3af; transition: color 0.3s ease; position: relative; }
-        .footer-link::before { content: '•'; position: absolute; left: -15px; color: var(--color-secondary-green); opacity: 0; transition: opacity 0.3s ease, left 0.3s ease; }
-        .footer-link:hover { color: #fff; padding-left: 15px; }
-        .footer-link:hover::before { opacity: 1; left: 0; }
-        .social-icon { color: #9ca3af; font-size: 1.5rem; transition: color 0.3s ease, transform 0.3s ease; }
-        .social-icon:hover { color: var(--color-primary-blue); transform: scale(1.2); }
-        .copyright { text-align: center; padding-top: 2rem; /* Tailwind pt-8 */ color: #6b7280; font-size: 0.875rem; }
+        #footer-shader-canvas-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+        .footer .container { position: relative; z-index: 1; }
 
-        /* Responsive Navbar Container Padding */
-        @media (max-width: 767px) {
-            .navbar .container { padding-left: 1rem; padding-right: 1rem; }
-            
-            /* Responsive fix for hero section iframe */
-            .codepen-full-bg-iframe {
-                top: 0;
-                height: 100%;
-            }
-
-            /* Responsive FAB */
-            .call-us-fab .fab-text {
-                display: none;
-            }
-            .call-us-fab {
-                width: 60px;
-                height: 60px;
-                padding: 0;
-                border-radius: 50%;
-                bottom: 1.5rem;
-                right: 1.5rem;
-            }
-            .call-us-fab i {
-                margin-right: 0;
-            }
-        }
     </style>
 </head>
 <body class="bg-gray-900 text-gray-200 font-inter">
     <!--Navbar -->
-    <nav class="navbar fixed top-0 left-0 w-full z-50">
-        <div class="container mx-auto px-4 flex justify-between items-center h-full">
-            <div class="flex items-center">
-                <a href="#home" class="logo">
-                    <span>PINNACLE AI SOLUTIONS</span>
-                </a>
-                <svg viewBox="0 0 100 100" id="mainSVG" class="larger-ai-svg">
-                    <defs>
-                        <linearGradient id="aiGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" stop-color="#359EEE"/>
-                            <stop offset="100%" stop-color="#03CEA4"/>
-                        </linearGradient>
-                    </defs>
-                    <path id="ai" d="M20 50 C20 20, 80 20, 80 50 S20 80, 20 50" stroke="url(#aiGrad)" stroke-width="4" fill="none"/>
-                    <ellipse class="ell" cx="50" cy="50" rx="30" ry="15" stroke="#359EEE" stroke-width="2"/>
-                    <ellipse class="ell" cx="50" cy="50" rx="25" ry="10" stroke="#FFC43D" stroke-width="2"/>
-                    <ellipse class="ell" cx="50" cy="50" rx="20" ry="7" stroke="#EF476F" stroke-width="2"/>
-                    <ellipse class="ell" cx="50" cy="50" rx="15" ry="5" stroke="#03CEA4" stroke-width="2"/>
-                </svg>
+    <nav class="navbar fixed top-0 left-0 w-full z-50 p-6">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#home" class="logo">PINNACLE AI SOLUTIONS</a>
+            <div class="hamburger md:hidden">
+                <span></span><span></span><span></span>
             </div>
-            <div class="hamburger md:hidden flex flex-col justify-center items-center w-10 h-10 cursor-pointer z-[101]" tabindex="0" aria-label="Open menu" role="button">
-                <span class="block w-8 h-1 bg-white mb-1 rounded transition-all"></span>
-                <span class="block w-8 h-1 bg-white mb-1 rounded transition-all"></span>
-                <span class="block w-8 h-1 bg-white rounded transition-all"></span>
-            </div>
-            <ul class="navbar-menu hidden md:flex items-center space-x-6 lg:space-x-8">
+            <ul class="navbar-menu hidden md:flex items-center space-x-8">
                 <li><a href="#home" class="nav-link active">Home</a></li>
                 <li><a href="#services" class="nav-link">Services</a></li>
                 <li><a href="#solutions" class="nav-link">Solutions</a></li>
                 <li><a href="#about" class="nav-link">About</a></li>
                 <li><a href="#contact" class="nav-link">Contact</a></li>
-                <li class="ml-4"><a href="programs.html" target="_blank" rel="noopener noreferrer" class="btn-secondary btn-secondary-padding">AI PROGRAMS</a></li>
-                <li><a href="https://pinnacleaisolutions.github.io/aitraining/" target="_blank" rel="noopener noreferrer" class="btn-primary btn-primary-padding">learnaiforfree</a></li>
             </ul>
-            <div class="mobile-menu-overlay">
-                <a href="#home" class="nav-link-mobile text-3xl font-semibold text-white hover:text-blue-400 transition-colors duration-300 mb-4" data-target="home">Home</a>
-                <a href="#services" class="nav-link-mobile text-3xl font-semibold text-white hover:text-blue-400 transition-colors duration-300 mb-4" data-target="services">Services</a>
-                <a href="#solutions" class="nav-link-mobile text-3xl font-semibold text-white hover:text-blue-400 transition-colors duration-300 mb-4" data-target="solutions">Solutions</a>
-                <a href="#about" class="nav-link-mobile text-3xl font-semibold text-white hover:text-blue-400 transition-colors duration-300 mb-4" data-target="about">About</a>
-                <a href="#contact" class="nav-link-mobile text-3xl font-semibold text-white hover:text-blue-400 transition-colors duration-300 mb-6" data-target="contact">Contact</a>
-                <a href="programs.html" target="_blank" rel="noopener noreferrer" class="btn-secondary-mobile w-11/12 max-w-xs text-center py-3 px-4 rounded-full bg-purple-600 hover:bg-purple-700 text-white font-semibold transition mb-4">AI PROGRAMS</a>
-                <a href="https://pinnacleaisolutions.github.io/aitraining/" target="_blank" rel="noopener noreferrer" class="btn-primary-mobile w-11/12 max-w-xs text-center py-3 px-4 rounded-full bg-blue-600 text-white font-semibold hover:bg-blue-700 transition">Learn AI for Free</a>
-                <button class="close-mobile-menu text-white text-4xl absolute top-6 right-6 focus:outline-none focus:ring-2 focus:ring-blue-400 rounded-full w-12 h-12 flex items-center justify-center">×</button>
-            </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section id="home" class="hero relative overflow-hidden flex items-center justify-center text-center text-white">
-        <iframe scrolling="no" title="Creative Black Hole"
-            src="https://cdpn.io/wodniack/debug/VYwGEGg"
-            frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true"
-            class="codepen-full-bg-iframe">
-        </iframe>
-        <div class="hero-content relative z-10 p-6 max-w-4xl mx-auto">
-            <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-6 animate-on-scroll">Intelligent Solutions for the Digital Age</h1>
-            <p class="text-lg md:text-xl font-light mb-10 animate-on-scroll" style="animation-delay: 0.2s;">Harness the power of AI to transform your business operations and customer experiences.</p>
-            <div class="hero-buttons flex justify-center space-x-4 animate-on-scroll" style="animation-delay: 0.4s;">
-                <a href="#services" class="btn-primary-hero">Explore Services</a>
-                <a href="#contact" class="btn-outline-hero">Get Started</a>
-            </div>
+    <section id="home" class="hero flex items-center justify-center text-center text-white">
+        <iframe scrolling="no" title="Creative Black Hole" src="https://cdpn.io/wodniack/debug/VYwGEGg" class="codepen-full-bg-iframe"></iframe>
+        <div class="hero-content p-6">
+            <h1 class="text-5xl md:text-7xl font-extrabold mb-6">Intelligent Solutions for the Digital Age</h1>
+            <p class="text-lg md:text-xl mb-10">Harness the power of AI to transform your business.</p>
+            <a href="#contact" class="btn-primary py-3 px-8 text-lg font-semibold">Get Started</a>
         </div>
     </section>
 
-    <!-- Services Section -->
-    <section id="services" class="section py-20 relative overflow-hidden text-white bg-gray-900">
-        <iframe scrolling="no" title="bluesky"
-            src="https://cdpn.io/AI-Learning-Lab/debug/gbpxbZo"
-            frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true"
-            class="codepen-full-bg-iframe" style="opacity: 0.3;">
-        </iframe>
-        <div class="container mx-auto px-4 relative z-20"> <!-- Make sure this container has a higher z-index than the iframe -->
-            <div class="section-header text-center mb-16 animate-on-scroll">
-                <h2 class="text-4xl font-bold mb-4">Our Services</h2>
-                <p class="text-xl text-gray-400">Comprehensive AI-powered solutions tailored to your business needs</p>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-                <div class="box animate-on-scroll scale-in">
-                    <div class="service-icon mb-6"><i class="fas fa-desktop"></i></div>
-                    <h3 class="text-2xl font-semibold mb-4">Custom Websites</h3>
-                    <p class="text-white mb-6">Custom landing pages with advanced coding and animations.</p>
-                </div>
-                <div class="box animate-on-scroll scale-in">
-                    <div class="service-icon mb-6"><i class="fas fa-comments"></i></div>
-                    <h3 class="text-2xl font-semibold mb-4">Chat Box Integration</h3>
-                    <p class="text-white mb-6">Seamlessly integrate intelligent chat boxes into any of your services.</p>
-                </div>
-                <div class="box animate-on-scroll scale-in">
-                    <div class="service-icon mb-6"><i class="fas fa-brain"></i></div>
-                    <h3 class="text-2xl font-semibold mb-4">Custom AI Solutions</h3>
-                    <p class="text-white mb-6">Bespoke AI solutions tailored to solve your unique business challenges.</p>
-                </div>
-            </div>
+    <!-- Services Section (Placeholder, can be filled out) -->
+    <section id="services" class="py-20 bg-gray-900">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-4xl font-bold mb-4">Our Core Services</h2>
+            <p class="text-xl text-gray-400">We offer a range of AI-powered services.</p>
         </div>
     </section>
 
-    <!-- New Services Section with Shader Background -->
+    <!-- Creative Services Section -->
     <section id="solutions" class="section py-20 bg-gray-950 text-white">
-        <!-- Iframe for CodePen Background -->
-        <iframe scrolling="no" title="Flexing Fibers" 
-            src="https://cdpn.io/strangerintheq/debug/vYXLgMM" 
-            frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true"
-            class="codepen-full-bg-iframe">
-        </iframe>
-
-        <!-- Content Wrapper -->
+        <!-- THIS IS THE CORRECTED IFRAME BACKGROUND -->
+        <iframe scrolling="no" title="Flexing Fibers" src="https://cdpn.io/strangerintheq/debug/vYXLgMM" class="codepen-full-bg-iframe"></iframe>
+        
         <div class="container mx-auto px-4">
-            <div class="section-header text-center mb-16 animate-on-scroll">
+            <div class="section-header text-center mb-16">
                 <h2 class="text-4xl font-bold mb-4">Our Creative Services</h2>
                 <p class="text-xl text-gray-400">Engaging solutions to elevate your brand's presence</p>
             </div>
             <div class="circular-service-container">
                 <!-- Virtual Training -->
-                <div class="circular-service-box animate-on-scroll scale-in" style="--glow-color: #3b82f6;">
+                <div class="circular-service-box" style="--glow-color: #3b82f6;">
                     <div>
                         <i class="fas fa-chalkboard-teacher circular-icon" style="color: #3b82f6;"></i>
                         <h3>Virtual Training</h3>
                         <p>One-on-one virtual training sessions to help you master new skills.</p>
                     </div>
                 </div>
-
                 <!-- Social Media Management -->
-                <div class="circular-service-box animate-on-scroll scale-in" style="--glow-color: #ec4899; transition-delay: 0.1s;">
+                <div class="circular-service-box" style="--glow-color: #ec4899;">
                     <div>
                         <i class="fas fa-users circular-icon" style="color: #ec4899;"></i>
                         <h3>Social Media Management</h3>
                         <p>Strategic and creative management of your social media platforms.</p>
                     </div>
                 </div>
-
                 <!-- Video Editing Services -->
-                <div class="circular-service-box animate-on-scroll scale-in" style="--glow-color: #8b5cf6; transition-delay: 0.2s;">
+                <div class="circular-service-box" style="--glow-color: #8b5cf6;">
                     <div>
                         <i class="fas fa-video circular-icon" style="color: #8b5cf6;"></i>
                         <h3>Video Editing Services</h3>
                         <p>Professional video editing to tell your story in a compelling way.</p>
                     </div>
                 </div>
-
                 <!-- Marketing Services -->
-                <div class="circular-service-box animate-on-scroll scale-in" style="--glow-color: #10b981; transition-delay: 0.3s;">
+                <div class="circular-service-box" style="--glow-color: #10b981;">
                     <div>
                         <i class="fas fa-bullhorn circular-icon" style="color: #10b981;"></i>
                         <h3>Marketing Services</h3>
@@ -544,21 +301,65 @@
     </section>
 
     <!-- About Section -->
-    <section id="about" class="section py-20 bg-gray-900 text-white">
+    <section id="about" class="py-20 bg-gray-900">
         <div class="container mx-auto px-4">
-            <div class="section-header text-center mb-16 animate-on-scroll">
+            <div class="text-center mb-12">
                 <h2 class="text-4xl font-bold mb-4">About Us</h2>
-                <p class="text-xl text-gray-400">Innovative AI solutions for forward-thinking businesses</p>
             </div>
-            <div class="about-content grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                <div class="about-text text-lg leading-relaxed animate-on-scroll slide-left">
-                    <h3 class="text-3xl font-semibold mb-6 text-gradient">Who We Are</h3>
-                    <p class="mb-4 text-gray-300">Pinnacle AI Solutions is a team of passionate engineers, data scientists, and designers dedicated to delivering cutting-edge artificial intelligence solutions.</p>
-                    <p class="mb-8 text-gray-300">We combine technical expertise with business acumen to create tools that drive real results for our clients across industries, fostering growth and efficiency.</p>
-                    <div class="stats grid grid-cols-2 gap-8 mt-10">
-                        <div class="stat-item text-center p-6 animate-on-scroll scale-in"><span class="stat-number text-5xl font-bold text-gradient-primary mb-2 block">50+</span><span class="stat-label text-gray-400 text-lg">Projects Completed</span></div>
-                        <div class="stat-item text-center p-6 animate-on-scroll scale-in"><span class="stat-number text-5xl font-bold text-gradient-secondary mb-2 block">100%</span><span class="stat-label text-gray-400 text-lg">Client Satisfaction</span></div>
-                    </div>
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h3 class="text-3xl font-semibold mb-4 text-gradient">Who We Are</h3>
+                    <p class="text-gray-300 leading-relaxed">Pinnacle AI Solutions is a team of passionate engineers and data scientists dedicated to delivering cutting-edge artificial intelligence solutions that drive real results for our clients.</p>
                 </div>
-                <div class="about-image relative rounded-xl overflow-hidden shadow-2xl animate-on-scroll slide-right">
-                    <img src="https://images.unsplash.com/photo-1573164713988-866
+                <div>
+                    <!-- THIS IS THE CORRECTED, COMPLETE IMAGE TAG -->
+                    <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" alt="AI Technology Team" class="rounded-lg shadow-2xl w-full">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section py-20 bg-gray-800 text-white">
+        <canvas id="codepenCanvasContactBackground"></canvas>
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold mb-4">Get In Touch</h2>
+                <p class="text-xl text-gray-400">Ready to transform your business? Contact us.</p>
+            </div>
+            <div class="max-w-2xl mx-auto">
+                <form action="https://formsubmit.co/futureai4all@gmail.com" method="POST" class="space-y-6">
+                    <input type="text" name="name" placeholder="Your Name" class="w-full p-3 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:border-blue-500" required>
+                    <input type="email" name="email" placeholder="Your Email" class="w-full p-3 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:border-blue-500" required>
+                    <textarea name="message" rows="6" placeholder="Your Message" class="w-full p-3 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:border-blue-500" required></textarea>
+                    <button type="submit" class="btn-primary w-full py-3 font-semibold">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer py-10 bg-gray-950 text-gray-400">
+        <div id="footer-shader-canvas-container"></div>
+        <div class="container mx-auto text-center">
+            <p>© 2023 Pinnacle AI Solutions. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Floating "Call Us" Button -->
+    <a href="tel:3524438670" class="call-us-fab" aria-label="Call Us">
+        <i class="fas fa-phone"></i>
+        <span class="fab-text hidden md:inline">Call Us</span>
+    </a>
+
+    <!-- Scripts -->
+    <script>
+        // Placeholder for Contact Form Background - can be re-enabled if needed
+        // document.addEventListener('DOMContentLoaded', () => {
+        //     // Shader initialization code would go here
+        // });
+    </script>
+    <script src="script.js"></script> <!-- Your main script file -->
+
+</body>
+</html>
