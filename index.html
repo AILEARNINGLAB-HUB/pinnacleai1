@@ -217,20 +217,20 @@
             transform: scale(1.1);
         }
 
-        /* NEW: Styles for Solutions Section Background */
+        /* Styles for Solutions Section Background */
         #solutions {
             position: relative;
             overflow: hidden; /* Ensures canvas doesn't bleed out */
         }
-
-        #solutions-background-canvas {
+        
+        #codepenCanvasSolutionsBackground {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: 0;
-            pointer-events: none; /* Allow clicks on content */
+            pointer-events: none;
         }
 
         /* Ensure content is on top of the background */
@@ -265,7 +265,6 @@
             box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
         }
 
-        /* Removed spinning border animation to not conflict with background */
         .circular-service-box:hover {
             transform: scale(1.05) translateY(-5px);
             box-shadow: 0 0 35px var(--glow-color), inset 0 0 15px rgba(0,0,0,0.5);
@@ -306,14 +305,27 @@
         .stat-number { font-weight: 900; }
         .stat-label { font-weight: 500; }
 
-        /* Contact Section Original Styles */
-        .form-input { /* This is the original definition, will be overridden for #contact specifically in style.css */
+        /* Contact Section Styles */
+        #contact {
+            position: relative;
+            overflow: hidden;
+        }
+        #codepenCanvasContactBackground {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .form-input { 
             width: 100%; padding: 0.75rem 1rem; border-radius: 0.5rem;
             background-color: rgba(31,41,55,0.9); border: 1px solid rgba(75,85,99,0.5);
             color: var(--color-text-light); transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
         .form-input:focus { outline: none; border-color: var(--color-primary-blue); box-shadow: 0 0 0 3px rgba(59,130,246,0.3); }
-        .contact-form { border: 1px solid rgba(75,85,99,0.2); } /* Original border */
+        .contact-form { border: 1px solid rgba(75,85,99,0.2); }
         .info-item { align-items: center; }
         .info-icon { width: 60px; height: 60px; min-width: 60px; min-height: 60px; display: flex; align-items: center; justify-content: center; border-radius: 50%; box-shadow: 0 6px 15px rgba(0,0,0,0.3); transition: transform 0.3s ease; }
         .info-item:hover .info-icon { transform: scale(1.1); }
@@ -489,8 +501,86 @@
 
     <!-- New Services Section with Shader Background -->
     <section id="solutions" class="section py-20 bg-gray-950 text-white">
-        <!-- Shader Background Canvas Container -->
-        <div id="solutions-background-canvas"></div>
+        <!-- Canvas and Shader Source for the background -->
+        <canvas id="codepenCanvasSolutionsBackground"></canvas>
+        <script type="x-shader/x-fragment" id="solutionsShaderSource">
+            precision highp float;
+            uniform float time;
+            uniform vec2 resolution;
+
+            float sdOrientedBox( in vec2 p, in vec2 a, in vec2 b, float th )
+            {
+                float l = length(b-a);
+                vec2  d = (b-a)/l;
+                vec2  q = (p-(a+b)*0.5);
+                      q = mat2(d.x,-d.y,d.y,d.x)*q;
+                      q = abs(q)-vec2(l,th)*0.5;
+                return length(max(q,0.0)) + min(max(q.x,q.y),0.0);    
+            }
+
+            float addLine (in vec2 uv, in vec2 p, in float angle, in float length)
+            {
+              return sdOrientedBox(
+                uv,
+                p,
+                vec2(p.x + cos(angle) * length, p.y + sin(angle) * length),
+                0.01
+              );
+            }
+
+            float addWave (in vec2 uv, in vec2 p, in float length)
+            {
+              float t = time * 0.1;
+              return sdOrientedBox(
+                vec2(uv.x, uv.y + sin((uv.x + t) * 30.) * 0.02),
+                vec2(p.x - length * 0.5, p.y),
+                vec2(p.x + length * 0.5, p.y),
+                0.01
+              );
+            }
+
+            //https://iquilezles.org/articles/palettes/
+            vec3 palette( float t ) {
+                vec3 a = vec3(0.5, 0.5, 0.5);
+                vec3 b = vec3(0.5, 0.5, 0.5);
+                vec3 c = vec3(1.0, 1.0, 1.0);
+                vec3 d = vec3(0.263,0.416,0.557);
+
+                return a + b*cos( 6.28318*(c*t+d) );
+            }
+
+            void main() {
+              vec2 uv = gl_FragCoord.xy / resolution.xy*2.-1.;
+              uv.y *= resolution.y/resolution.x;
+
+              float d = 1.;
+              float PI = 3.14159;
+              
+              float t = time * 0.1;
+              float y1 = sin((uv.x - 0.125 + t) * 30.) * 0.02 - 0.005;
+              float y2 = sin((uv.x + 0.125 + t) * 30.) * 0.02 - 0.005;
+              float angle = pow(clamp(sin(time) + 1., 0., 1.), 4.);
+              
+              uv=vec2(
+                atan(uv.x, uv.y) + time * 0.1,
+                (log(length(uv)) - atan(uv.x, uv.y) + time * 0.1)
+              );
+              
+              uv = mod(uv, vec2(0.3, PI * 0.1)) - 0.15;
+              
+              d = min(addLine(uv, vec2(-0.125, y1), mix(0., PI * 0.4, angle), 0.15), d);
+              d = min(addLine(uv, vec2(0.125, y2), mix(PI, PI * 0.6, angle), 0.1), d);
+              d = min(addWave(uv, vec2(0.), mix(0.5, 0.2, angle)), d);
+              
+              d = smoothstep(0.0, mix(0.1, 0.001, angle), d);
+
+              vec3 bgColor = palette(gl_FragCoord.y + gl_FragCoord.x + t) * 0.1;
+              vec3 fgColor = palette(uv.y + uv.x * 0.001 + t);
+              vec3 color = mix(fgColor, bgColor, d);
+
+              gl_FragColor = vec4(color, 1.0);
+            }
+        </script>
 
         <!-- Content Wrapper -->
         <div class="container mx-auto px-4">
@@ -563,7 +653,7 @@
         </div>
     </section>
 
-    <!-- Contact Section - Modified -->
+    <!-- Contact Section -->
     <section id="contact" class="section py-20 bg-gray-800 text-white">
         <!-- CodePen Canvas and Shader Source -->
         <canvas id="codepenCanvasContactBackground"></canvas>
@@ -725,8 +815,6 @@ void main() {
                 </form>
             </div>
         </div>
-        <!-- Canvas for the shader background -->
-        <canvas id="codepenCanvasContactBackground" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;"></canvas>
     </section>
 
     <!-- Footer - RGBA.js Shader Animation Background -->
@@ -788,7 +876,7 @@ void main() {
         <span class="fab-text">Call Us</span>
     </a>
 
-    <!-- RGBA.js library -->
+    <!-- RGBA.js library for Footer -->
     <script src="https://raw.githack.com/strangerintheq/rgba/0.0.8/rgba.js"></script>
 
     <!-- Script for RGBA.js Footer Animation -->
@@ -873,223 +961,23 @@ void main() {
     });
     </script>
     
-    <!-- NEW SCRIPT for Solutions Section Background -->
+    <!-- Embedded JavaScript for Section Background Shaders -->
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const solutionsShaderContainer = document.getElementById('solutions-background-canvas');
-        if (solutionsShaderContainer && typeof RGBA === 'function') {
-            const shaderCode = `
-                float sdOrientedBox( in vec2 p, in vec2 a, in vec2 b, float th )
-                {
-                    float l = length(b-a);
-                    vec2  d = (b-a)/l;
-                    vec2  q = (p-(a+b)*0.5);
-                          q = mat2(d.x,-d.y,d.y,d.x)*q;
-                          q = abs(q)-vec2(l,th)*0.5;
-                    return length(max(q,0.0)) + min(max(q.x,q.y),0.0);    
-                }
-
-                float addLine (in vec2 uv, in vec2 p, in float angle, in float length)
-                {
-                  return sdOrientedBox(
-                    uv,
-                    p,
-                    vec2(p.x + cos(angle) * length, p.y + sin(angle) * length),
-                    0.01
-                  );
-                }
-
-                float addWave (in vec2 uv, in vec2 p, in float length)
-                {
-                  float t = time * 0.1;
-                  return sdOrientedBox(
-                    vec2(uv.x, uv.y + sin((uv.x + t) * 30.) * 0.02),
-                    vec2(p.x - length * 0.5, p.y),
-                    vec2(p.x + length * 0.5, p.y),
-                    0.01
-                  );
-                }
-
-                //https://iquilezles.org/articles/palettes/
-                vec3 palette( float t ) {
-                    vec3 a = vec3(0.5, 0.5, 0.5);
-                    vec3 b = vec3(0.5, 0.5, 0.5);
-                    vec3 c = vec3(1.0, 1.0, 1.0);
-                    vec3 d = vec3(0.263,0.416,0.557);
-
-                    return a + b*cos( 6.28318*(c*t+d) );
-                }
-
-                void main() {
-                  vec2 uv = gl_FragCoord.xy / resolution.xy*2.-1.;
-                  uv.y *= resolution.y/resolution.x;
-
-                  float d = 1.;
-                  float PI = 3.14159;
-                  
-                  float t = time * 0.1;
-                  float y1 = sin((uv.x - 0.125 + t) * 30.) * 0.02 - 0.005;
-                  float y2 = sin((uv.x + 0.125 + t) * 30.) * 0.02 - 0.005;
-                  float angle = pow(clamp(sin(time) + 1., 0., 1.), 4.);
-                  
-                  uv=vec2(
-                    atan(uv.x, uv.y) + time * 0.1,
-                    (log(length(uv)) - atan(uv.x, uv.y) + time * 0.1)
-                  );
-                  
-                  uv = mod(uv, vec2(0.3, PI * 0.1)) - 0.15;
-                  
-                  // left
-                  d = min(addLine(uv, vec2(-0.125, y1), mix(0., PI * 0.4, angle), 0.15), d);
-                  
-                  // right
-                  d = min(addLine(uv, vec2(0.125, y2), mix(PI, PI * 0.6, angle), 0.1), d);
-                  
-                  // wave
-                  d = min(addWave(uv, vec2(0.), mix(0.5, 0.2, angle)), d);
-                  
-                  d = smoothstep(0.0, mix(0.1, 0.001, angle), d);
-
-                  vec3 bgColor = palette(gl_FragCoord.y + gl_FragCoord.x + t) * 0.1;
-                  vec3 fgColor = palette(uv.y + uv.x * 0.001 + t);
-                  vec3 color = mix(fgColor, bgColor, d);
-
-                  gl_FragColor = vec4(color, 1.0);
-                }
-            `;
-            new RGBA(solutionsShaderContainer, shaderCode);
-        } else {
-            if (!solutionsShaderContainer) console.error('Solutions shader canvas container not found!');
-            if (typeof RGBA !== 'function') console.error('RGBA.js library not loaded or RGBA function not available!');
-        }
-    });
-    </script>
-
-    <!-- Embedded and Modified CodePen JavaScript for Contact Section Background -->
-    <script>
-/*********
- * made by Matthias Hurrle (@atzedent)
- */
-let editModeContactBg = false;
-let resolutionContactBg = 0.5;
-let renderDelayContactBg = 1000;
-let dprContactBg = Math.max(1, resolutionContactBg * window.devicePixelRatio);
-let frmContactBg, sourceContactBg, editorContactBg, storeContactBg, rendererContactBg, pointersContactBg;
-const shaderIdContactBg = 'NPqjWPp_contact_bg';
-
-function resizeContactBackground() {
-  const canvas = document.getElementById('codepenCanvasContactBackground');
-  if (!canvas) return;
-  const contactSection = document.getElementById('contact');
-  if (!contactSection) return;
-
-  const { clientWidth: width, clientHeight: height } = contactSection;
-
-  canvas.width = width * dprContactBg;
-  canvas.height = height * dprContactBg;
-  // CSS dimensions are 100% of parent, so no need to set style.width/height here
-
-  if (rendererContactBg && rendererContactBg.gl) {
-    rendererContactBg.updateScale(dprContactBg);
-    rendererContactBg.gl.viewport(0, 0, canvas.width, canvas.height); // Ensure viewport updates
-  }
-}
-
-function toggleViewContactBg() { /* Not actively used for fixed background */ }
-function resetContactBg() { /* Not actively used for fixed background */ }
-function toggleResolutionContactBg() { /* Not actively used if resolution is fixed */ }
-
-function loopContactBackground(now) {
-  if (!rendererContactBg || !pointersContactBg || !rendererContactBg.gl) {
-      frmContactBg = requestAnimationFrame(loopContactBackground);
-      return;
-  }
-  rendererContactBg.updateMouse(pointersContactBg.first); // Changed to first for a static pointer
-  rendererContactBg.updatePointerCount(pointersContactBg.count);
-  rendererContactBg.updatePointerCoords(pointersContactBg.coords);
-  rendererContactBg.updateMove(pointersContactBg.move);
-  rendererContactBg.render(now);
-  frmContactBg = requestAnimationFrame(loopContactBackground);
-}
-
-function renderThisContactBg() { /* Not actively used for fixed background */ }
-const debounceContactBg = (fn, delay) => { /* Not actively used for fixed background */ };
-const renderContactBackgroundDebounced = debounceContactBg(renderThisContactBg, renderDelayContactBg);
-
-function initContactBackgroundShader() {
-  const canvas = document.getElementById('codepenCanvasContactBackground');
-  const codeEditorEl = document.getElementById('codeEditorContactBg'); // Dummy
-  const errorEl = document.getElementById('errorContactBg'); // Dummy
-  const indicatorEl = document.getElementById('indicatorContactBg'); // Dummy
-  // Control buttons are not needed for a fixed background
-
-  if (!canvas) { console.error("Canvas for Contact Background Shader not found."); return; }
-
-  sourceContactBg = document.getElementById('contactShaderSource');
-  if (!sourceContactBg || !sourceContactBg.textContent.trim()) {
-      console.error("Shader source for Contact Background not found or is empty.");
-      return;
-  }
-
-  rendererContactBg = new Renderer(canvas, dprContactBg); // Use dprContactBg here
-  if (!rendererContactBg.gl) return; // Renderer constructor handles WebGL2 check
-
-  pointersContactBg = new PointerHandler(canvas, dprContactBg);
-  editorContactBg   = new Editor(codeEditorEl, errorEl, indicatorEl); // Uses hidden dummy elements
-  editorContactBg.text = sourceContactBg.textContent; // Set shader source
-
-  rendererContactBg.setup();
-  rendererContactBg.init();
-
-  dprContactBg = Math.max(1, resolutionContactBg * window.devicePixelRatio);
-  pointersContactBg.updateScale(dprContactBg);
-
-  canvas.addEventListener('shader-error', e => {
-      console.error("Shader Error in Contact Background:", e.detail);
-      if(editorContactBg) editorContactBg.setError(e.detail);
-  });
-
-  resizeContactBackground(); // Initial size setup
-
-  const testResult = rendererContactBg.test(sourceContactBg.textContent);
-  if (testResult === null) {
-    rendererContactBg.updateShader(sourceContactBg.textContent);
-  } else {
-    console.error("Contact Background Shader compilation failed:", testResult);
-    if(editorContactBg) editorContactBg.setError(testResult);
-    return; // Don't start loop if shader fails
-  }
-
-  loopContactBackground(0);
-
-  // Responsive resize
-  let resizeTimeoutContactBg;
-  window.addEventListener('resize', () => {
-      clearTimeout(resizeTimeoutContactBg);
-      resizeTimeoutContactBg = setTimeout(resizeContactBackground, 100); // Debounce resize
-  });
-}
-
+// Generic WebGL Renderer and Pointer Handler Classes
 class Renderer {
   #vertexSrc = "#version 300 es\nprecision highp float;\nin vec4 position;\nvoid main(){gl_Position=position;}";
-  #fragmtSrc = "#version 300 es\nprecision highp float;\nout vec4 O;\nuniform float time;\nuniform vec2 resolution;\nvoid main() {\n\tvec2 uv=gl_FragCoord.xy/resolution;\n\tO=vec4(uv,sin(time)*.5+.5,1);\n}"; // Default fallback
+  #fragmtSrc = "#version 300 es\nprecision highp float;\nout vec4 O;\nuniform float time;\nuniform vec2 resolution;\nvoid main() {\n\tvec2 uv=gl_FragCoord.xy/resolution;\n\tO=vec4(uv,sin(time)*.5+.5,1);\n}";
   #vertices = [-1, 1, -1, -1, 1, 1, 1, -1];
   constructor(canvas, scale) {
-    this.canvas = canvas;
-    this.scale = scale;
-    this.gl = canvas.getContext("webgl2");
-    if (!this.gl) { console.error("WebGL2 not supported for Contact Background Renderer."); return; }
-    this.gl.viewport(0, 0, canvas.width, canvas.height);
-    this.shaderSource = this.#fragmtSrc;
+    this.canvas = canvas; this.scale = scale; this.gl = canvas.getContext("webgl2");
+    if (!this.gl) { console.error("WebGL2 not supported."); return; }
+    this.gl.viewport(0, 0, canvas.width, canvas.height); this.shaderSource = this.#fragmtSrc;
     this.mouseMove = [0, 0]; this.mouseCoords = [0, 0]; this.pointerCoords = [0, 0]; this.nbrOfPointers = 0;
   }
-  get defaultSource() { return this.#fragmtSrc; }
-  updateShader(source) {
-    if (!this.gl) return; this.reset(); this.shaderSource = source; this.setup(); this.init();
-  }
+  updateShader(source) { if (!this.gl) return; this.reset(); this.shaderSource = source; this.setup(); this.init(); }
   updateMove(d) { this.mouseMove = d; } updateMouse(c) { this.mouseCoords = c; }
   updatePointerCoords(c) { this.pointerCoords = c; } updatePointerCount(n) { this.nbrOfPointers = n; }
-  updateScale(s) { this.scale = s; /* Viewport updated in resizeContactBackground */ }
+  updateScale(s) { this.scale = s; }
   compile(shader, source) {
     const gl = this.gl; if (!gl) return; gl.shaderSource(shader, source); gl.compileShader(shader);
     if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
@@ -1098,17 +986,15 @@ class Renderer {
     }
   }
   test(source) {
-    let result = null; const gl = this.gl; if (!gl) return "WebGL context not available for test.";
+    let result = null; const gl = this.gl; if (!gl) return "WebGL context not available.";
     const shader = gl.createShader(gl.FRAGMENT_SHADER); gl.shaderSource(shader, source); gl.compileShader(shader);
     if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) { result = gl.getShaderInfoLog(shader); }
-    if (gl.isShader(shader) && !gl.getShaderParameter(shader, gl.DELETE_STATUS)) { gl.deleteShader(shader); }
-    return result;
+    if (gl.isShader(shader)) { gl.deleteShader(shader); } return result;
   }
   reset() {
-    const { gl, program, vs, fs } = this; if (!gl) return;
-    if (!program || !gl.isProgram(program) || gl.getProgramParameter(program, gl.DELETE_STATUS)) return;
-    if (vs && gl.isShader(vs) && !gl.getShaderParameter(vs, gl.DELETE_STATUS)) { gl.detachShader(program, vs); gl.deleteShader(vs); }
-    if (fs && gl.isShader(fs) && !gl.getShaderParameter(fs, gl.DELETE_STATUS)) { gl.detachShader(program, fs); gl.deleteShader(fs); }
+    const { gl, program, vs, fs } = this; if (!gl || !program) return;
+    if (vs) { gl.detachShader(program, vs); gl.deleteShader(vs); }
+    if (fs) { gl.detachShader(program, fs); gl.deleteShader(fs); }
     gl.deleteProgram(program);
   }
   setup() {
@@ -1126,52 +1012,149 @@ class Renderer {
     program.pointerCount = gl.getUniformLocation(program, "pointerCount"); program.pointers = gl.getUniformLocation(program, "pointers");
   }
   render(now = 0) {
-    const { gl, program, buffer, canvas, mouseMove, mouseCoords, pointerCoords, nbrOfPointers } = this;
-    if (!gl || !program || !gl.isProgram(program) || gl.getProgramParameter(program, gl.DELETE_STATUS) || !canvas) return;
-    gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT); // Clear with transparent for section bg to show if shader is not opaque
+    const { gl, program, buffer } = this; if (!gl || !program) return;
+    gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT);
     gl.useProgram(program); gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
     gl.uniform2f(program.resolution, gl.drawingBufferWidth, gl.drawingBufferHeight);
     gl.uniform1f(program.time, now * 1e-3);
-    gl.uniform2f(program.move, ...mouseMove); gl.uniform2f(program.touch, ...mouseCoords);
-    gl.uniform1i(program.pointerCount, nbrOfPointers); gl.uniform2fv(program.pointers, pointerCoords);
+    gl.uniform2f(program.move, ...this.mouseMove); gl.uniform2f(program.touch, ...this.mouseCoords);
+    gl.uniform1i(program.pointerCount, this.nbrOfPointers); gl.uniform2fv(program.pointers, this.pointerCoords);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
   }
 }
-class Store { /* Likely not needed for fixed background */
-  constructor(key) { this.key = key; this.store = window.localStorage; }
-  putShaderSource(name, source) { try { this.store.setItem(name, source); } catch(e) { console.warn("localStorage unavailable for Store", e); } }
-}
 class PointerHandler {
   constructor(element, scale) {
-    this.element = element; this.scale = scale; this.active = false; this.pointers = new Map();
-    this.lastCoords = [0,0]; this.moves = [0,0];
+    this.element = element; this.scale = scale; this.pointers = new Map(); this.lastCoords = [0,0];
     const map = (el, s, clientX, clientY) => {
         const r = el.getBoundingClientRect(); const x = (clientX - r.left); const y = (clientY - r.top);
-        return [x * s, (el.height / s - y) * s]; // Map to shader coords (origin bottom-left for GL)
+        return [x * s, (el.height / s - y) * s];
     };
-    element.addEventListener("pointerdown", (e) => { this.active = true; this.pointers.set(e.pointerId, map(this.element, this.getScale(), e.clientX, e.clientY)); });
-    element.addEventListener("pointerup", (e) => { if (this.count === 1) { this.lastCoords = this.first; } this.pointers.delete(e.pointerId); this.active = this.pointers.size > 0; });
-    element.addEventListener("pointerleave", (e) => { if (this.count === 1) { this.lastCoords = this.first; } this.pointers.delete(e.pointerId); this.active = this.pointers.size > 0; });
-    element.addEventListener("pointermove", (e) => { if (!this.active) return; this.pointers.set(e.pointerId, map(this.element, this.getScale(), e.clientX, e.clientY)); this.moves = [this.moves[0]+e.movementX, this.moves[1]+e.movementY]; });
+    element.addEventListener("pointerdown", (e) => this.pointers.set(e.pointerId, map(this.element, this.scale, e.clientX, e.clientY)));
+    element.addEventListener("pointerup", (e) => this.pointers.delete(e.pointerId));
+    element.addEventListener("pointerleave", (e) => this.pointers.delete(e.pointerId));
+    element.addEventListener("pointermove", (e) => { if (this.pointers.has(e.pointerId)) this.pointers.set(e.pointerId, map(this.element, this.scale, e.clientX, e.clientY)); });
   }
-  getScale() { return this.scale; } updateScale(s) { this.scale = s; } reset() { this.pointers.clear(); this.active = false; this.moves = [0,0]; }
-  get count() { return this.pointers.size; } get move() { return this.moves; }
-  get coords() { return this.pointers.size > 0 ? Array.from(this.pointers.values()).map(p => [...p]).flat() : [0, 0]; }
+  updateScale(s) { this.scale = s; }
+  get count() { return this.pointers.size; }
+  get coords() { return this.pointers.size > 0 ? Array.from(this.pointers.values()).flat() : [0, 0]; }
   get first() { return this.pointers.values().next().value || this.lastCoords; }
 }
-class Editor { /* Interacts with dummy hidden elements, minimal functionality needed for bg */
-  constructor(textarea, errorfield, errorindicator) {
-    this.textarea = textarea; this.errorfield = errorfield; this.errorindicator = errorindicator;
+
+// --- Instance for SOLUTIONS Section ---
+let rendererSolutionsBg, pointersSolutionsBg, frmSolutionsBg;
+const resolutionSolutionsBg = 0.5; 
+let dprSolutionsBg = Math.max(1, resolutionSolutionsBg * window.devicePixelRatio);
+
+function resizeSolutionsBackground() {
+  const canvas = document.getElementById('codepenCanvasSolutionsBackground');
+  if (!canvas) return;
+  const section = document.getElementById('solutions');
+  if (!section) return;
+  const { clientWidth: width, clientHeight: height } = section;
+  canvas.width = width * dprSolutionsBg;
+  canvas.height = height * dprSolutionsBg;
+  if (rendererSolutionsBg && rendererSolutionsBg.gl) {
+    rendererSolutionsBg.updateScale(dprSolutionsBg);
+    rendererSolutionsBg.gl.viewport(0, 0, canvas.width, canvas.height);
   }
-  get text() { return this.textarea ? this.textarea.value : ""; }
-  set text(v) { if (this.textarea) this.textarea.value = v; }
-  setError(m) { if (this.errorfield) this.errorfield.innerHTML = m; console.error("Editor SetError:", m); /* Basic error logging */ }
-  clearError() { if (this.errorfield) this.errorfield.textContent = ''; }
-  // Other editor methods (hidden, focus, scroll, keydown, indent) are not essential for a fixed background.
 }
+
+function loopSolutionsBackground(now) {
+  if (rendererSolutionsBg && rendererSolutionsBg.gl) {
+    rendererSolutionsBg.render(now);
+  }
+  frmSolutionsBg = requestAnimationFrame(loopSolutionsBackground);
+}
+
+function initSolutionsBackgroundShader() {
+  const canvas = document.getElementById('codepenCanvasSolutionsBackground');
+  const source = document.getElementById('solutionsShaderSource');
+  if (!canvas || !source || !source.textContent.trim()) {
+      console.error("Solutions shader canvas or source not found."); return;
+  }
+  rendererSolutionsBg = new Renderer(canvas, dprSolutionsBg);
+  if (!rendererSolutionsBg.gl) return;
+  pointersSolutionsBg = new PointerHandler(canvas, dprSolutionsBg);
+  rendererSolutionsBg.setup();
+  rendererSolutionsBg.init();
+  resizeSolutionsBackground();
+  const testResult = rendererSolutionsBg.test(source.textContent);
+  if (testResult === null) {
+    rendererSolutionsBg.updateShader(source.textContent);
+  } else {
+    console.error("Solutions Shader compilation failed:", testResult); return;
+  }
+  loopSolutionsBackground(0);
+}
+
+// --- Instance for CONTACT Section ---
+let rendererContactBg, pointersContactBg, frmContactBg;
+const resolutionContactBg = 0.5;
+let dprContactBg = Math.max(1, resolutionContactBg * window.devicePixelRatio);
+
+function resizeContactBackground() {
+  const canvas = document.getElementById('codepenCanvasContactBackground');
+  if (!canvas) return;
+  const section = document.getElementById('contact');
+  if (!section) return;
+  const { clientWidth: width, clientHeight: height } = section;
+  canvas.width = width * dprContactBg;
+  canvas.height = height * dprContactBg;
+  if (rendererContactBg && rendererContactBg.gl) {
+    rendererContactBg.updateScale(dprContactBg);
+    rendererContactBg.gl.viewport(0, 0, canvas.width, canvas.height);
+  }
+}
+
+function loopContactBackground(now) {
+  if (rendererContactBg && pointersContactBg && rendererContactBg.gl) {
+    rendererContactBg.updateMouse(pointersContactBg.first);
+    rendererContactBg.updatePointerCount(pointersContactBg.count);
+    rendererContactBg.updatePointerCoords(pointersContactBg.coords);
+    rendererContactBg.render(now);
+  }
+  frmContactBg = requestAnimationFrame(loopContactBackground);
+}
+
+function initContactBackgroundShader() {
+  const canvas = document.getElementById('codepenCanvasContactBackground');
+  const source = document.getElementById('contactShaderSource');
+  if (!canvas || !source || !source.textContent.trim()) {
+      console.error("Contact shader canvas or source not found."); return;
+  }
+  rendererContactBg = new Renderer(canvas, dprContactBg);
+  if (!rendererContactBg.gl) return;
+  pointersContactBg = new PointerHandler(canvas, dprContactBg);
+  rendererContactBg.setup();
+  rendererContactBg.init();
+  resizeContactBackground();
+  const testResult = rendererContactBg.test(source.textContent);
+  if (testResult === null) {
+    rendererContactBg.updateShader(source.textContent);
+  } else {
+    console.error("Contact Shader compilation failed:", testResult); return;
+  }
+  loopContactBackground(0);
+}
+
+// --- Main Initializer ---
+document.addEventListener('DOMContentLoaded', () => {
+    initSolutionsBackgroundShader();
+    initContactBackgroundShader();
+
+    // Responsive resize handler
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            resizeSolutionsBackground();
+            resizeContactBackground();
+        }, 100);
+    });
+});
     </script>
 
-    <!-- Existing script.js -->
+    <!-- Existing script.js for other functionalities -->
     <script src="script.js"></script>
 
 </body>
