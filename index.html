@@ -77,10 +77,10 @@
         .animate-on-scroll.scale-in.is-visible { opacity: 1; transform: scale(1); }
 
         /* Staggered animation delays */
-        .service-card:nth-child(1), .solution-card:nth-child(1) { transition-delay: 0s; }
-        .service-card:nth-child(2), .solution-card:nth-child(2) { transition-delay: 0.1s; }
-        .service-card:nth-child(3), .solution-card:nth-child(3) { transition-delay: 0.2s; }
-        .solution-card:nth-child(4) { transition-delay: 0.3s; }
+        .circular-service-box:nth-child(1) { transition-delay: 0s; }
+        .circular-service-box:nth-child(2) { transition-delay: 0.1s; }
+        .circular-service-box:nth-child(3) { transition-delay: 0.2s; }
+        .circular-service-box:nth-child(4) { transition-delay: 0.3s; }
 
         /* Text Gradients */
         .text-gradient { background: linear-gradient(90deg, var(--color-primary-blue), var(--color-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
@@ -217,19 +217,17 @@
             transform: scale(1.1);
         }
 
-        /* NEW: Styles for Solutions Section Background */
+        /* Styles for Solutions Section */
         #solutions {
             position: relative;
-            overflow: hidden; /* Ensures canvas doesn't bleed out */
+            overflow: hidden;
         }
 
-        /* Ensure content is on top of the background */
         #solutions .container {
             position: relative;
             z-index: 1;
         }
 
-        /* New styles for the circular service boxes */
         .circular-service-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -247,18 +245,17 @@
             text-align: center;
             padding: 1rem;
             color: white;
-            /* Making background transparent to see the shader behind it */
-            background: rgba(17, 24, 39, 0.5); /* Semi-transparent version of gray-900 */
-            backdrop-filter: blur(5px); /* Optional: blur effect for the background */
-            border: 4px solid transparent;
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(5px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
             transition: transform 0.4s ease, box-shadow 0.4s ease;
             box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
         }
 
-        /* Removed spinning border animation to not conflict with background */
+        /* GLOW EFFECT ON HOVER */
         .circular-service-box:hover {
             transform: scale(1.05) translateY(-5px);
-            box-shadow: 0 0 35px var(--glow-color), inset 0 0 15px rgba(0,0,0,0.5);
+            box-shadow: 0 0 25px var(--glow-color), 0 0 45px var(--glow-color), inset 0 0 15px rgba(0,0,0,0.5);
         }
 
         .circular-icon {
@@ -279,7 +276,7 @@
 
         .circular-service-box p {
             font-size: 0.9rem;
-            color: #d1d5db; /* Tailwind gray-300 */
+            color: #d1d5db;
             max-width: 90%;
             margin: 0 auto;
             line-height: 1.5;
@@ -310,13 +307,13 @@
             z-index: 0;
             pointer-events: none;
         }
-        .form-input { /* This is the original definition, will be overridden for #contact specifically in style.css */
+        .form-input {
             width: 100%; padding: 0.75rem 1rem; border-radius: 0.5rem;
             background-color: rgba(31,41,55,0.9); border: 1px solid rgba(75,85,99,0.5);
             color: var(--color-text-light); transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
         .form-input:focus { outline: none; border-color: var(--color-primary-blue); box-shadow: 0 0 0 3px rgba(59,130,246,0.3); }
-        .contact-form { border: 1px solid rgba(75,85,99,0.2); } /* Original border */
+        .contact-form { border: 1px solid rgba(75,85,99,0.2); }
         .info-item { align-items: center; }
         .info-icon { width: 60px; height: 60px; min-width: 60px; min-height: 60px; display: flex; align-items: center; justify-content: center; border-radius: 50%; box-shadow: 0 6px 15px rgba(0,0,0,0.3); transition: transform 0.3s ease; }
         .info-item:hover .info-icon { transform: scale(1.1); }
@@ -362,37 +359,11 @@
         .footer-link:hover::before { opacity: 1; left: 0; }
         .social-icon { color: #9ca3af; font-size: 1.5rem; transition: color 0.3s ease, transform 0.3s ease; }
         .social-icon:hover { color: var(--color-primary-blue); transform: scale(1.2); }
-        .copyright { text-align: center; padding-top: 2rem; /* Tailwind pt-8 */ color: #6b7280; font-size: 0.875rem; }
+        .copyright { text-align: center; padding-top: 2rem; color: #6b7280; font-size: 0.875rem; }
 
-        /* Responsive Navbar Container Padding */
-        @media (max-width: 767px) {
-            .navbar .container { padding-left: 1rem; padding-right: 1rem; }
-            
-            /* Responsive fix for hero section iframe */
-            .codepen-full-bg-iframe {
-                top: 0;
-                height: 100%;
-            }
-
-            /* Responsive FAB */
-            .call-us-fab .fab-text {
-                display: none;
-            }
-            .call-us-fab {
-                width: 60px;
-                height: 60px;
-                padding: 0;
-                border-radius: 50%;
-                bottom: 1.5rem;
-                right: 1.5rem;
-            }
-            .call-us-fab i {
-                margin-right: 0;
-            }
-        }
     </style>
 </head>
-<body class="bg-gray-900 text-gray-200 font-inter" style="background-color: #111827;">
+<body class="bg-gray-900 text-gray-200 font-inter">
     <!--Navbar -->
     <nav class="navbar fixed top-0 left-0 w-full z-50">
         <div class="container mx-auto px-4 flex justify-between items-center h-full">
@@ -400,19 +371,6 @@
                 <a href="#home" class="logo">
                     <span>PINNACLE AI SOLUTIONS</span>
                 </a>
-                <svg viewBox="0 0 100 100" id="mainSVG" class="larger-ai-svg">
-                    <defs>
-                        <linearGradient id="aiGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" stop-color="#359EEE"/>
-                            <stop offset="100%" stop-color="#03CEA4"/>
-                        </linearGradient>
-                    </defs>
-                    <path id="ai" d="M20 50 C20 20, 80 20, 80 50 S20 80, 20 50" stroke="url(#aiGrad)" stroke-width="4" fill="none"/>
-                    <ellipse class="ell" cx="50" cy="50" rx="30" ry="15" stroke="#359EEE" stroke-width="2"/>
-                    <ellipse class="ell" cx="50" cy="50" rx="25" ry="10" stroke="#FFC43D" stroke-width="2"/>
-                    <ellipse class="ell" cx="50" cy="50" rx="20" ry="7" stroke="#EF476F" stroke-width="2"/>
-                    <ellipse class="ell" cx="50" cy="50" rx="15" ry="5" stroke="#03CEA4" stroke-width="2"/>
-                </svg>
             </div>
             <div class="hamburger md:hidden flex flex-col justify-center items-center w-10 h-10 cursor-pointer z-[101]" tabindex="0" aria-label="Open menu" role="button">
                 <span class="block w-8 h-1 bg-white mb-1 rounded transition-all"></span>
@@ -428,16 +386,6 @@
                 <li class="ml-4"><a href="programs.html" target="_blank" rel="noopener noreferrer" class="btn-secondary btn-secondary-padding">AI PROGRAMS</a></li>
                 <li><a href="https://pinnacleaisolutions.github.io/aitraining/" target="_blank" rel="noopener noreferrer" class="btn-primary btn-primary-padding">learnaiforfree</a></li>
             </ul>
-            <div class="mobile-menu-overlay">
-                <a href="#home" class="nav-link-mobile text-3xl font-semibold text-white hover:text-blue-400 transition-colors duration-300 mb-4" data-target="home">Home</a>
-                <a href="#services" class="nav-link-mobile text-3xl font-semibold text-white hover:text-blue-400 transition-colors duration-300 mb-4" data-target="services">Services</a>
-                <a href="#solutions" class="nav-link-mobile text-3xl font-semibold text-white hover:text-blue-400 transition-colors duration-300 mb-4" data-target="solutions">Solutions</a>
-                <a href="#about" class="nav-link-mobile text-3xl font-semibold text-white hover:text-blue-400 transition-colors duration-300 mb-4" data-target="about">About</a>
-                <a href="#contact" class="nav-link-mobile text-3xl font-semibold text-white hover:text-blue-400 transition-colors duration-300 mb-6" data-target="contact">Contact</a>
-                <a href="programs.html" target="_blank" rel="noopener noreferrer" class="btn-secondary-mobile w-11/12 max-w-xs text-center py-3 px-4 rounded-full bg-purple-600 hover:bg-purple-700 text-white font-semibold transition mb-4">AI PROGRAMS</a>
-                <a href="https://pinnacleaisolutions.github.io/aitraining/" target="_blank" rel="noopener noreferrer" class="btn-primary-mobile w-11/12 max-w-xs text-center py-3 px-4 rounded-full bg-blue-600 text-white font-semibold hover:bg-blue-700 transition">Learn AI for Free</a>
-                <button class="close-mobile-menu text-white text-4xl absolute top-6 right-6 focus:outline-none focus:ring-2 focus:ring-blue-400 rounded-full w-12 h-12 flex items-center justify-center">×</button>
-            </div>
         </div>
     </nav>
 
@@ -465,78 +413,31 @@
             frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true"
             class="codepen-full-bg-iframe" style="opacity: 0.3;">
         </iframe>
-        <div class="container mx-auto px-4 relative z-20"> <!-- Make sure this container has a higher z-index than the iframe -->
+        <div class="container mx-auto px-4 relative z-10">
             <div class="section-header text-center mb-16 animate-on-scroll">
                 <h2 class="text-4xl font-bold mb-4">Our Services</h2>
                 <p class="text-xl text-gray-400">Comprehensive AI-powered solutions tailored to your business needs</p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-                <div class="box animate-on-scroll scale-in">
-                    <div class="service-icon mb-6"><i class="fas fa-desktop"></i></div>
-                    <h3 class="text-2xl font-semibold mb-4">Custom Websites</h3>
-                    <p class="text-white mb-6">Custom landing pages with advanced coding and animations.</p>
-                </div>
-                <div class="box animate-on-scroll scale-in">
-                    <div class="service-icon mb-6"><i class="fas fa-comments"></i></div>
-                    <h3 class="text-2xl font-semibold mb-4">Chat Box Integration</h3>
-                    <p class="text-white mb-6">Seamlessly integrate intelligent chat boxes into any of your services.</p>
-                </div>
-                <div class="box animate-on-scroll scale-in">
-                    <div class="service-icon mb-6"><i class="fas fa-brain"></i></div>
-                    <h3 class="text-2xl font-semibold mb-4">Custom AI Solutions</h3>
-                    <p class="text-white mb-6">Bespoke AI solutions tailored to solve your unique business challenges.</p>
-                </div>
+                <div class="box animate-on-scroll scale-in"><div class="service-icon mb-6"><i class="fas fa-desktop"></i></div><h3 class="text-2xl font-semibold mb-4">Custom Websites</h3><p class="text-white mb-6">Custom landing pages with advanced coding and animations.</p></div>
+                <div class="box animate-on-scroll scale-in"><div class="service-icon mb-6"><i class="fas fa-comments"></i></div><h3 class="text-2xl font-semibold mb-4">Chat Box Integration</h3><p class="text-white mb-6">Seamlessly integrate intelligent chat boxes into any of your services.</p></div>
+                <div class="box animate-on-scroll scale-in"><div class="service-icon mb-6"><i class="fas fa-brain"></i></div><h3 class="text-2xl font-semibold mb-4">Custom AI Solutions</h3><p class="text-white mb-6">Bespoke AI solutions tailored to solve your unique business challenges.</p></div>
             </div>
         </div>
     </section>
 
-    <!-- New Services Section with Shader Background -->
+    <!-- Creative Services Section with Color Background, Glow, and Animation -->
     <section id="solutions" class="section py-20 bg-gray-950 text-white">
-        <!-- CORRECT IFRAME IMPLEMENTATION -->
-        <iframe scrolling="no" title="Flexing Fibers" src="https://cdpn.io/strangerintheq/debug/vYXLgMM" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true" class="codepen-full-bg-iframe"></iframe>
-
-        <!-- Content Wrapper -->
         <div class="container mx-auto px-4">
             <div class="section-header text-center mb-16 animate-on-scroll">
                 <h2 class="text-4xl font-bold mb-4">Our Creative Services</h2>
                 <p class="text-xl text-gray-400">Engaging solutions to elevate your brand's presence</p>
             </div>
             <div class="circular-service-container">
-                <!-- Virtual Training -->
-                <div class="circular-service-box animate-on-scroll scale-in" style="--glow-color: #3b82f6;">
-                    <div>
-                        <i class="fas fa-chalkboard-teacher circular-icon" style="color: #3b82f6;"></i>
-                        <h3>Virtual Training</h3>
-                        <p>One-on-one virtual training sessions to help you master new skills.</p>
-                    </div>
-                </div>
-
-                <!-- Social Media Management -->
-                <div class="circular-service-box animate-on-scroll scale-in" style="--glow-color: #ec4899; transition-delay: 0.1s;">
-                    <div>
-                        <i class="fas fa-users circular-icon" style="color: #ec4899;"></i>
-                        <h3>Social Media Management</h3>
-                        <p>Strategic and creative management of your social media platforms.</p>
-                    </div>
-                </div>
-
-                <!-- Video Editing Services -->
-                <div class="circular-service-box animate-on-scroll scale-in" style="--glow-color: #8b5cf6; transition-delay: 0.2s;">
-                    <div>
-                        <i class="fas fa-video circular-icon" style="color: #8b5cf6;"></i>
-                        <h3>Video Editing Services</h3>
-                        <p>Professional video editing to tell your story in a compelling way.</p>
-                    </div>
-                </div>
-
-                <!-- Marketing Services -->
-                <div class="circular-service-box animate-on-scroll scale-in" style="--glow-color: #10b981; transition-delay: 0.3s;">
-                    <div>
-                        <i class="fas fa-bullhorn circular-icon" style="color: #10b981;"></i>
-                        <h3>Marketing Services</h3>
-                        <p>Comprehensive marketing strategies designed to grow your audience.</p>
-                    </div>
-                </div>
+                <div class="circular-service-box animate-on-scroll scale-in" style="--glow-color: #3b82f6;"><div><i class="fas fa-chalkboard-teacher circular-icon" style="color: #3b82f6;"></i><h3>Virtual Training</h3><p>One-on-one virtual training sessions to help you master new skills.</p></div></div>
+                <div class="circular-service-box animate-on-scroll scale-in" style="--glow-color: #ec4899;"><div><i class="fas fa-users circular-icon" style="color: #ec4899;"></i><h3>Social Media Management</h3><p>Strategic and creative management of your social media platforms.</p></div></div>
+                <div class="circular-service-box animate-on-scroll scale-in" style="--glow-color: #8b5cf6;"><div><i class="fas fa-video circular-icon" style="color: #8b5cf6;"></i><h3>Video Editing Services</h3><p>Professional video editing to tell your story in a compelling way.</p></div></div>
+                <div class="circular-service-box animate-on-scroll scale-in" style="--glow-color: #10b981;"><div><i class="fas fa-bullhorn circular-icon" style="color: #10b981;"></i><h3>Marketing Services</h3><p>Comprehensive marketing strategies designed to grow your audience.</p></div></div>
             </div>
         </div>
     </section>
@@ -553,10 +454,6 @@
                     <h3 class="text-3xl font-semibold mb-6 text-gradient">Who We Are</h3>
                     <p class="mb-4 text-gray-300">Pinnacle AI Solutions is a team of passionate engineers, data scientists, and designers dedicated to delivering cutting-edge artificial intelligence solutions.</p>
                     <p class="mb-8 text-gray-300">We combine technical expertise with business acumen to create tools that drive real results for our clients across industries, fostering growth and efficiency.</p>
-                    <div class="stats grid grid-cols-2 gap-8 mt-10">
-                        <div class="stat-item text-center p-6 animate-on-scroll scale-in"><span class="stat-number text-5xl font-bold text-gradient-primary mb-2 block">50+</span><span class="stat-label text-gray-400 text-lg">Projects Completed</span></div>
-                        <div class="stat-item text-center p-6 animate-on-scroll scale-in"><span class="stat-number text-5xl font-bold text-gradient-secondary mb-2 block">100%</span><span class="stat-label text-gray-400 text-lg">Client Satisfaction</span></div>
-                    </div>
                 </div>
                 <div class="about-image relative rounded-xl overflow-hidden shadow-2xl animate-on-scroll slide-right">
                     <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" alt="AI Technology" class="w-full h-full object-cover">
@@ -566,46 +463,40 @@
         </div>
     </section>
 
-    <!-- Contact Section - Modified -->
+    <!-- Contact Section -->
     <section id="contact" class="section py-20 bg-gray-800 text-white">
         <canvas id="codepenCanvasContactBackground"></canvas>
-        <div class="container mx-auto px-4 contact-content-wrapper" style="position: relative; z-index: 1;">
+        <div class="container mx-auto px-4 relative z-10">
             <div class="section-header text-center mb-12 animate-on-scroll">
                 <h2 class="text-4xl font-bold mb-4">Get In Touch</h2>
                 <p class="text-xl text-gray-400">Ready to transform your business with AI? Contact us today.</p>
             </div>
-            <div class="flex flex-col sm:flex-row justify-center items-center gap-8 sm:gap-12 mb-12 animate-on-scroll scale-in">
-                <div class="info-item flex items-center"><div class="info-icon flex-shrink-0 mr-4 p-4 rounded-full bg-blue-600 text-white flex items-center justify-center text-2xl shadow-md"><i class="fas fa-envelope"></i></div><div><h4 class="text-xl font-semibold mb-1">Email Us</h4><p class="text-gray-300 text-lg">futureai4all@gmail.com</p></div></div>
-                <div class="info-item flex items-center"><div class="info-icon flex-shrink-0 mr-4 p-4 rounded-full bg-green-600 text-white flex items-center justify-center text-2xl shadow-md"><i class="fas fa-phone"></i></div><div><h4 class="text-xl font-semibold mb-1">Call Us</h4><p class="text-gray-300 text-lg">352-443-8670</p></div></div>
-            </div>
-            <div class="contact-form p-8 bg-gray-900 rounded-xl shadow-xl border border-gray-700 animate-on-scroll scale-in max-w-3xl mx-auto">
-                <h3 class="text-2xl font-bold text-center mb-6">Or Fill Out The Form</h3>
-                <form action="https://formsubmit.co/futureai4all@gmail.com" method="POST">
-                    <input type="hidden" name="_next" value="./thank-you.html">
-                    <input type="hidden" name="_subject" value="New Contact Form Submission from Pinnacle AI">
-                    <input type="hidden" name="_captcha" value="false">
-                    <input type="hidden" name="_autoresponse" value="Thank you for contacting Pinnacle AI Solutions! We have received your message and will get back to you shortly.">
-                    <div class="form-group mb-6"><label for="name" class="block text-gray-300 text-sm font-bold mb-2">Name</label><input type="text" id="name" name="name" class="form-input" placeholder="Your Name" required></div>
-                    <div class="form-group mb-6"><label for="email" class="block text-gray-300 text-sm font-bold mb-2">Email</label><input type="email" id="email" name="email" class="form-input" placeholder="you@example.com" required></div>
-                    <div class="form-group mb-6"><label for="subject" class="block text-gray-300 text-sm font-bold mb-2">Subject</label><input type="text" id="subject" name="subject" class="form-input" placeholder="Inquiry Subject"></div>
-                    <div class="form-group mb-8"><label for="message" class="block text-gray-300 text-sm font-bold mb-2">Message</label><textarea id="message" name="message" rows="6" class="form-input resize-y" placeholder="Your Message" required></textarea></div>
-                    <button type="submit" class="btn-primary w-full py-3">Send Message</button>
+            <div class="max-w-3xl mx-auto">
+                <form action="https://formsubmit.co/futureai4all@gmail.com" method="POST" class="contact-form p-8 bg-gray-900 rounded-xl shadow-xl border border-gray-700">
+                    <div class="space-y-6">
+                        <div><label for="name" class="block text-gray-300 text-sm font-bold mb-2">Name</label><input type="text" id="name" name="name" class="form-input" placeholder="Your Name" required></div>
+                        <div><label for="email" class="block text-gray-300 text-sm font-bold mb-2">Email</label><input type="email" id="email" name="email" class="form-input" placeholder="you@example.com" required></div>
+                        <div><label for="message" class="block text-gray-300 text-sm font-bold mb-2">Message</label><textarea id="message" name="message" rows="6" class="form-input" placeholder="Your Message" required></textarea></div>
+                    </div>
+                    <button type="submit" class="btn-primary w-full py-3 mt-8">Send Message</button>
                 </form>
             </div>
         </div>
     </section>
 
-    <!-- Footer - RGBA.js Shader Animation Background -->
-    <footer id="footer" class="footer py-16 bg-gray-950 text-gray-300">
+    <!-- Footer -->
+    <footer class="footer py-16 bg-gray-950 text-gray-300">
         <div id="footer-shader-canvas-container"></div>
         <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 pb-12 border-b border-gray-700">
-                <div class="footer-col"><h3 class="text-3xl font-bold mb-6 footer-logo-text">Pinnacle AI Solutions</h3><p class="text-gray-400 leading-relaxed mb-6">Transforming businesses with intelligent AI solutions that drive innovation and growth.</p><div class="social-links flex space-x-4"><a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a><a href="#" class="social-icon"><i class="fab fa-github"></i></a></div></div>
-                <div class="footer-col"><h4 class="text-2xl font-semibold mb-6 text-white">Quick Links</h4><ul class="space-y-3"><li><a href="#home" class="footer-link">Home</a></li><li><a href="#services" class="footer-link">Services</a></li><li><a href="#solutions" class="footer-link">Solutions</a></li><li><a href="#about" class="footer-link">About</a></li><li><a href="#contact" class="footer-link">Contact</a></li></ul></div>
-                <div class="footer-col"><h4 class="text-2xl font-semibold mb-6 text-white">Our Expertise</h4><ul class="space-y-3"><li><a href="#" class="footer-link">App Development</a></li><li><a href="#" class="footer-link">AI Integration</a></li><li><a href="#" class="footer-link">Data Analytics</a></li><li><a href="#" class="footer-link">Cloud Solutions</a></li><li><a href="#" class="footer-link">Machine Learning</a></li></ul></div>
-                <div class="footer-col"><h4 class="text-2xl font-semibold mb-6 text-white">Learn AI for Free</h4><a href="https://pinnacleaisolutions.github.io/aitraining/" class="footer-link block py-2 px-4 rounded bg-blue-600 text-white font-semibold text-center hover:bg-blue-700 transition" target="_blank" rel="noopener noreferrer">Go to Learn AI Page</a></div>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 pb-12 border-b border-gray-700">
+                <div><h3 class="text-3xl font-bold mb-6 footer-logo-text">Pinnacle AI</h3><p class="text-gray-400">Transforming businesses with intelligent AI solutions.</p></div>
+                <div><h4 class="text-2xl font-semibold mb-6 text-white">Quick Links</h4><ul class="space-y-3"><li><a href="#home" class="footer-link">Home</a></li><li><a href="#services" class="footer-link">Services</a></li><li><a href="#about" class="footer-link">About</a></li><li><a href="#contact" class="footer-link">Contact</a></li></ul></div>
+                <div><h4 class="text-2xl font-semibold mb-6 text-white">Our Expertise</h4><ul class="space-y-3"><li><a href="#" class="footer-link">AI Integration</a></li><li><a href="#" class="footer-link">Data Analytics</a></li><li><a href="#" class="footer-link">Machine Learning</a></li></ul></div>
+                <div><h4 class="text-2xl font-semibold mb-6 text-white">Learn AI</h4><a href="https://pinnacleaisolutions.github.io/aitraining/" class="footer-link" target="_blank" rel="noopener noreferrer">Learn AI for Free</a></div>
             </div>
-            <div class="copyright"><p>© 2023 Pinnacle AI Solutions. All rights reserved.</p></div>
+            <div class="copyright pt-8">
+                <p>© 2023 Pinnacle AI Solutions. All rights reserved.</p>
+            </div>
         </div>
     </footer>
 
@@ -617,5 +508,25 @@
 
     <script src="https://raw.githack.com/strangerintheq/rgba/0.0.8/rgba.js"></script>
     <script src="script.js"></script>
+
+    <!-- JAVASCRIPT FOR SCROLL ANIMATIONS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const animatedElements = document.querySelectorAll('.animate-on-scroll');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            animatedElements.forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
 </body>
-</html>
+</html>```
