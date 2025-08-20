@@ -217,12 +217,83 @@
             transform: scale(1.1);
         }
 
-        /* Solution Cards */
-        .solution-card { background-color: rgba(31,41,55,0.6); border-radius: 1rem; padding: 2rem; box-shadow: 0 8px 25px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); transition: all 0.3s ease; display: flex; align-items: flex-start; }
-        .solution-card:hover { background-color: rgba(31,41,55,0.8); box-shadow: 0 12px 40px rgba(0,0,0,0.3); transform: translateY(-5px); }
-        .solution-icon { font-size: 3rem; padding: 0.75rem; border-radius: 50%; background-color: rgba(255,255,255,0.08); margin-right: 1.5rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-        .solution-card h3 { font-weight: 700; color: #fff; }
-        .solution-card p { color: #ccc; }
+        /* New styles for the circular service boxes */
+        .circular-service-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 4rem;
+            padding: 2rem 0;
+        }
+
+        .circular-service-box {
+            position: relative;
+            aspect-ratio: 1 / 1;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 1rem;
+            color: white;
+            background: var(--color-dark-bg);
+            border: 4px solid transparent;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .circular-service-box::before,
+        .circular-service-box::after {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            width: calc(100% + 8px);
+            height: calc(100% + 8px);
+            border-radius: 50%;
+            background: conic-gradient(from var(--angle), transparent 0%, var(--glow-color) 20%, transparent 35%);
+            z-index: -1;
+            animation: spin 5s linear infinite;
+            pointer-events: none;
+        }
+        
+        .circular-service-box::after {
+            filter: blur(20px);
+            opacity: 0.8;
+        }
+
+        .circular-service-box:hover {
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 0 35px var(--glow-color);
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .circular-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .circular-service-box:hover .circular-icon {
+            transform: scale(1.15);
+        }
+
+        .circular-service-box h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .circular-service-box p {
+            font-size: 0.9rem;
+            color: #d1d5db; /* Tailwind gray-300 */
+            max-width: 90%;
+            margin: 0 auto;
+            line-height: 1.5;
+        }
+
 
         /* About Section */
         .about-image { border-radius: 1.5rem; box-shadow: 0 15px 40px rgba(0,0,0,0.3); transition: transform 0.4s ease; }
@@ -415,29 +486,48 @@
         </div>
     </section>
 
-    <!-- AI Solutions Section -->
-    <section id="solutions" class="section py-20 bg-gray-800 text-white">
+    <!-- New Services Section -->
+    <section id="solutions" class="section py-20 bg-gray-900 text-white">
         <div class="container mx-auto px-4">
             <div class="section-header text-center mb-16 animate-on-scroll">
-                <h2 class="text-4xl font-bold mb-4">AI Solutions</h2>
-                <p class="text-xl text-gray-400">Cutting-edge artificial intelligence to solve complex business challenges</p>
+                <h2 class="text-4xl font-bold mb-4">Our Creative Services</h2>
+                <p class="text-xl text-gray-400">Engaging solutions to elevate your brand's presence</p>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                <div class="solution-card animate-on-scroll slide-left">
-                    <div class="solution-icon"><i class="fas fa-database text-blue-400"></i></div>
-                    <div><h3 class="text-2xl font-semibold mb-3">Data Scraping</h3><p class="text-gray-300">Extract valuable business intelligence from web sources with our advanced scraping technology.</p></div>
+            <div class="circular-service-container">
+                <!-- Virtual Training -->
+                <div class="circular-service-box animate-on-scroll scale-in" style="--glow-color: #3b82f6; --angle: 45deg;">
+                    <div>
+                        <i class="fas fa-chalkboard-teacher circular-icon" style="color: #3b82f6;"></i>
+                        <h3>Virtual Training</h3>
+                        <p>One-on-one virtual training sessions to help you master new skills.</p>
+                    </div>
                 </div>
-                <div class="solution-card animate-on-scroll slide-right">
-                    <div class="solution-icon"><i class="fas fa-chart-line text-green-400"></i></div>
-                    <div><h3 class="text-2xl font-semibold mb-3">Predictive Analytics</h3><p class="text-gray-300">Forecast trends and make data-driven decisions with our machine learning models.</p></div>
+
+                <!-- Social Media Management -->
+                <div class="circular-service-box animate-on-scroll scale-in" style="--glow-color: #ec4899; --angle: 135deg; transition-delay: 0.1s;">
+                    <div>
+                        <i class="fas fa-users circular-icon" style="color: #ec4899;"></i>
+                        <h3>Social Media Management</h3>
+                        <p>Strategic and creative management of your social media platforms.</p>
+                    </div>
                 </div>
-                <div class="solution-card animate-on-scroll slide-left">
-                    <div class="solution-icon"><i class="fas fa-brain text-purple-400"></i></div>
-                    <div><h3 class="text-2xl font-semibold mb-3">Natural Language Processing</h3><p class="text-gray-300">Implement chatbots and sentiment analysis to enhance customer interactions.</p></div>
+
+                <!-- Video Editing Services -->
+                <div class="circular-service-box animate-on-scroll scale-in" style="--glow-color: #8b5cf6; --angle: 225deg; transition-delay: 0.2s;">
+                    <div>
+                        <i class="fas fa-video circular-icon" style="color: #8b5cf6;"></i>
+                        <h3>Video Editing Services</h3>
+                        <p>Professional video editing to tell your story in a compelling way.</p>
+                    </div>
                 </div>
-                <div class="solution-card animate-on-scroll slide-right">
-                    <div class="solution-icon"><i class="fas fa-eye text-orange-400"></i></div>
-                    <div><h3 class="text-2xl font-semibold mb-3">Computer Vision</h3><p class="text-gray-300">Automate visual recognition tasks with our advanced image processing solutions.</p></div>
+
+                <!-- Marketing Services -->
+                <div class="circular-service-box animate-on-scroll scale-in" style="--glow-color: #10b981; --angle: 315deg; transition-delay: 0.3s;">
+                    <div>
+                        <i class="fas fa-bullhorn circular-icon" style="color: #10b981;"></i>
+                        <h3>Marketing Services</h3>
+                        <p>Comprehensive marketing strategies designed to grow your audience.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -678,15 +768,6 @@ void main() {
                         <a href="https://gemini.google.com/" class="footer-link underline text-blue-300 hover:text-blue-400" target="_blank" rel="noopener noreferrer">Gemini (Google)</a>
                         <a href="https://copilot.microsoft.com/" class="footer-link underline text-blue-300 hover:text-blue-400" target="_blank" rel="noopener noreferrer">Copilot (Microsoft)</a>
                         <a href="https://perplexity.ai/" class="footer-link underline text-blue-300 hover:text-blue-400" target="_blank" rel="noopener noreferrer">Perplexity AI</a>
-                    </div>
-                    <div class="mt-4">
-                        <h5 class="font-bold text-white mb-2">Articles & Guides</h5>
-                        <ul class="space-y-2 text-sm">
-                            <li><a href="https://www.huggingface.co/blog/llm-quickstart" class="footer-link underline text-blue-200 hover:text-blue-400" target="_blank" rel="noopener noreferrer">How to Use LLMs (HuggingFace)</a></li>
-                            <li><a href="https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/models" class="footer-link underline text-blue-200 hover:text-blue-400" target="_blank" rel="noopener noreferrer">Azure OpenAI Model Guide</a></li>
-                            <li><a href="https://www.datacamp.com/tutorial/large-language-models" class="footer-link underline text-blue-200 hover:text-blue-400" target="_blank" rel="noopener noreferrer">Intro to LLMs (DataCamp)</a></li>
-                            <li><a href="https://www.analyticsvidhya.com/blog/2023/06/large-language-models-llms/" class="footer-link underline text-blue-200 hover:text-blue-400" target="_blank" rel="noopener noreferrer">LLMs Explained (Analytics Vidhya)</a></li>
-                        </ul>
                     </div>
                 </div>
             </div>
