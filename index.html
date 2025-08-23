@@ -1,204 +1,174 @@
-/* Existing styles from your file... */
+<!-- MODIFIED: Navbar -->
+<nav class="navbar fixed top-0 left-0 w-full z-50">
+    <div class="container mx-auto px-4 flex justify-between md:grid md:grid-cols-3 items-center h-full">
+        
+        <!-- Left-aligned Nav Links (Desktop) -->
+        <ul class="navbar-menu hidden md:flex items-center space-x-6 lg:space-x-8 justify-start">
+            <li><a href="#home" class="nav-link active">Home</a></li>
+            <li><a href="#services" class="nav-link">Services</a></li>
+            <li><a href="#solutions" class="nav-link">Solutions</a></li>
+        </ul>
 
-/* END PERPLEXITY DESIGN SYSTEM */
-/* Custom styles for Future AI 4 All */
+        <!-- Centered Logo and Bubbles -->
+        <div class="text-center w-full md:w-auto">
+            <a href="#home" class="logo"><span>PINNACLE AI SOLUTIONS</span></a>
+            <div class="header-bubbles hidden md:flex justify-center space-x-2 mt-2">
+                <a href="https://pinnacleaisolutions.github.io/aitraining/" target="_blank" rel="noopener noreferrer" class="bubble-free">Learn AI For Free</a>
+                <a href="#services" class="bubble-sale">AI Programs For Sale</a>
+            </div>
+        </div>
 
-/* Header/Navigation */
-.header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--color-border);
-  transition: background var(--duration-normal) var(--ease-standard);
-}
+        <!-- Right-aligned Nav Links and Hamburger -->
+        <div class="flex items-center justify-end">
+            <ul class="navbar-menu hidden md:flex items-center space-x-6 lg:space-x-8">
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="hamburger md:hidden"><span></span><span></span><span></span></div>
+        </div>
+        
+    </div>
+</nav>
 
-[data-color-scheme="dark"] .header {
-  background: rgba(31, 33, 33, 0.95);
-}
+<!-- Hero Section -->
+<section id="home" class="hero">
+    <iframe scrolling="no" title="Creative Black Hole" src="https://cdpn.io/wodniack/debug/VYwGEGg" class="codepen-full-bg-iframe"></iframe>
+    <div class="hero-content">
+        <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-6 animate-on-scroll">Intelligent Solutions for the Digital Age</h1>
+        <p class="text-lg md:text-xl font-light mb-10 animate-on-scroll" style="animation-delay: 0.2s;">Harness the power of AI to transform your business operations and customer experiences.</p>
+        <div class="hero-buttons flex justify-center space-x-4 animate-on-scroll" style="animation-delay: 0.4s;">
+            <a href="#services" class="btn-primary-hero">Explore Services</a>
+            <a href="#contact" class="btn-outline-hero">Get Started</a>
+        </div>
+    </div>
+</section>
 
-@media (prefers-color-scheme: dark) {
-  .header {
-    background: rgba(31, 33, 33, 0.95);
-  }
-}
+<!-- Services Section with Vibrant Boxes -->
+<section id="services" class="section py-20 bg-gray-900 text-white">
+    <div class="container mx-auto px-4 relative z-10">
+        <div class="section-header text-center mb-16 animate-on-scroll">
+            <h2 class="text-4xl font-bold mb-4">Our Services</h2>
+            <p class="text-xl text-gray-400">Comprehensive AI-powered solutions tailored to your business needs</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+            <div class="box animate-on-scroll scale-in">
+                <div class="service-icon mb-6"><i class="fas fa-desktop"></i></div>
+                <h3 class="text-2xl font-semibold mb-4">Custom Websites</h3>
+                <p class="mb-6">Custom landing pages with advanced coding and animations.</p>
+            </div>
+            <div class="box animate-on-scroll scale-in">
+                <div class="service-icon mb-6"><i class="fas fa-comments"></i></div>
+                <h3 class="text-2xl font-semibold mb-4">Chat Box Integration</h3>
+                <p class="mb-6">Seamlessly integrate intelligent chat boxes into any of your services.</p>
+            </div>
+            <div class="box animate-on-scroll scale-in">
+                <div class="service-icon mb-6"><i class="fas fa-brain"></i></div>
+                <h3 class="text-2xl font-semibold mb-4">Custom AI Solutions</h3>
+                <p class="mb-6">Bespoke AI solutions tailored to solve your unique business challenges.</p>
+            </div>
+        </div>
+    </div>
+</section>
 
-/* MODIFIED: Updated nav-container for new layout */
-.nav-container {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 var(--space-16);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 70px;
-}
+<!-- Creative Services Section with Gradient Background and Animated Boxes -->
+<section id="solutions" class="section py-20 text-white">
+    <div class="container mx-auto px-4">
+        <div class="section-header text-center mb-16 animate-on-scroll">
+            <h2 class="text-4xl font-bold mb-4">Our Creative Services</h2>
+            <p class="text-xl text-gray-400">Engaging solutions to elevate your brand's presence</p>
+        </div>
+        <div class="circular-service-container">
+            <div class="circular-service-box animate-on-scroll scale-in" style="--glow-color: #3b82f6;"><div><i class="fas fa-chalkboard-teacher circular-icon" style="color: #3b82f6;"></i><h3>Virtual Training</h3><p>One-on-one virtual training sessions to help you master new skills.</p></div></div>
+            <div class="circular-service-box animate-on-scroll scale-in" style="--glow-color: #ec4899;"><div><i class="fas fa-users circular-icon" style="color: #ec4899;"></i><h3>Social Media Management</h3><p>Strategic and creative management of your social media platforms.</p></div></div>
+            <div class="circular-service-box animate-on-scroll scale-in" style="--glow-color: #8b5cf6;"><div><i class="fas fa-video circular-icon" style="color: #8b5cf6;"></i><h3>Video Editing Services</h3><p>Professional video editing to tell your story in a compelling way.</p></div></div>
+            <div class="circular-service-box animate-on-scroll scale-in" style="--glow-color: #10b981;"><div><i class="fas fa-bullhorn circular-icon" style="color: #10b981;"></i><h3>Marketing Services</h3><p>Comprehensive marketing strategies designed to grow your audience.</p></div></div>
+        </div>
+    </div>
+</section>
 
-/* NEW: Styles for left and right sections of the header */
-.nav-left, .nav-right {
-    display: flex;
-    align-items: center;
-    gap: var(--space-16);
-}
+<!-- About Section -->
+<section id="about" class="section py-20 bg-gray-900 text-white">
+    <div class="container mx-auto px-4">
+        <div class="section-header text-center mb-16 animate-on-scroll">
+            <h2 class="text-4xl font-bold mb-4">About Us</h2>
+            <p class="text-xl text-gray-400">Innovative AI solutions for forward-thinking businesses</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div class="animate-on-scroll">
+                <h3 class="text-3xl font-semibold mb-6 text-gradient">Who We Are</h3>
+                <p class="mb-4 text-gray-300">Pinnacle AI Solutions is a team of passionate engineers, data scientists, and designers dedicated to delivering cutting-edge artificial intelligence solutions.</p>
+                <p class="text-gray-300">We combine technical expertise with business acumen to create tools that drive real results for our clients across industries, fostering growth and efficiency.</p>
+            </div>
+            <div class="animate-on-scroll">
+                <!-- IMAGE SOURCE UPDATED HERE -->
+                <img src="BBBBBB.png" alt="Pinnacle AI Solutions Logo" class="about-image w-full h-full object-cover">
+            </div>
+        </div>
+    </div>
+</section>
 
-.nav-brand h2 {
-  color: var(--color-primary);
-  font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-bold);
-  margin: 0;
-}
+<!-- Contact Section -->
+<section id="contact" class="section py-20 bg-gray-800 text-white">
+    <canvas id="codepenCanvasContactBackground"></canvas>
+    <div class="container mx-auto px-4 relative z-10">
+        <div class="section-header text-center mb-12 animate-on-scroll">
+            <h2 class="text-4xl font-bold mb-4">Get In Touch</h2>
+            <p class="text-xl text-gray-400">Ready to transform your business with AI? Contact us today.</p>
+        </div>
+        <div class="max-w-3xl mx-auto">
+            <form action="https://formsubmit.co/futureai4all@gmail.com" method="POST" class="contact-form p-8 bg-gray-900 rounded-xl shadow-xl border border-gray-700">
+                <div class="space-y-6">
+                    <div><label for="name" class="block text-gray-300 text-sm font-bold mb-2">Name</label><input type="text" id="name" name="name" class="form-input" placeholder="Your Name" required></div>
+                    <div><label for="email" class="block text-gray-300 text-sm font-bold mb-2">Email</label><input type="email" id="email" name="email" class="form-input" placeholder="you@example.com" required></div>
+                    <div><label for="message" class="block text-gray-300 text-sm font-bold mb-2">Message</label><textarea id="message" name="message" rows="6" class="form-input" placeholder="Your Message" required></textarea></div>
+                </div>
+                <button type="submit" class="btn-primary w-full py-3 mt-8">Send Message</button>
+            </form>
+        </div>
+    </div>
+</section>
 
-.nav-brand h2 a {
-    color: inherit;
-    text-decoration: none;
-}
+<!-- Footer -->
+<footer class="footer py-16 bg-gray-950 text-gray-300">
+    <div id="footer-shader-canvas-container"></div>
+    <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-12 pb-12 border-b border-gray-700">
+            <div><h3 class="text-3xl font-bold mb-6 footer-logo-text">Pinnacle AI</h3><p class="text-gray-400">Transforming businesses with intelligent AI solutions.</p></div>
+            <div><h4 class="text-2xl font-semibold mb-6 text-white">Quick Links</h4><ul class="space-y-3"><li><a href="#home" class="footer-link">Home</a></li><li><a href="#services" class="footer-link">Services</a></li><li><a href="#about" class="footer-link">About</a></li><li><a href="#contact" class="footer-link">Contact</a></li></ul></div>
+            <div><h4 class="text-2xl font-semibold mb-6 text-white">Our Expertise</h4><ul class="space-y-3"><li><a href="#" class="footer-link">AI Integration</a></li><li><a href="#" class="footer-link">Data Analytics</a></li><li><a href="#" class="footer-link">Machine Learning</a></li></ul></div>
+            <div><h4 class="text-2xl font-semibold mb-6 text-white">Learn AI</h4><a href="https://pinnacleaisolutions.github.io/aitraining/" class="footer-link" target="_blank" rel="noopener noreferrer">Learn AI for Free</a></div>
+        </div>
+        <div class="copyright pt-8">
+            <p>© 2023 Pinnacle AI Solutions. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
 
-/* NEW: Styles for the custom action buttons */
-.header-actions {
-    display: flex;
-    gap: var(--space-8);
-}
+<!-- Floating "Call Us" Button -->
+<a href="tel:3524438670" class="call-us-fab" aria-label="Call Us">
+    <i class="fas fa-phone"></i>
+    <span class="fab-text">Call Us</span>
+</a>
 
-.btn-cta {
-    padding: var(--space-6) var(--space-12);
-    border-radius: var(--radius-full);
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-medium);
-    text-decoration: none;
-    color: var(--color-white);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    border: none;
-}
+<script src="https://raw.githack.com/strangerintheq/rgba/0.0.8/rgba.js"></script>
+<script src="script.js"></script>
 
-.btn-cta:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-}
-
-.btn-cta--learn {
-    background-color: var(--color-teal-500); /* Blue/Teal */
-    color: var(--color-white);
-}
-
-.btn-cta--sale {
-    background-color: var(--color-orange-400); /* Orange */
-    color: var(--color-white);
-}
-
-[data-color-scheme="dark"] .btn-cta--learn {
-    background-color: var(--color-teal-400);
-    color: var(--color-charcoal-800);
-}
-
-[data-color-scheme="dark"] .btn-cta--sale {
-    background-color: var(--color-orange-400);
-    color: var(--color-charcoal-800);
-}
-
-
-.nav-menu {
-  display: flex;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  gap: var(--space-32);
-}
-
-.nav-link {
-  color: var(--color-text);
-  font-weight: var(--font-weight-medium);
-  transition: color var(--duration-fast) var(--ease-standard);
-}
-
-.nav-link:hover {
-  color: var(--color-primary);
-}
-
-.nav-toggle {
-  display: none;
-  flex-direction: column;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: var(--space-4);
-}
-
-.nav-toggle span {
-  width: 25px;
-  height: 3px;
-  background: var(--color-text);
-  margin: 3px 0;
-  transition: all var(--duration-fast) var(--ease-standard);
-}
-
-/* ... rest of your existing CSS ... */
-
-/* Responsive Design */
-@media (max-width: 992px) {
-    /* On smaller desktops, hide the main nav links */
-    .nav-menu {
-        display: none;
-    }
-}
-
-@media (max-width: 768px) {
-  .nav-menu {
-    position: fixed;
-    top: 70px;
-    left: -100%;
-    width: 100%;
-    height: calc(100vh - 70px);
-    background: var(--color-surface);
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    padding-top: var(--space-32);
-    transition: left var(--duration-normal) var(--ease-standard);
-    border-top: 1px solid var(--color-border);
-    display: flex; /* Ensure it's flex for the menu items */
-  }
-
-  .nav-menu.active {
-    left: 0;
-  }
-
-  /* Show the hamburger menu icon */
-  .nav-toggle {
-    display: flex;
-  }
-
-  /* Make sure the main nav menu is hidden by default */
-  .nav-right > .nav-menu {
-      display: none;
-  }
-  
-  .nav-toggle.active span:nth-child(1) {
-    transform: rotate(45deg) translate(6px, 6px);
-  }
-
-  .nav-toggle.active span:nth-child(2) {
-    opacity: 0;
-  }
-
-  .nav-toggle.active span:nth-child(3) {
-    transform: rotate(-45deg) translate(6px, -6px);
-  }
-
-  /* Adjust button size on small screens */
-  .btn-cta {
-      padding: 4px 10px;
-      font-size: 11px;
-  }
-
-  .nav-brand h2 {
-      font-size: 18px;
-  }
-
-  /* ... rest of your responsive CSS ... */
-}
-
-
-/* ... rest of your file ... */
+<!-- JAVASCRIPT FOR SCROLL ANIMATIONS -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const animatedElements = document.querySelectorAll('.animate-on-scroll');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+        animatedElements.forEach(el => {
+            observer.observe(el);
+        });
+    });
+</script>
