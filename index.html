@@ -113,7 +113,7 @@
         @media (max-width: 767px) {
             .larger-ai-svg { width: 40px; height: 40px; margin-left: 0.5rem; }
             .logo { font-size: 1.5rem; white-space: normal; }
-            .navbar { padding-top: 1rem; padding-bottom: 1rem; }
+            .navbar { padding-top: 1rem; padding-bottom: 1rem; height: 3.5rem; /* Approx 56px */ }
             
             /* Responsive fix for hero section iframe */
             .codepen-full-bg-iframe {
@@ -314,6 +314,11 @@
             .call-us-fab i {
                 margin-right: 0;
             }
+
+            /* FIX: Add padding to body to prevent overlap from fixed nav and button bar */
+            body {
+                padding-top: 7rem; /* 3.5rem for nav + 3.5rem for button bar */
+            }
         }
     </style>
 </head>
@@ -365,6 +370,12 @@
             </div>
         </div>
     </nav>
+
+    <!-- FIX: ADDED MOBILE CTA BUTTON BAR -->
+    <div id="mobile-cta-bar" class="fixed top-14 left-0 w-full bg-gray-900 p-3 z-40 md:hidden flex justify-center items-center gap-4 border-b border-gray-800 shadow-lg">
+        <a href="ai-programs.html" target="_blank" rel="noopener noreferrer" class="btn-secondary text-sm py-2 px-4">AI PROGRAMS</a>
+        <a href="https://pinnacleaisolutions.github.io/aitraining/" target="_blank" rel="noopener noreferrer" class="btn-primary text-sm py-2 px-4">Learn AI Free</a>
+    </div>
 
     <!-- Hero Section -->
     <section id="home" class="hero relative overflow-hidden flex items-center justify-center text-center text-white">
@@ -992,11 +1003,8 @@ class Editor { /* Interacts with dummy hidden elements, minimal functionality ne
   // Other editor methods (hidden, focus, scroll, keydown, indent) are not essential for a fixed background.
 }
     </script>
-
-    <!-- 
-        FIX: ADDED SCRIPT FOR MOBILE MENU AND OTHER FUNCTIONALITY
-        This script was missing, which is why the mobile menu didn't work.
-    -->
+    
+    <!-- Existing script.js -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
 
@@ -1087,5 +1095,6 @@ class Editor { /* Interacts with dummy hidden elements, minimal functionality ne
 
         });
     </script>
+
 </body>
-</html>```
+</html>
