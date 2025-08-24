@@ -3,326 +3,926 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Programs - Pinnacle AI Solutions</title>
-    <meta name="description" content="Explore ready-to-use AI programs from Pinnacle AI Solutions: web scrapers, chatbots, and data analysis suites.">
-    <meta name="keywords" content="AI programs, web scraper, chatbot, data analysis, predictive analytics, AI solutions, machine learning, deep learning">
+    <title>Pinnacle AI Solutions</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533a71 100%);
+            min-height: 100vh;
+            color: #333;
+            position: relative;
+            overflow-x: hidden;
+            animation: backgroundShift 20s ease-in-out infinite;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 0, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(0, 255, 127, 0.05) 0%, transparent 50%);
+            z-index: -1;
+            animation: backgroundPulse 8s ease-in-out infinite;
+        }
+        @keyframes backgroundPulse {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+        @keyframes backgroundShift {
+            0% { background-color: #0a0a0a; }
+            25% { background-color: #1a1a2e; }
+            50% { background-color: #0f3460; }
+            75% { background-color: #533a71; }
+            100% { background-color: #0a0a0a; }
+        }
+        .hero {
+            text-align: center;
+            padding: 100px 20px;
+            background:
+                linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(26, 26, 46, 0.8) 50%, rgba(15, 52, 96, 0.7) 100%);
+            backdrop-filter: blur(20px);
+            border-bottom: 2px solid rgba(0, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(0, 255, 255, 0.1), rgba(255, 0, 255, 0.1), rgba(0, 255, 127, 0.1), transparent);
+            animation: heroRotate 20s linear infinite;
+            z-index: -1;
+        }
+        @keyframes heroRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .hero h1 {
+            font-size: 5em;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 30px;
+            text-shadow:
+                0 0 10px rgba(0, 255, 255, 0.6),
+                0 0 20px rgba(0, 255, 255, 0.3);
+            letter-spacing: -1px;
+            position: relative;
+            font-family: 'Orbitron', sans-serif;
+            animation: gentleGlow 4s ease-in-out infinite alternate;
+        }
+        .hero h1::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            background: linear-gradient(45deg,
+                rgba(0, 255, 255, 0.2),
+                rgba(255, 255, 255, 0.1),
+                rgba(0, 255, 255, 0.2));
+            border-radius: 15px;
+            z-index: -1;
+            filter: blur(15px);
+            animation: subtleHalo 6s ease-in-out infinite;
+        }
+        @keyframes futuristicFlow {
+            0% { background-position: 0% 50%; }
+            20% { background-position: 100% 25%; }
+            40% { background-position: 50% 100%; }
+            60% { background-position: 25% 75%; }
+            80% { background-position: 75% 0%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes holoGlow {
+            0% {
+                filter:
+                    drop-shadow(0 0 10px rgba(0, 255, 255, 0.8))
+                    drop-shadow(0 0 20px rgba(255, 0, 255, 0.6))
+                   drop-shadow(0 0 30px rgba(0, 255, 127, 0.4))
+                   brightness(1);
+               text-shadow:
+                    0 0 20px rgba(0, 255, 255, 0.8),
+                    0 0 40px rgba(255, 0, 255, 0.6),
+                   0 0 60px rgba(0, 255, 127, 0.4);
+            }
+            100% {
+                filter:
+                    drop-shadow(0 0 20px rgba(255, 0, 255, 1))
+                    drop-shadow(0 0 40px rgba(0, 255, 255, 0.8))
+                   drop-shadow(0 0 50px rgba(64, 224, 208, 0.6))
+                   brightness(1.4);
+               text-shadow:
+                    0 0 40px rgba(255, 0, 255, 1),
+                    0 0 80px rgba(0, 255, 255, 0.8),
+                   0 0 120px rgba(255, 255, 0, 0.6);
+            }
+        }
+        @keyframes cyberpunkShimmer {
+            0%, 100% { background-position: 0% 50%; }
+            25% { background-position: 100% 25%; }
+            50% { background-position: 50% 100%; }
+            75% { background-position: 25% 75%; }
+        }
+        @keyframes holoRotate {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.1); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+        .programs-for-sale {
+            margin: 30px 0 40px 0;
+            perspective: 1000px;
+            position: relative;
+            display: inline-block;
+            padding: 25px 45px;
+            background: linear-gradient(135deg,
+                rgba(8, 8, 12, 0.95),
+                rgba(15, 15, 20, 0.95),
+                rgba(12, 12, 18, 0.95));
+            border: 2px solid rgba(64, 64, 80, 0.8);
+            border-radius: 15px;
+            box-shadow:
+                0 10px 30px rgba(0, 0, 0, 0.7),
+                0 0 20px rgba(20, 20, 30, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            animation: darkBoxGlow 6s ease-in-out infinite;
+            backdrop-filter: blur(15px);
+        }
+        .programs-for-sale::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            background: linear-gradient(45deg,
+                rgba(40, 40, 50, 0.8),
+                rgba(60, 60, 70, 0.8),
+                rgba(40, 40, 50, 0.8));
+            border-radius: 15px;
+            z-index: -1;
+            animation: darkBorderFlow 8s ease-in-out infinite;
+        }
+        .programs-text {
+            font-size: 2.6em;
+            font-weight: 700;
+            color: #e8e8e8;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 2px;
+            text-shadow:
+                0 0 10px rgba(255, 255, 255, 0.6),
+                0 0 20px rgba(220, 220, 220, 0.4),
+                0 0 30px rgba(200, 200, 200, 0.3);
+            animation: darkWhiteGlow 4s ease-in-out infinite alternate;
+            margin: 0;
+            text-transform: uppercase;
+            position: relative;
+        }
+        .programs-text::before {
+            content: 'AI PROGRAMS FOR SALE';
+            position: absolute;
+            top: 0;
+            left: 0;
+            color: #d0d0d0;
+            text-shadow:
+                0 0 5px rgba(255, 255, 255, 0.3),
+                0 0 15px rgba(200, 200, 200, 0.2);
+            animation: darkWhiteShine 6s ease-in-out infinite;
+            z-index: -1;
+            filter: blur(1px);
+            opacity: 0.7;
+        }
+        @keyframes darkWhiteGlow {
+            0% {
+                color: #e8e8e8;
+                text-shadow:
+                    0 0 10px rgba(255, 255, 255, 0.6),
+                    0 0 20px rgba(220, 220, 220, 0.4),
+                    0 0 30px rgba(200, 200, 200, 0.3);
+            }
+            100% {
+                color: #f5f5f5;
+                text-shadow:
+                    0 0 15px rgba(255, 255, 255, 0.8),
+                    0 0 25px rgba(240, 240, 240, 0.5),
+                    0 0 40px rgba(220, 220, 220, 0.4);
+            }
+        }
+        @keyframes darkWhiteShine {
+            0%, 100% {
+                color: #d0d0d0;
+                text-shadow:
+                    0 0 5px rgba(255, 255, 255, 0.3),
+                    0 0 15px rgba(200, 200, 200, 0.2);
+            }
+            50% {
+                color: #e0e0e0;
+                text-shadow:
+                    0 0 8px rgba(255, 255, 255, 0.4),
+                    0 0 20px rgba(220, 220, 220, 0.3);
+            }
+        }
+        @keyframes darkBoxGlow {
+            0%, 100% {
+                box-shadow:
+                    0 10px 30px rgba(0, 0, 0, 0.7),
+                    0 0 20px rgba(20, 20, 30, 0.5),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            }
+            50% {
+                box-shadow:
+                    0 15px 40px rgba(0, 0, 0, 0.8),
+                    0 0 30px rgba(30, 30, 40, 0.6),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            }
+        }
+        @keyframes darkBorderFlow {
+            0%, 100% {
+                background: linear-gradient(45deg,
+                    rgba(40, 40, 50, 0.8),
+                    rgba(60, 60, 70, 0.8),
+                    rgba(40, 40, 50, 0.8));
+            }
+            50% {
+                background: linear-gradient(45deg,
+                    rgba(60, 60, 70, 0.8),
+                    rgba(80, 80, 90, 0.8),
+                    rgba(60, 60, 70, 0.8));
+            }
+        }
+        @keyframes metallicFlow {
+            0% { background-position: 0% 50%; }
+            25% { background-position: 100% 25%; }
+            50% { background-position: 50% 100%; }
+            75% { background-position: 25% 75%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes darkMetallicGlow {
+            0% {
+                text-shadow:
+                    0 0 8px rgba(100, 100, 120, 0.6),
+                    0 0 15px rgba(80, 80, 100, 0.4),
+                    0 0 25px rgba(60, 60, 80, 0.2);
+            }
+            100% {
+                text-shadow:
+                    0 0 12px rgba(120, 120, 140, 0.7),
+                    0 0 20px rgba(100, 100, 120, 0.5),
+                    0 0 35px rgba(80, 80, 100, 0.3);
+            }
+        }
+        @keyframes darkMetallicShine {
+            0%, 100% { background-position: 0% 50%; }
+            33% { background-position: 100% 25%; }
+            66% { background-position: 50% 100%; }
+        }
+        @keyframes gentleGlow {
+            0% {
+                text-shadow:
+                    0 0 10px rgba(0, 255, 255, 0.6),
+                    0 0 20px rgba(0, 255, 255, 0.3);
+            }
+            100% {
+                text-shadow:
+                    0 0 15px rgba(0, 255, 255, 0.8),
+                    0 0 25px rgba(0, 255, 255, 0.4);
+            }
+        }
+        @keyframes subtleHalo {
+            0%, 100% {
+                background: linear-gradient(45deg,
+                    rgba(0, 255, 255, 0.2),
+                    rgba(255, 255, 255, 0.1),
+                    rgba(0, 255, 255, 0.2));
+            }
+            50% {
+                background: linear-gradient(45deg,
+                    rgba(0, 255, 255, 0.3),
+                    rgba(255, 255, 255, 0.15),
+                    rgba(0, 255, 255, 0.3));
+            }
+        }
+        @keyframes subtleHeaderGlow {
+            0%, 100% {
+                box-shadow:
+                    0 0 15px rgba(0, 212, 255, 0.3),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            }
+            50% {
+                box-shadow:
+                    0 0 20px rgba(0, 212, 255, 0.4),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+            }
+        }
+        @keyframes readableGlow {
+            0% {
+                text-shadow:
+                    0 0 8px rgba(0, 255, 255, 0.4),
+                    0 0 15px rgba(0, 255, 255, 0.2);
+            }
+            100% {
+                text-shadow:
+                    0 0 12px rgba(0, 255, 255, 0.5),
+                    0 0 20px rgba(0, 255, 255, 0.25);
+            }
+        }
+        @keyframes neonPulse {
+            0% { background-position: 0% 50%; }
+            20% { background-position: 100% 75%; }
+            40% { background-position: 50% 100%; }
+            60% { background-position: 25% 25%; }
+            80% { background-position: 75% 0%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes cyberGlow {
+            0% {
+                filter:
+                    drop-shadow(0 0 15px rgba(0, 255, 255, 0.9))
+                    drop-shadow(0 0 25px rgba(255, 0, 255, 0.7))
+                   drop-shadow(0 0 35px rgba(0, 255, 127, 0.5))
+                   brightness(1);
+               text-shadow:
+                    0 0 30px rgba(0, 255, 255, 0.8),
+                    0 0 60px rgba(255, 0, 255, 0.6),
+                    0 0 90px rgba(0, 255, 127, 0.4);
+            }
+            100% {
+                filter:
+                    drop-shadow(0 0 25px rgba(255, 0, 255, 1))
+                    drop-shadow(0 0 40px rgba(0, 255, 255, 0.8))
+                   drop-shadow(0 0 55px rgba(255, 255, 0, 0.6))
+                   brightness(1.4);
+               text-shadow:
+                    0 0 40px rgba(255, 0, 255, 1),
+                    0 0 80px rgba(0, 255, 255, 0.8),
+                   0 0 120px rgba(255, 255, 0, 0.6);
+            }
+        }
+        @keyframes dataStream {
+            0%, 100% { transform: translateY(0px) rotateX(0deg) scale(1); }
+            25% { transform: translateY(-8px) rotateX(3deg) scale(1.02); }
+            50% { transform: translateY(0px) rotateX(0deg) scale(1.05); }
+            75% { transform: translateY(-5px) rotateX(-2deg) scale(1.02); }
+        }
+        @keyframes circuitFlow {
+            0%, 100% { background-position: 0% 50%; }
+            25% { background-position: 100% 25%; }
+            50% { background-position: 50% 100%; }
+            75% { background-position: 25% 75%; }
+        }
+        @keyframes quantumSpin {
+            0% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(90deg) scale(1.1); }
+            50% { transform: rotate(180deg) scale(0.9); }
+            75% { transform: rotate(270deg) scale(1.1); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+            min-height: auto;
+            overflow: visible;
+        }
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+            width: 100%;
+            overflow: visible;
+        }
+        .service-card {
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            animation: float 6s ease-in-out infinite;
+            width: 100%;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .service-card:nth-child(odd) {
+            animation-delay: -3s;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(0.5deg); }
+        }
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(255, 215, 0, 0.3), rgba(255, 107, 107, 0.3), rgba(78, 205, 196, 0.3), transparent);
+            transform: rotate(0deg);
+            transition: all 0.8s ease;
+            opacity: 0;
+            animation: rotateGradient 4s linear infinite;
+        }
+        @keyframes rotateGradient {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .service-card::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            bottom: 2px;
+            backdrop-filter: blur(20px);
+            border-radius: 18px;
+            z-index: -1;
+        }
+        .service-card:hover::before {
+            opacity: 1;
+            animation: rotateGradient 2s linear infinite, pulse 1s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.1); }
+        }
+        /* Individual Card Color Schemes */
+        .card-training {
+            background: linear-gradient(135deg, rgba(74, 144, 226, 0.25), rgba(123, 104, 238, 0.2));
+            border: 2px solid rgba(74, 144, 226, 0.4);
+            box-shadow:
+                0 15px 35px rgba(74, 144, 226, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.25);
+        }
+        .card-training:hover {
+            transform: translateY(-20px) scale(1.05) rotateX(5deg);
+            background: linear-gradient(135deg, rgba(74, 144, 226, 0.4), rgba(123, 104, 238, 0.35));
+            border: 2px solid rgba(74, 144, 226, 0.7);
+            box-shadow:
+                0 25px 50px rgba(74, 144, 226, 0.4),
+                0 0 40px rgba(123, 104, 238, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.35);
+        }
+        .card-chatbot {
+            background: linear-gradient(135deg, rgba(255, 107, 157, 0.25), rgba(255, 99, 132, 0.2));
+            border: 2px solid rgba(255, 107, 157, 0.4);
+            box-shadow:
+                0 15px 35px rgba(255, 107, 157, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.25);
+        }
+        .card-chatbot:hover {
+            transform: translateY(-20px) scale(1.05) rotateX(5deg);
+            background: linear-gradient(135deg, rgba(255, 107, 157, 0.4), rgba(255, 99, 132, 0.35));
+            border: 2px solid rgba(255, 107, 157, 0.7);
+            box-shadow:
+                0 25px 50px rgba(255, 107, 157, 0.4),
+                0 0 40px rgba(255, 99, 132, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.35);
+        }
+        .card-website {
+            background: linear-gradient(135deg, rgba(78, 205, 196, 0.25), rgba(80, 201, 195, 0.2));
+            border: 2px solid rgba(78, 205, 196, 0.4);
+            box-shadow:
+                0 15px 35px rgba(78, 205, 196, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.25);
+        }
+        .card-website:hover {
+            transform: translateY(-20px) scale(1.05) rotateX(5deg);
+            background: linear-gradient(135deg, rgba(78, 205, 196, 0.4), rgba(80, 201, 195, 0.35));
+            border: 2px solid rgba(78, 205, 196, 0.7);
+            box-shadow:
+                0 25px 50px rgba(78, 205, 196, 0.4),
+                0 0 40px rgba(80, 201, 195, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.35);
+        }
+        .card-integration {
+            background: linear-gradient(135deg, rgba(196, 113, 237, 0.25), rgba(155, 89, 182, 0.2));
+            border: 2px solid rgba(196, 113, 237, 0.4);
+            box-shadow:
+                0 15px 35px rgba(196, 113, 237, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.25);
+        }
+        .card-integration:hover {
+            transform: translateY(-20px) scale(1.05) rotateX(5deg);
+            background: linear-gradient(135deg, rgba(196, 113, 237, 0.4), rgba(155, 89, 182, 0.35));
+            border: 2px solid rgba(196, 113, 237, 0.7);
+            box-shadow:
+                0 25px 50px rgba(196, 113, 237, 0.4),
+                0 0 40px rgba(155, 89, 182, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.35);
+        }
+        .card-automation {
+            background: linear-gradient(135deg, rgba(255, 193, 7, 0.25), rgba(255, 152, 0, 0.2));
+            border: 2px solid rgba(255, 193, 7, 0.4);
+            box-shadow:
+                0 15px 35px rgba(255, 193, 7, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.25);
+        }
+        .card-automation:hover {
+            transform: translateY(-20px) scale(1.05) rotateX(5deg);
+            background: linear-gradient(135deg, rgba(255, 193, 7, 0.4), rgba(255, 152, 0, 0.35));
+            border: 2px solid rgba(255, 193, 7, 0.7);
+            box-shadow:
+                0 25px 50px rgba(255, 193, 7, 0.4),
+                0 0 40px rgba(255, 152, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.35);
+        }
+        .card-custom {
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.25), rgba(67, 160, 71, 0.2));
+            border: 2px solid rgba(76, 175, 80, 0.4);
+            box-shadow:
+                0 15px 35px rgba(76, 175, 80, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.25);
+        }
+        .card-custom:hover {
+            transform: translateY(-20px) scale(1.05) rotateX(5deg);
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.4), rgba(67, 160, 71, 0.35));
+            border: 2px solid rgba(76, 175, 80, 0.7);
+            box-shadow:
+                0 25px 50px rgba(76, 175, 80, 0.4),
+                0 0 40px rgba(67, 160, 71, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.35);
+        }
+        .service-icon {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #ffd700, #ff6b6b, #4ecdc4, #c471ed);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: iconGlow 3s ease-in-out infinite, iconMove 4s ease-in-out infinite;
+            filter: drop-shadow(0 0 10px #ffd700);
+            transform-style: preserve-3d;
+        }
+        @keyframes iconGlow {
+            0%, 100% { background-position: 0% 50%; filter: drop-shadow(0 0 10px #ffd700); }
+            50% { background-position: 100% 50%; filter: drop-shadow(0 0 20px #ff6b6b); }
+        }
+        @keyframes iconMove {
+            0%, 100% { transform: rotateY(0deg) scale(1); }
+            25% { transform: rotateY(90deg) scale(1.1); }
+            50% { transform: rotateY(180deg) scale(1); }
+            75% { transform: rotateY(270deg) scale(1.1); }
+        }
+        .service-card h3 {
+            font-size: 1.8em;
+            color: white;
+            margin-bottom: 15px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        .service-card p {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+            font-size: 1.1em;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #00ffff, #ff00ff, #00ff7f, #ffffff);
+            background-size: 300% 300%;
+            color: #000;
+            padding: 18px 45px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            margin-top: 30px;
+            transition: all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+            box-shadow:
+                0 10px 30px rgba(0, 0, 0, 0.5),
+                0 0 30px rgba(0, 255, 255, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            animation: buttonPulse 4s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid rgba(0, 255, 255, 0.8);
+            font-family: 'Courier New', monospace;
+            letter-spacing: 1px;
+        }
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
+            transition: left 0.6s;
+        }
+        .cta-button:hover::before {
+            left: 100%;
+        }
+        @keyframes buttonPulse {
+            0%, 100% {
+                background-position: 0% 50%;
+                box-shadow:
+                    0 10px 30px rgba(0, 0, 0, 0.5),
+                    0 0 30px rgba(0, 255, 255, 0.6),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            }
+            50% {
+                background-position: 100% 50%;
+                box-shadow:
+                    0 15px 40px rgba(0, 0, 0, 0.6),
+                    0 0 50px rgba(255, 0, 255, 0.8),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            }
+        }
+        .cta-button:hover {
+            transform: translateY(-8px) scale(1.08);
+            box-shadow:
+                0 25px 50px rgba(0, 0, 0, 0.6),
+                0 0 60px rgba(0, 255, 255, 0.9),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            border: 2px solid rgba(255, 0, 255, 1);
+        }
+        .footer {
+            text-align: center;
+            padding: 80px 20px;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(20, 20, 40, 0.6) 100%);
+            color: rgba(255, 255, 255, 0.9);
+            margin-top: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="%23ffd700" opacity="0.1"><polygon points="0,0 1000,100 0,100"/></svg>');
+            animation: waveMove 8s ease-in-out infinite;
+        }
+        @keyframes waveMove {
+            0%, 100% { transform: translateX(-50px) scale(1); }
+            50% { transform: translateX(50px) scale(1.1); }
+        }
+        .contact-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 50px 40px;
+            margin: 40px auto;
+            max-width: 800px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            animation: contactPulse 4s ease-in-out infinite;
+            position: relative;
+        }
+        @keyframes contactPulse {
+            0%, 100% {
+                box-shadow:
+                    0 20px 60px rgba(0, 0, 0, 0.3),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                    0 0 0 0 rgba(255, 215, 0, 0);
+            }
+            50% {
+                box-shadow:
+                    0 25px 80px rgba(0, 0, 0, 0.4),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+                    0 0 0 20px rgba(255, 215, 0, 0.1);
+            }
+        }
+        .contact-title {
+            font-size: 2.8em;
+            font-weight: 800;
+            color: #e8e8e8;
+            margin-bottom: 20px;
+            text-shadow:
+                0 0 15px rgba(255, 255, 255, 0.6),
+                0 0 25px rgba(220, 220, 220, 0.4);
+            animation: contactTitleGlow 4s ease-in-out infinite alternate;
+        }
+        @keyframes contactTitleGlow {
+            0% {
+                color: #e8e8e8;
+                text-shadow:
+                    0 0 15px rgba(255, 255, 255, 0.6),
+                    0 0 25px rgba(220, 220, 220, 0.4);
+            }
+            100% {
+                color: #f5f5f5;
+                text-shadow:
+                    0 0 20px rgba(255, 255, 255, 0.8),
+                    0 0 35px rgba(240, 240, 240, 0.5);
+            }
+        }
+        .contact-info {
+            font-size: 3em; /* Made font size much larger */
+            font-weight: 700;
+            color: #00ffff;
+            text-decoration: none;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+            transition: all 0.3s ease;
+            display: block; /* Changed to block for better spacing */
+            margin-top: 25px; /* Added more margin for spacing */
+            animation: contactInfoGlow 2s ease-in-out infinite alternate;
+            font-family: 'Orbitron', sans-serif; /* Changed to Orbitron for a more techy look */
+            letter-spacing: 1px;
+        }
 
-    <!-- Tailwind CSS for utility classes -->
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Google Fonts: Inter (if not already in style.css or imported) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
-    <!-- Link to your external Custom CSS file (now containing all styles from index.html's inline block) -->
-    <link rel="stylesheet" href="style.css"> 
+        @keyframes contactInfoGlow {
+            0% {
+                text-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+                transform: scale(1);
+            }
+            100% {
+                text-shadow: 0 0 40px rgba(0, 255, 255, 1), 0 0 60px rgba(255, 107, 107, 0.7);
+                transform: scale(1.05);
+            }
+        }
+        
+        .contact-info:hover {
+            color: #fff;
+            text-shadow: 0 0 60px rgba(0, 255, 255, 1);
+            transform: scale(1.1);
+        }
+
+        .contact-prompt {
+            animation: subtleBounce 4s ease-in-out infinite;
+            font-size: 1.2em;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        @keyframes subtleBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        .particle {
+            position: absolute;
+            background: radial-gradient(circle, #ffd700 0%, transparent 70%);
+            border-radius: 50%;
+            animation: particleFloat 8s infinite linear;
+        }
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3em;
+            }
+
+            .programs-text {
+                font-size: 2em;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .service-card {
+                padding: 30px 20px;
+            }
+        }
+    </style>
 </head>
-<body class="bg-gray-900 text-gray-200 font-inter">
-    <!-- Navbar (Copied from index.html) -->
-    <nav class="navbar fixed top-0 left-0 w-full z-50 py-4 bg-gray-900 border-b border-gray-700">
-        <div class="container mx-auto px-4 flex justify-between items-center h-full">
-            <!-- Logo -->
-            <a href="index.html#home" class="logo flex items-center">
-                <span class="logo-pinnacle">PINNACLE AI </span>
-                <span class="logo-solutions">SOLUTIONS</span>
-            </a>
-
-            <!-- Hamburger Icon - will be flex on mobile, hidden on md and up -->
-            <div class="hamburger md:hidden flex flex-col justify-center items-center w-10 h-10 cursor-pointer z-50" tabindex="0" aria-label="Open menu" role="button">
-                <span class="block w-8 h-1 bg-white mb-1 rounded transition-all"></span>
-                <span class="block w-8 h-1 bg-white mb-1 rounded transition-all"></span>
-                <span class="block w-8 h-1 bg-white rounded transition-all"></span>
-            </div>
-
-            <!-- Main Menu (Desktop) -->
-            <ul class="navbar-menu hidden md:flex items-center space-x-6 lg:space-x-8">
-                <li><a href="index.html#home" class="nav-link">Home</a></li>
-                <li><a href="index.html#services" class="nav-link">Services</a></li>
-                <li><a href="index.html#solutions" class="nav-link">Solutions</a></li>
-                <li><a href="index.html#about" class="nav-link">About</a></li>
-                <li><a href="index.html#contact" class="nav-link">Contact</a></li>
-                <li class="ml-4"><a href="programs.html" class="btn-secondary btn-secondary-padding active">AI PROGRAMS</a></li>
-                <li><a href="learnaiforfree.html" target="_blank" rel="noopener noreferrer" class="btn-primary btn-primary-padding">Learn AI for Free</a></li>
-            </ul>
-
-            <!-- Mobile menu overlay (Copied from index.html) -->
-            <div class="mobile-menu-overlay">
-                <a href="index.html#home" class="nav-link-mobile text-3xl font-semibold text-white hover:text-blue-400 transition-colors duration-300 mb-4" data-target="home">Home</a>
-                <a href="index.html#services" class="nav-link-mobile text-3xl font-semibold text-white hover:text-blue-400 transition-colors duration-300 mb-4" data-target="services">Services</a>
-                <a href="index.html#solutions" class="nav-link-mobile text-3xl font-semibold text-white hover:text-blue-400 transition-colors duration-300 mb-4" data-target="solutions">Solutions</a>
-                <a href="index.html#about" class="nav-link-mobile text-3xl font-semibold text-white hover:text-blue-400 transition-colors duration-300 mb-4" data-target="about">About</a>
-                <a href="index.html#contact" class="nav-link-mobile text-3xl font-semibold text-white hover:text-blue-400 transition-colors duration-300 mb-6" data-target="contact">Contact</a>
-                <a href="programs.html" class="btn-secondary-mobile w-11/12 max-w-xs text-center py-3 px-4 rounded-full bg-gray-700 text-white font-semibold hover:bg-gray-800 transition mb-4 active">AI PROGRAMS</a>
-                <a href="learnaiforfree.html" target="_blank" rel="noopener noreferrer" class="btn-primary-mobile w-11/12 max-w-xs text-center py-3 px-4 rounded-full bg-blue-600 text-white font-semibold hover:bg-blue-700 transition">Learn AI for Free</a>
-                <!-- Close button for mobile menu -->
-                <button class="close-mobile-menu text-white text-4xl absolute top-6 right-6 focus:outline-none focus:ring-2 focus:ring-blue-400 rounded-full w-12 h-12 flex items-center justify-center">×</button>
-            </div>
-        </div>
-    </nav>
-
-    <!-- AI Programs Section -->
-    <section class="section py-20 pt-32 bg-gray-900 text-white"> <!-- Added py-20 bg-gray-900 text-white for consistency -->
-        <div class="container mx-auto px-4">
-            <div class="section-header text-center mb-16"> <!-- Added text-center mb-16 for consistency -->
-                <h1 class="text-4xl font-bold mb-4 text-gradient">Our AI Programs</h1> <!-- Added text-4xl font-bold mb-4 text-gradient for consistency -->
-                <p class="text-xl text-gray-400">Ready-to-use AI solutions for your business needs</p> <!-- Added text-xl text-gray-400 for consistency -->
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12"> <!-- Adjusted gap for consistency -->
-                <!-- Web Scraper Program -->
-                <div class="program-card bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between"> <!-- Added Tailwind classes -->
-                    <div class="program-image mb-4 rounded-lg overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Web Scraper" class="w-full h-48 object-cover"> <!-- Added image classes -->
-                    </div>
-                    <div class="program-content flex-grow">
-                        <h3 class="text-2xl font-semibold mb-3 text-white">Advanced Web Scraper</h3>
-                        <div class="program-features text-gray-300 space-y-2 mb-4">
-                            <p><i class="fas fa-check-circle text-green-500 mr-2"></i> Extract data from any website</p>
-                            <p><i class="fas fa-check-circle text-green-500 mr-2"></i> Clean and organize collected data</p>
-                            <p><i class="fas fa-check-circle text-green-500 mr-2"></i> Export to CSV/Excel</p>
-                            <p><i class="fas fa-check-circle text-green-500 mr-2"></i> Schedule automatic runs</p>
-                        </div>
-                    </div>
-                    <div class="program-price text-right mt-4">
-                        <span class="price text-3xl font-bold text-gradient-primary block">$499</span>
-                        <span class="license text-sm text-gray-400">One-time purchase</span>
-                    </div>
-                    <button class="btn-primary w-full mt-6 py-3 request-btn" data-program="Advanced Web Scraper">
-                        Request Appointment
-                    </button>
-                </div>
-
-                <!-- Chatbot Program -->
-                <div class="program-card bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between">
-                    <div class="program-image mb-4 rounded-lg overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="AI Chatbot" class="w-full h-48 object-cover">
-                    </div>
-                    <div class="program-content flex-grow">
-                        <h3 class="text-2xl font-semibold mb-3 text-white">Automated AI Chatbot</h3>
-                        <div class="program-features text-gray-300 space-y-2 mb-4">
-                            <p><i class="fas fa-check-circle text-green-500 mr-2"></i> 24/7 customer support</p>
-                            <p><i class="fas fa-check-circle text-green-500 mr-2"></i> Natural language processing</p>
-                            <p><i class="fas fa-check-circle text-green-500 mr-2"></i> Integrates with your website</p>
-                            <p><i class="fas fa-check-circle text-green-500 mr-2"></i> Customizable responses</p>
-                        </div>
-                    </div>
-                    <div class="program-price text-right mt-4">
-                        <span class="price text-3xl font-bold text-gradient-secondary block">$799</span>
-                        <span class="license text-sm text-gray-400">+ $99/month maintenance</span>
-                    </div>
-                    <button class="btn-primary w-full mt-6 py-3 request-btn" data-program="Automated AI Chatbot">
-                        Request Appointment
-                    </button>
-                </div>
-
-                <!-- Data Analyzer -->
-                <div class="program-card bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col justify-between">
-                    <div class="program-image mb-4 rounded-lg overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Data Analysis" class="w-full h-48 object-cover">
-                    </div>
-                    <div class="program-content flex-grow">
-                        <h3 class="text-2xl font-semibold mb-3 text-white">Data Analysis Suite</h3>
-                        <div class="program-features text-gray-300 space-y-2 mb-4">
-                            <p><i class="fas fa-check-circle text-green-500 mr-2"></i> Predictive analytics</p>
-                            <p><i class="fas fa-check-circle text-green-500 mr-2"></i> Custom dashboards</p>
-                            <p><i class="fas fa-check-circle text-green-500 mr-2"></i> Real-time insights</p>
-                            <p><i class="fas fa-check-circle text-green-500 mr-2"></i> Automated reporting</p>
-                        </div>
-                    </div>
-                    <div class="program-price text-right mt-4">
-                        <span class="price text-3xl font-bold text-gradient-primary block">$1,299</span>
-                        <span class="license text-sm text-gray-400">Custom pricing available</span>
-                    </div>
-                    <button class="btn-primary w-full mt-6 py-3 request-btn" data-program="Data Analysis Suite">
-                        Request Appointment
-                    </button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Modal for Appointment Request -->
-    <div class="modal hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div class="modal-content bg-gray-800 rounded-lg p-8 max-w-md w-full text-white shadow-xl border border-gray-700"> <!-- Added Tailwind classes -->
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-bold text-white">Request Appointment</h3>
-                <button class="modal-close text-gray-400 hover:text-white transition">
-                    <i class="fas fa-times text-2xl"></i>
-                </button>
-            </div>
-            <form id="appointment-form">
-                <input type="hidden" id="program-name" name="program-name">
-                <div class="mb-4">
-                    <label for="name" class="block text-gray-300 text-sm font-bold mb-2">Your Name</label>
-                    <input type="text" id="name" name="name" class="form-input" placeholder="Your Name" required>
-                </div>
-                <div class="mb-4">
-                    <label for="email" class="block text-gray-300 text-sm font-bold mb-2">Email Address</label>
-                    <input type="email" id="email" name="email" class="form-input" placeholder="you@example.com" required>
-                </div>
-                <div class="mb-4">
-                    <label for="phone" class="block text-gray-300 text-sm font-bold mb-2">Phone Number</label>
-                    <input type="tel" id="phone" name="phone" class="form-input" placeholder="e.g., (123) 456-7890" required>
-                </div>
-                <div class="mb-4">
-                    <label for="message" class="block text-gray-300 text-sm font-bold mb-2">Additional Information</label>
-                    <textarea id="message" name="message" rows="4" class="form-input resize-y" placeholder="Any specific questions or requirements?"></textarea>
-                </div>
-                <button type="submit" class="btn-primary w-full py-3">
-                    Send Request <i class="fas fa-paper-plane ml-2"></i>
-                </button>
-            </form>
+<body>
+    <div class="hero">
+        <h1>PINNACLE AI SOLUTIONS</h1>
+        <div class="programs-for-sale">
+            <span class="programs-text">AI PROGRAMS FOR SALE</span>
         </div>
     </div>
 
-    <!-- Footer (Copied from index.html) -->
-    <footer class="footer py-16 bg-gray-950 text-gray-300">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 pb-12 border-b border-gray-700">
-                <div class="footer-col">
-                    <h3 class="text-3xl font-bold mb-6 footer-logo-text">Pinnacle AI Solutions</h3>
-                    <p class="text-gray-400 leading-relaxed mb-6">Transforming businesses with intelligent AI solutions that drive innovation and growth, helping you stay ahead in the digital age.</p>
-                    <div class="social-links flex space-x-4">
-                        <a href="https://facebook.com/pinnacleaisolutions" class="social-icon group" title="Facebook" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="social-icon group" title="GitHub" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
-                        <!-- Add other social links as needed -->
-                    </div>
-                </div>
-
-                <div class="footer-col">
-                    <h4 class="text-2xl font-semibold mb-6 text-white">Quick Links</h4>
-                    <ul class="space-y-3">
-                        <li><a href="index.html#home" class="footer-link">Home</a></li>
-                        <li><a href="index.html#services" class="footer-link">Services</a></li>
-                        <li><a href="index.html#solutions" class="footer-link">Solutions</a></li>
-                        <li><a href="index.html#about" class="footer-link">About</a></li>
-                        <li><a href="index.html#contact" class="footer-link">Contact</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-col">
-                    <h4 class="text-2xl font-semibold mb-6 text-white">Our Expertise</h4>
-                    <ul class="space-y-3">
-                        <li><a href="#" class="footer-link">App Development</a></li>
-                        <li><a href="#" class="footer-link">AI Integration</a></li>
-                        <li><a href="#" class="footer-link">Data Analytics</a></li>
-                        <li><a href="#" class="footer-link">Cloud Solutions</a></li>
-                        <li><a href="#" class="footer-link">Machine Learning</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-col">
-                    <h4 class="text-2xl font-semibold mb-6 text-white">Learn AI for Free</h4>
-                    <a href="learnaiforfree.html" class="footer-link block py-2 px-4 rounded bg-blue-600 text-white font-semibold text-center hover:bg-blue-700 transition mb-4" target="_blank" rel="noopener noreferrer">Go to Learn AI Page</a>
-                    <div class="grid grid-cols-1 gap-3">
-                        <a href="https://chat.openai.com/" class="footer-link underline text-blue-300 hover:text-blue-400" target="_blank" rel="noopener noreferrer">ChatGPT (OpenAI)</a>
-                        <a href="https://claude.ai/" class="footer-link underline text-blue-300 hover:text-blue-400" target="_blank" rel="noopener noreferrer">Claude (Anthropic)</a>
-                        <a href="https://gemini.google.com/" class="footer-link underline text-blue-300 hover:text-blue-400" target="_blank" rel="noopener noreferrer">Gemini (Google)</a>
-                        <a href="https://copilot.microsoft.com/" class="footer-link underline text-blue-300 hover:text-blue-400" target="_blank" rel="noopener noreferrer">Copilot (Microsoft)</a>
-                        <a href="https://perplexity.ai/" class="footer-link underline text-blue-300 hover:text-blue-400" target="_blank" rel="noopener noreferrer">Perplexity AI</a>
-                    </div>
-                    <div class="mt-4">
-                        <h5 class="font-bold text-white mb-2">Articles & Guides</h5>
-                        <ul class="space-y-2 text-sm">
-                            <li><a href="https://www.huggingface.co/blog/llm-quickstart" class="footer-link underline text-blue-200 hover:text-blue-400" target="_blank" rel="noopener noreferrer">How to Use LLMs (HuggingFace)</a></li>
-                            <li><a href="https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/models" class="footer-link underline text-blue-200 hover:text-blue-400" target="_blank" rel="noopener noreferrer">Azure OpenAI Model Guide</a></li>
-                            <li><a href="https://www.datacamp.com/tutorial/large-language-models" class="footer-link underline text-blue-200 hover:text-blue-400" target="_blank" rel="noopener noreferrer">Intro to LLMs (DataCamp)</a></li>
-                            <li><a href="https://www.analyticsvidhya.com/blog/2023/06/large-language-models-llms/" class="footer-link underline text-blue-200 hover:text-blue-400" target="_blank" rel="noopener noreferrer">LLMs Explained (Analytics Vidhya)</a></li>
-                        </ul>
-                    </div>
-                </div>
+    <!-- The Services section, completing the grid -->
+    <div class="container" id="services">
+        <div class="services-grid">
+            <!-- Provided service card -->
+            <div class="service-card card-training">
+                <div class="service-icon">🎯</div>
+                <h3>One-on-One Virtual Training</h3>
+                <p>Personalized AI training sessions at reasonable rates with free initial consultations. Get expert guidance tailored to your specific needs and skill level.</p>
             </div>
 
-            <div class="copyright text-center pt-8 text-gray-500 text-sm">
-                <p>© 2023 Pinnacle AI Solutions. All rights reserved.</p>
+            <!-- New service cards to complete the grid -->
+            <div class="service-card card-chatbot">
+                <div class="service-icon">🤖</div>
+                <h3>AI Chatbot Development</h3>
+                <p>Build intelligent conversational agents to automate customer service, provide information, and engage users on your website or social media channels.</p>
+            </div>
+
+            <div class="service-card card-website">
+                <div class="service-icon">💻</div>
+                <h3>AI Website Integration</h3>
+                <p>Integrate powerful AI models directly into your existing website for features like dynamic content, smart search, and enhanced user experiences.</p>
+            </div>
+
+            <div class="service-card card-automation">
+                <div class="service-icon">⚙️</div>
+                <h3>Process Automation</h3>
+                <p>Streamline business workflows and eliminate repetitive tasks with AI-powered automation. Increase efficiency and reduce operational costs.</p>
+            </div>
+
+            <div class="service-card card-custom">
+                <div class="service-icon">💡</div>
+                <h3>Custom AI Solutions</h3>
+                <p>Have a unique challenge? We design and build bespoke AI models and applications tailored to solve your most complex business problems.</p>
+            </div>
+
+            <div class="service-card card-integration">
+                <div class="service-icon">🔗</div>
+                <h3>Data Analysis & Insights</h3>
+                <p>Unlock the value of your data. Our AI-driven analysis reveals patterns and insights to help you make smarter, data-backed decisions.</p>
             </div>
         </div>
+    </div>
+
+    <!-- The Contact section, with its own unique styling -->
+    <div class="container">
+        <div class="contact-section">
+            <h2 class="contact-title">CONTACT US</h2>
+            <p>Ready to transform your business with AI? Contact us today for a free consultation. We can't wait to hear from you!</p>
+            <br>
+            <p class="contact-prompt"><strong>Call or email us at:</strong></p>
+            <a href="tel:+1-352-231-9154" class="contact-info">(352) 231-9154</a>
+            <a href="mailto:FUTUREAI4ALL@GMAIL.COM" class="contact-info">FUTUREAI4ALL@GMAIL.COM</a>
+        </div>
+    </div>
+
+    <!-- The Footer section -->
+    <footer class="footer">
+        <div class="particles"></div>
+        <p>&copy; 2024 Pinnacle AI Solutions. All Rights Reserved.</p>
     </footer>
 
-    <script src="script.js"></script> <!-- Ensure this script.js contains the mobile menu toggle logic -->
+    <!-- A simple script to generate floating particles for visual effect -->
     <script>
-        // Programs page specific JavaScript
-        document.addEventListener('DOMContentLoaded', function() {
-            // Modal functionality
-            const modal = document.querySelector('.modal');
-            const requestBtns = document.querySelectorAll('.request-btn');
-            const modalClose = document.querySelector('.modal-close');
-            const programNameInput = document.getElementById('program-name');
-            
-            // Open modal with program name
-            requestBtns.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const programName = this.getAttribute('data-program');
-                    programNameInput.value = programName;
-                    modal.classList.remove('hidden');
-                });
-            });
-            
-            // Close modal
-            modalClose.addEventListener('click', function() {
-                modal.classList.add('hidden');
-            });
-            
-            // Close when clicking outside modal
-            modal.addEventListener('click', function(e) {
-                if (e.target === modal) {
-                    modal.classList.add('hidden');
-                }
-            });
-            
-            // Form submission
-            const appointmentForm = document.getElementById('appointment-form');
-            appointmentForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const programName = programNameInput.value;
-                const name = document.getElementById('name').value;
-                const email = document.getElementById('email').value;
-                const phone = document.getElementById('phone').value;
-                const message = document.getElementById('message').value;
-                
-                // Create mailto link
-                const subject = `Appointment Request for ${encodeURIComponent(programName)}`;
-                const body = `Name: ${encodeURIComponent(name)}\nEmail: ${encodeURIComponent(email)}\nPhone: ${encodeURIComponent(phone)}\n\nMessage: ${encodeURIComponent(message)}`;
-                
-                window.location.href = `mailto:futureai4all@gmail.com?subject=${subject}&body=${body}`;
-                
-                // Close modal after a short delay
-                setTimeout(() => {
-                    modal.classList.add('hidden');
-                    appointmentForm.reset();
-                }, 500);
-            });
+        const particlesContainer = document.querySelector('.particles');
 
-            // Mobile menu toggle logic (copied/adapted from script.js)
-            const hamburger = document.querySelector('.hamburger');
-            const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
-            const closeMobileMenu = document.querySelector('.close-mobile-menu');
-            const mobileNavLinks = document.querySelectorAll('.nav-link-mobile');
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            const size = Math.random() * 5 + 2;
+            const x = Math.random() * 100;
+            const duration = Math.random() * 8 + 4;
 
-            function toggleMobileMenu() {
-                hamburger.classList.toggle('active');
-                mobileMenuOverlay.classList.toggle('active');
-                if (mobileMenuOverlay.classList.contains('active')) {
-                    document.body.style.overflow = 'hidden'; // Prevent scrolling when menu is open
-                } else {
-                    document.body.style.overflow = ''; // Restore scrolling
-                }
-            }
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.left = `${x}vw`;
+            particle.style.animationDuration = `${duration}s`;
+            particle.style.animationDelay = `${Math.random() * 8}s`;
 
-            hamburger.addEventListener('click', toggleMobileMenu);
-            closeMobileMenu.addEventListener('click', toggleMobileMenu);
+            particlesContainer.appendChild(particle);
 
-            mobileNavLinks.forEach(link => {
-                link.addEventListener('click', function() {
-                    if (mobileMenuOverlay.classList.contains('active')) {
-                        toggleMobileMenu(); // Close menu on link click
-                    }
-                });
+            particle.addEventListener('animationend', () => {
+                particle.remove();
             });
-        });
+        }
+
+        // Generate a continuous stream of particles
+        setInterval(createParticle, 500);
     </script>
 </body>
 </html>
