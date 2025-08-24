@@ -234,19 +234,55 @@
         .stat-number { font-weight: 900; }
         .stat-label { font-weight: 500; }
 
-        /* Contact Section Original Styles */
-        .form-input { /* This is the original definition, will be overridden for #contact specifically in style.css */
+        /* Contact Section Styles */
+        /* FIX: Enhanced header visibility */
+        #contact .section-header h2 {
+            text-shadow: 0 0 15px rgba(59, 130, 246, 0.5), 0 0 25px rgba(168, 85, 247, 0.4);
+        }
+
+        .form-input { 
             width: 100%; padding: 0.75rem 1rem; border-radius: 0.5rem;
             background-color: rgba(31,41,55,0.9); border: 1px solid rgba(75,85,99,0.5);
             color: var(--color-text-light); transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
         .form-input:focus { outline: none; border-color: var(--color-primary-blue); box-shadow: 0 0 0 3px rgba(59,130,246,0.3); }
-        .contact-form { border: 1px solid rgba(75,85,99,0.2); } /* Original border */
+        
         .info-item { align-items: center; }
         .info-icon { width: 60px; height: 60px; min-width: 60px; min-height: 60px; display: flex; align-items: center; justify-content: center; border-radius: 50%; box-shadow: 0 6px 15px rgba(0,0,0,0.3); transition: transform 0.3s ease; }
         .info-item:hover .info-icon { transform: scale(1.1); }
         .info-item h4 { font-weight: 700; color: #fff; }
-        .info-item p { font-weight: 300; }
+        .info-item p { font-weight: 300; transition: color 0.3s ease; }
+        /* FIX: Added hover effect for contact info text */
+        .info-item:hover p { color: white; }
+
+        /* FIX: Added glowing border effect for the contact form */
+        .contact-form-glow {
+            --list: var(--color-purple), var(--color-orange);
+            --grad: linear-gradient(45deg, var(--list));
+            position: relative;
+            border: solid 4px transparent;
+            border-radius: 1.25rem; /* Slightly larger radius */
+            background: conic-gradient(from 180deg at 50% 50%, #111827 0deg, #1f2937 360deg) padding-box, 
+                        var(--grad) border-box;
+            padding: 2.5rem;
+        }
+
+        .contact-form-glow::before {
+            position: absolute;
+            inset: -4px;
+            z-index: -1;
+            background: var(--grad);
+            filter: blur(0.85em);
+            content: '';
+            border-radius: inherit;
+            opacity: 0.8;
+            animation: spin 4s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
 
         /* Floating Action Button for "Call Us" */
         .call-us-fab {
@@ -315,7 +351,6 @@
                 margin-right: 0;
             }
 
-            /* FIX: Add padding to body to prevent overlap from fixed nav and button bar */
             body {
                 padding-top: 7rem; /* 3.5rem for nav + 3.5rem for button bar */
             }
@@ -371,7 +406,7 @@
         </div>
     </nav>
 
-    <!-- FIX: ADDED MOBILE CTA BUTTON BAR -->
+    <!-- MOBILE CTA BUTTON BAR -->
     <div id="mobile-cta-bar" class="fixed top-14 left-0 w-full bg-gray-900 p-3 z-40 md:hidden flex justify-center items-center gap-4 border-b border-gray-800 shadow-lg">
         <a href="ai-programs.html" target="_blank" rel="noopener noreferrer" class="btn-secondary text-sm py-2 px-4">AI PROGRAMS</a>
         <a href="https://pinnacleaisolutions.github.io/aitraining/" target="_blank" rel="noopener noreferrer" class="btn-primary text-sm py-2 px-4">Learn AI Free</a>
@@ -624,7 +659,8 @@ void main() {
             </div>
 
             <!-- Centered Contact Form -->
-            <div class="contact-form p-8 bg-gray-900 rounded-xl shadow-xl border border-gray-700 animate-on-scroll scale-in max-w-3xl mx-auto">
+            <!-- FIX: Added 'contact-form-glow' class for new styling -->
+            <div class="contact-form-glow animate-on-scroll scale-in max-w-3xl mx-auto">
                 <h3 class="text-2xl font-bold text-center mb-6">Or Fill Out The Form</h3>
                 <form action="https://formsubmit.co/futureai4all@gmail.com" method="POST">
                     <!-- FormSubmit Settings -->
