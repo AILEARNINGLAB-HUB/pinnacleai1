@@ -736,17 +736,18 @@
             }
         }
         .contact-info {
-            font-size: 3em; /* Made font size much larger */
+            font-size: 3em;
             font-weight: 700;
             color: #00ffff;
             text-decoration: none;
             text-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
             transition: all 0.3s ease;
-            display: block; /* Changed to block for better spacing */
-            margin-top: 25px; /* Added more margin for spacing */
+            display: block;
+            margin-top: 25px;
             animation: contactInfoGlow 2s ease-in-out infinite alternate;
-            font-family: 'Orbitron', sans-serif; /* Changed to Orbitron for a more techy look */
+            font-family: 'Orbitron', sans-serif;
             letter-spacing: 1px;
+            word-wrap: break-word; /* Ensure long text wraps */
         }
 
         @keyframes contactInfoGlow {
@@ -809,21 +810,46 @@
                 opacity: 0;
             }
         }
+        
+        /* FIX: MEDIA QUERIES FOR RESPONSIVENESS */
         @media (max-width: 768px) {
+            .hero {
+                padding: 80px 15px;
+            }
             .hero h1 {
-                font-size: 3em;
+                font-size: 3.5em; /* Scaled down for mobile */
             }
-
+            .programs-for-sale {
+                padding: 20px 30px;
+            }
             .programs-text {
-                font-size: 3em;
+                font-size: 1.8em; /* Scaled down for mobile */
             }
-
+            .container {
+                padding: 40px 15px;
+            }
             .services-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr; /* Stack cards in a single column */
+                gap: 25px;
             }
-
             .service-card {
                 padding: 30px 20px;
+                min-height: auto; /* Allow height to adjust to content */
+            }
+            .service-card h3 {
+                font-size: 1.5em;
+            }
+            .service-card p {
+                font-size: 1em;
+            }
+            .contact-section {
+                padding: 40px 25px;
+            }
+            .contact-title {
+                font-size: 2.2em;
+            }
+            .contact-info {
+                font-size: 1.5em; /* Scaled down for mobile readability */
             }
         }
     </style>
